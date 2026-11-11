@@ -48,7 +48,7 @@ clap = { version = "4.5", features = ["derive"] }
 comfy-table = "7.1"
 
 # Rate limiting
-tower_governor = "0.4"
+tower_governor = "0.8"
 
 # Config & logging
 dotenvy = "0.15"
