@@ -1,0 +1,765 @@
+#![allow(dead_code)]
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
+
+use super::validation::{self, Lenient};
+
+/// Sync metadata stored in the database
+/// Contains global sync configuration
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SyncMetadata {
+    pub last_sync_at: Option<DateTime<Utc>>,
+    pub last_push_at: Option<DateTime<Utc>>,
+    pub last_pull_at: Option<DateTime<Utc>>,
+    pub api_key: Option<String>,        // Encrypted API key (JSON stringified EncryptedData)
+    pub client_id: Option<String>,      // UUID assigned by server
+    pub user_email: Option<String>,     // User email (for multi-user auth)
+    pub user_id: Option<String>,        // User UUID from server (for envelope encryption wrapping key salt)
+    pub sync_enabled: bool,
+    pub sync_endpoint: String,
+    pub auto_sync_interval: Option<i32>, // Minutes (0 = disabled, default: 1)
+    pub pending_registration_email: Option<String>, // Email of pending registration awaiting approval
+    #[serde(default)]
+    pub pending_device_name: Option<String>, // Device name for pending clone-device call (during import)
+    /// Hash of the wrapped key this device last opened or uploaded. See `envelope`.
+    #[serde(default)]
+    pub server_key_seen: Option<String>,
+    /// This device changed the notes password and owes the server the new wrapping.
+    #[serde(default)]
+    pub server_key_stale: bool,
+    /// Where the next pull starts, as the server gave it. It belongs to one account on
+    /// one server, so anything that changes those clears it.
+    #[serde(default)]
+    pub pull_cursor: Option<String>,
+}
+
+impl Default for SyncMetadata {
+    fn default() -> Self {
+        Self {
+            last_sync_at: None,
+            last_push_at: None,
+            last_pull_at: None,
+            api_key: None,
+            client_id: None,
+            user_email: None,
+            user_id: None,
+            sync_enabled: false,
+            sync_endpoint: String::new(),
+            auto_sync_interval: Some(1),
+            pending_registration_email: None,
+            pending_device_name: None,
+            server_key_seen: None,
+            server_key_stale: false,
+            pull_cursor: None,
+        }
+    }
+}
+
+impl SyncMetadata {
+    /// Forget what belongs to one account on one server, when either changes.
+    pub fn forget_server_state(&mut self) {
+        self.pull_cursor = None;
+        self.server_key_seen = None;
+        self.server_key_stale = false;
+    }
+}
+
+/// Per-note sync tracking
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct NoteSyncMetadata {
+    pub note_id: String,
+    pub synced_at: DateTime<Utc>,
+    pub sync_hash: String,               // SHA-256 of encrypted content
+    pub server_version: i32,
+    pub last_sync_status: SyncStatus,
+    pub error_message: Option<String>,
+    pub conflict_data: Option<ConflictData>, // Server version data when in conflict
+}
+
+/// Sync status for a note
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum SyncStatus {
+    Synced,
+    Pending,
+    Conflict,
+    Error,
+}
+
+impl std::fmt::Display for SyncStatus {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Synced => write!(f, "synced"),
+            Self::Pending => write!(f, "pending"),
+            Self::Conflict => write!(f, "conflict"),
+            Self::Error => write!(f, "error"),
+        }
+    }
+}
+
+/// Current sync status for UI display
+#[derive(Debug, Clone)]
+#[derive(Default)]
+pub struct SyncStatusDisplay {
+    pub is_enabled: bool,
+    pub is_syncing: bool,
+    pub last_sync_at: Option<DateTime<Utc>>,
+    pub last_error: Option<String>,
+    pub pending_notes: usize,
+    pub conflict_count: usize,
+    pub client_id: Option<String>,
+    pub sync_endpoint: Option<String>,
+}
+
+
+/// Push request payload
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SyncPushRequest {
+    pub notes: Vec<SyncNote>,
+    pub attachments: Vec<SyncAttachment>,
+    pub versions: Vec<SyncNoteVersion>,
+    /// Hard-deleted note IDs (from emptying trash)
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub deletions: Vec<SyncDeletion>,
+    /// Each note's `attachments` is its whole list, so the server can drop what's gone.
+    /// Older servers ignore this.
+    #[serde(rename = "attachmentsAuthoritative", default, skip_serializing_if = "std::ops::Not::not")]
+    pub attachments_authoritative: bool,
+    /// Saved searches to create or update
+    #[serde(rename = "savedSearches", default, skip_serializing_if = "Vec::is_empty")]
+    pub saved_searches: Vec<SyncSavedSearch>,
+}
+
+/// A saved search as it goes over the wire. `name` and `query` are ciphertext.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SyncSavedSearch {
+    pub id: String,
+    pub name: String,
+    pub query: String,
+    pub order: i64,
+    pub created_at: DateTime<Utc>,
+    pub modified_at: DateTime<Utc>,
+    pub deleted: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub deleted_at: Option<DateTime<Utc>>,
+    pub version: i32,
+}
+
+/// Note structure for sync (matches server expectations)
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SyncNote {
+    pub id: String,
+    pub created_at: DateTime<Utc>,
+    pub modified_at: DateTime<Utc>,
+    pub content: String,              // Encrypted JSON string
+    pub tags: Vec<String>,            // Array of encrypted JSON strings
+    pub attachments: Vec<AttachmentRef>,
+    pub pinned: bool,
+    #[serde(default)]
+    pub archived: bool,
+    pub archived_at: Option<DateTime<Utc>>,
+    #[serde(default)]
+    pub locked: bool,
+    pub locked_at: Option<DateTime<Utc>>,
+    pub deleted: bool,
+    pub deleted_at: Option<DateTime<Utc>>,
+    pub version: i32,
+    pub word_wrap: Option<bool>,
+    #[serde(default)]
+    pub show_preview: Option<bool>,
+    pub syntax_language: Option<String>,
+    pub color: Option<String>,        // Semantic color name (unencrypted)
+    // Hash chain fields for git-like conflict detection
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub content_hash: Option<String>,      // SHA-256 of content + tags + attachments + change fields
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub parent_hash: Option<String>,       // Hash of previous version (None for new notes)
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hash_chain: Option<Vec<String>>,   // Array of ancestor hashes (max 50)
+}
+
+/// Attachment reference (metadata only)
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AttachmentRef {
+    pub id: String,
+    pub filename: String,             // Encrypted
+    pub mime_type: String,
+    pub size: i64,
+    pub data: String,                 // Reference ID
+}
+
+/// Attachment with binary data (for sync transfer)
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SyncAttachment {
+    pub id: String,
+    pub data: String,                 // Base64 encoded encrypted blob
+}
+
+/// Push response from server. Read it with [`SyncPushResponse::parse`], which checks
+/// what the server sent.
+#[derive(Debug, Clone, Default)]
+pub struct SyncPushResponse {
+    pub accepted: Vec<SyncAccepted>,
+    pub rejected: Vec<SyncRejected>,
+    /// Accepted notes referencing attachment data the server does not hold.
+    /// Absent on older servers; clients re-push blobs they have (self-heal).
+    pub attachment_warnings: Vec<AttachmentWarning>,
+    /// Deletions refused because the note has a newer edit. Older servers don't send
+    /// this, which means the same as an empty list.
+    pub rejected_deletions: Vec<String>,
+    /// Pushed notes skipped because they were permanently deleted after this edit. Older
+    /// servers don't send this either.
+    pub skipped_deleted: Vec<String>,
+}
+
+/// A push response as it arrives, before anything in it is trusted.
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct WirePushResponse {
+    #[serde(default)]
+    accepted: Lenient<SyncAccepted>,
+    #[serde(default)]
+    rejected: Lenient<SyncRejected>,
+    #[serde(default)]
+    attachment_warnings: Lenient<AttachmentWarning>,
+    #[serde(default)]
+    rejected_deletions: Lenient<String>,
+    #[serde(default)]
+    skipped_deleted: Lenient<String>,
+}
+
+impl SyncPushResponse {
+    /// Read a response, dropping entries that fail the checks at the sync boundary.
+    pub fn parse(json: &str) -> Result<Self, serde_json::Error> {
+        let wire: WirePushResponse = serde_json::from_str(json)?;
+
+        Ok(Self {
+            accepted: wire.accepted.items.into_iter().filter(|a| validation::is_uuid(&a.id)).collect(),
+            rejected: wire.rejected.items.into_iter().filter(|r| validation::is_uuid(&r.id)).collect(),
+            attachment_warnings: wire.attachment_warnings.items.into_iter()
+                .filter(|warning| validation::is_uuid(&warning.note_id))
+                .map(|warning| AttachmentWarning {
+                    attachment_ids: warning.attachment_ids.into_iter().filter(|id| validation::is_uuid(id)).collect(),
+                    ..warning
+                })
+                .collect(),
+            rejected_deletions: wire.rejected_deletions.items.into_iter().filter(|id| validation::is_uuid(id)).collect(),
+            skipped_deleted: wire.skipped_deleted.items.into_iter().filter(|id| validation::is_uuid(id)).collect(),
+        })
+    }
+}
+
+/// One accepted note whose attachment references have no data on the server
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AttachmentWarning {
+    pub note_id: String,
+    pub attachment_ids: Vec<String>,
+}
+
+/// Accepted note info
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SyncAccepted {
+    pub id: String,
+    pub server_version: i32,
+    pub synced_at: DateTime<Utc>,
+}
+
+/// Rejected note info (conflict) - includes full server note data for resolution
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SyncRejected {
+    pub id: String,
+    pub reason: String,
+    pub server_modified_at: DateTime<Utc>,
+    // Server note data for conflict resolution
+    pub server_content: String,           // Encrypted content
+    pub server_tags: Vec<String>,         // Encrypted tags
+    pub server_version: i32,
+    pub server_attachments: Vec<AttachmentRef>,
+    pub server_pinned: bool,
+    pub server_archived: bool,
+    pub server_archived_at: Option<DateTime<Utc>>,
+    pub server_locked: bool,
+    pub server_locked_at: Option<DateTime<Utc>>,
+    pub server_syntax_language: Option<String>,
+    pub server_word_wrap: Option<bool>,
+    #[serde(default)]
+    pub server_show_preview: Option<bool>,
+    pub server_color: Option<String>,     // Semantic color name
+    // Hash chain fields for git-like conflict detection
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub server_content_hash: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub server_parent_hash: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub server_hash_chain: Option<Vec<String>>,
+    // Ancestor data for 3-way merge (if divergence point found)
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ancestor_hash: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ancestor_content: Option<String>,  // Encrypted content of common ancestor
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ancestor_tags: Option<Vec<String>>, // Encrypted tags of common ancestor
+}
+
+/// Stored conflict data for resolution UI
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ConflictData {
+    pub note_id: String,
+    pub server_content: String,           // Encrypted content
+    pub server_tags: Vec<String>,         // Encrypted tags
+    pub server_modified_at: DateTime<Utc>,
+    pub server_version: i32,
+    pub server_attachments: Vec<AttachmentRef>,
+    pub server_pinned: bool,
+    pub server_archived: bool,
+    pub server_archived_at: Option<DateTime<Utc>>,
+    pub server_locked: bool,
+    pub server_locked_at: Option<DateTime<Utc>>,
+    pub server_syntax_language: Option<String>,
+    pub server_word_wrap: Option<bool>,
+    #[serde(default)]
+    pub server_show_preview: Option<bool>,
+    pub server_color: Option<String>,     // Semantic color name
+    pub detected_at: DateTime<Utc>,       // When conflict was detected
+    // Hash chain fields for git-like conflict detection
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub server_content_hash: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub server_parent_hash: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub server_hash_chain: Option<Vec<String>>,
+    // Ancestor data for 3-way merge (if divergence point found)
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ancestor_hash: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ancestor_content: Option<String>,  // Encrypted content of common ancestor
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ancestor_tags: Option<Vec<String>>, // Encrypted tags of common ancestor
+}
+
+/// Pull request payload
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SyncPullRequest {
+    /// Opaque position in the server's changes. Sending it, even empty, selects cursor
+    /// mode. Older servers ignore it.
+    pub cursor: Option<String>,
+    pub last_sync_at: Option<DateTime<Utc>>,
+    pub known_note_ids: Vec<String>,
+    pub known_attachment_ids: Vec<String>,
+    pub limit: Option<i64>,
+    pub offset: Option<i64>,
+}
+
+/// Pull response from server. Read it with [`SyncPullResponse::parse`]: everything
+/// here has been through the checks at the sync boundary.
+#[derive(Debug, Clone)]
+pub struct SyncPullResponse {
+    pub notes: Vec<SyncNote>,
+    pub deletions: Vec<SyncDeletion>,
+    pub attachments: Vec<SyncAttachment>,
+    pub versions: Vec<SyncNoteVersion>,
+    pub saved_searches: Vec<SyncSavedSearch>,
+    pub synced_at: DateTime<Utc>,
+    /// More remains. In cursor mode ask again from `next_cursor`, or with a larger
+    /// offset otherwise.
+    pub has_more: bool,
+    /// Only a server with the pull cursor sends this
+    pub next_cursor: Option<String>,
+    pub inbox_items: Option<Vec<InboxItem>>,
+    pub inbox_count: Option<i64>,
+    /// Entries that were dropped, because they didn't parse or failed the checks
+    pub dropped: usize,
+}
+
+/// A pull response as it arrives, before anything in it is trusted.
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct WirePullResponse {
+    #[serde(default)]
+    notes: Lenient<SyncNote>,
+    #[serde(default)]
+    deletions: Lenient<SyncDeletion>,
+    #[serde(default)]
+    attachments: Lenient<SyncAttachment>,
+    #[serde(default)]
+    versions: Lenient<SyncNoteVersion>,
+    #[serde(default)]
+    saved_searches: Lenient<SyncSavedSearch>,
+    synced_at: DateTime<Utc>,
+    #[serde(default)]
+    has_more: bool,
+    #[serde(default)]
+    next_cursor: Option<String>,
+    #[serde(default)]
+    inbox_items: Option<Lenient<InboxItem>>,
+    #[serde(default)]
+    inbox_count: Option<i64>,
+}
+
+impl SyncPullResponse {
+    /// Read a response, dropping entries that don't parse or fail the checks, so that
+    /// one bad entry costs that entry and the rest of the sync carries on.
+    pub fn parse(json: &str) -> Result<Self, serde_json::Error> {
+        let wire: WirePullResponse = serde_json::from_str(json)?;
+
+        let mut dropped = wire.notes.dropped + wire.deletions.dropped
+            + wire.attachments.dropped + wire.versions.dropped + wire.saved_searches.dropped;
+
+        let notes = validation::keep_valid(wire.notes.items, SyncNote::is_valid, &mut dropped)
+            .into_iter().map(SyncNote::sanitised).collect();
+        let deletions = validation::keep_valid(wire.deletions.items, |d: &SyncDeletion| validation::is_uuid(&d.id), &mut dropped);
+        let attachments = validation::keep_valid(wire.attachments.items, |a: &SyncAttachment| validation::is_uuid(&a.id), &mut dropped);
+        let versions = validation::keep_valid(wire.versions.items, SyncNoteVersion::is_valid, &mut dropped);
+        let saved_searches = validation::keep_valid(wire.saved_searches.items, |s: &SyncSavedSearch| validation::is_uuid(&s.id), &mut dropped);
+        let inbox_items = wire.inbox_items.map(|list| {
+            dropped += list.dropped;
+            validation::keep_valid(list.items, InboxItem::is_valid, &mut dropped)
+        });
+
+        Ok(Self {
+            notes,
+            deletions,
+            attachments,
+            versions,
+            saved_searches,
+            synced_at: wire.synced_at,
+            has_more: wire.has_more,
+            next_cursor: wire.next_cursor,
+            inbox_items,
+            inbox_count: wire.inbox_count,
+            dropped,
+        })
+    }
+}
+
+/// Inbox item (unencrypted note submitted via Inbox API)
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct InboxItem {
+    pub id: String,
+    pub content: String,
+    pub tags: Vec<String>,
+    pub created_at: String,
+    pub source: Option<String>,
+    pub size_bytes: i64,
+}
+
+/// Deleted note info
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SyncDeletion {
+    pub id: String,
+    pub deleted_at: DateTime<Utc>,
+}
+
+/// Note version for sync
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SyncNoteVersion {
+    pub version_key: String,        // `${noteId}:${version}`
+    pub note_id: String,
+    pub version: i32,
+    pub created_at: DateTime<Utc>,
+    pub synced_at: DateTime<Utc>,
+    pub content: String,           // Encrypted JSON string
+    pub tags: Vec<String>,         // Array of encrypted JSON strings
+    pub attachments: Vec<AttachmentRef>,
+    pub syntax_language: Option<String>,
+    pub word_wrap: Option<bool>,
+    pub show_preview: Option<bool>, // Whether to show preview in version history
+    pub color: Option<String>,     // Semantic color name (unencrypted)
+    pub reason: String,            // 'sync' or 'manual-sync'
+    // Hash chain fields for git-like conflict detection
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub content_hash: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub parent_hash: Option<String>,
+}
+
+/// Server status response
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SyncStatusResponse {
+    pub client_id: String,
+    pub server_last_modified: DateTime<Utc>,
+    pub note_count: i32,
+    pub last_synced_at: Option<DateTime<Utc>>,
+}
+
+/// Authentication/registration types
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AuthRegisterRequest {
+    pub device_name: String,
+    pub device_type: DeviceType,
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum DeviceType {
+    Web,
+    Cli,
+}
+
+impl std::fmt::Display for DeviceType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Web => write!(f, "web"),
+            Self::Cli => write!(f, "cli"),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AuthRegisterResponse {
+    pub api_key: String,
+    pub client_id: String,
+    pub created_at: DateTime<Utc>,
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn push_response_decodes_with_and_without_attachment_warnings() {
+        let note_id = "6f1c3a52-0d1e-4b8a-9c3e-2f6a1c0e7a11";
+        let attachment_id = "0b9e4d6c-7a21-4f3e-8c55-1d2e3f4a5b6c";
+        let with = SyncPushResponse::parse(&format!(
+            r#"{{"accepted":[],"rejected":[],"errors":[],"attachmentWarnings":[{{"noteId":"{note_id}","attachmentIds":["{attachment_id}"]}}]}}"#,
+        ))
+        .unwrap();
+        assert_eq!(with.attachment_warnings.len(), 1);
+        assert_eq!(with.attachment_warnings[0].note_id, note_id);
+        assert_eq!(with.attachment_warnings[0].attachment_ids, vec![attachment_id]);
+
+        let without = SyncPushResponse::parse(r#"{"accepted":[],"rejected":[],"errors":[]}"#).unwrap();
+        assert!(without.attachment_warnings.is_empty());
+    }
+
+    #[test]
+    fn test_sync_metadata_defaults() {
+        let metadata = SyncMetadata::default();
+        assert!(!metadata.sync_enabled);
+        assert!(metadata.sync_endpoint.is_empty());
+        assert!(metadata.api_key.is_none());
+        assert!(metadata.client_id.is_none());
+        assert!(metadata.last_sync_at.is_none());
+        assert_eq!(metadata.auto_sync_interval, Some(1)); // Default to 1 minute
+    }
+
+    #[test]
+    fn test_sync_note_includes_color_field() {
+        // Test that SyncNote struct serializes with color field
+        let sync_note = SyncNote {
+            id: "test-id".to_string(),
+            created_at: Utc::now(),
+            modified_at: Utc::now(),
+            content: "encrypted-content".to_string(),
+            tags: vec!["tag1".to_string()],
+            attachments: vec![],
+            pinned: false,
+            deleted: false,
+            deleted_at: None,
+            version: 1,
+            word_wrap: Some(true),
+            show_preview: None,
+            syntax_language: Some("markdown".to_string()),
+            archived: false,
+            archived_at: None,
+            locked: false,
+            locked_at: None,
+            color: Some("red".to_string()),
+            content_hash: None,
+            parent_hash: None,
+            hash_chain: None,
+        };
+
+        // Serialize to JSON
+        let json = serde_json::to_string(&sync_note).expect("Failed to serialize");
+
+        // Verify color field is present in JSON
+        assert!(json.contains("\"color\""), "JSON should contain color field");
+        assert!(json.contains("\"red\""), "JSON should contain red color value");
+    }
+
+    #[test]
+    fn test_sync_note_color_none() {
+        // Test that SyncNote with no color serializes correctly
+        let sync_note = SyncNote {
+            id: "test-id".to_string(),
+            created_at: Utc::now(),
+            modified_at: Utc::now(),
+            content: "encrypted-content".to_string(),
+            tags: vec![],
+            attachments: vec![],
+            pinned: false,
+            deleted: false,
+            deleted_at: None,
+            version: 1,
+            word_wrap: Some(true),
+            show_preview: None,
+            syntax_language: Some("markdown".to_string()),
+            color: None,
+            archived: false,
+            archived_at: None,
+            locked: false,
+            locked_at: None,
+            content_hash: None,
+            parent_hash: None,
+            hash_chain: None,
+        };
+
+        let json = serde_json::to_string(&sync_note).expect("Failed to serialize");
+
+        // Verify color field is null or omitted in JSON
+        assert!(json.contains("\"color\":null") || !json.contains("\"color\""),
+                "Color should be null or omitted");
+    }
+
+    #[test]
+    fn test_sync_note_version_includes_color() {
+        // Test that SyncNoteVersion includes color field
+        let version = SyncNoteVersion {
+            version_key: "note-id:1".to_string(),
+            note_id: "note-id".to_string(),
+            version: 1,
+            created_at: Utc::now(),
+            synced_at: Utc::now(),
+            content: "encrypted-content".to_string(),
+            tags: vec![],
+            attachments: vec![],
+            syntax_language: Some("markdown".to_string()),
+            word_wrap: Some(true),
+            show_preview: Some(true),
+            color: Some("blue".to_string()),
+            reason: "sync".to_string(),
+            content_hash: None,
+            parent_hash: None,
+        };
+
+        let json = serde_json::to_string(&version).expect("Failed to serialize");
+
+        assert!(json.contains("\"color\""), "Version JSON should contain color");
+        assert!(json.contains("\"blue\""), "Version JSON should contain blue color");
+    }
+
+    #[test]
+    fn test_conflict_data_includes_server_color() {
+        // Test that ConflictData includes server_color field
+        let conflict = ConflictData {
+            note_id: "note-id".to_string(),
+            server_content: "server-content".to_string(),
+            server_tags: vec![],
+            server_modified_at: Utc::now(),
+            server_version: 2,
+            server_attachments: vec![],
+            server_pinned: false,
+            server_syntax_language: Some("markdown".to_string()),
+            server_word_wrap: Some(true),
+            server_show_preview: None,
+            server_color: Some("green".to_string()),
+            server_archived: false,
+            server_archived_at: None,
+            server_locked: false,
+            server_locked_at: None,
+            detected_at: Utc::now(),
+            // Hash chain fields for git-like conflict detection
+            server_content_hash: None,
+            server_parent_hash: None,
+            server_hash_chain: None,
+            ancestor_hash: None,
+            ancestor_content: None,
+            ancestor_tags: None,
+        };
+
+        let json = serde_json::to_string(&conflict).expect("Failed to serialize");
+
+        assert!(json.contains("\"serverColor\""), "Conflict JSON should contain serverColor");
+        assert!(json.contains("\"green\""), "Conflict JSON should contain green color");
+    }
+
+    #[test]
+    fn test_sync_rejected_includes_server_color() {
+        // Test that SyncRejected includes server_color field
+        let rejected = SyncRejected {
+            id: "note-id".to_string(),
+            reason: "conflict".to_string(),
+            server_modified_at: Utc::now(),
+            server_content: "server-content".to_string(),
+            server_tags: vec![],
+            server_version: 2,
+            server_attachments: vec![],
+            server_pinned: false,
+            server_syntax_language: Some("markdown".to_string()),
+            server_word_wrap: Some(true),
+            server_show_preview: None,
+            server_color: Some("yellow".to_string()),
+            server_archived: false,
+            server_archived_at: None,
+            server_locked: false,
+            server_locked_at: None,
+            // Hash chain fields for git-like conflict detection
+            server_content_hash: None,
+            server_parent_hash: None,
+            server_hash_chain: None,
+            ancestor_hash: None,
+            ancestor_content: None,
+            ancestor_tags: None,
+        };
+
+        let json = serde_json::to_string(&rejected).expect("Failed to serialize");
+
+        assert!(json.contains("\"serverColor\""), "Rejected JSON should contain serverColor");
+        assert!(json.contains("\"yellow\""), "Rejected JSON should contain yellow color");
+    }
+
+    #[test]
+    fn test_color_roundtrip_serialization() {
+        // Test that color field survives JSON roundtrip
+        let original = SyncNote {
+            id: "test-id".to_string(),
+            created_at: Utc::now(),
+            modified_at: Utc::now(),
+            content: "content".to_string(),
+            tags: vec![],
+            attachments: vec![],
+            pinned: false,
+            deleted: false,
+            deleted_at: None,
+            version: 1,
+            word_wrap: Some(true),
+            show_preview: None,
+            syntax_language: Some("markdown".to_string()),
+            color: Some("purple".to_string()),
+            archived: false,
+            archived_at: None,
+            locked: false,
+            locked_at: None,
+            content_hash: None,
+            parent_hash: None,
+            hash_chain: None,
+        };
+
+        // Serialize and deserialize
+        let json = serde_json::to_string(&original).expect("Failed to serialize");
+        let deserialized: SyncNote =
+            serde_json::from_str(&json).expect("Failed to deserialize");
+
+        // Verify color is preserved
+        assert_eq!(deserialized.color, Some("purple".to_string()),
+                   "Color should be preserved through roundtrip");
+        assert_eq!(deserialized.id, original.id);
+        assert_eq!(deserialized.version, original.version);
+    }
+}

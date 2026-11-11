@@ -1,0 +1,1510 @@
+{
+  "app": {
+    "name": "Jottery",
+    "tagline": "Persoonlijke notities voor web en terminal"
+  },
+  "a11y": {
+    "skipToContent": "Ga naar hoofdinhoud"
+  },
+  "common": {
+    "loading": "Laden...",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "confirm": "Bevestigen",
+    "close": "Sluiten",
+    "lock": "Vergrendelen",
+    "unlock": "Ontgrendelen",
+    "settings": "Instellingen",
+    "search": "Zoeken",
+    "error": "Fout",
+    "back": "Terug",
+    "edit": "Bewerken",
+    "add": "Toevoegen",
+    "showPassword": "Wachtwoord tonen",
+    "hidePassword": "Wachtwoord verbergen"
+  },
+  "docs": {
+    "title": "Documentatie",
+    "copy": "Kopiëren",
+    "copyMarkdown": "Documentatie kopiëren als Markdown",
+    "copied": "Documentatie gekopieerd naar klembord",
+    "copyError": "Kopiëren van documentatie mislukt"
+  },
+  "note": {
+    "new": "Nieuw",
+    "create": "Nieuwe notitie maken",
+    "delete": "Notitie verwijderen",
+    "pin": "Vastmaken",
+    "pinned": "Vastgemaakt",
+    "unpin": "Losmaken",
+    "copy": "Kopiëren",
+    "copyContent": "Notitie-inhoud kopiëren",
+    "noNoteSelected": "Geen notitie geselecteerd",
+    "selectNote": "Selecteer een notitie uit de lijst of maak een nieuwe",
+    "created": "Gemaakt",
+    "modified": "Gewijzigd",
+    "version": "Versie",
+    "synced": "Gesynchroniseerd",
+    "unsynced": "Niet gesynchroniseerd",
+    "neverSynced": "Nooit gesynchroniseerd",
+    "attachments": "Bijlagen",
+    "filterByTag": "Filter op #{tag}",
+    "noNotesYet": "Nog geen notities",
+    "createFirstNote": "Maak je eerste notitie om te beginnen",
+    "noResultsFound": "Geen resultaten gevonden",
+    "tryDifferentSearch": "Probeer een andere zoekopdracht",
+    "noNotes": "Geen notities",
+    "somethingWentWrong": "Er is iets misgegaan",
+    "matchSingular": "resultaat",
+    "matchPlural": "resultaten",
+    "editTitleTooltip": "Dubbelklik om titel te bewerken"
+  },
+  "search": {
+    "placeholder": "Notities zoeken...",
+    "clear": "Zoekopdracht wissen",
+    "resultCount": "Resultaten: overeenkomsten / totaal",
+    "resultsFound": "{matches} van {total} notities",
+    "tagSuggestions": "Tagsuggesties",
+    "savedSearches": "Opgeslagen Zoekopdrachten",
+    "newSavedSearch": "Huidige Zoekopdracht Opslaan",
+    "editSearch": "Bewerken",
+    "deleteSearch": "Verwijderen",
+    "searchName": "Naam Zoekopdracht",
+    "query": "Zoekopdracht",
+    "saveSearch": "Opslaan",
+    "applySavedSearch": "Toepassen",
+    "confirmDeleteSearch": "Opgeslagen zoekopdracht \"{name}\" verwijderen?",
+    "noSavedSearches": "Geen opgeslagen zoekopdrachten",
+    "noCurrentQuery": "Geen huidige zoekopdracht om op te slaan",
+    "placeholderArchive": "Zoeken in gearchiveerde notities..."
+  },
+  "editor": {
+    "noNoteSelected": "Geen notitie geselecteerd",
+    "noNoteSelectedHint": "Selecteer een notitie uit de lijst of maak een nieuwe",
+    "attachmentPreview": "Bijlage voorvertoning",
+    "download": "Downloaden",
+    "tags": "Labels",
+    "addTags": "Tags toevoegen...",
+    "plainText": "Platte tekst",
+    "syntaxHighlight": "Syntaxisaccentuering",
+    "wordWrap": "Regelafbreking",
+    "noWrap": "Geen regelafbreking",
+    "toggleWordWrap": "Regelafbreking in-/uitschakelen",
+    "backToNotes": "Terug naar notities",
+    "moreActions": "Meer acties",
+    "closeNote": "Notitie sluiten (Esc)",
+    "preview": "Voorvertoning",
+    "edit": "Bewerken",
+    "undo": "Ongedaan maken",
+    "redo": "Opnieuw",
+    "wordWrapOn": "Regelafbreking: Aan",
+    "wordWrapOff": "Regelafbreking: Uit",
+    "copyContent": "Inhoud kopiëren",
+    "copyLink": "Link naar notitie kopiëren",
+    "linkCopied": "Link gekopieerd naar klembord",
+    "exportToFile": "Exporteren naar bestand",
+    "printPdf": "Afdrukken / PDF exporteren",
+    "printFailed": "Kon afdrukvenster niet openen",
+    "duplicateNote": "Notitie dupliceren",
+    "noteDuplicated": "Notitie gedupliceerd",
+    "duplicateFailed": "Dupliceren mislukt",
+    "info": "Info",
+    "versionHistory": "Versiegeschiedenis",
+    "deleteNote": "Notitie verwijderen",
+    "noteInformation": "Notitie-informatie",
+    "characters": "Tekens:",
+    "charactersNoSpaces": "Tekens (zonder spaties):",
+    "words": "Woorden:",
+    "lines": "Regels:",
+    "attachmentsCount": "Bijlagen:",
+    "syntax": "Syntaxis:",
+    "noteId": "Notitie-ID:",
+    "uploading": "Uploaden...",
+    "attachmentsHeader": "Bijlagen ({count})",
+    "status": {
+      "uploading": "Uploaden...",
+      "processingNotes": "Notitie {current} van {total} verwerken...",
+      "readingFile": "Bestand lezen...",
+      "loadingPreview": "Voorvertoning laden...",
+      "loading": "Laden..."
+    },
+    "tooltips": {
+      "saveNoteFirst": "Sla eerst de notitie op",
+      "pinNote": "Notitie vastmaken",
+      "unpinNote": "Notitie losmaken"
+    },
+    "errors": {
+      "loadingAttachment": "Fout bij laden van bijlage",
+      "videoNotSupported": "Uw browser ondersteunt geen video-afspelen.",
+      "previewNotAvailable": "Voorvertoning niet beschikbaar voor dit bestandstype.",
+      "downloadToView": "Download om te bekijken"
+    },
+    "attachments": "Bijlagen",
+    "noAttachments": "Geen bijlagen",
+    "noteColor": "Notitie Categorie",
+    "setColor": "Categorie Instellen",
+    "removeColor": "Categorie Verwijderen",
+    "selectColor": "Selecteer een categorie",
+    "colorSet": "Categorie ingesteld",
+    "colorRemoved": "Categorie verwijderd",
+    "wysiwyg": {
+      "mode": "Editormodus",
+      "rawMode": "Tekst",
+      "visualMode": "Visueel",
+      "bold": "Vet",
+      "italic": "Cursief",
+      "strikethrough": "Doorgestreept",
+      "inlineCode": "Inline code",
+      "heading1": "Kop 1",
+      "heading2": "Kop 2",
+      "heading3": "Kop 3",
+      "bulletList": "Opsommingslijst",
+      "orderedList": "Genummerde lijst",
+      "taskList": "Takenlijst",
+      "blockquote": "Citaat",
+      "codeBlock": "Codeblok",
+      "horizontalRule": "Horizontale lijn",
+      "link": "Link invoegen",
+      "table": "Tabel invoegen",
+      "enterUrl": "Voer URL in:"
+    },
+    "lock": {
+      "lock": "Notitie vergrendelen",
+      "unlock": "Notitie ontgrendelen",
+      "locked": "Notitie vergrendeld",
+      "unlocked": "Notitie ontgrendeld",
+      "lockTooltip": "Vergrendel notitie om bewerken te voorkomen",
+      "unlockTooltip": "Ontgrendel notitie om bewerken mogelijk te maken",
+      "lockedBanner": "Deze notitie is vergrendeld. Ontgrendel om te bewerken.",
+      "mustUnlockToDelete": "Ontgrendel de notitie voor het verwijderen"
+    },
+    "confirmDelete": {
+      "title": "Notitie Verwijderen",
+      "message": "Dit verplaatst de notitie naar de prullenbak. U kunt deze later herstellen indien nodig."
+    },
+    "readOnly": {
+      "archivedBanner": "Deze notitie is gearchiveerd. Dearchiveer om te bewerken.",
+      "lockedBanner": "Deze notitie is vergrendeld. Ontgrendel om te bewerken."
+    },
+    "actionFailed": {
+      "archive": "Archiveren van notitie mislukt: {error}",
+      "unarchive": "Dearchiveren van notitie mislukt: {error}",
+      "lock": "Vergrendelen van notitie mislukt: {error}",
+      "unlock": "Ontgrendelen van notitie mislukt: {error}",
+      "delete": "Verwijderen van notitie mislukt: {error}"
+    },
+    "copyLinkFailed": "Kopiëren van link naar klembord mislukt",
+    "noteEditor": "Notitie-editor",
+    "calc": {
+      "tooLong": "Deze notitie is te lang om te berekenen ({lines} regels, maximaal {max}). Maak hem korter of gebruik een andere syntaxis.",
+      "consecutiveErrors": "Gestopt na {count} fouten op rij. Dit lijkt geen berekening, dus probeer een andere syntaxis.",
+      "totalErrors": "Gestopt na {count} fouten. Probeer een andere syntaxis voor deze notitie.",
+      "tooSlow": "Gestopt omdat dit te lang duurde. De regels hieronder hebben geen resultaat."
+    }
+  },
+  "noteList": {
+    "deleteNote": "Notitie verwijderen",
+    "filterByTag": "Filter op #{tag}",
+    "noteCount": "{filtered} van {total}",
+    "noteCountAll": "{total} notities"
+  },
+  "tagInput": {
+    "removeTag": "Tag verwijderen",
+    "suggestions": "Tagsuggesties"
+  },
+  "backupReminder": {
+    "title": "Tijd om een back-up te maken",
+    "lastBackup": "Laatste back-up: {date}",
+    "never": "Nooit",
+    "backupNow": "Nu back-up maken",
+    "backingUp": "Back-up maken...",
+    "dismissLabel": "Herinner me later"
+  },
+  "backupSettings": {
+    "title": "Automatische back-ups",
+    "lastBackup": "Laatste back-up",
+    "never": "Nooit",
+    "enableReminders": "Back-upherinneringen inschakelen",
+    "enableAutoBackup": "Automatische back-ups inschakelen",
+    "frequencyDaily": "Dagelijks",
+    "frequencyWeekly": "Wekelijks",
+    "frequencyMonthly": "Maandelijks",
+    "frequencyOnChanges": "Na een aantal wijzigingen",
+    "changesThreshold": "Back-up maken na dit aantal wijzigingen",
+    "description": "Automatische back-ups worden naar je apparaat gedownload. Schakel herinneringen in om een melding te krijgen wanneer het tijd is voor een back-up.",
+    "saveFailed": "Die instelling is niet opgeslagen. Probeer het opnieuw."
+  },
+  "backup": {
+    "title": "Versleutelde Back-up",
+    "description": "Maak een veilige back-up die op elk apparaat kan worden hersteld. Je back-up is versleuteld met je wachtwoord.",
+    "createButton": "Versleutelde Back-up Maken",
+    "creating": "Back-up maken...",
+    "created": "Back-up succesvol gemaakt",
+    "failed": "Back-up maken mislukt",
+    "loadingAttachments": "Bijlagen laden...",
+    "encrypting": "Gegevens versleutelen...",
+    "restore": {
+      "title": "Herstellen vanuit Back-up",
+      "selectFile": "Selecteer back-upbestand",
+      "selectFileHint": "Kies een .jottery-backup bestand",
+      "noFileSelected": "Geen bestand geselecteerd",
+      "password": "Wachtwoord",
+      "passwordHint": "Voer het wachtwoord in dat werd gebruikt toen de back-up werd gemaakt",
+      "restoreButton": "Herstellen",
+      "restoring": "Herstellen...",
+      "cancel": "Annuleren",
+      "success": "Back-up succesvol hersteld!",
+      "wrongPassword": "Onjuist wachtwoord. Gebruik het wachtwoord dat werd gebruikt toen de back-up werd gemaakt.",
+      "invalidFile": "Ongeldig back-upbestand. Selecteer een geldig .jottery-backup bestand.",
+      "confirmOverwrite": "Dit zal alle bestaande gegevens vervangen. Weet je zeker dat je wilt doorgaan?",
+      "confirmOverwriteTitle": "Back-up Herstellen?",
+      "confirmOverwriteMessage": "Het herstellen van deze back-up zal alle bestaande notities en instellingen op dit apparaat vervangen. Deze actie kan niet ongedaan worden gemaakt.",
+      "confirmButton": "Back-up Herstellen",
+      "progress": {
+        "validating": "Back-up valideren...",
+        "decrypting": "Records ontsleutelen...",
+        "restoring": "Gegevens herstellen...",
+        "complete": "Herstel voltooid!"
+      },
+      "stats": {
+        "title": "Back-up Informatie",
+        "created": "Gemaakt",
+        "records": "Gegevens"
+      },
+      "storageFull": "De browser had geen opslagruimte meer, dus het herstellen is niet voltooid en er is niets bewaard. Je back-upbestand is in orde: maak ruimte vrij en herstel het opnieuw."
+    },
+    "autoFailed": "De automatische back-up is mislukt. Maak handmatig een back-up."
+  },
+  "settings": {
+    "title": "Instellingen",
+    "closeLabel": "Instellingen sluiten",
+    "tabs": {
+      "general": "Algemeen",
+      "editor": "Editor",
+      "colors": "Categorieën",
+      "keyboard": "Sneltoetsen",
+      "sync": "Synchronisatie",
+      "advanced": "Geavanceerd",
+      "about": "Over"
+    },
+    "colors": {
+      "paletteTitle": "Categoriekleuren",
+      "paletteDescription": "Kleuren voor notities en tags aanpassen (rood, oranje, geel, groen, blauw, paars, roze, grijs)",
+      "lightMode": "Lichte Modus",
+      "darkMode": "Donkere Modus",
+      "resetPalette": "Standaardwaarden Herstellen",
+      "tagColorsTitle": "Tag Categorieën",
+      "tagColorsDescription": "Categorieën globaal aan tags toewijzen (rood, oranje, geel, groen, blauw, paars, roze, grijs)",
+      "addTagColor": "Tag Categorie Toevoegen",
+      "removeTagColor": "Verwijderen",
+      "noColor": "Geen",
+      "noTagColors": "Nog geen tag categorieën toegewezen",
+      "tagNamePlaceholder": "Tagnaam...",
+      "selectColor": "Selecteer categorie",
+      "selectTag": "Selecteer een tag"
+    },
+    "theme": "Thema",
+    "themeLight": "Licht",
+    "themeDark": "Donker",
+    "themeAuto": "Automatisch",
+    "timezone": "Tijdzone",
+    "timezoneDescription": "Alle tijdstempels worden opgeslagen in UTC en weergegeven in uw geselecteerde tijdzone",
+    "timezoneLocal": "Lokaal (browsertijdzone)",
+    "layoutMode": "Lay-outmodus",
+    "layoutModeDescription": "Automatische lay-outdetectie voor dit apparaat overschrijven",
+    "layoutModeAuto": "Automatisch (responsief)",
+    "layoutModeMobile": "Mobiele lay-out forceren",
+    "layoutModeDesktop": "Desktoplay-out forceren",
+    "fontSize": "Lettergrootte editor",
+    "fontSizeDescription": "Auto gebruikt een groter lettertype op mobiel om browserzoomen te voorkomen",
+    "fontSizeAuto": "Automatisch (mobiel: 16px, desktop: 14px)",
+    "fontSizeSmall": "Klein (12px)",
+    "fontSizeMedium": "Middel (14px)",
+    "fontSizeLarge": "Groot (16px)",
+    "autoLockTimeout": "Automatische vergrendeling (minuten)",
+    "sortOrder": "Standaard sorteervolgorde",
+    "sortRecent": "Meest recent",
+    "sortOldest": "Oudste eerst",
+    "sortAlpha": "Alfabetisch",
+    "sortCreated": "Aanmaakdatum",
+    "language": "Taal",
+    "languageAuto": "Automatisch (Detecteer van browser)",
+    "languageDescription": "Selecteer 'Automatisch' om de browsertaalinstelling te gebruiken",
+    "rememberPassword": "Wachtwoord onthouden (onveilig)",
+    "rememberPasswordWarning": "Bewaar uw wachtwoord op dit apparaat om het invoeren bij elk bezoek over te slaan. WAARSCHUWING: Dit slaat uw wachtwoord op in platte tekst in localStorage, wat zeer onveilig is.",
+    "rememberPasswordNote": "Automatische vergrendeling wordt uitgeschakeld wanneer dit is ingeschakeld. Als u dit uitschakelt, wordt de applicatie onmiddellijk vergrendeld.",
+    "openLinksInNewTab": "Externe links in nieuw tabblad openen",
+    "openLinksInNewTabDescription": "Indien ingeschakeld, worden links naar externe websites in de markdown-voorvertoning geopend in een nieuw browsertabblad in plaats van weg te navigeren van Jottery",
+    "persistSession": "Sessie behouden na paginavernieuwing",
+    "persistSessionDescription": "Houd uw sessie actief bij het vernieuwen van de pagina. Het wachtwoord wordt tijdelijk opgeslagen in de sessieopslag van uw browser.",
+    "persistSessionNote": "Veiliger dan 'Wachtwoord onthouden' - verloopt automatisch en wordt gewist wanneer u het tabblad sluit.",
+    "persistSessionUnavailable": "Sessieopslag is niet beschikbaar (file:// URL of browser-privacyinstellingen).",
+    "persistSessionDisabledByRemember": "Uitgeschakeld wanneer 'Wachtwoord onthouden' is ingeschakeld.",
+    "persistSessionTimeout": "Sessie-timeout (minuten)",
+    "persistSessionTimeoutDescription": "Sessie verloopt na dit aantal minuten. Bereik: 5-480.",
+    "persistSessionModal": {
+      "confirmPassword": "Voer uw wachtwoord in om in te schakelen:",
+      "enableButton": "Sessiepersistentie inschakelen"
+    },
+    "rememberPasswordModal": {
+      "title": "⚠️ Beveiligingswaarschuwing",
+      "insecureWarning": "Het inschakelen van deze functie zal uw wachtwoord in platte tekst opslaan in localStorage, wat ZEER ONVEILIG is.",
+      "riskDevice": "Iedereen met toegang tot uw apparaat kan het lezen",
+      "riskExtensions": "Browserextensies kunnen er toegang toe krijgen",
+      "riskCache": "Het kan blijven bestaan na het wissen van de browsercache",
+      "riskAutolock": "Automatische vergrendeling wordt uitgeschakeld",
+      "confirmWarning": "Schakel dit alleen in als u de beveiligingsrisico's volledig begrijpt.",
+      "confirmPassword": "Voer uw wachtwoord in om te bevestigen:",
+      "passwordPlaceholder": "Uw wachtwoord",
+      "cancelButton": "Annuleren",
+      "enableButton": "Ik begrijp het, toch inschakelen"
+    },
+    "saveSettings": "Instellingen opslaan",
+    "saving": "Opslaan...",
+    "autoSaved": "Wijzigingen automatisch opgeslagen",
+    "settingsSaved": "Instellingen opgeslagen",
+    "settingsSaveFailed": "Opslaan van instellingen mislukt: {error}",
+    "deleteDatabaseFailed": "Verwijderen van database mislukt: {error}",
+    "exportFailed": "Exporteren van notities mislukt: {error}",
+    "importFailed": "Importeren van notities mislukt: {error}",
+    "exportNotes": "Notities exporteren",
+    "importNotes": "Notities importeren",
+    "importDialog": {
+      "importing": "Notities importeren",
+      "complete": "Import voltooid",
+      "notesImported": "Geïmporteerde notities:",
+      "notesSkipped": "Overgeslagen notities:",
+      "attachmentsImported": "Geïmporteerde bijlagen:",
+      "uniqueTags": "Unieke tags:",
+      "errorsOccurred": "{count} fout(en) opgetreden:",
+      "done": "Klaar",
+      "processingNotes": "Notitie {current} van {total} verwerken...",
+      "readingFile": "Bestand lezen...",
+      "pleaseWait": "Een moment geduld terwijl we uw notities importeren..."
+    },
+    "deleteDatabase": "Database verwijderen",
+    "keyboardShortcuts": "Sneltoetsen",
+    "syncSetup": {
+      "endpoint": {
+        "label": "Synchronisatieserver-endpoint",
+        "help": "URL van uw zelf-gehoste Jottery-synchronisatieserver"
+      },
+      "deviceName": {
+        "label": "Apparaatnaam",
+        "placeholder": "Mijn laptop",
+        "help": "Een naam om dit apparaat te identificeren"
+      },
+      "chooseMethod": "Kies hoe u synchronisatie wilt instellen:",
+      "registerServer": {
+        "title": "Registreren bij een synchronisatieserver",
+        "subtitle": "<strong>Alleen voor uw eerste apparaat:</strong> Maakt uw account aan",
+        "benefit1": "✓ Maakt e-mail/wachtwoordaccount aan",
+        "benefit2": "✓ Schakelt synchronisatie in voor dit apparaat",
+        "benefit3": "✓ Vereist goedkeuring van beheerder",
+        "button": "🚀 Nieuw account registreren"
+      },
+      "existingAccount": {
+        "title": "Bestaand account verbinden",
+        "subtitle": "<strong>Heeft u al een account?</strong> Verbind dit apparaat",
+        "benefit1": "✓ Gebruik uw bestaande e-mail/wachtwoord",
+        "benefit2": "✓ Voegt dit apparaat toe aan uw account",
+        "benefit3": "✓ Synchroniseert notities van server naar dit apparaat",
+        "button": "🔗 Verbinden met bestaand account",
+        "formTitle": "Verbinden met bestaand account",
+        "infoText": "Voer uw synchronisatieserverreferenties in. Uw bestaande notities worden na het verbinden met dit apparaat gesynchroniseerd.",
+        "emailLabel": "E-mailadres",
+        "passwordLabel": "Serverwachtwoord",
+        "connectButton": "Apparaat verbinden",
+        "connecting": "Verbinden..."
+      },
+      "privacyNote": "<strong>🔒 Privacy:</strong> Al uw notities zijn end-to-end versleuteld. De server slaat alleen versleutelde gegevens op en kan uw inhoud niet lezen.",
+      "selfHostNote": "<strong>💡 Zelf hosten?</strong> Draai uw eigen server - <a href=\"https://github.com/seesee/jottery\" target=\"_blank\" class=\"underline\">zie GitHub</a>",
+      "back": "← Terug",
+      "registration": {
+        "title": "Nieuw gebruikersaccount registreren",
+        "emailLabel": "E-mailadres",
+        "emailPlaceholder": "u@voorbeeld.nl",
+        "passwordLabel": "Wachtwoord (min. 12 tekens)",
+        "passwordPlaceholder": "••••••••••••",
+        "confirmPasswordLabel": "Bevestig wachtwoord",
+        "confirmPasswordPlaceholder": "••••••••••••",
+        "passwordMismatch": "Wachtwoorden komen niet overeen",
+        "passwordWarningTitle": "<strong>Aanbevolen:</strong> Gebruik een ANDER wachtwoord dan uw notitie-versleutelingswachtwoord.",
+        "passwordWarningText": "Dit wachtwoord wordt naar de server verzonden voor authenticatie. Uw notitiewachtwoord mag uw apparaat nooit verlaten.",
+        "registerButton": "Gebruikersaccount registreren",
+        "registering": "Registreren...",
+        "pendingTitle": "In afwachting van goedkeuring beheerder",
+        "pendingText": "Neem contact op met uw beheerder om uw account goed te keuren. Klik hieronder om de installatie te voltooien zodra u bent goedgekeurd.",
+        "approvedButton": "Ik ben goedgekeurd - Installatie voltooien",
+        "completingSetup": "Installatie voltooien...",
+        "deviceRegistering": "⏳ Apparaat registreren en synchroniseren...",
+        "successTitle": "Synchronisatie succesvol ingeschakeld!",
+        "successText": "Uw apparaat is nu geregistreerd en <strong>al uw bestaande notities zijn gesynchroniseerd met de server</strong>. Toekomstige wijzigingen worden automatisch gesynchroniseerd.",
+        "successNextSteps": "🔗 Om een ander apparaat toe te voegen: Gebruik \"Bestaand account verbinden\" op uw nieuwe apparaat.",
+        "done": "Klaar",
+        "checkStatusLink": "Controleer uw goedkeuringsstatus in het Gebruikersportaal →"
+      },
+      "linkAccount": {
+        "title": "Account koppelen (optioneel)",
+        "infoText": "ℹ️ Deze functie is voor toekomstig gebruik (toegang tot beheerderspaneel, abonnementsbeheer). Het schakelt <strong>geen</strong> synchronisatie in op dit apparaat.",
+        "emailLabel": "E-mailadres",
+        "passwordLabel": "Wachtwoord",
+        "comingSoon": "Binnenkort beschikbaar",
+        "futureUpdate": "Accountkoppeling wordt ingeschakeld in een toekomstige update"
+      },
+      "error": "Fout",
+      "notesPassword": {
+        "label": "Notitiewachtwoord",
+        "placeholder": "Het wachtwoord waarmee je je notities ontgrendelt",
+        "hintNew": "Beschermt de versleutelingssleutel op de server, zodat je andere apparaten verbinding kunnen maken. Het wordt nooit naar de server verzonden. Gebruik het wachtwoord waarmee je dit apparaat ontgrendelt.",
+        "hintExisting": "Het wachtwoord waarmee je je notities op je andere apparaten ontgrendelt. Het wordt nooit naar de server verzonden.",
+        "required": "Voer je notitiewachtwoord in.",
+        "incorrect": "Dat is niet het wachtwoord dat je notities op dit apparaat ontgrendelt. Voer je notitiewachtwoord in, niet je serverwachtwoord.",
+        "uploadFailed": "Synchronisatie is ingesteld, maar de versleutelingssleutel kon niet op de server worden opgeslagen, dus andere apparaten kunnen nog geen verbinding maken. Bij de volgende ontgrendeling wordt het opnieuw geprobeerd",
+        "mustDiffer": "Je notitiewachtwoord en accountwachtwoord moeten verschillen. De synchronisatieserver ziet je accountwachtwoord, dus als ze gelijk zijn, kan de server je notities lezen.",
+        "matchesAccountWarning": "Je notitiewachtwoord is gelijk aan je accountwachtwoord, dus de synchronisatieserver kan je notities lezen. Wijzig je notitiewachtwoord om dit op te lossen."
+      },
+      "existingAccountDetected": "Dit e-mailadres heeft al een account, dus dit apparaat maakt daarmee verbinding. Voer het notitiewachtwoord in dat je op je andere apparaten gebruikt.",
+      "errors": {
+        "credentialsRequired": "E-mailadres en wachtwoord zijn verplicht",
+        "passwordTooShort": "Het wachtwoord moet minstens 12 tekens lang zijn",
+        "registrationFailed": "Gebruikersregistratie mislukt",
+        "deviceRegistrationFailed": "Apparaatregistratie mislukt",
+        "loginFailed": "Inloggen mislukt",
+        "accountInfoFailed": "Laden van accountgegevens mislukt",
+        "deleteNotesFailed": "Verwijderen van notities mislukt",
+        "disconnectFailed": "Verbreken van verbinding mislukt",
+        "syncFailed": "Synchronisatie mislukt",
+        "toggleFailed": "Wijzigen van synchronisatie mislukt"
+      }
+    },
+    "editorTab": {
+      "vimMode": "Editormodus",
+      "vimModeHelp": "Schakel vim-stijl sneltoetsen in voor gevorderde gebruikers. Ondersteunt veelgebruikte vim-commando's zoals i, Esc, dd, yy, p en meer.",
+      "enableVimMode": "Vim-sneltoetsen inschakelen",
+      "quickCommands": "Snelle commando's",
+      "quickCommandsHelp": "Typ slash-commando's zoals /now, /date, /time, /uuid of /hr om snel inhoud in te voegen. Commando's worden uitgebreid na spatie of enter.",
+      "enableQuickCommands": "Snelle commando's inschakelen",
+      "syntaxHighlighting": "Syntaxisaccentuering",
+      "syntaxHelp": "Selecteer welke programmeertalen u wilt inschakelen voor syntaxisaccentuering in Markdown-codeblokken en voorvertoningen. Kerntalen zijn altijd ingeschakeld.",
+      "languagesEnabled": "{count} talen ingeschakeld",
+      "estimatedSize": "Geschatte grootte: ~{size} KB",
+      "resetToCore": "Reset naar kern",
+      "enableAll": "Alles inschakelen",
+      "coreLanguages": "Kerntalen",
+      "alwaysEnabled": "(altijd ingeschakeld)",
+      "popularLanguages": "Populaire talen",
+      "webLanguages": "Webtalen",
+      "systemsLanguages": "Systeemtalen",
+      "dataLanguages": "Datatalen",
+      "otherLanguages": "Andere talen",
+      "enabledCount": "{enabled}/{total} ingeschakeld",
+      "defaultNoteType": "Standaard notitietype",
+      "defaultNoteTypeHelp": "Kies de standaard syntaxistaal voor nieuwe notities. Het standaardtype kan niet worden uitgeschakeld uit ingeschakelde talen.",
+      "default": "standaard",
+      "commandsConfigured": "{count} commando's geconfigureerd",
+      "resetToDefaults": "Standaardwaarden herstellen",
+      "addCommand": "Commando toevoegen",
+      "noCommands": "Geen commando's geconfigureerd. Klik op \"Commando toevoegen\" om er een te maken.",
+      "addNewCommand": "Nieuw commando toevoegen",
+      "editCommand": "Commando bewerken",
+      "trigger": "Trigger",
+      "type": "Type",
+      "format": "Formaat",
+      "formatHelp": "Gebruik YYYY, MM, DD, HH, mm, ss tokens",
+      "value": "Waarde",
+      "description": "Beschrijving",
+      "preview": "Voorvertoning",
+      "textPlaceholder": "In te voegen tekst",
+      "descriptionPlaceholder": "Beschrijving in automatisch aanvullen"
+    },
+    "keyboardTab": {
+      "description": "Pas sneltoetsen aan. Klik op een sneltoets om deze te wijzigen en druk vervolgens op de gewenste toetscombinatie.",
+      "resetToDefaults": "Standaardwaarden herstellen",
+      "viewAllShortcuts": "Alle sneltoetsen bekijken",
+      "quickReference": "Snelle referentie van alle sneltoetsen",
+      "globalShortcuts": "Globaal",
+      "noteListShortcuts": "Notitielijst",
+      "editorShortcuts": "Editor",
+      "focusSearch": "Focus op zoeken",
+      "createNewNote": "Nieuwe notitie maken",
+      "lockApplication": "Applicatie vergrendelen",
+      "openSettings": "Instellingen openen",
+      "showShortcutsHelp": "Sneltoetsen-help tonen",
+      "openRecycleBin": "Prullenbak openen",
+      "navigateUp": "Omhoog navigeren",
+      "navigateDown": "Omlaag navigeren",
+      "openNote": "Geselecteerde notitie openen",
+      "deleteNote": "Geselecteerde notitie verwijderen",
+      "pinNote": "Notitie vastzetten/losmaken",
+      "selectAll": "Alle notities selecteren",
+      "copyNoteContent": "Notitie-inhoud kopiëren",
+      "undo": "Ongedaan maken",
+      "redo": "Opnieuw",
+      "versionHistory": "Versiegeschiedenis",
+      "noteInfo": "Notitie-info",
+      "toggleWordWrap": "Regelafbreking in-/uitschakelen",
+      "togglePreview": "Voorvertoning in-/uitschakelen",
+      "duplicateNote": "Notitie dupliceren",
+      "exportNote": "Notitie exporteren",
+      "pressKey": "Druk op een toets...",
+      "notSet": "Niet ingesteld",
+      "needsModifier": "Deze sneltoets werkt tijdens het typen en heeft dus Ctrl, Cmd of Alt nodig. Druk op een andere toets, of op Esc om te annuleren.",
+      "reserved": "Die toets is gereserveerd. Druk op een andere toets, of op Esc om te annuleren.",
+      "toggleCollapse": "In- of uitklappen"
+    },
+    "syncTab": {
+      "enableSync": "Synchronisatie inschakelen",
+      "syncDescription": "Synchroniseer uw notities tussen apparaten met een zelf-gehoste server",
+      "syncDisabled": "Synchronisatie is uitgeschakeld (privacymodus)",
+      "syncDisabledDescription": "Synchronisatie is opt-in en standaard uitgeschakeld voor maximale privacy.",
+      "syncDisabledDetails": "Wanneer uitgeschakeld, zal Jottery geen netwerkverzoeken doen aan synchronisatieservers. Al uw notities blijven volledig lokaal op dit apparaat.",
+      "toEnableSync": "Om synchronisatie in te schakelen: Schakel de schakelaar hierboven in en configureer uw synchronisatieserver.",
+      "existingAccount": {
+        "title": "Bestaand account verbinden",
+        "subtitle": "<strong>Heeft u al een account?</strong> Verbind dit apparaat",
+        "benefit1": "✓ Gebruik uw bestaande e-mail/wachtwoord",
+        "benefit2": "✓ Voegt dit apparaat toe aan uw account",
+        "benefit3": "✓ Synchroniseert notities van server naar dit apparaat",
+        "button": "🔗 Verbinden met bestaand account",
+        "formTitle": "Verbinden met bestaand account",
+        "infoText": "Voer uw synchronisatieserverreferenties in. Uw bestaande notities worden na het verbinden met dit apparaat gesynchroniseerd.",
+        "emailLabel": "E-mailadres",
+        "passwordLabel": "Serverwachtwoord",
+        "connectButton": "Apparaat verbinden",
+        "connecting": "Verbinden..."
+      },
+      "privacyNote": "Privacy: Zelfs wanneer ingeschakeld, zijn alle notities end-to-end versleuteld. De synchronisatieserver kan uw inhoud niet lezen.",
+      "syncEnabled": "Synchronisatie ingeschakeld",
+      "syncing": "Synchroniseren...",
+      "lastSync": "Laatste synchronisatie:",
+      "syncNow": "Nu synchroniseren",
+      "fullSync": {
+        "title": "Volledige synchronisatie",
+        "description": "ALLE notities naar de server sturen, ongeacht hun synchronisatiestatus. Gebruik dit als notities niet gesynchroniseerd zijn of na het importeren van gegevens.",
+        "button": "Volledige synchronisatie"
+      },
+      "notesPendingSingle": "{count} notitie wacht op synchronisatie",
+      "notesPendingPlural": "{count} notities wachten op synchronisatie",
+      "userPortal": {
+        "title": "Gebruikersportaal",
+        "description": "Beheer uw account, wijzig uw wachtwoord of verwijder uw gegevens",
+        "openButton": "Open gebruikersportaal"
+      },
+      "changePassword": {
+        "title": "Wachtwoord wijzigen",
+        "description": "Wijzig uw versleutelingswachtwoord. Dankzij envelopversleuteling gaat dit snel — uw notities hoeven niet opnieuw versleuteld te worden.",
+        "currentPasswordLabel": "Huidig wachtwoord",
+        "newPasswordLabel": "Nieuw wachtwoord",
+        "confirmPasswordLabel": "Bevestig nieuw wachtwoord",
+        "currentPasswordPlaceholder": "Voer huidig wachtwoord in",
+        "newPasswordPlaceholder": "Voer nieuw wachtwoord in",
+        "confirmPasswordPlaceholder": "Bevestig nieuw wachtwoord",
+        "mismatch": "Wachtwoorden komen niet overeen",
+        "changing": "Wachtwoord wijzigen...",
+        "button": "Wachtwoord wijzigen",
+        "success": "Wachtwoord succesvol gewijzigd",
+        "error": "Kan wachtwoord niet wijzigen: {error}",
+        "serverKeyFailed": "Je wachtwoord is op dit apparaat gewijzigd, maar de server kon niet worden bijgewerkt. Dit wordt opnieuw geprobeerd wanneer je de volgende keer ontgrendelt. Tot die tijd heeft een nieuw apparaat je oude wachtwoord nodig.",
+        "keyStaysTheSame": "Je encryptiesleutel blijft hetzelfde, dus oude back-ups gaan nog steeds open met je oude wachtwoord. Bewaar ze op een veilige plek."
+      },
+      "connectionDetails": {
+        "title": "Verbindingsdetails",
+        "server": "Server",
+        "deviceName": "Apparaatnaam",
+        "deviceId": "Apparaat-ID"
+      },
+      "dangerZone": {
+        "title": "Gevarenzone",
+        "disconnectTitle": "Verbinding met synchronisatieserver verbreken",
+        "disconnectDescription": "Dit verbreekt de verbinding van dit apparaat met de synchronisatieserver en wist alle synchronisatie-inloggegevens. Uw notities worden NIET verwijderd en blijven op dit apparaat.",
+        "disconnectButton": "Verbinding verbreken"
+      },
+      "accountManagement": {
+        "title": "Uw account beheren",
+        "loginPrompt": "Log in om uw accountinformatie te bekijken en uw gesynchroniseerde notities te beheren.",
+        "emailLabel": "E-mailadres",
+        "passwordLabel": "Wachtwoord",
+        "loggingIn": "Inloggen...",
+        "loginButton": "Inloggen om account te bekijken",
+        "loggedInAs": "Ingelogd als:",
+        "adminAccount": "Beheerdersaccount",
+        "logOut": "Uitloggen",
+        "loadingInfo": "Accountinformatie laden...",
+        "syncedNotes": "Gesynchroniseerde notities",
+        "attachments": "Bijlagen",
+        "storageUsed": "Gebruikte opslag",
+        "storageQuota": "Opslagquotum",
+        "storageUsage": "Opslaggebruik",
+        "privacyTitle": "Privacy en beveiliging",
+        "privacyDescription": "Al uw notities zijn end-to-end versleuteld. De server kan uw inhoud niet lezen.",
+        "selfHostLink": "Wilt u zelf hosten? Zie GitHub →",
+        "dangerZone": "Gevarenzone",
+        "deleteNotesDescription": "Verwijder al uw notities van de synchronisatieserver. Deze actie kan niet ongedaan worden gemaakt. Uw lokale notities worden NIET verwijderd.",
+        "deleteNotesButton": "Alle notities van server verwijderen"
+      },
+      "disconnectNotRevoked": "Dit apparaat is losgekoppeld, maar de server kon niet worden ingelicht, dus het staat daar nog vermeld en de sleutel werkt nog. Trek het in via het gebruikersportaal."
+    },
+    "advancedTab": {
+      "importExport": "Importeren/Exporteren",
+      "exportDescription": "Exporteren maakt een onversleutelde JSON-kopie om notities elders te gebruiken: iedereen met het bestand kan het lezen. Gebruik Back-up voor een versleutelde kopie. Importeren voegt notities samen met wat er al is.",
+      "downloadClient": "Terminal/HTML-client downloaden",
+      "downloadTerminalClient": "Terminalclient downloaden",
+      "clientDescription": "Download de terminalclient voor opdrachtregeltoegang, of de HTML-client om lokaal vanuit het bestandssysteem uit te voeren",
+      "terminalClientDescription": "Gebruik de terminalclient om uw notities vanaf de opdrachtregel te openen",
+      "selectPlatform": "Selecteer platform...",
+      "download": "Downloaden",
+      "deleteAllData": "Alle gegevens verwijderen",
+      "deleteAllDataWarning": "Dit zal ALLE notities, instellingen en versleutelingssleutels permanent verwijderen. Deze actie kan niet ongedaan worden gemaakt."
+    },
+    "aboutTab": {
+      "version": "Versie",
+      "documentation": "Documentatie",
+      "viewDocumentation": "Documentatie bekijken",
+      "documentationDescription": "Leer hoe u Jottery effectief kunt gebruiken",
+      "statistics": "Statistieken",
+      "activeNotes": "Actieve notities",
+      "pinnedNotes": "Vastgemaakte notities",
+      "inRecycleBin": "In prullenbak",
+      "totalNotes": "Totaal aantal notities",
+      "popularTags": "Populaire tags",
+      "terminalClient": "Terminalclient",
+      "terminalClientDescription": "Krijg toegang tot uw notities vanaf de opdrachtregel met de Jottery-terminalclient. De TUI biedt een snelle, toetsenbordgestuurde interface voor het beheren van uw notities.",
+      "terminalClientDownload": "Download de terminalclient vanaf het tabblad Geavanceerd.",
+      "aboutJottery": "Over Jottery",
+      "aboutDescription": "Jottery is een privacy-gerichte, zelf-gehoste kladblokapplicatie voor het vastleggen, organiseren en doorzoeken van notities met rijke inhoud, syntaxisaccentuering en versleuteling.",
+      "viewOnGithub": "Bekijken op GitHub",
+      "license": "Gelicentieerd onder de MIT-licentie."
+    },
+    "exportIncomplete": "De export is onvolledig: {notes} notities en {attachments} bijlagen konden niet worden gelezen en zijn weggelaten."
+  },
+  "landing": {
+    "languagePicker": {
+      "label": "Selecteer taal"
+    },
+    "hero": {
+      "title": "Jottery",
+      "subtitle": "Een krachtige, privacy-gerichte notitie-app met end-to-end versleuteling, geavanceerde zoekfunctie en optionele synchronisatie. Toegang tot je notities vanaf web of terminal.",
+      "cta": "Probeer het uit",
+      "note": "Geen account vereist • Werkt offline • Zelf te hosten"
+    },
+    "screenshots": {
+      "mainInterface": "Hoofdinterface met notitielijst en editor",
+      "carouselLabel": "Carrousel met schermafbeeldingen",
+      "fullSizeLabel": "Afbeelding op volledige grootte"
+    },
+    "features": {
+      "title": "Alles wat je nodig hebt",
+      "encrypted": {
+        "title": "End-to-end versleuteld",
+        "description": "Alle je notities worden lokaal versleuteld met AES-256-GCM voor opslag of synchronisatie."
+      },
+      "localFirst": {
+        "title": "Lokale opslag eerst",
+        "description": "Werkt volledig offline. Je gegevens blijven op je apparaat tenzij je ervoor kiest te synchroniseren."
+      },
+      "optionalSync": {
+        "title": "Optionele synchronisatie",
+        "description": "Host je eigen synchronisatieserver om notities op meerdere apparaten te openen."
+      },
+      "powerfulSearch": {
+        "title": "Krachtige zoekopdracht",
+        "description": "Geavanceerde zoekopdracht met modificatoren, datumfilters, woordaantallen en meer."
+      },
+      "tagging": {
+        "title": "Slimme tags",
+        "description": "Organiseer notities met tags en kleurcategorieën voor snelle visuele identificatie."
+      },
+      "attachments": {
+        "title": "Bijlagen",
+        "description": "Voeg bestanden, afbeeldingen en documenten toe aan je notities. Alles versleuteld."
+      },
+      "keyboard": {
+        "title": "Sneltoetsen",
+        "description": "Volledig aanpasbare sneltoetsen voor efficiënt notitiebeheer."
+      },
+      "categories": {
+        "title": "Kleurcategorieën",
+        "description": "Wijs kleuren toe aan notities en tags voor visuele organisatie."
+      }
+    },
+    "webFeatures": {
+      "title": "Webapplicatie",
+      "subtitle": "Rijke bewerkingservaring met moderne webtechnologieën",
+      "richEditor": {
+        "title": "Rijke teksteditor",
+        "description": "Gebouwd op CodeMirror 6 met syntaxisaccentuering voor meer dan 20 programmeertalen, markdown-ondersteuning en live voorvertoning.",
+        "points": [
+          "Syntaxisaccentuering voor codefragmenten",
+          "Markdown-rendering en voorvertoning",
+          "Zoeken en vervangen",
+          "Regelafbreking schakelen",
+          "Configureerbaar lettertype en thema"
+        ],
+        "screenshotDescription": "Editor met syntaxisaccentuering en markdown voorvertoning"
+      },
+      "multiSelect": {
+        "title": "Multi-selectie en bulkbewerkingen",
+        "description": "Selecteer meerdere notities tegelijk en voer batchbewerkingen uit voor efficiënt notitiebeheer.",
+        "points": [
+          "Ctrl/Cmd+Klik om selectie te schakelen",
+          "Shift+Klik voor bereikselectie",
+          "Bulk tagbewerkingen",
+          "Batch exporteren en verwijderen",
+          "Selecteer alle gefilterde notities"
+        ],
+        "screenshotDescription": "Multi-selectiemodus met werkbalk voor bulkbewerkingen"
+      },
+      "versions": {
+        "title": "Versiegeschiedenis",
+        "description": "Automatische versiebeheer houdt wijzigingen bij. Bekijk, vergelijk en herstel eerdere versies van je notities.",
+        "points": [
+          "Automatische versie-aanmaak",
+          "Naast elkaar diff-weergave",
+          "Herstel eerdere versies",
+          "Versiemetadata bijhouden",
+          "Ondersteuning voor conflictoplossing"
+        ],
+        "screenshotDescription": "Versiegeschiedenis met diff-viewer"
+      },
+      "calculator": {
+        "title": "REPL-calculator",
+        "description": "Ingebouwde calculator met permanente geschiedenis. Perfect voor snelle berekeningen en conversies.",
+        "points": [
+          "Basis en geavanceerde wiskundige bewerkingen",
+          "Variabele opslag",
+          "Berekeningsgeschiedenis",
+          "Eenheidsconversies",
+          "Kopieer resultaten naar notities"
+        ],
+        "screenshotDescription": "REPL-calculatorinterface"
+      },
+      "outliner": {
+        "title": "Overzichtsmodus",
+        "description": "Organiseer je gedachten met hiërarchische overzichten. Perfect voor projectplanning, vergadernotities en brainstormen.",
+        "points": [
+          "Hiërarchische opsommingstekens",
+          "Inklapbare secties",
+          "Eenvoudig herstructureren",
+          "Toetsenbordnavigatie",
+          "Exporteren naar markdown"
+        ],
+        "screenshotDescription": "Overzichtsmodus met hiërarchische structuur"
+      },
+      "multilingual": {
+        "title": "Meertalige interface",
+        "description": "Gebruik Jottery in je voorkeurstaal. De interface is beschikbaar in 15 talen en groeit nog steeds.",
+        "points": [
+          "15 talen ondersteund",
+          "Automatische detectie",
+          "Eenvoudig taal wisselen",
+          "Community-vertalingen",
+          "Volledige UI-lokalisatie"
+        ],
+        "screenshotDescription": "Griekse taalinterface"
+      }
+    },
+    "tuiFeatures": {
+      "title": "Terminal gebruikersinterface",
+      "subtitle": "Volledig uitgeruste TUI voor commandoregel-enthousiastelingen en SSH-sessies",
+      "terminal": {
+        "title": "Snelle TUI-interface",
+        "description": "Bliksemsnelle terminalinterface gebouwd met Ratatui. Navigeer door je notities zonder de terminal te verlaten.",
+        "screenshotDescription": "Terminalinterface met notitielijst en voorvertoning",
+        "code": ""
+      },
+      "cli": {
+        "title": "Krachtige CLI-commando's",
+        "description": "Commandoregel-tools voor snelle notitie-operaties en automatisering.",
+        "screenshotDescription": "CLI-commando's in actie",
+        "code": "jottery note\njottery list\njottery search \"query\"\njottery show <id>\njottery sync"
+      },
+      "piping": {
+        "title": "Inhoud rechtstreeks doorgeven",
+        "description": "Leg command-uitvoer direct vast als notities. Perfect voor logging en documentatie.",
+        "screenshotDescription": "Command-uitvoer doorgeven naar notities",
+        "code": "echo \"Snelle notitie\" | jottery note\nls -la | jottery note -t system,logs\ncat error.log | jottery note -t errors"
+      },
+      "crossPlatform": {
+        "title": "Cross-platform synchronisatie",
+        "description": "Synchroniseer notities naadloos tussen web- en TUI-clients. Dezelfde versleuteling, dezelfde gegevens.",
+        "screenshotDescription": "Synchronisatiestatus tussen web en TUI",
+        "code": ""
+      }
+    },
+    "mobileFeatures": {
+      "title": "Mobiel vriendelijk",
+      "subtitle": "Toegang tot je notities onderweg met een responsieve mobiele interface",
+      "list": {
+        "alt": "Mobiele notitielijstweergave",
+        "caption": "Notitielijst"
+      },
+      "travel": {
+        "alt": "Mobiele notitieweergave met reisroute",
+        "caption": "Notitieweergave"
+      },
+      "calculator": {
+        "alt": "Mobiele rekenmachinenotitie",
+        "caption": "Rekenmachine"
+      }
+    },
+    "security": {
+      "title": "Beveiliging en privacy eerst",
+      "lead": "Je notities zijn van jou. Jottery is ontworpen met privacy en beveiliging als kern.",
+      "encryption": {
+        "title": "Sterke versleuteling",
+        "description": "AES-256-GCM-versleuteling met PBKDF2-sleutelafleiding. Je wachtwoord is de sleutel: zonder dat zijn notities wiskundig onleesbaar."
+      },
+      "selfHosted": {
+        "title": "Zelf gehost",
+        "description": "Draai je eigen synchronisatieserver met volledige controle. De server slaat alleen versleutelde gegevens op die hij niet kan ontsleutelen."
+      },
+      "noTracking": {
+        "title": "Geen tracking",
+        "description": "Geen analyses, geen tracking, geen diensten van derden. Je gegevens verlaten nooit je controle."
+      }
+    },
+    "finalCta": {
+      "title": "Klaar om te beginnen?",
+      "subtitle": "Stel je versleutelde notitieboek in binnen enkele seconden. Geen account vereist.",
+      "viewOnGitHub": "Bekijk op GitHub"
+    }
+  },
+  "unlock": {
+    "welcome": "Welkom bij Jottery",
+    "enterPassword": "Voer uw wachtwoord in om te ontgrendelen",
+    "setupPassword": "Stel uw hoofdwachtwoord in",
+    "password": "Wachtwoord",
+    "confirmPassword": "Wachtwoord bevestigen",
+    "createPassword": "Wachtwoord aanmaken",
+    "unlock": "Ontgrendelen",
+    "processing": "Verwerken...",
+    "passwordMinLength": "Wachtwoord moet minimaal 8 tekens bevatten",
+    "passwordMismatch": "Wachtwoorden komen niet overeen",
+    "incorrectPassword": "Onjuist wachtwoord",
+    "warning": "Belangrijk: Uw wachtwoord kan niet worden hersteld. Als u het verliest, zijn uw gegevens permanent ontoegankelijk.",
+    "failedAttempts": "Onjuist wachtwoord. Na 3 mislukte pogingen moet u mogelijk de database verwijderen en opnieuw beginnen.",
+    "deleteAndStartOver": "Database verwijderen en opnieuw beginnen",
+    "storedPasswordInvalid": "Opgeslagen wachtwoord is ongeldig. Voer uw wachtwoord opnieuw in.",
+    "landingPage": {
+      "privateEncrypted": {
+        "title": "🔒 Privé en versleuteld",
+        "description": "Jottery is een privacy-gerichte notitie-app. Al uw notities zijn <strong>lokaal versleuteld</strong> op uw apparaat met uw hoofdwachtwoord. Niemand kan uw notities lezen zonder uw wachtwoord—zelfs niet als ze toegang hebben tot de opslag van uw apparaat."
+      },
+      "localFirst": {
+        "title": "💾 Lokaal-eerst opslag",
+        "description": "Uw notities worden rechtstreeks opgeslagen in de lokale database van uw browser. Jottery werkt volledig <strong>offline</strong> en heeft geen internetverbinding of account nodig."
+      },
+      "optionalSync": {
+        "title": "☁️ Optionele synchronisatieserver",
+        "description": "Wilt u synchroniseren tussen apparaten? Jottery kan optioneel synchroniseren met een zelf-gehoste server. Uw notities en tags worden <strong>versleuteld voordat ze worden gesynchroniseerd</strong>—de server slaat alleen versleutelde gegevens op die hij niet kan lezen."
+      },
+      "selfHosting": {
+        "title": "🏠 Zelf hosten",
+        "description": "Wilt u uw eigen synchronisatieserver draaien? Jottery is open source en eenvoudig zelf te hosten.",
+        "viewOnGitHub": "Bekijken op GitHub"
+      },
+      "syncWarning": {
+        "title": "⚠️ Synchronisatie aanbevolen",
+        "description": "Jottery draaien zonder synchronisatiemogelijkheid wordt <strong>niet aanbevolen</strong>. Het wissen van je browsercache kan de onderliggende database verwijderen. Neem de tijd om synchronisatiemogelijkheid in te stellen—het Jottery-systeem is volledig open source en zelf te hosten."
+      }
+    },
+    "sessionExpiredOrInvalid": "Sessie verlopen of ongeldig. Voer je wachtwoord in.",
+    "alreadyUsingJottery": "Gebruikt u Jottery al?",
+    "alreadyUsingJotteryDescription": "Herstel vanuit een back-up of stel synchronisatie in om toegang te krijgen tot uw bestaande notities.",
+    "restoreFromBackupSubtitle": "Notities herstellen vanuit een .jottery-backup bestand",
+    "syncConfig": {
+      "title": "Synchronisatieconfiguratie (Optioneel)",
+      "description": "Configureer optioneel nu synchronisatie. Je kunt dit ook later doen in Instellingen > Synchronisatie.",
+      "endpoint": "Synchronisatieserver URL",
+      "deviceName": "Apparaatnaam",
+      "deviceNamePlaceholder": "Mijn laptop",
+      "note": "Opmerking: Je moet je nog steeds bij de server registreren na de setup."
+    },
+    "syncSetup": {
+      "existingAccount": {
+        "title": "Bestaand account verbinden",
+        "subtitle": "Heb je al een account? Verbind dit apparaat",
+        "formTitle": "Verbinden met bestaand account",
+        "infoText": "Voer uw synchronisatieservergegevens in. Uw notities worden gesynchroniseerd nadat u uw hoofdwachtwoord heeft aangemaakt.",
+        "emailLabel": "E-mailadres",
+        "passwordLabel": "Serverwachtwoord",
+        "createPasswordNote": "Gebruik na het invoeren van uw synchronisatiegegevens hieronder uw hoofdwachtwoord om de installatie te voltooien."
+      },
+      "registerServer": {
+        "title": "Nieuw account registreren",
+        "subtitle": "Alleen eerste apparaat - maakt je account aan",
+        "formTitle": "Nieuw account registreren"
+      },
+      "completeInSettings": "Voltooi de sync-instellingen in Instellingen > Sync na het aanmaken van je wachtwoord."
+    },
+    "restoreFromBackup": "Herstellen vanuit Back-up",
+    "orDivider": "of",
+    "connectExisting": {
+      "title": "Bestaand account verbinden",
+      "subtitle": "Koppel dit apparaat aan je bestaande Jottery-account en synchroniseer je notities.",
+      "endpoint": "Synchronisatieserver-URL",
+      "endpointHint": "Het adres van je Jottery-synchronisatieserver.",
+      "deviceName": "Apparaatnaam",
+      "deviceNamePlaceholder": "bijv. Werk Laptop",
+      "deviceNameHint": "Een herkenbare naam om dit apparaat te identificeren.",
+      "email": "E-mailadres",
+      "emailPlaceholder": "you@example.com",
+      "serverPassword": "Serverwachtwoord",
+      "serverPasswordPlaceholder": "Je accountwachtwoord",
+      "serverPasswordHint": "Het wachtwoord waarmee je inlogt op de synchronisatieserver.",
+      "notesPassword": "Notitiewachtwoord",
+      "notesPasswordPlaceholder": "Kies een lokaal wachtwoord (min. 8 tekens)",
+      "notesPasswordHint": "Wordt gebruikt om je notities op dit apparaat te ontgrendelen. Moet overeenkomen met het notitiewachtwoord van je andere gesynchroniseerde apparaten.",
+      "submitButton": "Verbinden & synchroniseren",
+      "errors": {
+        "endpointRequired": "Synchronisatieserver-URL is vereist.",
+        "deviceNameRequired": "Apparaatnaam is vereist.",
+        "emailRequired": "E-mailadres is vereist.",
+        "serverPasswordRequired": "Serverwachtwoord is vereist.",
+        "notesPasswordMinLength": "Notitiewachtwoord moet minimaal 8 tekens bevatten.",
+        "onboardingFailed": "Downloaden van versleutelingssleutels van de server is mislukt. Controleer of je notitiewachtwoord overeenkomt met dat van je andere apparaten en of het bronapparaat is gesynchroniseerd",
+        "accountKeyUnreadable": "Dit notitiewachtwoord kan de sleutel van je account niet openen. Controleer het wachtwoord. Klopt het, dan is de sleutel mogelijk opgeslagen door een oudere versie van Jottery: ontgrendel Jottery op een apparaat dat al verbonden is om dit op te lossen. Probeer het daarna opnieuw.",
+        "localNotesOrphaned": "Notities op dit apparaat gebruiken een andere sleutel dan je account, dus verbinden zou ze onleesbaar maken. Er is niets gewijzigd. Om ze te behouden: exporteer je notities, verwijder de gegevens van dit apparaat, maak verbinding en importeer ze daarna."
+      },
+      "steps": {
+        "initialising": "Lokale versleuteling initialiseren…",
+        "registering": "Apparaat registreren bij server…",
+        "onboarding": "Versleutelingssleutels downloaden…",
+        "encrypting": "Inloggegevens beveiligen…",
+        "syncing": "Eerste synchronisatie starten…"
+      }
+    },
+    "passwordChangedElsewhere": "Je notitiewachtwoord is op een ander apparaat gewijzigd. Dit apparaat ontgrendelt nog steeds met het oude wachtwoord en je notities zijn veilig, maar nieuwe apparaten hebben het nieuwe wachtwoord nodig."
+  },
+  "lock": {
+    "title": "Applicatie vergrendelen",
+    "message": "Applicatie vergrendelen? Niet-opgeslagen wijzigingen gaan verloren.",
+    "confirmButton": "Vergrendelen",
+    "locking": "Vergrendelen...",
+    "savingAndSyncing": "Je notities worden opgeslagen en gesynchroniseerd"
+  },
+  "recycleBin": {
+    "title": "Prullenbak",
+    "empty": "Prullenbak is leeg",
+    "emptyDescription": "Verwijderde notities verschijnen hier",
+    "restore": "Herstellen",
+    "restoreTitle": "Notitie herstellen",
+    "deletePermanently": "Permanent verwijderen",
+    "deletePermanentlyTitle": "Permanent verwijderen",
+    "deleteForever": "Definitief verwijderen",
+    "emptyBin": "Prullenbak legen",
+    "loading": "Laden...",
+    "closeLabel": "Prullenbak sluiten",
+    "deleted": "Verwijderd:",
+    "unknown": "Onbekend",
+    "untitled": "Zonder titel",
+    "footer": {
+      "single": "{count} notitie in prullenbak. Notities worden automatisch verwijderd na 30 dagen.",
+      "multiple": "{count} notities in prullenbak. Notities worden automatisch verwijderd na 30 dagen."
+    },
+    "confirm": {
+      "deleteNote": {
+        "title": "Notitie permanent verwijderen",
+        "message": "Dit zal deze notitie permanent verwijderen. Dit kan niet ongedaan worden gemaakt!",
+        "confirmButton": "Definitief verwijderen"
+      },
+      "emptyBin": {
+        "title": "Prullenbak legen",
+        "message": "Alle {count} {notes} in de prullenbak permanent verwijderen? Dit kan niet ongedaan worden gemaakt!",
+        "note": "notitie",
+        "notes": "notities",
+        "confirmButton": "Prullenbak legen"
+      }
+    },
+    "error": {
+      "restore": "Herstellen van notitie mislukt",
+      "delete": "Verwijderen van notitie mislukt",
+      "emptyBin": "Legen van prullenbak mislukt"
+    }
+  },
+  "attachments": {
+    "title": "Bijlagen",
+    "upload": "Bestanden uploaden",
+    "dropHere": "Bestanden hier neerzetten of klikken om te bladeren",
+    "uploading": "Uploaden...",
+    "download": "Downloaden",
+    "validationError": "Bestandsvalidatiefout",
+    "clickToView": "Klik om bijlagen te bekijken",
+    "clickToHide": "Klik om bijlagen te verbergen",
+    "noAttachments": "Geen bijlagen",
+    "loading": "Laden...",
+    "attachment": "bijlage",
+    "thumbnail": "Miniatuur",
+    "clickToPreview": "Klik voor voorvertoning",
+    "clickToPreviewHint": "• Klik voor voorvertoning",
+    "copyMarkdown": "Markdown-link kopiëren",
+    "delete": "Verwijderen",
+    "close": "Sluiten",
+    "closePreview": "Voorvertoning sluiten",
+    "downloadToView": "Download om te bekijken",
+    "markdownCopied": "Markdown-link gekopieerd naar klembord",
+    "error": {
+      "download": "Downloaden van bijlage mislukt",
+      "copyMarkdown": "Kopiëren van Markdown-link mislukt",
+      "upload": "Uploaden van {name} mislukt: {error}",
+      "delete": "Verwijderen van bijlage mislukt: {error}",
+      "paste": "Plakken van afbeelding mislukt: {error}"
+    },
+    "preview": {
+      "title": "Bijlage voorvertoning",
+      "loading": "Voorvertoning laden...",
+      "notAvailable": "Voorvertoning niet beschikbaar voor dit bestandstype.",
+      "audioNotSupported": "Uw browser ondersteunt geen audio-afspelen.",
+      "videoNotSupported": "Uw browser ondersteunt geen video-afspelen.",
+      "videoLabel": "Videovoorbeeld"
+    },
+    "confirmDelete": {
+      "title": "Bijlage verwijderen?",
+      "message": "Het bestand wordt uit deze notitie verwijderd. Tenzij een eerdere versie van de notitie het nog bevat, kan het niet worden hersteld.",
+      "confirmButton": "Verwijderen"
+    }
+  },
+  "keyboard": {
+    "title": "Sneltoetsen",
+    "closeLabel": "Sneltoetsen-help sluiten",
+    "global": "Globaal",
+    "noteList": "Notitielijst",
+    "editor": "Editor",
+    "focusSearch": "Focus op zoeken",
+    "createNote": "Nieuwe notitie maken",
+    "lockApp": "Applicatie vergrendelen",
+    "openSettings": "Instellingen openen",
+    "showShortcuts": "Sneltoetsen tonen",
+    "navigateNotes": "Navigeren door notities",
+    "navigateVim": "Navigeren door notities (vim-stijl)",
+    "openNote": "Geselecteerde notitie openen",
+    "deleteNote": "Geselecteerde notitie verwijderen",
+    "pinNote": "Geselecteerde notitie vast-/losmaken",
+    "closeNote": "Notitie sluiten",
+    "copyNote": "Notitie-inhoud kopiëren",
+    "versionHistory": "Versiegeschiedenis",
+    "noteInfo": "Notitie-info",
+    "findInNote": "Zoeken in notitie (CodeMirror)",
+    "replaceInNote": "Vervangen in notitie (CodeMirror)",
+    "macNote": "Op macOS gebruikt u Cmd in plaats van Ctrl.",
+    "note": "Opmerking:",
+    "cmd": "Cmd",
+    "ctrl": "Ctrl"
+  },
+  "releases": {
+    "title": "Versies",
+    "description": "Download de Jottery TUI voor uw platform.",
+    "tuiClient": "TUI-client",
+    "standaloneWebApp": "Zelfstandige web-app",
+    "webAppNote": "Lokaal uitvoeren vanaf bestandssysteem (synchronisatie uitgeschakeld)"
+  },
+  "fileUpload": {
+    "dropHere": "Bestanden hier neerzetten",
+    "clickOrDrag": "<span class=\"font-medium\">Klik om te uploaden</span> of slepen en neerzetten",
+    "maxFileSize": "Max. bestandsgrootte: 10MB"
+  },
+  "pdfViewer": {
+    "loading": "PDF-viewer laden...",
+    "pageOfPages": "Pagina {current} van {total}",
+    "previousPage": "Vorige pagina",
+    "nextPage": "Volgende pagina",
+    "zoomOut": "Uitzoomen",
+    "zoomIn": "Inzoomen",
+    "loadFailed": "Deze pdf kan niet worden geopend. Je kunt hem nog wel downloaden."
+  },
+  "versionHistory": {
+    "title": "Versiegeschiedenis",
+    "closeLabel": "Versiegeschiedenis sluiten",
+    "loading": "Versies laden...",
+    "noVersions": "Geen versiegeschiedenis",
+    "versionsCreatedDuringSync": "Versies worden aangemaakt tijdens synchronisatie",
+    "current": "(huidig)",
+    "autoSync": "Automatische synchronisatie",
+    "manualSync": "Handmatige synchronisatie",
+    "version": "Versie:",
+    "characters": "Tekens:",
+    "created": "Gemaakt:",
+    "synced": "Gesynchroniseerd:",
+    "tags": "Labels:",
+    "contentPreview": "Inhoudsvoorvertoning",
+    "selectToPreview": "Selecteer een versie voor voorvertoning",
+    "restoreButton": "Deze versie herstellen",
+    "restoreConfirm": {
+      "title": "Versie herstellen",
+      "message": "Weet u zeker dat u deze versie wilt herstellen? Uw huidige notitie wordt opgeslagen als een nieuwe versie voordat wordt hersteld.",
+      "confirmButton": "Herstellen"
+    },
+    "restoreFailed": "Herstellen van versie mislukt: {error}"
+  },
+  "header": {
+    "menu": "Menu",
+    "loadingNotes": "{current}/{total} notities laden...",
+    "creatingNote": "Notitie maken...",
+    "addContentFirst": "Voeg eerst inhoud toe aan huidige notitie",
+    "lastSynced": "Laatst gesynchroniseerd: {time}",
+    "neverSynced": "Nog niet gesynchroniseerd",
+    "syncDisabled": "Synchronisatie is niet ingeschakeld",
+    "newNote": "Nieuwe Notitie"
+  },
+  "confirm": {
+    "deleteDatabase": {
+      "title": "Database verwijderen",
+      "message": "⚠️ WAARSCHUWING: Dit zal ALLE versleutelde notities en bijlagen permanent verwijderen. Dit kan niet ongedaan worden gemaakt!\n\nWeet u zeker dat u de database wilt verwijderen?",
+      "confirmButton": "Database verwijderen"
+    },
+    "deleteAllData": {
+      "title": "Alle gegevens verwijderen",
+      "message": "Dit zal ALLE notities, instellingen en versleutelingssleutels permanent verwijderen. Deze actie kan niet ongedaan worden gemaakt.\n\nTyp DELETE om te bevestigen:",
+      "confirmButton": "Alles verwijderen",
+      "cancelButton": "Annuleren"
+    },
+    "disconnectSync": {
+      "title": "Verbinding met synchronisatieserver verbreken?",
+      "message": "Dit zal dit apparaat loskoppelen van de synchronisatieserver en alle synchronisatie-inloggegevens wissen.\n\nUw notities worden NIET verwijderd en blijven op dit apparaat.\n\nU kunt later opnieuw verbinding maken met een synchronisatieserver.",
+      "confirmButton": "Verbinding verbreken",
+      "cancelButton": "Annuleren"
+    },
+    "deleteServerNotes": {
+      "title": "Alle notities van server verwijderen?",
+      "message": "Dit zal ALLE notities permanent verwijderen van de synchronisatieserver. Deze actie kan niet ongedaan worden gemaakt.\n\nUw lokale notities blijven op dit apparaat en worden NIET verwijderd.\n\nTyp DELETE om te bevestigen:",
+      "confirmButton": "Van server verwijderen",
+      "cancelButton": "Annuleren"
+    },
+    "disableRememberPassword": {
+      "title": "Wachtwoord onthouden uitschakelen?",
+      "message": "Dit zal uw opgeslagen wachtwoord wissen en de applicatie vergrendelen.\n\nU moet uw wachtwoord invoeren de volgende keer dat u de app opent.",
+      "confirmButton": "Uitschakelen en vergrendelen",
+      "cancelButton": "Annuleren"
+    },
+    "requireText": "Typ <strong>{text}</strong> om te bevestigen:",
+    "deleteKeyword": "DELETE"
+  },
+  "updateBanner": {
+    "title": "Nieuwe versie beschikbaar",
+    "message": "Ververs om de nieuwste functies en verbeteringen te krijgen",
+    "reloadButton": "Nu verversen",
+    "dismissLabel": "Negeren",
+    "backupButton": "Eerst back-up maken",
+    "backingUp": "Back-up maken..."
+  },
+  "bulk": {
+    "toggleSelect": "Selectie omschakelen",
+    "selected": "geselecteerd",
+    "addTags": "Tags toevoegen",
+    "removeTags": "Tags verwijderen",
+    "setColor": "Categorie Instellen",
+    "colorSet": "Categorie ingesteld voor {count} notities",
+    "selectColorForBulk": "Selecteer categorie voor geselecteerde notities",
+    "delete": "Verwijderen",
+    "export": "Exporteren",
+    "combine": "Samenvoegen",
+    "cancel": "Selectie annuleren",
+    "confirmDelete": "{count} notities verwijderen?",
+    "confirmDeleteMessage": "Dit verplaatst {count} notities naar de prullenbak.",
+    "confirmCombine": "{count} notities samenvoegen?",
+    "confirmCombineMessage": "Dit voegt {count} notities samen tot één notitie (gesorteerd op aanmaakdatum, oudste eerst). Originele notities worden naar de prullenbak verplaatst.",
+    "mergeTagsOption": "Tags van alle notities samenvoegen",
+    "mergeTagsDescription": "Indien uitgeschakeld, worden alleen tags van de eerste (oudste) notitie behouden.",
+    "combinedSuccess": "{count} notities samengevoegd",
+    "enterTags": "Voer tags in (gescheiden door komma's)",
+    "progress": "{current} van {total}",
+    "selectAll": "Alles selecteren",
+    "deselectAll": "Alles deselecteren",
+    "archive": "Archiveren",
+    "moreActions": "Meer acties"
+  },
+  "conflict": {
+    "title": "Synchronisatieconflict gedetecteerd",
+    "description": "Deze notitie is zowel lokaal als op de server gewijzigd. Kies hoe het conflict moet worden opgelost.",
+    "yourVersion": "Uw versie",
+    "serverVersion": "Serverversie",
+    "commonAncestor": "Gemeenschappelijke voorouder",
+    "ancestorDescription": "De versie waar jullie beiden mee begonnen",
+    "chooseAction": "Kies hoe dit conflict moet worden opgelost:",
+    "keepMine": "Mijn versie behouden",
+    "keepServer": "Serverversie behouden",
+    "keepBoth": "Beide behouden",
+    "merge": "Samenvoegen",
+    "resolved": "Conflict opgelost",
+    "resolvedBoth": "Conflict opgelost - duplicaat gemaakt",
+    "noConflict": "Geen conflictgegevens gevonden",
+    "indicator": "Synchronisatieconflict",
+    "bannerText": "Deze notitie heeft een synchronisatieconflict dat moet worden opgelost",
+    "resolveButton": "Conflict oplossen",
+    "syncNotification": "{count, plural, one {1 notitie heeft een synchronisatieconflict} other {{count} notities hebben synchronisatieconflicten}}",
+    "serverUnreadable": "De kopie van deze notitie op de server is niet leesbaar en is mogelijk gewijzigd. Alleen jouw versie kan worden behouden.",
+    "localUnreadable": "De kopie van deze notitie op dit apparaat is niet leesbaar.",
+    "loadFailed": "Laden van conflictgegevens mislukt",
+    "resolveFailed": "Oplossen van conflict mislukt"
+  },
+  "pullToRefresh": {
+    "pull": "Trek omlaag om te synchroniseren",
+    "release": "Loslaten om te synchroniseren",
+    "syncing": "Synchroniseren...",
+    "region": "Trek om te vernieuwen"
+  },
+  "sync": {
+    "syncing": "Synchroniseren...",
+    "syncProgress": "Synchroniseren: {percentage}% voltooid",
+    "notesRefused": "Sommige notities zijn te groot voor de uploadlimiet van je account en zijn niet gesynchroniseerd. De rest wel.",
+    "accountDisabled": "Je account is gedeactiveerd of wacht op goedkeuring, dus de synchronisatie is gestopt. Je notities op dit apparaat zijn veilig. Neem contact op met je beheerder.",
+    "storageQuotaExceeded": "Je account heeft de opslaglimiet bereikt, dus wijzigingen op dit apparaat kunnen niet worden geüpload. Verwijder enkele notities of bijlagen definitief om ruimte te maken.",
+    "massDeletionHeld": "De server vroeg om {count} notities tegelijk te verwijderen. Ze staan in de prullenbak voor het geval jij dit niet was. Herstel ze daar, of leeg de prullenbak als jij het wel was.",
+    "clockAhead": "Sommige wijzigingen zijn niet gesynchroniseerd, omdat hun datum meer dan een dag op de server voorloopt. Controleer de datum en tijd op dit apparaat.",
+    "deviceRevoked": "Dit apparaat is niet meer met je account verbonden, dus de synchronisatie is gestopt. Je notities op dit apparaat zijn veilig. Verbind het opnieuw via Instellingen.",
+    "databaseLost": "De databaseverbinding is verbroken. Vernieuw de pagina om door te gaan."
+  },
+  "inbox": {
+    "title": "Postvak IN",
+    "count": "{count} onderdelen",
+    "countSingle": "1 onderdeel",
+    "empty": "Inbox is leeg",
+    "emptyDescription": "Notities ingediend via de Inbox API verschijnen hier ter beoordeling",
+    "accept": "Accepteren",
+    "acceptAll": "Alles accepteren",
+    "delete": "Verwijderen",
+    "deleteAll": "Alles verwijderen",
+    "accepting": "Accepteren...",
+    "deleting": "Verwijderen...",
+    "accepted": "Notitie geaccepteerd",
+    "acceptedAll": "{count} notities geaccepteerd",
+    "deleted": "Inbox-item verwijderd",
+    "deletedAll": "Alle inbox-items verwijderd",
+    "source": "Bron: {source}",
+    "untitled": "Naamloos",
+    "closeLabel": "Inbox sluiten",
+    "indicator": "Postvak IN ({count})",
+    "confirm": {
+      "delete": {
+        "title": "Inbox-item Verwijderen",
+        "message": "Dit inbox-item verwijderen? Dit kan niet ongedaan worden gemaakt.",
+        "confirmButton": "Verwijderen"
+      },
+      "deleteAll": {
+        "title": "Alle Inbox-items Verwijderen",
+        "message": "Alle {count} inbox-items verwijderen? Dit kan niet ongedaan worden gemaakt.",
+        "confirmButton": "Alles Verwijderen"
+      }
+    },
+    "error": {
+      "accept": "Inbox-item kon niet worden geaccepteerd",
+      "delete": "Inbox-item kon niet worden verwijderd",
+      "acceptAll": "Inbox-items konden niet worden geaccepteerd",
+      "deleteAll": "Inbox-items konden niet worden verwijderd"
+    },
+    "token": {
+      "title": "Inbox API",
+      "description": "Stuur notities naar uw account via API — geen versleutelingswachtwoord nodig. Items verschijnen in uw inbox ter beoordeling.",
+      "generate": "Token Genereren",
+      "revoke": "Token Intrekken",
+      "active": "Token actief",
+      "none": "Geen token geconfigureerd",
+      "generated": "Token gegenereerd — sla het nu op, het wordt niet opnieuw getoond.",
+      "revoked": "Inbox-token ingetrokken",
+      "copyToken": "Token kopiëren",
+      "copied": "Token gekopieerd naar klembord",
+      "quickStart": "Snel starten",
+      "curlExample": "Voorbeeld: een notitie indienen via curl",
+      "confirm": {
+        "revoke": {
+          "title": "Inbox-token Intrekken",
+          "message": "Inbox-token intrekken? Alle integraties die het gebruiken zullen stoppen met werken.",
+          "confirmButton": "Intrekken"
+        }
+      },
+      "error": {
+        "generate": "Inbox-token kon niet worden gegenereerd",
+        "revoke": "Inbox-token kon niet worden ingetrokken"
+      }
+    },
+    "quota": {
+      "items": "Onderdelen: {used}/{max}",
+      "size": "Grootte: {used}/{max}"
+    }
+  },
+  "archive": {
+    "title": "Archief",
+    "closeLabel": "Archief sluiten",
+    "loading": "Gearchiveerde notities laden...",
+    "empty": "Geen gearchiveerde notities",
+    "emptyDescription": "Gearchiveerde notities verschijnen hier",
+    "archived": "Gearchiveerd",
+    "archive": "Archiveren",
+    "unknown": "Onbekend",
+    "untitled": "Zonder titel",
+    "unarchive": "Herstellen",
+    "unarchiveTitle": "Notitie herstellen naar actieve lijst",
+    "unarchived": "Notitie hersteld",
+    "footer": {
+      "single": "{count} gearchiveerde notitie",
+      "multiple": "{count} gearchiveerde notities"
+    },
+    "error": {
+      "unarchive": "Kan notitie niet herstellen"
+    },
+    "mode": "Archief",
+    "enterMode": "Gearchiveerde notities weergeven",
+    "exitMode": "Actieve notities weergeven",
+    "inActive": "in actief",
+    "inArchive": "in archief",
+    "crossModeHintActive": "Klik om gearchiveerde notities te zien die overeenkomen met deze zoekopdracht",
+    "crossModeHintArchive": "Klik om actieve notities te zien die overeenkomen met deze zoekopdracht"
+  },
+  "outliner": {
+    "name": "Overzicht",
+    "emptyHint": "Begin te typen om uw eerste item toe te voegen",
+    "newItem": "Nieuw item",
+    "indent": "Inspringen",
+    "outdent": "Uitspringen",
+    "collapse": "Inklappen",
+    "expand": "Uitklappen",
+    "moveUp": "Omhoog",
+    "moveDown": "Omlaag",
+    "expandAll": "Alles uitklappen",
+    "collapseAll": "Alles inklappen",
+    "level": "Niveau {n}"
+  },
+  "progress": {
+    "title": "Even geduld",
+    "processing": "Verwerken...",
+    "backup": "Back-up maken...",
+    "export": "Notities exporteren..."
+  },
+  "tags": {
+    "virtual": {
+      "title": "titel"
+    }
+  },
+  "searchHelp": {
+    "title": "Zoeksyntaxis",
+    "tags": "Labels",
+    "text": "Tekst",
+    "wildcards": "Jokertekens",
+    "modifiers": "Modificatoren",
+    "combined": "Gecombineerde Voorbeelden",
+    "clickToTry": "Klik op een voorbeeld om het te proberen",
+    "tagsAnd": "Beide tags (AND)",
+    "tagsOr": "Een van de tags (OR)",
+    "exactPhrase": "Exacte zin",
+    "bothWords": "Beide woorden (AND)",
+    "eitherWord": "Een van de woorden (OR)",
+    "notContaining": "Bevat NIET",
+    "startsWith": "Begint met",
+    "endsWith": "Eindigt met",
+    "containsAnywhere": "Bevat overal",
+    "hasAttachment": "Notities met bijlagen",
+    "createdAfter": "Gemaakt na datum",
+    "createdBefore": "Gemaakt voor datum",
+    "createdRange": "Gemaakt in datumbereik",
+    "modifiedAfter": "Gewijzigd na datum",
+    "wordsMore": "Meer dan N woorden",
+    "wordsLess": "Minder dan N woorden",
+    "wordsRange": "Tussen N en M woorden"
+  },
+  "commandPalette": {
+    "title": "Commandopalet",
+    "placeholder": "Typ een commando...",
+    "noResults": "Geen overeenkomende commando's",
+    "navigation": "Navigatie",
+    "editorActions": "Editor",
+    "focusSearch": "Focus op Zoeken",
+    "newNote": "Nieuwe Notitie",
+    "openSettings": "Instellingen",
+    "openRecycleBin": "Prullenbak",
+    "openArchive": "Archief",
+    "lockApp": "Applicatie Vergrendelen",
+    "showShortcuts": "Sneltoetsen",
+    "togglePreview": "Voorvertoning In-/Uitschakelen",
+    "toggleWordWrap": "Regelafbreking In-/Uitschakelen",
+    "copyContent": "Notitie-inhoud Kopiëren",
+    "copyLink": "Link naar Notitie Kopiëren",
+    "duplicateNote": "Notitie Dupliceren",
+    "exportNote": "Exporteren naar Bestand",
+    "printNote": "Afdrukken / PDF Exporteren",
+    "noteInfo": "Notitie-informatie",
+    "versionHistory": "Versiegeschiedenis",
+    "deleteNote": "Notitie Verwijderen",
+    "lockNote": "Notitie Vergrendelen/Ontgrendelen",
+    "setColor": "Notitiecategorie Instellen",
+    "archiveNote": "Notitie Archiveren"
+  },
+  "contextMenu": {
+    "title": "Notitieacties",
+    "open": "Openen",
+    "pin": "Notitie vastmaken",
+    "unpin": "Notitie losmaken",
+    "duplicate": "Dupliceren",
+    "setColour": "Categoriekleur instellen",
+    "archive": "Archiveren",
+    "unarchive": "Dearchiveren",
+    "delete": "Verwijderen"
+  },
+  "swipeHints": {
+    "swipeLeftToDelete": "Veeg naar links om te verwijderen",
+    "swipeRightToSelect": "Veeg naar rechts om te selecteren",
+    "tapToDismiss": "Tik ergens om te sluiten"
+  },
+  "welcomeNote": {
+    "content": "# Welkom bij Jottery\n\nJottery is uw privé, versleutelde kladblok voor het vastleggen en organiseren van notities.\n\n## Snelstart\n\n- **Notitie maken**: Klik op de + knop of druk op `Ctrl+N`\n- **Zoeken**: Gebruik de zoekbalk of druk op `Ctrl+K`\n- **Tags**: Voeg tags toe om notities te organiseren, filter vervolgens met `#tagnaam`\n- **Vastmaken**: Maak belangrijke notities vast om ze bovenaan te houden\n\n## Zoeksyntaxis\n\nJottery ondersteunt krachtige zoekquery's:\n\n- `#tagnaam` — filter op tag\n- `\"exacte zin\"` — exacte overeenkomst\n- `has:attachment` — notities met bijlagen\n- `created:>2024-01-01` — datumfilters\n- `words:>100` — woordaantalfilters\n- `-uitgesloten` — termen uitsluiten\n\nKlik op de **?** knop naast de zoekbalk voor de volledige referentie.\n\n## Commandopalet\n\nDruk op `Ctrl+Shift+P` om het commandopalet te openen voor snelle toegang tot alle acties.\n\n## Sneltoetsen\n\nDruk op `Ctrl+/` om alle sneltoetsen te bekijken.\n\n## Privacy\n\nAl uw notities zijn lokaal versleuteld. Er verlaat geen data uw apparaat tenzij u synchronisatie inschakelt.\n\n---\n\n*U kunt deze notitie op elk moment verwijderen. Veel schrijfplezier!*",
+    "tags": "welkom,aan-de-slag"
+  },
+  "emptyState": {
+    "title": "Aan de slag",
+    "createNote": "Notitie maken",
+    "createNoteDescription": "Begin met het schrijven van uw eerste notitie",
+    "importNotes": "Notities importeren",
+    "importNotesDescription": "Importeer vanuit een JSON-exportbestand",
+    "exploreSearch": "Zoeksyntaxis verkennen",
+    "exploreSearchDescription": "Leer krachtige zoekoperatoren"
+  },
+  "searchSuggestions": {
+    "recentSearches": "Recente Zoekopdrachten",
+    "clearRecent": "Verwijderen",
+    "tryThese": "Probeer Deze",
+    "clearAll": "Alles wissen"
+  },
+  "vaultHealth": {
+    "title": "Kluisstatus",
+    "description": "Detecteert notities die niet ontsleuteld kunnen worden en bijlagen die op dit apparaat ontbreken.",
+    "healthy": "Geen problemen gevonden.",
+    "loadToast": "{count} notitie(s) konden niet worden ontsleuteld — zie Instellingen → Geavanceerd",
+    "undecryptableTitle": "Niet-ontsleutelbare notities",
+    "undecryptableHint": "Deze notities kunnen niet met je huidige wachtwoord worden gelezen. Meestal zijn ze met een ander wachtwoord aangemaakt. Verwijderen is definitief en verwijdert ze van de synchronisatieserver en alle apparaten.",
+    "createdAt": "Aangemaakt",
+    "modifiedAt": "Gewijzigd",
+    "size": "Grootte",
+    "errorLabel": "Fout",
+    "delete": "Definitief verwijderen",
+    "deleteConfirmTitle": "Niet-ontsleutelbare notitie verwijderen?",
+    "deleteConfirmMessage": "Deze notitie kan niet worden ontsleuteld en de inhoud kan niet worden hersteld. Verwijderen haalt haar weg van dit apparaat, de synchronisatieserver en al je andere apparaten. Dit kan niet ongedaan worden gemaakt.",
+    "deleteFailed": "Notitie verwijderen mislukt",
+    "missingTitle": "Ontbrekende bijlagen",
+    "missingHint": "Deze bijlagen worden door notities gerefereerd maar zijn niet op dit apparaat opgeslagen.",
+    "noteLabel": "Notitie",
+    "unknownNote": "(notitie kan niet worden ontsleuteld)",
+    "repair": "Herstellen vanaf server",
+    "repairSuccess": "Bijlage hersteld",
+    "repairFailed": "Herstel mislukt — controleer de synchronisatieverbinding en serverversie",
+    "rescan": "Opnieuw scannen",
+    "scanning": "Bezig met scannen…",
+    "loadToastAction": "Bekijken in Kluisstatus",
+    "openNote": "Deze notitie openen",
+    "repairNotOnServer": "Ook niet op de server — open de notitie en verwijder de bijlage",
+    "serverMissingTitle": "Ontbreekt op de server",
+    "serverMissingHint": "De synchronisatieserver heeft geen kopie van deze bijlagen en dit apparaat ook niet. Open de notitie en verwijder de bijlage, of synchroniseer vanaf een apparaat dat het bestand nog heeft.",
+    "rejectedTitle": "Geweigerd van de synchronisatieserver",
+    "rejectedHint": "De synchronisatieserver stuurde deze in een vorm die niet te vertrouwen is, dus ze zijn niet opgeslagen. Je bestaande notities zijn niet aangetast. Als dit blijft gebeuren, controleer dan wie de server beheert.",
+    "rejectedKind": {
+      "note": "Notitie",
+      "version": "Notitieversie",
+      "conflict": "Synchronisatieconflict",
+      "savedSearch": "Opgeslagen zoekopdracht",
+      "attachment": "Bijlage",
+      "inboxItem": "Inboxitem",
+      "deletion": "Verwijdering"
+    },
+    "scanFailed": "De controle is niet voltooid. Probeer het opnieuw."
+  }
+}

@@ -1,0 +1,164 @@
+import SwiftUI
+
+struct UnlockScreen: View {
+    @Environment(AppState.self) private var appState
+    @State private var password = ""
+    @State private var error: String?
+    @State private var isUnlocking = false
+    @State private var failedAttempts = 0
+    @State private var showDeleteConfirm = false
+    @State private var didAutoAttemptBiometric = false
+
+    var body: some View {
+        ScrollableScreen { form }
+    }
+
+    private var form: some View {
+        VStack(spacing: 32) {
+            Spacer()
+
+            Image(systemName: "lock.fill")
+                .font(.system(size: 48))
+                .foregroundStyle(.secondary)
+
+            Text(L.unlockTitle)
+                .font(.largeTitle.bold())
+
+            Text(L.unlockPrompt)
+                .foregroundStyle(.secondary)
+
+            VStack(spacing: 16) {
+                PasswordField(L.unlockPassword, text: $password)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(maxWidth: 320)
+                    .onSubmit { unlock() }
+                    .disabled(isUnlocking)
+
+                if let error {
+                    Text(error)
+                        .foregroundStyle(.red)
+                        .font(.callout)
+                }
+
+                Button(action: unlock) {
+                    if isUnlocking {
+                        ProgressView()
+                            .controlSize(.small)
+                    } else {
+                        Text(L.unlockAction)
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(password.isEmpty || isUnlocking)
+
+                if failedAttempts >= 5 {
+                    Button(action: { showDeleteConfirm = true }) {
+                        Text(L.unlockDeleteAndStartOver)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.red)
+                }
+            }
+
+            // Biometric button
+            if appState.keyManager.isBiometricEnabled {
+                Button {
+                    biometricUnlock()
+                } label: {
+                    if isUnlocking {
+                        ProgressView()
+                            .controlSize(.small)
+                    } else {
+                        Label(L.unlockFaceId, systemImage: "faceid")
+                            .font(.title3)
+                    }
+                }
+                .buttonStyle(.plain)
+                .disabled(isUnlocking)
+            }
+
+            Spacer()
+        }
+        .padding()
+        .onAppear {
+            // Attempt biometric unlock automatically — once per lock cycle.
+            // onAppear can fire more than once (Setup→Unlock branch swap,
+            // scene-phase churn from the Face ID sheet itself), which
+            // previously queued a second Face ID prompt.
+            if appState.keyManager.isBiometricEnabled && !didAutoAttemptBiometric {
+                didAutoAttemptBiometric = true
+                biometricUnlock()
+            }
+        }
+        .alert(L.unlockDeleteConfirmTitle, isPresented: $showDeleteConfirm) {
+            Button(L.unlockDeleteConfirmAction, role: .destructive) {
+                Task { await appState.wipeAfterProvingOwnership() }
+            }
+            Button(L.unlockDeleteConfirmCancel, role: .cancel) {}
+        } message: {
+            Text(L.unlockDeleteConfirmMessage(unsyncedNotes: appState.notesOnlyOnThisDevice()))
+        }
+    }
+
+    private func unlock() {
+        error = nil
+        isUnlocking = true
+
+        Task {
+            do {
+                try await appState.unlock(password: password)
+                password = ""
+                isUnlocking = false
+
+                // Offer to enable biometrics after a successful password unlock.
+                appState.offerFaceIDIfUseful()
+            } catch AppStateError.wrongPassword {
+                failedAttempts += 1
+                if failedAttempts >= 5 {
+                    self.error = L.unlockFailedAttempts
+                } else {
+                    self.error = L.unlockIncorrectPassword
+                }
+                self.isUnlocking = false
+            } catch {
+                // Not a wrong guess, so it counts for nothing here.
+                self.error = error.localizedDescription
+                self.isUnlocking = false
+            }
+        }
+    }
+
+    private func biometricUnlock() {
+        isUnlocking = true
+
+        Task {
+            let success = await appState.keyManager.attemptBiometricUnlock()
+            if success, !appState.loadedKeyMatchesVault() {
+                // Face ID's copy of the master key is out of date: the vault
+                // moved to a new key and the copy was never refreshed. Using it
+                // would show an empty vault and save notes under the wrong key.
+                appState.keyManager.lock()
+                appState.biometricKeyNeedsRefresh = true
+                self.error = L.unlockBiometricOutOfDate
+            } else if success {
+                // Retry any edit that failed to flush at lock time now that
+                // the key is available again.
+                appState.flushPendingEditorNote()
+                await appState.repairStoredData()
+                try? await appState.loadNotes()
+                appState.isLocked = false
+                Log.debug("[Sync] biometricUnlock: calling setupSync()")
+                appState.setupSync()
+                appState.scheduleSearchWarmUp()
+                appState.importSharedInboxItems()
+                // Envelope setup needs the notes password, which Face ID does not
+                // provide. Check instead whether the server is missing the key,
+                // and if so the app asks for the password once (jottery-x40w).
+                Task { await appState.checkAccountKeyAfterBiometricUnlock() }
+            } else {
+                Log.debug("[Sync] biometricUnlock: Face ID failed")
+            }
+            isUnlocking = false
+        }
+    }
+}

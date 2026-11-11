@@ -1,0 +1,327 @@
+#![allow(dead_code)]
+use anyhow::Result;
+use chrono::{DateTime, Utc};
+use rusqlite::{params, Connection, OptionalExtension};
+
+use crate::models::sync::{ConflictData, NoteSyncMetadata, SyncMetadata, SyncStatus};
+
+/// A timestamp column. A value that won't parse fails the query rather than
+/// panicking, because this table holds whatever an older build wrote.
+fn stored_time(row: &rusqlite::Row<'_>, index: usize) -> rusqlite::Result<DateTime<Utc>> {
+    row.get::<_, String>(index)?.parse().map_err(|e: chrono::ParseError| {
+        rusqlite::Error::FromSqlConversionFailure(index, rusqlite::types::Type::Text, Box::new(e))
+    })
+}
+
+/// Repository for sync metadata operations
+pub struct SyncRepository<'a> {
+    conn: &'a Connection,
+}
+
+impl<'a> SyncRepository<'a> {
+    /// Create a new sync repository
+    pub fn new(conn: &'a Connection) -> Self {
+        Self { conn }
+    }
+
+    /// Get global sync metadata
+    pub fn get_metadata(&self) -> Result<Option<SyncMetadata>> {
+        let result = self.conn
+            .query_row(
+                "SELECT last_sync_at, last_push_at, last_pull_at, api_key, client_id,
+                        sync_enabled, sync_endpoint, auto_sync_interval, user_email,
+                        pending_registration_email, pending_device_name, user_id,
+                        server_key_seen, server_key_stale, pull_cursor
+                 FROM sync_metadata WHERE id = 1",
+                [],
+                |row| {
+                    Ok(SyncMetadata {
+                        last_sync_at: row
+                            .get::<_, Option<String>>(0)?
+                            .map(|s| s.parse())
+                            .transpose()
+                            .ok()
+                            .flatten(),
+                        last_push_at: row
+                            .get::<_, Option<String>>(1)?
+                            .map(|s| s.parse())
+                            .transpose()
+                            .ok()
+                            .flatten(),
+                        last_pull_at: row
+                            .get::<_, Option<String>>(2)?
+                            .map(|s| s.parse())
+                            .transpose()
+                            .ok()
+                            .flatten(),
+                        api_key: row.get(3)?,
+                        client_id: row.get(4)?,
+                        sync_enabled: row.get::<_, i32>(5)? != 0,
+                        sync_endpoint: row.get(6)?,
+                        auto_sync_interval: row.get(7)?,
+                        user_email: row.get(8)?,
+                        pending_registration_email: row.get(9)?,
+                        pending_device_name: row.get(10)?,
+                        user_id: row.get(11)?,
+                        server_key_seen: row.get(12)?,
+                        server_key_stale: row.get::<_, i32>(13)? != 0,
+                        pull_cursor: row.get(14)?,
+                    })
+                },
+            )
+            .optional()?;
+
+        Ok(result)
+    }
+
+    /// Update global sync metadata
+    pub fn update_metadata(&self, metadata: &SyncMetadata) -> Result<()> {
+        self.conn.execute(
+            "INSERT OR REPLACE INTO sync_metadata (
+                id, last_sync_at, last_push_at, last_pull_at, api_key, client_id,
+                sync_enabled, sync_endpoint, auto_sync_interval, user_email,
+                pending_registration_email, pending_device_name, user_id,
+                server_key_seen, server_key_stale, pull_cursor
+            ) VALUES (1, ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15)",
+            params![
+                metadata.last_sync_at.map(|dt| dt.to_rfc3339()),
+                metadata.last_push_at.map(|dt| dt.to_rfc3339()),
+                metadata.last_pull_at.map(|dt| dt.to_rfc3339()),
+                &metadata.api_key,
+                &metadata.client_id,
+                metadata.sync_enabled as i32,
+                &metadata.sync_endpoint,
+                metadata.auto_sync_interval,
+                &metadata.user_email,
+                &metadata.pending_registration_email,
+                &metadata.pending_device_name,
+                &metadata.user_id,
+                &metadata.server_key_seen,
+                metadata.server_key_stale as i32,
+                &metadata.pull_cursor,
+            ],
+        )?;
+
+        Ok(())
+    }
+
+    /// Update specific sync metadata fields
+    pub fn update_last_sync(&self, timestamp: DateTime<Utc>) -> Result<()> {
+        self.conn.execute(
+            "UPDATE sync_metadata SET last_sync_at = ?1 WHERE id = 1",
+            params![timestamp.to_rfc3339()],
+        )?;
+        Ok(())
+    }
+
+    /// Record a finished sync. Only what a sync owns goes here. Settings and the server
+    /// key's state can change while a sync runs, and this mustn't put them back.
+    pub fn record_finished_sync(&self, metadata: &SyncMetadata) -> Result<()> {
+        self.conn.execute(
+            "UPDATE sync_metadata SET last_sync_at = ?1, last_push_at = ?2, last_pull_at = ?3, pull_cursor = ?4
+             WHERE id = 1",
+            params![
+                metadata.last_sync_at.map(|dt| dt.to_rfc3339()),
+                metadata.last_push_at.map(|dt| dt.to_rfc3339()),
+                metadata.last_pull_at.map(|dt| dt.to_rfc3339()),
+                &metadata.pull_cursor,
+            ],
+        )?;
+        Ok(())
+    }
+
+    /// Save how far the pull has got. A page and this go in one transaction, so a crash
+    /// can only repeat a page, never lose one.
+    pub fn set_pull_cursor(&self, cursor: Option<&str>) -> Result<()> {
+        self.conn.execute(
+            "UPDATE sync_metadata SET pull_cursor = ?1 WHERE id = 1",
+            params![cursor],
+        )?;
+        Ok(())
+    }
+
+    /// Set API key and client ID
+    pub fn set_credentials(&self, api_key: &str, client_id: &str) -> Result<()> {
+        self.conn.execute(
+            "UPDATE sync_metadata SET api_key = ?1, client_id = ?2 WHERE id = 1",
+            params![api_key, client_id],
+        )?;
+        Ok(())
+    }
+
+    /// Enable/disable sync
+    pub fn set_sync_enabled(&self, enabled: bool) -> Result<()> {
+        self.conn.execute(
+            "UPDATE sync_metadata SET sync_enabled = ?1 WHERE id = 1",
+            params![enabled as i32],
+        )?;
+        Ok(())
+    }
+
+    /// Get per-note sync metadata
+    pub fn get_note_metadata(&self, note_id: &str) -> Result<Option<NoteSyncMetadata>> {
+        let result = self.conn
+            .query_row(
+                "SELECT note_id, synced_at, sync_hash, server_version, last_sync_status, error_message, conflict_data
+                 FROM note_sync_metadata WHERE note_id = ?1",
+                params![note_id],
+                |row| {
+                    let conflict_json: Option<String> = row.get(6)?;
+                    let conflict_data = conflict_json
+                        .and_then(|json| serde_json::from_str(&json).ok());
+
+                    Ok(NoteSyncMetadata {
+                        note_id: row.get(0)?,
+                        synced_at: stored_time(row, 1)?,
+                        sync_hash: row.get(2)?,
+                        server_version: row.get(3)?,
+                        last_sync_status: parse_sync_status(&row.get::<_, String>(4)?),
+                        error_message: row.get(5)?,
+                        conflict_data,
+                    })
+                },
+            )
+            .optional()?;
+
+        Ok(result)
+    }
+
+    /// Update per-note sync metadata
+    pub fn update_note_metadata(&self, metadata: &NoteSyncMetadata) -> Result<()> {
+        self.conn.execute(
+            "INSERT OR REPLACE INTO note_sync_metadata (
+                note_id, synced_at, sync_hash, server_version, last_sync_status, error_message
+            ) VALUES (?1, ?2, ?3, ?4, ?5, ?6)",
+            params![
+                &metadata.note_id,
+                metadata.synced_at.to_rfc3339(),
+                &metadata.sync_hash,
+                metadata.server_version,
+                metadata.last_sync_status.to_string(),
+                &metadata.error_message,
+            ],
+        )?;
+
+        Ok(())
+    }
+
+    /// Get all pending notes (notes that need to sync)
+    pub fn get_pending_notes(&self) -> Result<Vec<String>> {
+        let mut stmt = self.conn.prepare(
+            "SELECT note_id FROM note_sync_metadata WHERE last_sync_status = 'pending'"
+        )?;
+
+        let note_ids = stmt
+            .query_map([], |row| row.get(0))?
+            .collect::<Result<Vec<String>, _>>()?;
+
+        Ok(note_ids)
+    }
+
+    /// Get count of notes by sync status
+    pub fn count_by_status(&self, status: SyncStatus) -> Result<i64> {
+        let count: i64 = self.conn.query_row(
+            "SELECT COUNT(*) FROM note_sync_metadata WHERE last_sync_status = ?1",
+            params![status.to_string()],
+            |row| row.get(0),
+        )?;
+        Ok(count)
+    }
+
+    /// Clear all sync metadata (for re-registration)
+    pub fn clear_all(&self) -> Result<()> {
+        self.conn.execute("DELETE FROM sync_metadata WHERE id = 1", [])?;
+        self.conn.execute("DELETE FROM note_sync_metadata", [])?;
+        Ok(())
+    }
+
+    /// Get per-note sync metadata with conflict data
+    pub fn get_note_sync(&self, note_id: &str) -> Result<Option<NoteSyncMetadata>> {
+        let result = self.conn
+            .query_row(
+                "SELECT note_id, synced_at, sync_hash, server_version, last_sync_status, error_message, conflict_data
+                 FROM note_sync_metadata WHERE note_id = ?1",
+                params![note_id],
+                |row| {
+                    let conflict_json: Option<String> = row.get(6)?;
+                    let conflict_data = conflict_json
+                        .and_then(|json| serde_json::from_str(&json).ok());
+
+                    Ok(NoteSyncMetadata {
+                        note_id: row.get(0)?,
+                        synced_at: stored_time(row, 1)?,
+                        sync_hash: row.get(2)?,
+                        server_version: row.get(3)?,
+                        last_sync_status: parse_sync_status(&row.get::<_, String>(4)?),
+                        error_message: row.get(5)?,
+                        conflict_data,
+                    })
+                },
+            )
+            .optional()?;
+
+        Ok(result)
+    }
+
+    /// Store conflict data for a note
+    pub fn set_conflict(&self, note_id: &str, conflict_data: &ConflictData) -> Result<()> {
+        let conflict_json = serde_json::to_string(conflict_data)?;
+
+        // First check if record exists
+        let exists: bool = self.conn.query_row(
+            "SELECT 1 FROM note_sync_metadata WHERE note_id = ?1",
+            params![note_id],
+            |_| Ok(true),
+        ).unwrap_or(false);
+
+        if exists {
+            // Update existing record
+            self.conn.execute(
+                "UPDATE note_sync_metadata SET last_sync_status = 'conflict', conflict_data = ?1 WHERE note_id = ?2",
+                params![conflict_json, note_id],
+            )?;
+        } else {
+            // Insert new record
+            self.conn.execute(
+                "INSERT INTO note_sync_metadata (note_id, synced_at, sync_hash, server_version, last_sync_status, conflict_data)
+                 VALUES (?1, ?2, '', 0, 'conflict', ?3)",
+                params![note_id, Utc::now().to_rfc3339(), conflict_json],
+            )?;
+        }
+
+        Ok(())
+    }
+
+    /// Clear conflict status for a note
+    pub fn clear_conflict(&self, note_id: &str) -> Result<()> {
+        self.conn.execute(
+            "UPDATE note_sync_metadata SET last_sync_status = 'pending', conflict_data = NULL WHERE note_id = ?1",
+            params![note_id],
+        )?;
+        Ok(())
+    }
+
+    /// Get all notes with conflict status
+    pub fn get_conflict_note_ids(&self) -> Result<Vec<String>> {
+        let mut stmt = self.conn.prepare(
+            "SELECT note_id FROM note_sync_metadata WHERE last_sync_status = 'conflict'"
+        )?;
+
+        let note_ids = stmt
+            .query_map([], |row| row.get(0))?
+            .collect::<Result<Vec<String>, _>>()?;
+
+        Ok(note_ids)
+    }
+}
+
+/// Parse sync status string
+fn parse_sync_status(s: &str) -> SyncStatus {
+    match s.to_lowercase().as_str() {
+        "synced" => SyncStatus::Synced,
+        "pending" => SyncStatus::Pending,
+        "conflict" => SyncStatus::Conflict,
+        "error" => SyncStatus::Error,
+        _ => SyncStatus::Pending,
+    }
+}

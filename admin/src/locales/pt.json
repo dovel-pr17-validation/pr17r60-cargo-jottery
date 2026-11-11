@@ -1,0 +1,444 @@
+{
+  "app": {
+    "name": "Jottery Admin"
+  },
+  "common": {
+    "refresh": "Atualizar",
+    "refreshing": "Atualizando...",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "close": "Fechar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "loading": "Carregando...",
+    "email": "E-mail",
+    "password": "Senha",
+    "actions": "Ações",
+    "status": "Status",
+    "created": "Criado",
+    "saving": "A guardar...",
+    "deleting": "A eliminar...",
+    "passwordRules": "Pelo menos 12 caracteres. O servidor também pode exigir uma mistura de maiúsculas, minúsculas, números e símbolos."
+  },
+  "nav": {
+    "dashboard": "Painel",
+    "users": "Utilizadores",
+    "settings": "Configurações",
+    "logout": "Sair",
+    "audit": "Registo de auditoria"
+  },
+  "login": {
+    "title": "Jottery Admin",
+    "subtitle": "Faça login para gerir o seu servidor",
+    "email": "E-mail",
+    "password": "Senha",
+    "signIn": "Entrar",
+    "signingIn": "Entrando...",
+    "placeholder": {
+      "email": "admin@localhost",
+      "password": "••••••••"
+    },
+    "errors": {
+      "invalidCredentials": "E-mail ou senha inválidos",
+      "adminRequired": "Acesso de administrador necessário",
+      "unexpected": "Ocorreu um erro inesperado"
+    }
+  },
+  "logout": {
+    "confirmTitle": "Confirmar saída",
+    "confirmMessage": "Tem a certeza de que deseja sair?"
+  },
+  "errors": {
+    "unknown": "Algo correu mal. Tente novamente.",
+    "network": "Não foi possível contactar o servidor. Verifique a sua ligação e tente novamente.",
+    "forbidden": "Não tem permissão para fazer isso.",
+    "wrongPassword": "A senha atual está incorreta",
+    "rateLimited": "Demasiadas tentativas. Tente novamente dentro de {seconds} segundos.",
+    "tooManyAttempts": "Demasiadas tentativas. Aguarde e tente novamente.",
+    "passwordTooShort": "A nova senha deve ter pelo menos 12 caracteres",
+    "passwordSameAsCurrent": "A nova senha tem de ser diferente da atual",
+    "ownAdminRole": "Não pode remover os seus próprios direitos de admin.",
+    "lastAdminDemote": "O último admin não pode ser rebaixado.",
+    "ownAccountDelete": "Não pode eliminar a sua própria conta aqui.",
+    "lastAdminDelete": "O último admin não pode ser eliminado.",
+    "userNotFound": "Utilizador não encontrado.",
+    "deviceNotFound": "Dispositivo não encontrado.",
+    "quotaRange": "A quota de armazenamento deve estar entre 1 e 100000 MB.",
+    "maxUploadRange": "O tamanho máximo de upload deve estar entre 1 e 1000 MB.",
+    "inboxItemsRange": "O máximo de itens na caixa de entrada deve estar entre 1 e 10000.",
+    "inboxSizeRange": "O tamanho máximo da caixa de entrada deve estar entre 1 e 1000 MB.",
+    "passwordComplexity": "A senha precisa de pelo menos {required} de 4 tipos de caracteres. Em falta: {missing}.",
+    "passwordClass": {
+      "uppercase": "letra maiúscula",
+      "lowercase": "letra minúscula",
+      "number": "número",
+      "special": "símbolo"
+    },
+    "passwordTooLong": "A senha é demasiado longa."
+  },
+  "session": {
+    "expired": "A sua sessão expirou. Inicie sessão novamente."
+  },
+  "forcedPasswordChange": {
+    "title": "Altere a sua senha",
+    "description": "Tem de escolher uma nova senha para continuar. Deve ter pelo menos 12 caracteres."
+  },
+  "dashboard": {
+    "title": "Painel",
+    "loadingStats": "Carregando estatísticas...",
+    "failedToLoad": "Falha ao carregar estatísticas",
+    "stats": {
+      "totalUsers": "Utilizadores totais",
+      "approved": "aprovado",
+      "pending": "pendente",
+      "activeDevices": "Dispositivos ativos",
+      "totalDevices": "{count} dispositivos no total",
+      "totalNotes": "Notas totais",
+      "acrossAllUsers": "Em todos os utilizadores",
+      "storage": "Armazenamento",
+      "mbQuota": "{quota} MB de quota"
+    },
+    "serverInfo": {
+      "title": "Informações do servidor",
+      "version": "Versão do servidor:",
+      "activeUsers": "Utilizadores ativos:",
+      "pendingApprovals": "Aprovações pendentes:"
+    }
+  },
+  "devices": {
+    "title": "Dispositivos",
+    "name": "Nome do dispositivo",
+    "type": "Tipo",
+    "createdAt": "Registado",
+    "lastSeen": "Visto pela última vez",
+    "status": "Estado",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "revoke": "Revogar",
+    "delete": "Eliminar",
+    "rename": "Renomear",
+    "revokeConfirmTitle": "Revogar dispositivo",
+    "revokeConfirm": "Tem a certeza de que pretende revogar o dispositivo \"{name}\"? Este dispositivo deixará de poder sincronizar.",
+    "revokeWarning": "Este dispositivo deixará de poder sincronizar.",
+    "deleteConfirmTitle": "Eliminar dispositivo",
+    "deleteConfirm": "Tem a certeza de que pretende eliminar permanentemente o dispositivo \"{name}\"? Esta ação não pode ser desfeita.",
+    "noDevices": "Nenhum dispositivo registado",
+    "total": "total",
+    "nameRequired": "O nome do dispositivo é obrigatório",
+    "toast": {
+      "revoked": "O dispositivo \"{name}\" foi revogado",
+      "revokeFailed": "Falha ao revogar o dispositivo: {error}",
+      "revokeFailedGeneric": "Falha ao revogar o dispositivo",
+      "deleted": "O dispositivo \"{name}\" foi eliminado",
+      "deleteFailed": "Falha ao eliminar o dispositivo: {error}",
+      "deleteFailedGeneric": "Falha ao eliminar o dispositivo",
+      "renamed": "Dispositivo renomeado com sucesso",
+      "renameFailed": "Falha ao renomear o dispositivo: {error}",
+      "renameFailedGeneric": "Falha ao renomear o dispositivo"
+    }
+  },
+  "users": {
+    "title": "Utilizadores",
+    "loadingUsers": "Carregando utilizadores...",
+    "noUsersFound": "Nenhum utilizador encontrado",
+    "failedToLoad": "Falha ao carregar utilizadores",
+    "detail": {
+      "title": "Detalhes do utilizador",
+      "userInfo": "Informações do utilizador",
+      "approvedAt": "Aprovado",
+      "lastLogin": "Último acesso",
+      "lastSync": "Última sincronização",
+      "statistics": "Estatísticas",
+      "attachments": "Anexos",
+      "storage": "Armazenamento usado",
+      "quota": "Quota de armazenamento",
+      "viewDevices": "Clique para ver os dispositivos",
+      "settings": "Configurações do usuário",
+      "maxUploadSize": "Tamanho máx. de upload",
+      "maxUploadSizeHelp": "Tamanho máximo por solicitação de sincronização (inclui anexos)",
+      "settingsSaved": "Configurações do usuário salvas com sucesso",
+      "settingsSaveFailed": "Falha ao salvar configurações: {error}",
+      "settingsSaveFailedGeneric": "Falha ao salvar configurações",
+      "viewDetails": "Clique para ver detalhes",
+      "passwordReset": "Redefinir senha",
+      "resetPassword": "Redefinir senha",
+      "newPassword": "Nova senha",
+      "newPasswordPlaceholder": "Digite a nova senha",
+      "confirmPassword": "Confirmar senha",
+      "confirmPasswordPlaceholder": "Confirme a nova senha",
+      "passwordTooShort": "A senha deve ter pelo menos 12 caracteres",
+      "passwordMismatch": "As senhas não coincidem",
+      "passwordResetSuccess": "Senha de {email} redefinida com sucesso",
+      "passwordResetFailed": "Falha ao redefinir senha: {error}",
+      "passwordResetFailedGeneric": "Falha ao redefinir senha",
+      "passwordResetHelp": "Redefina a senha do usuário se ele a esqueceu.",
+      "passwordResetWarning": "Isso só altera a senha de login. Não afeta a criptografia das notas. Se o usuário esqueceu sua senha de criptografia, suas notas não podem ser recuperadas.",
+      "inboxMaxItems": "Máx. itens na caixa de entrada",
+      "inboxMaxSize": "Tamanho máx. da caixa de entrada",
+      "items": "itens",
+      "passwordResetDevices": "Os dispositivos deste utilizador continuam a sincronizar após a reposição, porque as suas chaves não dependem da senha.",
+      "revokeDevicesOption": "Revogar também todas as chaves de dispositivo deste utilizador, se a conta puder estar comprometida"
+    },
+    "filters": {
+      "all": "Todos",
+      "pending": "Pendentes",
+      "approved": "Aprovados",
+      "inactive": "Inativos"
+    },
+    "table": {
+      "email": "E-mail",
+      "status": "Status",
+      "devices": "Dispositivos",
+      "notes": "Notas",
+      "created": "Criado",
+      "actions": "Ações"
+    },
+    "status": {
+      "pending": "Pendente",
+      "active": "Ativo",
+      "inactive": "Inativo",
+      "admin": "Admin"
+    },
+    "actions": {
+      "approve": "Aprovar",
+      "makeAdmin": "Tornar admin",
+      "removeAdmin": "Remover admin",
+      "deactivate": "Desativar",
+      "activate": "Ativar",
+      "delete": "Eliminar",
+      "demoteFromAdmin": "Rebaixar de admin",
+      "promoteToAdmin": "Promover a admin",
+      "deleteUser": "Eliminar utilizador"
+    },
+    "confirm": {
+      "approve": "Aprovar",
+      "deactivate": "Desativar",
+      "activate": "Ativar",
+      "delete": "Eliminar",
+      "promoteToAdmin": "Promover a admin",
+      "demoteFromAdmin": "Rebaixar de admin",
+      "messages": {
+        "approve": "Aprovar {email}? Poderá entrar e registar dispositivos.",
+        "deactivate": "Desativar {email}? Não poderá entrar nem sincronizar até ser novamente ativado.",
+        "activate": "Ativar {email}? Poderá voltar a entrar e sincronizar.",
+        "delete": "Isto elimina permanentemente {email} e tudo o que o servidor guarda deste utilizador: notas, anexos, dispositivos e a chave da conta. Não pode ser revertido.",
+        "promoteToAdmin": "Tem a certeza de que deseja promover {email} a administrador? Terão acesso completo a todas as funções de administração.",
+        "demoteFromAdmin": "Tem a certeza de que deseja remover os privilégios de administrador de {email}?"
+      },
+      "deleteCounts": "Notas: {notes} · Dispositivos: {devices}",
+      "typeEmail": "Escreva o endereço de e-mail do utilizador para confirmar:"
+    },
+    "toast": {
+      "approved": "Utilizador {email} aprovado com sucesso",
+      "deactivated": "Utilizador {email} desativado",
+      "activated": "Utilizador {email} ativado",
+      "deleted": "Utilizador {email} eliminado",
+      "promotedToAdmin": "Utilizador {email} promovido a admin",
+      "demotedFromAdmin": "Utilizador {email} rebaixado de admin",
+      "failed": {
+        "approve": "Não foi possível aprovar o utilizador: {error}",
+        "deactivate": "Não foi possível desativar o utilizador: {error}",
+        "activate": "Não foi possível ativar o utilizador: {error}",
+        "delete": "Não foi possível eliminar o utilizador: {error}",
+        "promote": "Não foi possível promover o utilizador a admin: {error}",
+        "demote": "Não foi possível remover os direitos de admin do utilizador: {error}"
+      }
+    }
+  },
+  "settings": {
+    "title": "Configurações",
+    "language": {
+      "title": "Idioma",
+      "description": "Selecione o seu idioma preferido para a interface de administração.",
+      "label": "Idioma de exibição"
+    },
+    "changePassword": {
+      "title": "Alterar senha",
+      "description": "Atualize a sua senha de administrador. A senha deve ter pelo menos 12 caracteres.",
+      "currentPassword": "Senha atual",
+      "newPassword": "Nova senha",
+      "confirmPassword": "Confirmar nova senha",
+      "placeholder": {
+        "current": "Introduza a senha atual",
+        "new": "Introduza a nova senha (mín. 12 caracteres)",
+        "confirm": "Confirme a nova senha"
+      },
+      "button": "Alterar senha",
+      "buttonChanging": "Alterando...",
+      "cancel": "Cancelar",
+      "errors": {
+        "currentRequired": "A senha atual é obrigatória",
+        "newRequired": "A nova senha é obrigatória",
+        "minLength": "A nova senha deve ter pelo menos 12 caracteres",
+        "mismatch": "As senhas não correspondem",
+        "failed": "Falha ao alterar a senha"
+      },
+      "success": "Senha alterada com sucesso"
+    }
+  },
+  "userPortal": {
+    "title": "A minha conta",
+    "tabs": {
+      "account": "Conta",
+      "settings": "Configurações"
+    },
+    "login": {
+      "title": "Jottery",
+      "subtitle": "Faça login para gerir a sua conta",
+      "email": "E-mail",
+      "password": "Senha",
+      "signIn": "Entrar",
+      "signingIn": "A entrar...",
+      "placeholder": {
+        "email": "voce@exemplo.com",
+        "password": "••••••••"
+      },
+      "errors": {
+        "invalidCredentials": "E-mail ou senha inválidos",
+        "accountInactive": "A sua conta está inativa. Entre em contacto com o administrador.",
+        "accountPending": "A sua conta aguarda a aprovação de um administrador.",
+        "unexpected": "Ocorreu um erro inesperado",
+        "statusCheckFailed": "Failed to check status. Please try again."
+      },
+      "checkStatus": "Check approval status",
+      "statusCheck": {
+        "title": "Check Approval Status",
+        "checkButton": "Check Status",
+        "notFound": "No account found with this email address.",
+        "approved": "Your account is approved and active. You can sign in above.",
+        "pending": "Your account is pending approval. Please wait for an administrator to approve your registration.",
+        "inactive": "Your account has been deactivated. Please contact an administrator."
+      }
+    },
+    "account": {
+      "title": "Informações da conta",
+      "loadError": "Falha ao carregar informações da conta",
+      "email": "E-mail",
+      "memberSince": "Membro desde",
+      "noteCount": "Notas",
+      "attachmentCount": "Anexos",
+      "storageUsed": "Armazenamento usado",
+      "lastSync": "Última sincronização",
+      "never": "Nunca",
+      "inbox": {
+        "title": "API da Caixa de entrada",
+        "description": "Envie notas para a sua conta via API — sem necessidade de palavra-passe de encriptação. Os itens aparecem na sua caixa de entrada para revisão.",
+        "itemsLabel": "Itens",
+        "sizeLabel": "Tamanho",
+        "noToken": "Nenhum token de caixa de entrada configurado. Gere um para começar a enviar notas via API.",
+        "generate": "Gerar token",
+        "generated": "Token gerado — guarde-o agora, não será mostrado novamente.",
+        "active": "Token de caixa de entrada activo",
+        "copyToken": "Copiar",
+        "quickStart": "Início rápido",
+        "revoke": "Revogar token",
+        "revokeConfirmTitle": "Revogar token da caixa de entrada",
+        "revokeConfirmMessage": "Revogar o token da caixa de entrada? As integrações que o utilizam deixarão de funcionar.",
+        "cancel": "Cancelar",
+        "generateSuccess": "Token de caixa de entrada gerado",
+        "generateFailed": "Não foi possível gerar o token: {error}",
+        "revokeSuccess": "Token de caixa de entrada revogado",
+        "revokeFailed": "Não foi possível revogar o token, pelo que continua a funcionar: {error}",
+        "copySuccess": "Token copiado",
+        "copyUnavailable": "Não é possível copiar aqui. Selecione o token e copie-o manualmente."
+      },
+      "storageUsedNote": "Inclui notas, histórico de notas e anexos."
+    },
+    "devices": {
+      "title": "Os seus dispositivos",
+      "loadError": "Falha ao carregar os dispositivos",
+      "noDevices": "Nenhum dispositivo registado",
+      "never": "Nunca",
+      "revokeTitle": "Revogar dispositivo",
+      "revokeConfirm": "Tem a certeza de que pretende revogar \"{name}\"? Este dispositivo deixará de poder sincronizar.",
+      "revokeNote": "Revogar um dispositivo impede a sincronização. Pode voltar a registar o dispositivo mais tarde, se necessário.",
+      "revoked": "O dispositivo \"{name}\" foi revogado",
+      "revokeFailed": "Falha ao revogar o dispositivo: {error}",
+      "revokeFailedGeneric": "Falha ao revogar o dispositivo",
+      "deleteTitle": "Eliminar dispositivo",
+      "deleteConfirm": "Tem a certeza de que pretende eliminar permanentemente \"{name}\"? Esta ação não pode ser desfeita.",
+      "deleted": "O dispositivo \"{name}\" foi eliminado",
+      "deleteFailed": "Falha ao eliminar o dispositivo: {error}",
+      "deleteFailedGeneric": "Falha ao eliminar o dispositivo"
+    },
+    "settings": {
+      "title": "Configurações",
+      "language": {
+        "title": "Idioma",
+        "description": "Selecione o seu idioma preferido para a interface.",
+        "label": "Idioma de exibição"
+      },
+      "changePassword": "Alterar senha",
+      "currentPassword": "Senha atual",
+      "newPassword": "Nova senha",
+      "confirmPassword": "Confirmar senha",
+      "updatePassword": "Atualizar senha",
+      "passwordChanged": "Senha alterada com sucesso",
+      "dangerZone": "Zona de perigo",
+      "deactivateAccount": "Desativar conta",
+      "deactivateDescription": "Desative a sua conta. Pode registar-se novamente com aprovação do administrador.",
+      "deactivate": "Desativar",
+      "deactivateConfirmTitle": "Desativar conta",
+      "deactivateConfirmMessage": "Tem a certeza de que deseja desativar a sua conta? Os seus dados serão preservados, mas precisará de aprovação do administrador para aceder novamente.",
+      "accountDeactivated": "A sua conta foi desativada",
+      "deleteAccount": "Eliminar conta",
+      "deleteDescription": "Elimine permanentemente a sua conta e todos os dados. Esta ação não pode ser desfeita.",
+      "delete": "Eliminar",
+      "deleteConfirmTitle": "Eliminar conta permanentemente",
+      "deleteConfirmMessage": "Isto eliminará permanentemente a sua conta e todos os seus dados. Esta ação não pode ser desfeita.",
+      "deleteConfirmLabel": "Escreva DELETE para confirmar:",
+      "deleteForever": "Eliminar para sempre",
+      "accountDeleted": "A sua conta foi eliminada",
+      "errors": {
+        "passwordMismatch": "As senhas não correspondem",
+        "passwordTooShort": "A senha deve ter pelo menos 12 caracteres",
+        "wrongPassword": "A senha atual está incorreta",
+        "unexpected": "Ocorreu um erro inesperado",
+        "deactivateFailed": "Falha ao desativar a conta",
+        "deleteFailed": "Falha ao eliminar a conta",
+        "deleteNotesFailed": "Failed to delete notes"
+      },
+      "deleteNotes": "Delete Notes",
+      "deleteNotesDescription": "Delete all your notes from the server. Your account remains active and you can sync again.",
+      "deleteNotesButton": "Delete Notes",
+      "deleteNotesConfirmTitle": "Delete All Notes",
+      "deleteNotesConfirmMessage": "Are you sure you want to delete all your notes from the server? This is useful if you forgot your encryption password and need to start fresh. Your account will remain active.",
+      "notesDeleted": "All notes have been deleted from the server",
+      "passwordToConfirm": "Introduza a sua senha para confirmar:"
+    }
+  },
+  "audit": {
+    "title": "Registo de auditoria",
+    "description": "Um registo permanente do que os admins fizeram neste servidor.",
+    "loading": "A carregar o registo de auditoria...",
+    "failedToLoad": "Não foi possível carregar o registo de auditoria",
+    "empty": "Ainda não foi registado nada.",
+    "allActions": "Todas as ações",
+    "filterLabel": "Mostrar",
+    "commandLine": "Linha de comandos",
+    "range": "{from}–{to} de {total}",
+    "previous": "Anterior",
+    "next": "Seguinte",
+    "table": {
+      "time": "Quando",
+      "action": "Ação",
+      "admin": "Admin",
+      "target": "Afetado",
+      "address": "Endereço"
+    },
+    "actions": {
+      "userApprove": "Utilizador aprovado",
+      "userDeactivate": "Utilizador desativado",
+      "userActivate": "Utilizador ativado",
+      "userDelete": "Utilizador eliminado",
+      "userPasswordReset": "Senha reposta",
+      "userAdminGrant": "Promovido a admin",
+      "userAdminRevoke": "Admin removido",
+      "userSettingsUpdate": "Definições do utilizador alteradas",
+      "deviceRevoke": "Dispositivo revogado",
+      "deviceDelete": "Dispositivo eliminado",
+      "deviceRename": "Dispositivo renomeado",
+      "adminPasswordChange": "Senha própria alterada"
+    }
+  }
+}

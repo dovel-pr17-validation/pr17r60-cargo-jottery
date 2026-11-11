@@ -1,0 +1,1489 @@
+<script lang="ts">
+  import { onMount, onDestroy, afterUpdate } from 'svelte';
+  import { _ } from 'svelte-i18n';
+  import { selectedNote, clearSelection, notes, remoteNoteUpdate, settings, isDraftMode, exitDraftMode, searchQuery, selectNote, isContentOnlyUpdate, refreshEditorTagsSignal, isLocked } from '../stores/appStore';
+  import { updateNoteInStore, updateNoteInStoreAndSearch, reloadNotesAfterConflict, removeNoteFromStoreAndSearch, addNoteToStoreAndSearch } from '../stores/storeHelpers';
+  import { noteService, tagService, attachmentService, syncService, versionRepository, noteRepository, syncRepository } from '../services';
+  import { lock } from '../services/initService';
+  import { isApplicationLockedError } from '../errors';
+  import { EDITOR_AUTOSAVE_DELAY_MS } from '../constants';
+  import { formatDateTime } from '../utils/dateFormat';
+  import { formatShortcutForTooltip } from '../utils/keyboardShortcuts';
+  import type { RemoteNoteUpdate } from '../stores/appStore';
+  import { conflictService } from '../services/conflictService';
+  import type { Attachment, KeyboardShortcut, CodeEditorRef, HighlightJsInstance, DecryptedNote } from '../types';
+  import VersionHistoryModal from './VersionHistoryModal.svelte';
+  import { registerPendingSave } from '../utils/pendingSave';
+  import AttachmentPreviewModal from './AttachmentPreviewModal.svelte';
+  import ConflictResolutionModal from './ConflictResolutionModal.svelte';
+  import ConfirmModal from './ConfirmModal.svelte';
+  import { getPreviewHtml } from '../utils/markdownPreview';
+  import { ALL_LANGUAGES } from '../utils/syntaxLanguages';
+  import { toast } from '../utils/toast.svelte';
+  import { resolveAttachmentPreviews } from '../utils/attachmentPreviewResolver';
+  import { copyToClipboard, exportAsFile, printNote } from '../utils/noteExport';
+  import { dropzone } from '../actions';
+  import { EditorFooter, EditorToolbar, EditorContent, AttachmentsPanel, NoteInfoModal, MobileAttachmentsModal } from './editor';
+  import ColorPickerModal from './ColorPickerModal.svelte';
+  import { getColorHex, hexWithOpacity } from '../services/colorService';
+
+  export let onBackToList: (() => void) | undefined = undefined;
+  export let forceMobileLayout: boolean = false;
+
+  // Expose close method for external callers (e.g., Header back button)
+  export function close() {
+    handleClose();
+  }
+
+  let content = '';
+  let tags: string[] = [];
+  let attachments: Attachment[] = [];
+  let isEditing = false;
+
+  /**
+   * Handle closing the editor and returning to the note list.
+   * IMPORTANT: Navigation happens IMMEDIATELY for instant feedback.
+   * Save operations run in the background and complete even after component unmounts.
+   */
+  function handleClose() {
+    // Exit draft mode if active
+    if ($isDraftMode) {
+      exitDraftMode();
+    }
+
+    // Determine if we need to save, and capture state BEFORE any navigation
+    const shouldSave = previousNoteId && hasContentChanged && !$isDraftMode;
+    const saveData = shouldSave && previousNoteId ? captureNoteState(previousNoteId) : null;
+
+    // Set content-only update flag so NoteList doesn't trigger full search
+    // Only do this on mobile where we're navigating back to the list
+    if (saveData && onBackToList) {
+      isContentOnlyUpdate.set(true);
+    }
+
+    // Clear selection state
+    clearSelection();
+
+    // NAVIGATE IMMEDIATELY - this gives instant visual feedback
+    if (onBackToList) {
+      onBackToList();
+    }
+
+    // Fire off save operations in background (don't await)
+    // saveData was captured BEFORE navigation, so it contains correct values
+    if (saveData) {
+      saveNoteInBackground(saveData);
+    }
+  }
+
+  // Handle clicking on a tag to search for it
+  function handleTagClick(tag: string) {
+    searchQuery.set(`#${tag}`);
+  }
+
+  // Handle clicking on a note link to navigate to that note
+  function handleNoteLinkClick(noteId: string) {
+    // Save current note before navigating (trigger immediate save)
+    if (previousNoteId && hasContentChanged) {
+      if (saveTimeout) {
+        clearTimeout(saveTimeout);
+        saveTimeout = null;
+      }
+      handleSave();
+    }
+
+    // Navigate to the linked note
+    selectNote(noteId);
+  }
+
+  let saveTimeout: number | null = null;
+  let saveInFlight = false;
+  let language: string = 'plain';
+  let wordWrap: boolean = true;
+  let showPreview: boolean = false;
+  let availableTags: string[] = [];
+  let isUploading: boolean = false;
+  let previousNoteId: string | null = null;
+  let isDraggingFile: boolean = false;
+  let isAttachmentsExpanded: boolean = false;
+  let codeEditor: CodeEditorRef | null = null; // Reference to CodeEditor component
+  let showInfoModal: boolean = false;
+  let showVersionHistory: boolean = false;
+  let showAttachmentsModal: boolean = false; // Mobile: show attachments in modal
+  let showColorPicker: boolean = false;
+  let showDeleteConfirm: boolean = false;
+  let attachmentToDelete: Attachment | null = null;
+  let hasContentChanged: boolean = false; // Track if content modified since note loaded
+  let isDarkMode: boolean = false; // Track if dark mode is active (updated via MutationObserver)
+  let editorMode: 'raw' | 'wysiwyg' = 'raw'; // Editor mode for markdown notes
+  let syncEnabled: boolean = false; // Track if sync is enabled
+
+  // Conflict resolution state
+  let hasConflict: boolean = false;
+  let showConflictModal: boolean = false;
+
+  // Track blob URLs for cleanup
+  let blobUrls: Set<string> = new Set();
+
+  /**
+   * Revoke all blob URLs to prevent memory leaks.
+   * Called when switching notes or when component is destroyed.
+   */
+  function revokeBlobUrls(): void {
+    for (const url of blobUrls) {
+      URL.revokeObjectURL(url);
+    }
+    blobUrls.clear();
+  }
+
+  // Attachment preview state
+  let previewAttachment: Attachment | null = null;
+
+  // Lazy load highlight.js when preview is shown
+  $: if (showPreview && !highlightJsLoaded && !loadingHighlightJs) {
+    loadHighlightJs();
+  }
+
+  // Compute preview HTML (pass all notes for wiki-link resolution)
+  $: previewHtml = showPreview ? getPreviewHtml(content, language, {
+    attachments,
+    openLinksInNewTab: $settings.openLinksInNewTab ?? true,
+    hljs,
+    loadingText: $_('editor.status.loading'),
+    notes: $notes,
+  }) : '';
+
+  // Check if preview is available for current language
+  $: canPreview = language === 'markdown' || language === 'html' || language === 'xml';
+
+  // Read-only mode: note is archived or locked
+  $: isReadOnly = !!$selectedNote?.archived || !!$selectedNote?.locked;
+
+  // Banner message for read-only mode
+  $: readOnlyBanner = $selectedNote?.archived
+    ? $_('editor.readOnly.archivedBanner')
+    : $selectedNote?.locked
+      ? $_('editor.readOnly.lockedBanner')
+      : undefined;
+
+  // HTML/XML previews render in a sandboxed iframe, never in the app's document
+  $: useIframePreview = language === 'html' || language === 'xml';
+
+  // Compute note statistics
+  $: noteStats = {
+    characters: content.length,
+    charactersNoSpaces: content.replace(/\s/g, '').length,
+    words: content.trim().split(/\s+/).filter(s => s.length > 0).length,
+    lines: content.split('\n').length,
+    tags: tags.length,
+    attachments: attachments.length,
+  };
+
+  // Format keyboard shortcuts for display
+  $: shortcuts = $settings.keyboardShortcuts;
+  $: copyNoteShortcut = formatShortcutForTooltip(shortcuts?.copyNote);
+  $: noteInfoShortcut = formatShortcutForTooltip(shortcuts?.noteInfo);
+  $: versionHistoryShortcut = formatShortcutForTooltip(shortcuts?.versionHistory);
+
+  // Reactive date formatting stores
+  $: createdAtFormatted = $selectedNote ? formatDateTime($selectedNote.createdAt) : null;
+  $: modifiedAtFormatted = $selectedNote ? formatDateTime($selectedNote.modifiedAt) : null;
+
+  // Lazy-loaded highlight.js for syntax highlighting
+  let hljs: HighlightJsInstance | null = null;
+  let loadingHighlightJs = false;
+  let highlightJsLoaded = false;
+
+  async function loadHighlightJs() {
+    if (highlightJsLoaded || loadingHighlightJs) return;
+
+    loadingHighlightJs = true;
+    try {
+      const syntaxHighlighter = await import('../utils/syntaxHighlighter');
+      hljs = syntaxHighlighter.getHljsInstance();
+
+      // Preload enabled syntax languages (filter out 'calc' which is a custom Jottery mode, not an hljs language)
+      if ($settings.enabledSyntaxLanguages) {
+        const hljsLanguages = $settings.enabledSyntaxLanguages.filter(lang => lang !== 'calc');
+        await syntaxHighlighter.preloadLanguages(hljsLanguages);
+      }
+
+      highlightJsLoaded = true;
+    } catch (error) {
+      console.error('Failed to load syntax highlighter:', error);
+    } finally {
+      loadingHighlightJs = false;
+    }
+  }
+
+  // Generate available language options (plain + enabled languages)
+  $: availableLanguages = [
+    { id: 'plain', name: $_('editor.plainText') },
+    ...($settings.enabledSyntaxLanguages || [])
+      .map(langId => {
+        const lang = ALL_LANGUAGES.find(l => l.id === langId);
+        return lang ? { id: lang.id, name: lang.name } : null;
+      })
+      .filter((lang): lang is { id: string; name: string } => lang !== null)
+      .sort((a, b) => a.name.localeCompare(b.name))
+  ];
+
+  // Update available tags when notes change
+  $: availableTags = tagService.getAllTags($notes);
+
+  // Track current theme based on DOM class
+  let currentTheme: 'light' | 'dark' = 'light';
+
+  // Compute note background color based on theme
+  $: noteBackgroundColor = $selectedNote?.color ? getColorHex($selectedNote.color, currentTheme) : undefined;
+
+  // Check for sync conflicts when note changes
+  async function checkForConflict(noteId: string) {
+    if (!$settings.syncEnabled) {
+      hasConflict = false;
+      return;
+    }
+    try {
+      const syncMeta = await syncRepository.getNoteSyncMetadata(noteId);
+      hasConflict = syncMeta?.lastSyncStatus === 'conflict' && !!syncMeta.conflictData;
+    } catch {
+      hasConflict = false;
+    }
+  }
+
+  // Reactive conflict check when selected note changes
+  $: if ($selectedNote?.id) {
+    checkForConflict($selectedNote.id);
+  } else {
+    hasConflict = false;
+  }
+
+  // Handler to open conflict resolution modal
+  async function handleResolveConflict() {
+    if ($selectedNote?.id) {
+      // The modal shows what's stored, so that has to include what was just typed
+      if (saveTimeout) {
+        clearTimeout(saveTimeout);
+        await handleSave();
+      }
+      showConflictModal = true;
+    }
+  }
+
+  // Handler when conflict is resolved
+  async function handleConflictResolved() {
+    hasConflict = false;
+    showConflictModal = false;
+    if ($selectedNote) {
+      await reloadNotesAfterConflict($selectedNote.id, $settings.sortOrder);
+    }
+  }
+
+  // Text waiting to be saved. hasContentChanged can't answer this: it stays set after
+  // an autosave, so that switching notes still creates a version.
+  function hasUnsavedEdit(): boolean {
+    return saveTimeout !== null || saveInFlight;
+  }
+
+  function loadNoteIntoEditor(note: DecryptedNote) {
+    content = note.content;
+    tags = [...note.tags];
+    attachments = [...note.attachments];
+    language = note.syntaxLanguage || 'plain';
+    wordWrap = note.wordWrap ?? true;
+  }
+
+  /**
+   * A pull landed on the open note while text was unsaved. Neither copy can be dropped,
+   * so the typed text stays and saves as normal, and the pulled copy is kept as the
+   * conflict's other side. New attachments are taken regardless: the save would
+   * otherwise see them as removed.
+   */
+  async function keepEditsAndRaiseConflict(note: DecryptedNote) {
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+      saveTimeout = null;
+    }
+
+    const known = new Set(attachments.map(attachment => attachment.id));
+    attachments = [...attachments, ...note.attachments.filter(attachment => !known.has(attachment.id))];
+
+    await conflictService.raiseConflictWithStoredNote(note.id);
+    await checkForConflict(note.id);
+    handleInput();
+  }
+
+  function applyRemoteNoteUpdate(update: RemoteNoteUpdate) {
+    const note = $selectedNote;
+    if (!note || $isDraftMode || !update.ids.includes(note.id)) return;
+
+    if (update.resolved && saveTimeout) {
+      clearTimeout(saveTimeout);
+      saveTimeout = null;
+    }
+
+    if (hasUnsavedEdit()) {
+      void keepEditsAndRaiseConflict(note);
+    } else {
+      loadNoteIntoEditor(note);
+    }
+  }
+
+  $: if ($remoteNoteUpdate) {
+    applyRemoteNoteUpdate($remoteNoteUpdate);
+  }
+
+  // Watch for note selection changes
+  $: if ($selectedNote) {
+    // If in draft mode, ignore note selection changes
+    if ($isDraftMode) {
+      // Do nothing - draft mode takes priority
+    } else {
+      const noteChanged = previousNoteId !== $selectedNote.id;
+
+      // Only reset local state when switching to a different note
+      // Don't reset when the same note is reloaded (e.g., after save)
+      if (noteChanged) {
+        // Revoke blob URLs from previous note's preview to prevent memory leaks
+        revokeBlobUrls();
+
+      // Exit draft mode if we were in it
+      if ($isDraftMode) {
+        exitDraftMode();
+      }
+
+      // Save and create version for the previous note before switching
+      if (previousNoteId && !$isDraftMode) {
+        // Save immediately (don't wait for debounce)
+        if (saveTimeout) {
+          clearTimeout(saveTimeout);
+          saveTimeout = null;
+        }
+
+        // Only save and create version if content was actually modified
+        if (hasContentChanged) {
+          // Capture state BEFORE switching notes (prevents async closure bugs)
+          const saveData = captureNoteState(previousNoteId);
+          // Save in background (no sync trigger - will sync after switch)
+          saveNoteInBackground(saveData, { triggerSync: false });
+        }
+      } else if (saveTimeout) {
+        // Just clear the timeout if in draft mode
+        clearTimeout(saveTimeout);
+        saveTimeout = null;
+      }
+
+      content = $selectedNote.content;
+      tags = [...$selectedNote.tags];
+      attachments = [...$selectedNote.attachments];
+      language = $selectedNote.syntaxLanguage || 'plain';
+      wordWrap = $selectedNote.wordWrap ?? true;
+      showPreview = $selectedNote.showPreview ?? false;
+      isEditing = true;
+      hasContentChanged = false; // Reset change tracking for new note
+
+
+      // Focus the editor after switching notes
+      setTimeout(() => {
+        if (codeEditor && !showPreview) {
+          codeEditor.focus();
+        }
+      }, 10);
+
+      // Trigger sync when switching notes (flush immediately since navigating away)
+      if (previousNoteId) {
+        triggerBackgroundSync(true);
+      }
+      } else {
+        // Same note reloaded (from sync), not resetting state
+      }
+
+      previousNoteId = $selectedNote.id;
+    }
+  } else if (!$isDraftMode) {
+    // Closing editor - flush pending save, create version, and trigger sync
+    if (previousNoteId) {
+
+      // Save immediately (don't wait for debounce)
+      if (saveTimeout) {
+        clearTimeout(saveTimeout);
+        saveTimeout = null;
+      }
+
+      // Only save and create version if content was actually modified
+      if (hasContentChanged) {
+        // Capture ALL state before it gets reset (prevents async closure bugs)
+        const saveData = captureNoteState(previousNoteId);
+        // Save in background with sync trigger (flush since navigating away)
+        saveNoteInBackground(saveData, { createVersion: true, triggerSync: true, flushSync: true });
+      } else {
+        // Still trigger sync even if we didn't save (flush since navigating away)
+        triggerBackgroundSync(true);
+      }
+    }
+    previousNoteId = null;
+
+    content = '';
+    tags = [];
+    attachments = [];
+    language = 'plain';
+    wordWrap = true;
+    showPreview = false;
+    isEditing = false;
+    hasContentChanged = false; // Reset change tracking
+  }
+
+  // Watch for external tag updates (e.g., title edited from note list)
+  // This refreshes the local tags when the signal is triggered
+  $: if ($refreshEditorTagsSignal && $selectedNote && previousNoteId === $selectedNote.id) {
+    // Only refresh if we're viewing the same note (not switching notes)
+    // and not in draft mode
+    if (!$isDraftMode) {
+      tags = [...$selectedNote.tags];
+    }
+  }
+
+
+  /**
+   * Trigger background sync without blocking UI
+   * @param flush - If true, syncs immediately (for navigation/closing). Default: debounces for 30s.
+   */
+  function triggerBackgroundSync(flush = false) {
+    syncService.triggerBackgroundSync(flush);
+  }
+
+  /**
+   * Data structure for saving a note in the background.
+   * All values must be captured BEFORE calling saveNoteInBackground() to avoid
+   * async closure bugs where component state changes between capture and execution.
+   */
+  interface NoteSaveData {
+    noteId: string;
+    content: string;
+    tags: string[];
+    attachments: Attachment[];
+    syntaxLanguage: string;
+    wordWrap: boolean;
+    showPreview: boolean;
+  }
+
+  /**
+   * Save a note in the background without blocking the UI.
+   *
+   * IMPORTANT: This function uses explicit parameters to avoid async closure bugs.
+   * All values are passed in rather than captured from component scope, ensuring
+   * the save uses the exact state at the time of the call, not when the async
+   * operation eventually executes.
+   *
+   * @param data - All note data captured at call time (not from component scope)
+   * @param options - Additional options for the save operation
+   */
+  function saveNoteInBackground(
+    data: NoteSaveData,
+    options: { createVersion?: boolean; triggerSync?: boolean; flushSync?: boolean } = {}
+  ): void {
+    const { createVersion = true, triggerSync = true, flushSync = false } = options;
+
+    // Fire-and-forget async operation
+    (async () => {
+      try {
+        // Save note to IndexedDB
+        await noteService.updateNote(data.noteId, {
+          content: data.content,
+          tags: data.tags,
+          attachments: data.attachments,
+          syntaxLanguage: data.syntaxLanguage,
+          wordWrap: data.wordWrap,
+          showPreview: data.showPreview,
+        });
+
+        // Update the global notes store
+        const updatedNote = await noteService.getNote(data.noteId);
+        if (updatedNote) {
+          updateNoteInStore(updatedNote);
+        }
+
+        // Create version snapshot if requested
+        if (createVersion) {
+          await createVersionSnapshot(data.noteId);
+          // Re-fetch note to get the updated version number and update store
+          const noteWithVersion = await noteService.getNote(data.noteId);
+          if (noteWithVersion) {
+            updateNoteInStore(noteWithVersion);
+          }
+        }
+
+        // Trigger sync if requested (flush for navigation, debounce for content changes)
+        if (triggerSync) {
+          triggerBackgroundSync(flushSync);
+        }
+      } catch (error) {
+        console.error('[EditorPane] Error during background save:', error);
+      }
+    })();
+  }
+
+  /**
+   * Capture current editor state for background save.
+   * Call this BEFORE any state changes to ensure correct values are saved.
+   *
+   * @param noteId - The ID of the note to save
+   * @returns Captured note data ready for saveNoteInBackground()
+   */
+  function captureNoteState(noteId: string): NoteSaveData {
+    return {
+      noteId,
+      content,
+      tags: [...tags],
+      attachments: [...attachments],
+      syntaxLanguage: language,
+      wordWrap,
+      showPreview,
+    };
+  }
+
+  /**
+   * Create a version snapshot for a specific note
+   * Only called when navigating away or closing editor
+   */
+  async function createVersionSnapshot(noteId?: string) {
+    // Use provided noteId or fall back to current selected note
+    const targetNoteId = noteId || $selectedNote?.id;
+    if (!targetNoteId) {
+      return;
+    }
+
+    try {
+      // Get the encrypted note from repository (not decrypted from service)
+      const currentNote = await noteRepository.getById(targetNoteId);
+      if (!currentNote) {
+        return;
+      }
+
+      // Check for duplicate BEFORE incrementing version
+      const latestVersion = await versionRepository.getLatestVersion(targetNoteId);
+      if (latestVersion && latestVersion.content === currentNote.content) {
+        return; // Skip if content unchanged
+      }
+
+      // Increment version only if we're actually creating a snapshot
+      currentNote.version = (currentNote.version || 0) + 1;
+
+      // Save the note with incremented version (update() will set modifiedAt)
+      await noteRepository.update(currentNote);
+
+      // Create version snapshot with the new version number
+      await versionRepository.createVersion(currentNote, {
+        syncedAt: new Date().toISOString(),
+        reason: 'manual-sync',
+      });
+    } catch (error) {
+      console.error('[EditorPane] Failed to create version for note:', targetNoteId, error);
+    }
+  }
+
+  async function handleSave() {
+    saveTimeout = null;
+    if (!$selectedNote) return;
+
+    // What's being saved, as the editor can hold another note once the save finishes
+    const saving = { content, tags };
+
+    saveInFlight = true;
+    try {
+      // Save note and get the updated encrypted note with correct version
+      const savedNote = await noteService.updateNote($selectedNote.id, {
+        ...saving,
+        attachments: attachments,
+        syntaxLanguage: language,
+        wordWrap,
+        showPreview,
+      });
+
+      // Construct decrypted note using local values and saved note metadata
+      // This ensures we have the correct version without re-reading from DB
+      const updatedNote: DecryptedNote = {
+        ...savedNote,
+        ...saving,
+        decryptedAt: Date.now(),
+      };
+
+      // Update note in store and search index (incremental update)
+      updateNoteInStoreAndSearch(updatedNote);
+
+      // Trigger background sync after saving
+      triggerBackgroundSync();
+
+      // NOTE: Do NOT reset hasContentChanged here!
+      // It should only be reset when:
+      // 1. A new note is loaded (line 230)
+      // 2. The editor is closed (line 312)
+      // 3. After a version snapshot is created when switching notes
+      // Resetting here after auto-save would prevent version creation
+      // when the user later switches notes.
+
+      // selectedNote will automatically update from the derived store
+    } catch (error) {
+      console.error('Failed to save note:', error);
+      // If the master key was cleared between edit and save (e.g. the
+      // persist-session window elapsed), the repository throws
+      // ApplicationLockedError. Without this branch the editor stays
+      // mounted and subsequent keystrokes silently fail to persist.
+      if (isApplicationLockedError(error)) {
+        lock();
+        isLocked.set(true);
+      }
+    } finally {
+      saveInFlight = false;
+    }
+  }
+
+  async function handleInput() {
+    hasContentChanged = true;
+
+    // Auto-save after 1 second of no typing
+    if ($selectedNote) {
+      if (saveTimeout) clearTimeout(saveTimeout);
+      saveTimeout = window.setTimeout(handleSave, EDITOR_AUTOSAVE_DELAY_MS);
+    }
+  }
+
+  async function handleTogglePin() {
+    if (!$selectedNote) return;
+    try {
+      await noteService.togglePin($selectedNote.id);
+
+      // Get just the updated note (incremental update)
+      const updatedNote = await noteService.getNote($selectedNote.id);
+      if (updatedNote) {
+        updateNoteInStoreAndSearch(updatedNote);
+      }
+
+      // Trigger background sync so pin state syncs to other devices
+      triggerBackgroundSync();
+
+      // selectedNote will automatically update from the derived store
+    } catch (error) {
+      console.error('Failed to toggle pin:', error);
+    }
+  }
+
+  async function handleArchive() {
+    if (!$selectedNote) return;
+    try {
+      const noteId = $selectedNote.id;
+      const isArchived = $selectedNote.archived;
+
+      if (isArchived) {
+        // Unarchive
+        await noteService.unarchiveNote(noteId);
+        toast.success($_('archive.unarchived'));
+      } else {
+        // Archive
+        await noteService.archiveNote(noteId);
+        handleClose(); // Close editor and return to list
+      }
+
+      // Get updated note
+      const updatedNote = await noteService.getNote(noteId);
+      if (updatedNote) {
+        updateNoteInStoreAndSearch(updatedNote);
+
+        if (isArchived) {
+          // Unarchived: select the note
+          selectNote(updatedNote.id);
+        }
+      }
+
+      // Trigger background sync
+      triggerBackgroundSync();
+    } catch (error) {
+      console.error('Failed to toggle archive:', error);
+      toast.error($_($selectedNote.archived ? 'editor.actionFailed.unarchive' : 'editor.actionFailed.archive', { values: { error: error instanceof Error ? error.message : String(error) } }));
+    }
+  }
+
+  async function handleLock() {
+    if (!$selectedNote) return;
+    try {
+      const noteId = $selectedNote.id;
+      const isLocked = $selectedNote.locked;
+
+      if (isLocked) {
+        // Unlock
+        await noteService.unlockNote(noteId);
+        toast.success($_('editor.lock.unlocked'));
+      } else {
+        // Lock
+        await noteService.lockNote(noteId);
+        toast.success($_('editor.lock.locked'));
+      }
+
+      // Get updated note
+      const updatedNote = await noteService.getNote(noteId);
+      if (updatedNote) {
+        updateNoteInStoreAndSearch(updatedNote);
+      }
+
+      // Trigger background sync
+      triggerBackgroundSync();
+    } catch (error) {
+      console.error('Failed to toggle lock:', error);
+      toast.error($_($selectedNote.locked ? 'editor.actionFailed.unlock' : 'editor.actionFailed.lock', { values: { error: error instanceof Error ? error.message : String(error) } }));
+    }
+  }
+
+  function requestDelete() {
+    if (!$selectedNote) return;
+    showDeleteConfirm = true;
+  }
+
+  async function handleDelete() {
+    showDeleteConfirm = false;
+
+    if (!$selectedNote) {
+      return;
+    }
+
+    try {
+      const noteId = $selectedNote.id;
+      await noteService.deleteNote(noteId);
+      handleClose(); // Clear selection and return to list on mobile
+
+      // Remove note from store and search index
+      removeNoteFromStoreAndSearch(noteId);
+
+    } catch (error) {
+      console.error('[EditorPane] Failed to delete note:', error);
+      toast.error($_('editor.actionFailed.delete', { values: { error: error instanceof Error ? error.message : String(error) } }));
+    }
+  }
+
+  function handleLanguageChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const newLanguage = target.value as typeof language;
+
+    // If we're in preview mode and switching to a language that doesn't support preview,
+    // exit preview mode first
+    const newLanguageSupportsPreview = newLanguage === 'markdown' || newLanguage === 'html';
+    if (showPreview && !newLanguageSupportsPreview) {
+      showPreview = false;
+    }
+
+    language = newLanguage;
+    handleInput();
+  }
+
+  function handleWordWrapToggle() {
+    wordWrap = !wordWrap;
+    handleInput();
+  }
+
+  function handleUndo() {
+    if (codeEditor) {
+      codeEditor.undo();
+    }
+  }
+
+  function handleRedo() {
+    if (codeEditor) {
+      codeEditor.redo();
+    }
+  }
+
+  function handlePreviewToggle() {
+    showPreview = !showPreview;
+    // Save immediately for preview toggle (no debounce)
+    if (saveTimeout) clearTimeout(saveTimeout);
+    handleSave();
+  }
+
+  function handleEditorModeChange(mode: 'raw' | 'wysiwyg') {
+    editorMode = mode;
+  }
+
+  async function handleFileUpload(files: FileList) {
+    if (!files || files.length === 0) return;
+
+    isUploading = true;
+
+    try {
+      const newAttachments: Attachment[] = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        // Validate file
+        const validation = attachmentService.validateFile(file);
+        if (!validation.valid) {
+          toast.error(`${file.name}: ${validation.error}`);
+          continue;
+        }
+
+        try {
+          const attachment = await attachmentService.addAttachment(file);
+          newAttachments.push(attachment);
+        } catch (error) {
+          console.error(`Failed to upload ${file.name}:`, error);
+          toast.error($_('attachments.error.upload', { values: { name: file.name, error: error instanceof Error ? error.message : String(error) } }));
+        }
+      }
+
+      if (newAttachments.length > 0) {
+        attachments = [...attachments, ...newAttachments];
+        handleInput(); // Trigger auto-save
+      }
+    } finally {
+      isUploading = false;
+    }
+  }
+
+  // The bin icon is small and easy to hit, and a removed file may be gone for good
+  function requestDeleteAttachment(attachment: Attachment) {
+    attachmentToDelete = attachment;
+  }
+
+  function confirmDeleteAttachment() {
+    const attachment = attachmentToDelete;
+    attachmentToDelete = null;
+    if (attachment) {
+      handleDeleteAttachment(attachment);
+    }
+  }
+
+  async function handleDeleteAttachment(attachment: Attachment) {
+    try {
+      // Remove from attachments array
+      attachments = attachments.filter(a => a.id !== attachment.id);
+
+      // Delete from storage (this will happen when the note is saved)
+      // We'll add cleanup in the noteService
+      handleInput(); // Trigger auto-save
+    } catch (error) {
+      console.error('Failed to delete attachment:', error);
+      toast.error($_('attachments.error.delete', { values: { error: error instanceof Error ? error.message : String(error) } }));
+    }
+  }
+
+  // Show attachment preview
+  function handlePreviewAttachment(attachment: Attachment) {
+    previewAttachment = attachment;
+  }
+
+  // Close attachment preview
+  function closeAttachmentPreview() {
+    previewAttachment = null;
+  }
+
+  // Download attachment
+  async function handleDownloadAttachment(attachment: Attachment) {
+    try {
+      await attachmentService.downloadAttachment(attachment);
+    } catch (error) {
+      console.error('Failed to download attachment:', error);
+      toast.error(`${$_('attachments.error.download')}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  async function handleCopy() {
+    await copyToClipboard(content);
+  }
+
+  async function handleCopyLink() {
+    if (!$selectedNote) return;
+
+    // Format as markdown link with UUID
+    // Format: [](link:UUID) - the title auto-populates when rendered
+    const link = `[](link:${$selectedNote.id})`;
+
+    try {
+      await navigator.clipboard.writeText(link);
+      toast.success($_('editor.linkCopied'));
+    } catch (error) {
+      console.error('Failed to copy link:', error);
+      toast.error($_('editor.copyLinkFailed'));
+    }
+  }
+
+  function handleExport() {
+    if (!$selectedNote) return;
+
+    exportAsFile({
+      content,
+      language,
+      createdAt: $selectedNote.createdAt,
+    });
+  }
+
+  async function handlePrintPdf() {
+    if (!$selectedNote) return;
+
+    const success = await printNote({
+      content,
+      language,
+      createdAt: $selectedNote.createdAt,
+      previewHtml,
+      attachments,
+    });
+
+    if (!success) {
+      toast.error($_('editor.printFailed'));
+    }
+  }
+
+  async function handleDuplicate() {
+    if (!$selectedNote) return;
+
+    try {
+      // Create a duplicate of the current note
+      const newNote = await noteService.duplicateNote($selectedNote.id);
+
+      // Get the decrypted version
+      const decryptedNote = await noteService.getNote(newNote.id);
+      if (!decryptedNote) {
+        throw new Error('Failed to retrieve duplicated note');
+      }
+
+      // Add to notes store and search index
+      addNoteToStoreAndSearch(decryptedNote);
+
+      // Select the new note
+      selectNote(decryptedNote.id);
+
+      // Trigger background sync
+      triggerBackgroundSync();
+
+      toast.success($_('editor.noteDuplicated'));
+    } catch (error) {
+      console.error('Failed to duplicate note:', error);
+      toast.error($_('editor.duplicateFailed'));
+    }
+  }
+
+  function handleShowInfo() {
+    showInfoModal = true;
+  }
+
+  function handleShowVersionHistory() {
+    showVersionHistory = true;
+  }
+
+  function handleShowAttachments() {
+    showAttachmentsModal = true;
+  }
+
+  function handleSetColor() {
+    showColorPicker = true;
+  }
+
+  async function handleColorSelected(color: string | undefined) {
+    if (!$selectedNote || $isDraftMode) return;
+
+    try {
+      await noteService.updateNote($selectedNote.id, { color });
+
+      // Update the global notes store
+      const updatedNote = await noteService.getNote($selectedNote.id);
+      if (updatedNote) {
+        updateNoteInStoreAndSearch(updatedNote);
+
+        // Also update selectedNote in the store
+        selectNote($selectedNote.id);
+      }
+
+      // Trigger background sync
+      triggerBackgroundSync();
+
+      toast.info($_(color ? 'editor.colorSet' : 'editor.colorRemoved'));
+    } catch (error) {
+      console.error('[EditorPane] Error updating note color:', error);
+      toast.error($_('editor.errors.updateFailed'));
+    }
+  }
+
+  /**
+   * Handle pasting an image from clipboard
+   * Creates an attachment and returns a markdown image reference
+   */
+  async function handleImagePaste(file: File): Promise<string | null> {
+    // Validate file
+    const validation = attachmentService.validateFile(file);
+    if (!validation.valid) {
+      toast.error(validation.error || 'Invalid file');
+      return null;
+    }
+
+    try {
+      // Create the attachment
+      const attachment = await attachmentService.addAttachment(file);
+
+      // Add to attachments array
+      attachments = [...attachments, attachment];
+
+      // Trigger auto-save
+      handleInput();
+
+      // Generate alt text from filename or fallback
+      const altText = file.name ? file.name.replace(/\.[^/.]+$/, '') : 'pasted image';
+
+      // Return markdown image reference using attachment ID
+      // Format: ![alt text](attachment:uuid)
+      return `![${altText}](attachment:${attachment.id})`;
+    } catch (error) {
+      console.error('Failed to create attachment from pasted image:', error);
+      toast.error($_('attachments.error.paste', { values: { error: error instanceof Error ? error.message : String(error) } }));
+      return null;
+    }
+  }
+
+  // Handle drag state change for file drop zone
+  function handleDragStateChange(isDragging: boolean) {
+    isDraggingFile = isDragging;
+  }
+
+  function toggleAttachments() {
+    isAttachmentsExpanded = !isAttachmentsExpanded;
+  }
+
+  // Keyboard shortcut handler
+  function matchesShortcut(event: KeyboardEvent, shortcut: KeyboardShortcut | undefined): boolean {
+    if (!shortcut || !shortcut.key) return false;
+
+    const hasCtrl = event.metaKey || event.ctrlKey;
+    const hasAlt = event.altKey;
+    const hasShift = event.shiftKey;
+
+    const ctrlMatches = (shortcut.ctrl === true) === hasCtrl;
+    const altMatches = (shortcut.alt === true) === hasAlt;
+    const shiftMatches = (shortcut.shift === true) === hasShift;
+
+    if (!ctrlMatches || !altMatches || !shiftMatches) {
+      return false;
+    }
+
+    return event.key.toLowerCase() === shortcut.key.toLowerCase();
+  }
+
+  // Palette commands that act on the open note. The palette only offers them while a
+  // note is open.
+  const commandPaletteActions: Record<string, () => void> = {
+    togglePreview: handlePreviewToggle,
+    toggleWordWrap: handleWordWrapToggle,
+    copyContent: handleCopy,
+    copyLink: handleCopyLink,
+    duplicateNote: handleDuplicate,
+    exportNote: handleExport,
+    printNote: handlePrintPdf,
+    noteInfo: handleShowInfo,
+    versionHistory: handleShowVersionHistory,
+    deleteNote: requestDelete,
+    lockNote: handleLock,
+    setColor: handleSetColor,
+    archiveNote: handleArchive,
+  };
+
+  function handleCommandPaletteAction(event: Event) {
+    const action = commandPaletteActions[(event as CustomEvent<string>).detail];
+    if (action && $selectedNote) {
+      action();
+    }
+  }
+
+  function handleEditorKeydown(event: KeyboardEvent) {
+    // Only handle shortcuts when a note is selected
+    if (!$selectedNote) return;
+
+    const shortcuts = $settings.keyboardShortcuts;
+    if (!shortcuts) return;
+
+    // Undo and redo: inside the editor CodeMirror has already done it, and
+    // doing it again here would undo twice.
+    if (matchesShortcut(event, shortcuts.undo)) {
+      if (event.defaultPrevented) return;
+      event.preventDefault();
+      handleUndo();
+      return;
+    }
+
+    if (matchesShortcut(event, shortcuts.redo)) {
+      if (event.defaultPrevented) return;
+      event.preventDefault();
+      handleRedo();
+      return;
+    }
+
+    // Version History
+    if (matchesShortcut(event, shortcuts.versionHistory)) {
+      event.preventDefault();
+      handleShowVersionHistory();
+      return;
+    }
+
+    // Note Info
+    if (matchesShortcut(event, shortcuts.noteInfo)) {
+      event.preventDefault();
+      handleShowInfo();
+      return;
+    }
+
+    // Toggle Word Wrap
+    if (matchesShortcut(event, shortcuts.toggleWordWrap)) {
+      event.preventDefault();
+      handleWordWrapToggle();
+      return;
+    }
+
+    // Toggle Preview
+    if (matchesShortcut(event, shortcuts.togglePreview) && canPreview) {
+      event.preventDefault();
+      handlePreviewToggle();
+      return;
+    }
+
+    // Duplicate Note
+    if (matchesShortcut(event, shortcuts.duplicateNote)) {
+      event.preventDefault();
+      handleDuplicate();
+      return;
+    }
+
+    // Export Note
+    if (matchesShortcut(event, shortcuts.exportNote)) {
+      event.preventDefault();
+      handleExport();
+      return;
+    }
+  }
+
+  let themeObserver: MutationObserver | null = null;
+
+  /** Save now if a debounced save is waiting. Closing the page won't wait for it. */
+  async function saveNowIfPending() {
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+      await handleSave();
+    }
+  }
+
+  function handlePageHidden() {
+    if (document.visibilityState === 'hidden') {
+      void saveNowIfPending();
+    }
+  }
+
+  let stopFlushing: (() => void) | undefined;
+
+  onMount(() => {
+    stopFlushing = registerPendingSave(saveNowIfPending);
+    window.addEventListener('pagehide', saveNowIfPending);
+    document.addEventListener('visibilitychange', handlePageHidden);
+    window.addEventListener('keydown', handleEditorKeydown);
+    window.addEventListener('command-palette-action', handleCommandPaletteAction);
+
+    // Set up theme observer to watch for dark mode changes
+    const updateTheme = () => {
+      const darkMode = document.documentElement.classList.contains('dark');
+      isDarkMode = darkMode;
+      currentTheme = darkMode ? 'dark' : 'light';
+    };
+
+    // Initial check
+    updateTheme();
+
+    // Watch for theme changes
+    themeObserver = new MutationObserver(updateTheme);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    // Fetch initial sync status
+    syncService.getSyncStatus().then(status => {
+      syncEnabled = status.isEnabled;
+    });
+  });
+
+  onDestroy(() => {
+    // Clear any pending save timeout
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+      saveTimeout = null;
+    }
+
+    stopFlushing?.();
+    window.removeEventListener('pagehide', saveNowIfPending);
+    document.removeEventListener('visibilitychange', handlePageHidden);
+    window.removeEventListener('keydown', handleEditorKeydown);
+    window.removeEventListener('command-palette-action', handleCommandPaletteAction);
+
+    // Disconnect theme observer
+    if (themeObserver) {
+      themeObserver.disconnect();
+      themeObserver = null;
+    }
+
+    // Clean up all blob URLs
+    revokeBlobUrls();
+  });
+
+  // Process attachment URLs in preview mode
+  async function resolvePreviewAttachments() {
+    const previewContainer = document.querySelector('[data-preview-container]');
+    if (!previewContainer) return false;
+
+    await resolveAttachmentPreviews({
+      container: previewContainer,
+      attachments,
+      blobUrls,
+      onPreviewAttachment: handlePreviewAttachment,
+      getErrorMessage: () => $_('editor.errors.loadingAttachment'),
+    });
+    return true;
+  }
+
+  afterUpdate(async () => {
+    if (!showPreview) return;
+
+    // Try to resolve immediately; if container isn't ready, retry on next frame
+    const resolved = await resolvePreviewAttachments();
+    if (!resolved) {
+      requestAnimationFrame(() => resolvePreviewAttachments());
+    }
+  });
+</script>
+
+{#if isEditing && ($selectedNote || $isDraftMode)}
+  <div
+    class="h-full flex flex-col bg-white dark:bg-gray-900"
+    use:dropzone={{ onDrop: handleFileUpload, onDragStateChange: handleDragStateChange, disabled: isReadOnly }}
+    role="region"
+    aria-label={$_('editor.noteEditor')}
+  >
+    <!-- Toolbar -->
+    <EditorToolbar
+      pinned={$selectedNote?.pinned || false}
+      archived={$selectedNote?.archived || false}
+      locked={$selectedNote?.locked || false}
+      readOnly={isReadOnly}
+      {language}
+      {showPreview}
+      {canPreview}
+      attachmentCount={attachments.length}
+      {forceMobileLayout}
+      isDraftMode={$isDraftMode}
+      {wordWrap}
+      color={$selectedNote?.color}
+      {availableLanguages}
+      {editorMode}
+      onEditorModeChange={handleEditorModeChange}
+      onPin={handleTogglePin}
+      onArchive={handleArchive}
+      onLock={handleLock}
+      onLanguageChange={handleLanguageChange}
+      onTogglePreview={handlePreviewToggle}
+      onShowAttachments={handleShowAttachments}
+      onUndo={handleUndo}
+      onRedo={handleRedo}
+      onWordWrapToggle={handleWordWrapToggle}
+      onSetColor={handleSetColor}
+      onCopy={handleCopy}
+      onCopyLink={handleCopyLink}
+      onExport={handleExport}
+      onPrintPdf={handlePrintPdf}
+      onDuplicate={handleDuplicate}
+      onShowInfo={handleShowInfo}
+      onShowVersionHistory={handleShowVersionHistory}
+      onDelete={requestDelete}
+      onClose={handleClose}
+      {copyNoteShortcut}
+      {noteInfoShortcut}
+      {versionHistoryShortcut}
+    />
+
+    <!-- Tags Input + Content Editor/Preview -->
+    <EditorContent
+      noteId={$selectedNote?.id}
+      {showPreview}
+      {canPreview}
+      bind:content
+      bind:tags
+      {language}
+      {wordWrap}
+      isDark={isDarkMode}
+      {availableTags}
+      {editorMode}
+      readOnly={isReadOnly}
+      {readOnlyBanner}
+      {hasConflict}
+      onResolveConflict={handleResolveConflict}
+      bind:codeEditor
+      onContentChange={() => handleInput()}
+      onTagsChange={() => handleInput()}
+      onTagClick={handleTagClick}
+      onNoteLinkClick={handleNoteLinkClick}
+      onImagePaste={handleImagePaste}
+      {previewHtml}
+      {useIframePreview}
+      rawContent={content}
+      {attachments}
+    />
+
+    <!-- Attachments Section - Only show if attachments exist or dragging files (hidden on mobile) -->
+    {#if !forceMobileLayout && (attachments.length > 0 || isDraggingFile)}
+      <AttachmentsPanel
+        readOnly={isReadOnly}
+        {attachments}
+        isExpanded={isAttachmentsExpanded}
+        {isDraggingFile}
+        {isUploading}
+        backgroundColor={noteBackgroundColor ? hexWithOpacity(noteBackgroundColor, 0.15) : undefined}
+        onToggleExpanded={toggleAttachments}
+        onDelete={requestDeleteAttachment}
+        onFileUpload={handleFileUpload}
+      />
+    {/if}
+
+    <!-- Metadata Footer -->
+    {#if $selectedNote}
+      <EditorFooter
+        version={$selectedNote.version}
+        {modifiedAtFormatted}
+        backgroundColor={noteBackgroundColor ? hexWithOpacity(noteBackgroundColor, 0.3) : undefined}
+        isSynced={$selectedNote.syncedAt != null && $selectedNote.syncedAt >= $selectedNote.modifiedAt}
+        {syncEnabled}
+        neverSynced={$selectedNote.syncedAt == null}
+        onShowVersionHistory={handleShowVersionHistory}
+      />
+    {/if}
+  </div>
+{:else}
+  <div class="h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
+    <div class="text-center">
+      <p class="text-lg mb-2">{$_('editor.noNoteSelected')}</p>
+      <p class="text-sm">{$_('editor.noNoteSelectedHint')}</p>
+    </div>
+  </div>
+{/if}
+
+<!-- Info Modal -->
+{#if showInfoModal && $selectedNote}
+  <NoteInfoModal
+    show={showInfoModal}
+    {noteStats}
+    {language}
+    noteId={$selectedNote.id}
+    noteVersion={$selectedNote.version}
+    {createdAtFormatted}
+    {modifiedAtFormatted}
+    onClose={() => showInfoModal = false}
+    onShowVersionHistory={handleShowVersionHistory}
+  />
+{/if}
+
+<!-- Version History Modal -->
+<VersionHistoryModal
+  show={showVersionHistory}
+  readOnly={isReadOnly}
+  noteId={$selectedNote?.id}
+  currentVersion={$selectedNote?.version}
+  onClose={() => showVersionHistory = false}
+  onRestore={async (versionNumber) => {
+    if (!$selectedNote?.id) return;
+
+    // Get the version to restore
+    const version = await versionRepository.getVersion($selectedNote.id, versionNumber);
+    if (!version) {
+      console.error(`Version ${versionNumber} not found`);
+      return;
+    }
+
+    // Get current note
+    const currentNote = await noteRepository.getById($selectedNote.id);
+    if (!currentNote) {
+      console.error(`Note ${$selectedNote.id} not found`);
+      return;
+    }
+
+    // Snapshot current state before restoring
+    await versionRepository.createVersion(currentNote, {
+      syncedAt: new Date().toISOString(),
+      reason: 'manual-sync',
+    });
+
+    // Restore version data to the note in database
+    await noteService.restoreVersion(currentNote.id, version);
+
+    // Reload the note to get decrypted content for display
+    const updatedNote = await noteService.getNote($selectedNote.id);
+    if (updatedNote) {
+      content = updatedNote.content;
+      tags = updatedNote.tags;
+      attachments = updatedNote.attachments;
+      language = updatedNote.syntaxLanguage || 'plain';
+      wordWrap = updatedNote.wordWrap ?? true;
+      showPreview = updatedNote.showPreview ?? false;
+
+      // Update note in store and search index
+      updateNoteInStoreAndSearch(updatedNote);
+    }
+  }}
+/>
+
+<!-- Attachment Preview Modal -->
+<AttachmentPreviewModal
+  show={previewAttachment !== null}
+  attachment={previewAttachment}
+  onClose={closeAttachmentPreview}
+  onDownload={handleDownloadAttachment}
+/>
+
+<!-- Attachments Modal (Mobile) -->
+<MobileAttachmentsModal
+  readOnly={isReadOnly}
+  show={showAttachmentsModal}
+  {forceMobileLayout}
+  {attachments}
+  {isUploading}
+  onClose={() => showAttachmentsModal = false}
+  onDelete={requestDeleteAttachment}
+  onFileUpload={handleFileUpload}
+/>
+
+<!-- Attachment delete confirmation. After the attachments modal, so it sits on top. -->
+<ConfirmModal
+  show={attachmentToDelete !== null}
+  title={$_('attachments.confirmDelete.title')}
+  message={$_('attachments.confirmDelete.message')}
+  confirmText={$_('attachments.confirmDelete.confirmButton')}
+  cancelText={$_('common.cancel')}
+  onConfirm={confirmDeleteAttachment}
+  onCancel={() => attachmentToDelete = null}
+/>
+
+<!-- Color Picker Modal -->
+<ColorPickerModal
+  show={showColorPicker}
+  currentColor={$selectedNote?.color}
+  onColorSelect={handleColorSelected}
+  onClose={() => showColorPicker = false}
+/>
+
+<!-- Delete Confirmation Modal -->
+<ConfirmModal
+  show={showDeleteConfirm}
+  title={$_('editor.confirmDelete.title')}
+  message={$_('editor.confirmDelete.message')}
+  confirmText={$_('common.delete')}
+  cancelText={$_('common.cancel')}
+  confirmClass="bg-red-600 hover:bg-red-700"
+  onConfirm={handleDelete}
+  onCancel={() => showDeleteConfirm = false}
+/>
+
+<!-- Conflict Resolution Modal -->
+<ConflictResolutionModal
+  show={showConflictModal}
+  noteId={$selectedNote?.id}
+  onClose={() => showConflictModal = false}
+  onResolved={handleConflictResolved}
+/>

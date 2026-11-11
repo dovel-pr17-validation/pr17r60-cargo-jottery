@@ -1,0 +1,702 @@
+# Jottery
+
+Jottery is a simple, searchable, scratchpad/notes application. It is designed to be self-hosted and accessible from both a web browser and a terminal. The core idea is to provide a secure place for your notes, with all data being end-to-end encrypted. It runs as a web app or in a terminal, the sync server is optional. All data are stored locally unless explicitly configured to sync to an endpoint of your choosing (which stores notes, tags, and attachments in their encrypted forms and never sees the unencrypted data).
+
+## Why Jottery?
+
+Most note-taking apps are either too heavy (designed for long-form documents) or too limited (plain text files). Jottery is a lightweight scratchpad that allows notes to be easily created, tagged and found again. It handles code snippets, searchable tags, and includes a handy "repl" calculator. It provides both web and terminal clients that sync seamlessly, so you can access your notes from a browser or SSH session. A script to convert Evernote .enex files into something Jottery can import is included for user convenience.
+
+## Features
+
+*   **End-to-End Encryption**: All your notes are encrypted on your device before being stored/sent to the sync server. The server only stores encrypted blobs of data.
+*   **Multi-User Support**: Multiple users can use the same server, each with their own encrypted notes and devices.
+*   **Admin Approval Workflow**: New user registrations require admin approval for controlled access.
+*   **Cross-Platform**: Access your notes from a web client or a Terminal User Interface (TUI).
+*   **Self-Hostable**: You have full control over your data by hosting the sync server yourself.
+*   **Device Management**: Register multiple devices per user, each with its own API key.
+*   **Inbox API**: Submit notes programmatically via a simple REST API — no encryption password needed. Items are held unencrypted on the server until reviewed and accepted through the web or TUI client. See [docs/INBOX-API.md](docs/INBOX-API.md) for full documentation.
+*   **Admin Dashboard**: Web-based interface for managing users, viewing statistics, and monitoring server activity.
+*   **Version History**: Full version history with restore functionality — never lose important changes. Snapshots are created automatically before edits and synced across devices.
+*   **Advanced Search**: Powerful full-text search with modifiers:
+    - `has:attachment` - filter notes with attachments
+    - `created:>2024-01-01`, `created:<2024-06-30`, `created:2024-01-01..2024-06-30` - date filters
+    - `modified:>2024-01-01` - modification date filters
+    - `words:>100`, `words:<50`, `words:50..200` - word count filters
+*   **Multi-Select & Bulk Operations**: Select multiple notes (Ctrl/Cmd+click, Shift+click, Ctrl/Cmd+A) for bulk actions:
+    - Add or remove tags from multiple notes
+    - Export selected notes to JSON
+    - Delete multiple notes at once
+*   **Tagging**: Organise your notes with tags.
+*   **Attachments**: Add, preview, and download attachments to your notes.
+*   **Code Snippets**: A rich text editor with support for various programming languages.
+*   **Quick Delete**: Delete notes instantly from the list view (hover for delete button, or use configurable keyboard shortcut).
+*   **Keyboard Shortcuts**: Fully customisable keyboard shortcuts for common actions.
+*   **Dark & Light Themes**: Choose your preferred theme, or let it follow your system preference.
+*   **Auto-Lock**: Configurable inactivity timeout automatically locks your notes for security.
+*   **15 Languages**: Full internationalisation support with locale-aware date formatting (English, German, French, Spanish, Italian, Dutch, Polish, Portuguese, Russian, Turkish, Greek, Japanese, Korean, Chinese).
+*   **Note Colours**: Colour-code your notes for visual organisation.
+*   **Many handy features**: Export notes, preview HTML, document info, markdown preview, pin notes, recycle bin, and more.
+
+## Getting Started
+
+### With Docker
+
+The easiest way to get started is with Docker. Pre-built multi-architecture images (amd64, arm64) are available.
+
+#### Using Pre-built Image (Recommended)
+
+1.  **Pull and run the image:**
+
+    ```bash
+    docker run -d \
+      --name jottery \
+      -p 8088:8088 \
+      -v jottery-data:/app/data \
+      ghcr.io/seesee/jottery:latest
+    ```
+
+    The web interface will be available at `http://localhost:8088`. The admin dashboard is at `http://localhost:8088/admin`.
+
+#### Using Docker Compose
+
+1.  **Clone the repository:**
+
+    ```bash
+    git clone https://github.com/seesee/jottery.git
+    cd jottery
+    ```
+
+2.  **Run with Docker Compose:**
+
+    ```bash
+    docker-compose up -d
+    ```
+
+    The web interface will be available at `http://localhost:8088`. The port is only published on this machine, because it's plain HTTP and Docker's published ports bypass host firewalls such as ufw. `docker-compose.yml` shows how to widen it for a trusted LAN. Anything else should go through a TLS proxy.
+
+#### Building from Source
+
+If you prefer to build the image yourself:
+
+```bash
+git clone https://github.com/seesee/jottery.git
+cd jottery
+docker build -t jottery .
+docker run -d --name jottery -p 8088:8088 -v jottery-data:/app/data jottery
+```
+
+#### Environment Variables
+
+You can configure the server using environment variables:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DEFAULT_ADMIN_EMAIL` | `admin@localhost` | Admin account email, applied while the account is unconfigured |
+| `DEFAULT_ADMIN_PASSWORD` | *(none)* | Admin account password. If unset, or too weak for `PASSWORD_COMPLEXITY`, a random one is generated and logged once |
+| `DATABASE_URL` | `sqlite:jottery.db` | Database file path |
+| `PORT` | `3030` | Internal server port |
+| `SESSION_EXPIRY_DAYS` | `1` | How long a dashboard session lasts, in days. Device keys don't expire, so sync isn't affected |
+| `DEFAULT_STORAGE_QUOTA_MB` | `1000` | Storage quota in MB that new users get |
+| `DEFAULT_MAX_UPLOAD_SIZE_MB` | `5` | Largest push in MB that new users can send |
+| `DEFAULT_INBOX_MAX_ITEMS` | `100` | Inbox items that new users can hold |
+| `DEFAULT_INBOX_MAX_SIZE_MB` | `10` | Inbox size in MB that new users can hold |
+| `ENFORCE_STORAGE_QUOTA` | `false` | Refuse pushes that would take an account past its quota. Check accounts in the dashboard first: quotas weren't enforced before, so one may already be over, and a refused push stops that device's sync |
+| `MAX_PAYLOAD_SIZE` | `104857600` | Max size of a sync push in bytes (100 MB), which the Docker image also applies in Caddy. Other routes have small fixed limits. Lowering it can stop large syncs with a 413 |
+| `PASSWORD_COMPLEXITY` | `standard` | Character classes a password needs, on top of the 12-character minimum: `none`, `basic` (2), `standard` (3) or `strong` (4) |
+| `CORS_ALLOWED_ORIGINS` | *(none)* | Comma-separated list of allowed CORS origins. If unset, only the server's own origin can call it from a browser |
+| `ENABLE_HSTS` | `false` | Send `Strict-Transport-Security`, on the web client as well as the server's routes, and keep dashboard sessions in an HttpOnly cookie that script can't read. Set to `true` only when clients reach the site over HTTPS |
+| `ADMIN_ALLOWED_IPS` | *(everyone)* | Space-separated addresses or CIDR ranges allowed to reach `/admin` and the admin API; everyone else gets a 403. Behind another proxy, every request appears to come from that proxy, so restrict access there instead. If it's set but empty, nobody can reach them. The notes app, sync and the user portal aren't affected |
+| `TRUSTED_PROXY_HOPS` | `1` in the Docker image, otherwise `0` | Proxies that append to `X-Forwarded-For`, used for rate limiting. See the [server README](server/README.md#rate-limiting) |
+
+`server/.env.example` lists every setting, including password hashing, rate limits, inbox defaults and input limits.
+
+Example with custom admin credentials:
+
+```bash
+docker run -d \
+  --name jottery \
+  -p 8088:8088 \
+  -v jottery-data:/app/data \
+  -e DEFAULT_ADMIN_EMAIL=admin@example.com \
+  -e DEFAULT_ADMIN_PASSWORD='Choose-a-Str0ng-Password' \
+  ghcr.io/seesee/jottery:latest
+```
+
+#### Upgrading
+
+`docker-compose.yml` names an exact version, so a pull never brings in a new release and its database migrations unannounced. Some migrations can't be rolled back, so back up the `jottery_data` volume first. Then change the `image:` tag to the version you want and run:
+
+```bash
+docker compose pull && docker compose up -d
+```
+
+The `:latest` tag used in the `docker run` examples moves with each release, so pin a version there too if you want the same control.
+
+The services run as an unprivileged `jottery` user (uid 10001). Earlier images ran as root, so on its first start a new image takes ownership of the data volume, then drops to that user. If you bind-mount a host directory instead, that changes its owner to uid 10001. To keep your own owner, start the container with `--user` (`user:` in Compose) set to a uid that can write to the directory.
+
+### First-Time Setup
+
+1.  **Access the admin dashboard:**
+
+    Navigate to `http://localhost:8088/admin` and sign in with the credentials you set through `DEFAULT_ADMIN_EMAIL` and `DEFAULT_ADMIN_PASSWORD`.
+
+    If you didn't set a password, the server generates one on first start and prints it once in its log (`docker logs jottery`), with the email `admin@localhost`. You must choose a new password when you first sign in. If you lose it before signing in, restart the server to generate another.
+
+2.  **Create your first user account:**
+
+    - Register a new user account via the web UI at `http://localhost:8088`
+    - Login to the admin dashboard and approve the new user
+    - The approved user can now register devices and start syncing notes
+
+### Manual Installation
+
+If you prefer to run the components manually, you can follow these steps:
+
+1.  **Clone the repository:**
+
+    ```bash
+    git clone https://github.com/seesee/jottery.git
+    cd jottery
+    ```
+
+2.  **Web Client:**
+
+    ```bash
+    npm install
+    npm run dev
+    ```
+
+3.  **Sync Server:**
+
+    ```bash
+    cd server
+    cargo run
+    ```
+
+4.  **TUI Client:**
+
+    You can download a pre-compiled binary for your platform from the releases section in the web app, or build it from source:
+
+    ```bash
+    cd tui
+    cargo run
+    ```
+
+## Screenshots
+
+### Web Client
+
+**Main Interface (Dark Theme)**
+![Main Interface - Dark](public/screenshots/en-GB/01-main-interface-dark.png)
+
+**Main Interface (Light Theme)**
+![Main Interface - Light](public/screenshots/en-GB/01-main-interface-light.png)
+
+**Rich Editor with Syntax Highlighting**
+![Rich Editor](public/screenshots/en-GB/02-rich-editor-dark.png)
+
+**Multi-Select and Bulk Operations**
+![Multi-Select](public/screenshots/en-GB/03-multi-select-dark.png)
+
+**Version History**
+![Version History](public/screenshots/en-GB/04-version-history-dark.png)
+
+**Built-in Calculator**
+![Calculator](public/screenshots/en-GB/05-calculator-dark.png)
+
+### TUI Client
+
+**Terminal Interface**
+![TUI Interface](public/screenshots/en-GB/tui-interface.gif)
+
+**CLI Commands**
+![TUI CLI](public/screenshots/en-GB/tui-cli.gif)
+
+**Piping Content**
+![TUI Piping](public/screenshots/en-GB/tui-piping.gif)
+
+**Sync Operations**
+![TUI Sync](public/screenshots/en-GB/tui-sync.gif)
+
+### Mobile
+
+Jottery works great on mobile devices too.
+
+**Note List (Dark)**
+![Mobile List](public/screenshots/en-GB/06-mobile-list-dark.png)
+
+**Japan Itinerary (Dark)**
+![Mobile Japan](public/screenshots/en-GB/07-mobile-japan-dark.png)
+
+**Calculator (Dark)**
+![Mobile Calculator](public/screenshots/en-GB/08-mobile-calculator-dark.png)
+
+## Caveats
+*   **Sync**: The sync mechanism uses Server-Sent Events (SSE) for real-time updates across devices. Conflicts are resolved using last-write-wins based on modification timestamps. Version history is maintained automatically, allowing you to restore previous versions if needed.
+*   **Security**: Use a strong password — all data (notes, tags, attachments) is encrypted using it. If you forget your password, there is no recovery process; you will lose all your notes and need to start over. For convenience, both web and TUI clients offer optional persistence features in the **Advanced Options** section: the web client can persist your session via a secure cookie, and both clients can store your password locally. These options reduce security in exchange for convenience — anyone with access to your device/browser could access your notes. Use a password manager and only enable persistence on trusted devices.
+*   **Sync Server**: All sync accounts need to be approved by an admin. Admins can see "username" (email address is suggested but does not need to be "real"), the total number of notes and the combined size (in kb) of the notes held by that user. 
+
+## Components
+
+Jottery consists of three main components:
+
+### 1. Web Client
+
+A modern web application that provides a rich user experience for managing your notes.
+
+**Web Features:**
+- **Rich Editor** - CodeMirror-powered editor with syntax highlighting for 30+ languages
+- **Version History** - Browse and restore previous versions of any note
+- **Markdown Preview** - Live preview with attachment embedding support
+- **Multi-Select** - Bulk operations on multiple notes
+- **PDF Viewer** - Built-in viewer for PDF attachments
+- **Calculator Mode** - REPL-style calculator for quick calculations
+- **Responsive Design** - Works on desktop, tablet, and mobile devices
+- **Offline Support** - Works without internet; syncs when connection is restored
+- **Dark & Light Themes** - Automatic or manual theme switching
+
+### 2. TUI Client
+
+A lightweight and fast terminal user interface for those who prefer to work in the terminal. The TUI includes powerful command-line tools for quick note operations:
+
+**CLI Commands:**
+- `jottery note` - Create a note with your `$EDITOR`, or pipe content directly:
+  ```bash
+  echo "Quick note" | jottery note
+  ls -la | jottery note -t system,logs
+  ```
+- `jottery list` - List all notes with optional tag filtering
+- `jottery search <query>` - Search notes by content or tags
+- `jottery show <id>` - Display a specific note
+- `jottery sync` - Manually trigger sync with server
+- `jottery export` / `jottery import` - Backup and restore notes
+
+**CLI Features:**
+- **Stored password support** - No password prompts when you've saved your password
+- **Pipe content directly** - Capture command output as notes instantly
+- **Auto-sync** - Notes sync to server automatically after creation (if configured)
+- **Tag support** - Add tags to piped content with `-t tag1,tag2`
+
+**TUI Features:**
+- **Version History** - Browse and restore previous versions of any note
+- **Multi-Select & Bulk Operations** - Select multiple notes for batch actions
+- **11 Colour Schemes** - Choose from themes including Nord, Dracula, Gruvbox, Tokyo Night, Catppuccin
+- **Locale-Aware Dates** - Dates formatted according to your language preference
+- **Note Pinning** - Pin important notes to the top of the list
+- **Recycle Bin** - Recover accidentally deleted notes
+
+**TUI Multi-Select Shortcuts:**
+- `Space` - Toggle selection of current note
+- `Ctrl+A` - Select all filtered notes
+- `Shift+V` - Range select from last selected to current
+- `Escape` - Clear selection
+- `t` (in multi-select mode) - Add tags to selected notes
+- `d` (in multi-select mode) - Delete selected notes (with confirmation)
+- `e` (in multi-select mode) - Export selected notes to JSON file
+
+**Advanced Search (same modifiers as web client):**
+- `has:attachment`, `created:>DATE`, `modified:>DATE`, `words:>N`, etc.
+
+### 3. Sync Server
+
+A simple server that stores your encrypted notes and syncs them between your clients.
+
+## Authentication & User Management
+
+Jottery supports multi-user deployments with an admin approval workflow:
+
+### User Registration
+
+1. New users register with email and password (minimum 12 characters)
+2. Account enters "pending approval" state
+3. Admin approves the account via admin dashboard or CLI
+4. Approved users can register devices for sync
+
+### Device Registration
+
+- Each user can register multiple devices (web, TUI, CLI)
+- Each device receives a unique API key for sync operations
+- Devices can be individually revoked by admins
+- Separate from user accounts for better security
+
+### Admin Dashboard
+
+Access the web-based admin dashboard at `http://your-server:8088/admin`. Port 3030 is the server's internal port, which Docker doesn't publish.
+
+Set the admin credentials with `DEFAULT_ADMIN_EMAIL` and `DEFAULT_ADMIN_PASSWORD` before first run. If you don't, a random password is generated and printed once in the server log. See [Environment Variables](#environment-variables) for details.
+
+**Upgrading an older install:** if the admin account still has the old default password, you can still sign in with it, but every admin action stays blocked until you change it. Device sync keeps working in the meantime. Setting `DEFAULT_ADMIN_PASSWORD` and restarting replaces the old password too.
+
+**Admin Features:**
+- Approve/reject user registrations
+- View user statistics (notes, devices, storage)
+- Deactivate/reactivate user accounts
+- Manage device registrations
+- View audit logs of sync operations
+- Monitor server statistics
+
+#### Recovering access
+
+If the dashboard can't help, because the only admin was deactivated or their password is lost, the image includes `jottery-admin`. It works on the database directly, so nobody needs to sign in. With a container named `jottery`:
+
+```bash
+docker exec --user jottery jottery jottery-admin users list
+docker exec --user jottery jottery jottery-admin users activate admin@example.com
+docker exec --user jottery -it jottery jottery-admin users reset-password admin@example.com
+```
+
+Keep `--user jottery`. Without it the command runs as root, and any database file it creates can't be written by the server afterwards.
+
+### Security
+
+For detailed information about Jottery's security architecture, deployment best practices, and threat model, see [SECURITY.md](SECURITY.md).
+
+## Technology Stack
+
+### Web Client (Svelte)
+
+*   **Framework**: Svelte
+*   **Language**: TypeScript
+*   **Styling**: Tailwind CSS
+*   **Editor**: CodeMirror
+*   **Database**: IndexedDB
+*   **Search**: Built-in query parser
+
+### TUI Client (Rust)
+
+*   **Framework**: Ratatui
+*   **Language**: Rust
+*   **Database**: SQLite with SQLCipher
+*   **Async Runtime**: Tokio
+
+### Sync Server (Rust)
+
+*   **Framework**: Axum
+*   **Language**: Rust
+*   **Database**: SQLite
+*   **Async Runtime**: Tokio
+
+## Downloads
+
+### Web Application (Offline Bundle)
+
+Download the standalone web application for local use from the [Releases](https://github.com/seesee/jottery/releases) page.
+
+**Usage:** Extract and open `index.html` in any modern browser. All data is stored locally in IndexedDB.
+
+⚠️ **Note:** When opened directly from the filesystem (`file://` protocol), server sync is unavailable due to browser security restrictions. For sync functionality, serve via a local web server (e.g., `python -m http.server 8000`).
+
+### TUI Client
+
+Pre-compiled binaries for the TUI client (Linux, macOS, Windows) are available from the [Releases](https://github.com/seesee/jottery/releases) page.
+
+### Verifying a Download
+
+Each release includes a `SHA256SUMS` file. Download it alongside the files you want, then check them:
+
+```bash
+sha256sum --check --ignore-missing SHA256SUMS
+```
+
+On macOS, use `shasum -a 256 --check --ignore-missing SHA256SUMS`.
+
+The checksums come from the same release as the files, so they detect a corrupted or incomplete download. They don't prove who published the release.
+
+## Import/Export Format
+
+Jottery uses a JSON-based format for importing and exporting notes. All data is **decrypted** during export and **re-encrypted** during import using your master password.
+
+### Overview
+
+- **Format**: JSON with UTF-8 encoding
+- **Version**: `1.0` (specified in `version` field)
+- **Security**: Exported data contains decrypted note content, tags, and attachments
+- **Compatibility**: Import works across different Jottery clients (Web, TUI)
+
+### Export Format Structure
+
+```json
+{
+  "version": "1.0",
+  "exportDate": "2025-12-30T18:30:00.000Z",
+  "notes": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "createdAt": "2025-12-25T10:00:00.000Z",
+      "modifiedAt": "2025-12-29T15:30:00.000Z",
+      "content": "# Meeting Notes\n\nDiscussed project timeline...",
+      "tags": ["work", "meetings", "project-alpha"],
+      "attachments": [
+        {
+          "filename": "diagram.png",
+          "mimeType": "image/png",
+          "data": "iVBORw0KGgoAAAANSUhEUgAAAAUA..."
+        }
+      ],
+      "pinned": false,
+      "wordWrap": true,
+      "syntaxLanguage": "markdown"
+    }
+  ]
+}
+```
+
+### Field Descriptions
+
+#### Root Object
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `version` | string | Yes | Export format version (currently `"1.0"`) |
+| `exportDate` | string | Yes | ISO 8601 timestamp when export was created |
+| `notes` | array | Yes | Array of exported notes (see Note Object below) |
+
+#### Note Object
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | Yes | UUID v4 identifier for the note |
+| `createdAt` | string | Yes | ISO 8601 timestamp when note was created |
+| `modifiedAt` | string | Yes | ISO 8601 timestamp of last modification |
+| `content` | string | Yes | **Decrypted** note content (plain text or markdown) |
+| `tags` | array | Yes | Array of **decrypted** tag strings |
+| `attachments` | array | Yes | Array of attachment objects (can be empty) |
+| `pinned` | boolean | Yes | Whether note is pinned to top of list |
+| `wordWrap` | boolean | No | Word wrap setting for editor (default: false) |
+| `syntaxLanguage` | string | No | Syntax highlighting language ID (e.g., `"javascript"`, `"markdown"`) |
+
+#### Attachment Object
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `filename` | string | Yes | **Decrypted** original filename |
+| `mimeType` | string | Yes | MIME type (e.g., `"image/png"`, `"application/pdf"`) |
+| `data` | string | Yes | Base64-encoded file data (**decrypted**) |
+
+### Import Strategies
+
+When importing notes, you can choose one of three strategies:
+
+1. **`merge`** (default): Import all notes with new UUIDs, preserving existing notes
+2. **`skip`**: Skip notes with IDs that already exist in your database
+3. **`replace`**: Delete existing notes with matching IDs and import new versions
+
+### Example: Minimal Valid Export
+
+```json
+{
+  "version": "1.0",
+  "exportDate": "2025-12-30T20:00:00.000Z",
+  "notes": [
+    {
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "createdAt": "2025-12-30T19:00:00.000Z",
+      "modifiedAt": "2025-12-30T19:00:00.000Z",
+      "content": "Hello World",
+      "tags": [],
+      "attachments": [],
+      "pinned": false
+    }
+  ]
+}
+```
+
+### Example: Note with Attachments and Tags
+
+```json
+{
+  "version": "1.0",
+  "exportDate": "2025-12-30T20:15:00.000Z",
+  "notes": [
+    {
+      "id": "a3b2c1d0-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+      "createdAt": "2025-12-28T14:22:00.000Z",
+      "modifiedAt": "2025-12-30T16:45:00.000Z",
+      "content": "```javascript\nconst hello = () => console.log('Hello!');\n```",
+      "tags": ["code", "javascript", "snippets"],
+      "attachments": [
+        {
+          "filename": "screenshot.png",
+          "mimeType": "image/png",
+          "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+        },
+        {
+          "filename": "README.txt",
+          "mimeType": "text/plain",
+          "data": "VGhpcyBpcyBhIHRlc3QgZmlsZQ=="
+        }
+      ],
+      "pinned": true,
+      "wordWrap": false,
+      "syntaxLanguage": "javascript"
+    }
+  ]
+}
+```
+
+### Supported Syntax Languages
+
+The `syntaxLanguage` field supports all languages available in CodeMirror 6, including:
+
+- Programming: `javascript`, `typescript`, `python`, `rust`, `go`, `java`, `cpp`, `c`, `csharp`, `php`, `ruby`, `swift`, `kotlin`
+- Web: `html`, `css`, `scss`, `less`, `vue`, `svelte`
+- Markup: `markdown`, `xml`, `yaml`, `json`, `toml`
+- Shell: `shell`, `bash`, `powershell`
+- Query: `sql`, `mysql`, `postgresql`
+- And many more...
+
+### Important Notes
+
+**Security:**
+- Exported files contain **unencrypted, plain-text data**
+- Store export files securely (encrypt with tools like GPG or use encrypted volumes)
+- Delete export files after transferring if they contain sensitive information
+
+**Compatibility:**
+- Export format version `1.0` is the current standard
+- Future versions may add fields but will maintain backward compatibility
+- Timestamps must be valid ISO 8601 format with timezone (e.g., `2025-12-30T20:00:00.000Z`)
+- UUIDs must be valid UUID v4 format
+
+**File Size:**
+- Attachments are Base64-encoded, which increases size by ~33%
+- Large exports with many attachments may take time to process
+- Consider exporting in batches for very large note collections
+
+**Automation:**
+- The JSON format is designed to be easily parsed and generated by scripts
+- Perfect for backup automation, migration tools, or external integrations
+- Can be processed with `jq`, Python, Node.js, or any JSON-compatible tool
+
+### Programmatic Usage Examples
+
+**Using `jq` to extract all tags:**
+```bash
+jq '.notes[].tags[]' jottery-export-2025-12-30.json | sort -u
+```
+
+**Using Python to filter notes by tag:**
+```python
+import json
+
+with open('jottery-export.json', 'r') as f:
+    data = json.load(f)
+
+work_notes = [n for n in data['notes'] if 'work' in n['tags']]
+print(f"Found {len(work_notes)} work-related notes")
+```
+
+**Using Node.js to create a backup:**
+```javascript
+const fs = require('fs');
+const exportData = {
+  version: '1.0',
+  exportDate: new Date().toISOString(),
+  notes: [
+    {
+      id: crypto.randomUUID(),
+      createdAt: new Date().toISOString(),
+      modifiedAt: new Date().toISOString(),
+      content: 'Automated backup note',
+      tags: ['backup', 'automated'],
+      attachments: [],
+      pinned: false
+    }
+  ]
+};
+fs.writeFileSync('backup.json', JSON.stringify(exportData, null, 2));
+```
+
+## Using Attachments in Markdown
+
+Jottery supports embedding attachments directly in your markdown notes. This allows you to create rich documents with inline images, PDFs, and other file types.
+
+### Attachment Syntax
+
+Use markdown link syntax to reference attachments by their filename:
+
+**Images** (will be displayed inline when previewing markdown):
+```markdown
+![description](attachment:filename.png)
+```
+
+**Other files** (PDFs, documents, etc. - will show as clickable links):
+```markdown
+[Attachment: filename.pdf](attachment:filename.pdf)
+```
+
+### How to Get the Markdown Link
+
+1. **Upload an attachment** to your note using the attachment area at the bottom
+2. **Click the 📋 (clipboard) button** next to the attachment
+3. **Paste the markdown link** into your note content
+
+The correct syntax will be copied automatically:
+- Images use `![filename](attachment:filename)` syntax
+- Other files use `[Attachment: filename](attachment:filename)` syntax
+
+### Preview Behaviour
+
+When you preview a markdown note with attachment links:
+
+- **Images** are rendered inline (displayed directly in the preview)
+- **PDFs, audio, and video** show as clickable cards that open a full preview modal
+- **Text files** can be previewed in the modal as well
+- **Other file types** show a download link
+
+### Supported Previews
+
+- **Images**: PNG, JPG, GIF, SVG, WebP
+- **PDFs**: Full page-by-page viewer with zoom controls
+- **Audio**: MP3, WAV, OGG, etc.
+- **Video**: MP4, WebM, etc.
+- **Text**: TXT, JSON, XML, source code files
+- **Unsupported types**: Download button to view externally
+
+### Example
+
+```markdown
+# Project Documentation
+
+Here's the architecture diagram:
+
+![System architecture](attachment:architecture.png)
+
+And here's the detailed specification:
+
+[Attachment: specifications.pdf](attachment:specifications.pdf)
+
+## Audio Notes
+
+Meeting recording:
+
+[Attachment: meeting-2025-01-02.mp3](attachment:meeting-2025-01-02.mp3)
+```
+
+### Notes
+
+- Attachment filenames are **encrypted** in the database
+- The markdown preview decrypts and resolves filenames automatically
+- Renaming attachments will break existing markdown links (references are by filename)
+- You can reference the same attachment multiple times in one note
+
+## Development
+
+### Regenerating Landing Page Demos
+
+All landing page screenshots and demos can be regenerated using the consolidated generation script:
+
+```bash
+./demo-generation/generate.sh
+```
+
+This will:
+- Generate 16 web screenshots (Playwright)
+- Generate 4 TUI demo GIFs (VHS)
+- Verify all files are present
+
+See [demo-generation/README.md](demo-generation/README.md) for detailed documentation on modifying and regenerating individual demos.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

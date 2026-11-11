@@ -1,0 +1,149 @@
+/**
+ * Cryptography-related types and interfaces
+ */
+
+/**
+ * Master key derived from user password
+ * Never persisted, exists only in memory
+ */
+export interface MasterKey {
+  key: CryptoKey;
+  keyBytes: Uint8Array; // Raw key bytes for JWE operations (jose library)
+  derivedAt: number; // Timestamp when derived
+  password?: string; // Optional: kept in memory for Remember Password feature
+}
+
+/**
+ * Key derivation parameters
+ */
+export interface KeyDerivationParams {
+  password: string;
+  salt: Uint8Array;
+  iterations: number;
+  algorithm?: 'PBKDF2' | 'Argon2id'; // Optional, defaults to PBKDF2
+  extractable?: boolean; // If true, key can be exported as raw bytes
+}
+
+/**
+ * Encryption result
+ */
+export interface EncryptionResult {
+  ciphertext: string; // Base64 encoded
+  iv: string; // Base64 encoded initialization vector
+  authTag?: string; // Base64 encoded auth tag (for GCM)
+}
+
+/**
+ * Decryption parameters
+ */
+export interface DecryptionParams {
+  ciphertext: string;
+  iv: string;
+  authTag?: string;
+}
+
+/**
+ * Crypto service interface
+ */
+export interface CryptoService {
+  /**
+   * Derive master key from password
+   */
+  deriveKey(params: KeyDerivationParams): Promise<CryptoKey>;
+
+  /**
+   * Encrypt text data
+   */
+  encryptText(plaintext: string, key: CryptoKey): Promise<EncryptionResult>;
+
+  /**
+   * Decrypt text data
+   */
+  decryptText(params: DecryptionParams, key: CryptoKey): Promise<string>;
+
+  /**
+   * Encrypt binary data
+   */
+  encryptBinary(data: ArrayBuffer, key: CryptoKey): Promise<EncryptionResult>;
+
+  /**
+   * Decrypt binary data
+   */
+  decryptBinary(params: DecryptionParams, key: CryptoKey): Promise<ArrayBuffer>;
+
+  /**
+   * Generate random salt
+   */
+  generateSalt(): Uint8Array;
+
+  /**
+   * Generate initialization vector
+   */
+  generateIV(): Uint8Array;
+
+  /**
+   * Hash data (for sync conflict detection)
+   */
+  hash(data: string): Promise<string>;
+
+  /**
+   * Generate UUID v4
+   */
+  generateUUID(): string;
+
+  /**
+   * Generate a random 256-bit master key for envelope encryption
+   */
+  generateMasterKey(): Uint8Array;
+
+  /**
+   * Derive a wrapping key from password + userId for envelope encryption.
+   * Uses higher iteration count than daily unlock.
+   */
+  deriveWrappingKey(password: string, userId: string): Promise<CryptoKey>;
+
+  /**
+   * Wrap (encrypt) a master key with a wrapping key
+   */
+  wrapMasterKey(wrappingKey: CryptoKey, masterKeyBytes: Uint8Array): Promise<EncryptionResult>;
+
+  /**
+   * Unwrap (decrypt) a master key from a wrapped blob
+   */
+  unwrapMasterKey(wrappingKey: CryptoKey, wrappedBlob: EncryptionResult): Promise<Uint8Array>;
+}
+
+/**
+ * Key manager service interface
+ */
+export interface KeyManager {
+  /**
+   * Get current master key (if unlocked)
+   */
+  getMasterKey(): MasterKey | null;
+
+  /**
+   * Set master key (on unlock)
+   */
+  setMasterKey(key: MasterKey): void;
+
+  /**
+   * Clear master key (on lock)
+   */
+  clearMasterKey(): void;
+
+  /**
+   * Check if application is locked
+   */
+  isLocked(): boolean;
+}
+
+/**
+ * Conflict resolver interface for sync (Phase 3)
+ */
+export interface ConflictResolver<T> {
+  /**
+   * Resolve conflict between local and remote versions
+   */
+  resolve(local: T, remote: T): T;
+}

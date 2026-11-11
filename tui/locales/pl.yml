@@ -1,0 +1,847 @@
+app:
+  name: Jottery
+  description: Zorientowany na prywatność, zaszyfrowany TUI do notatek
+common:
+  loading: Ładowanie...
+  saving: Zapisywanie...
+  cancel: Anuluj
+  confirm: Potwierdź
+  "yes": Tak
+  "no": Nie
+  ok: OK
+  close: Zamknij
+  quit: Wyjdź
+  back: Wstecz
+  email: E-mail
+password:
+  prompt: "Hasło: "
+  enter: Wprowadź hasło
+  confirm: Potwierdź hasło
+  empty_error: Hasło nie może być puste
+  mismatch_error: Hasła nie pasują
+  unlock_failed: "Odblokowanie nie powiodło się: %{error}"
+  change_success: Hasło zmienione pomyślnie
+  change_title: "Zmiana hasła"
+  change_enter_current: "Wprowadź aktualne hasło:"
+  change_enter_new: "Wprowadź nowe hasło (min. 8 znaków):"
+  change_confirm_new: "Potwierdź nowe hasło:"
+  change_current_required: "Wprowadź aktualne hasło"
+  change_wrong_current: "Aktualne hasło jest nieprawidłowe"
+  change_too_short: "Nowe hasło musi mieć co najmniej 8 znaków"
+  change_mismatch: "Hasła nie pasują"
+  change_failed: "Zmiana hasła nie powiodła się"
+  remember: Zapamiętaj hasło
+  remember_toggle: Zapamiętaj hasło (Ctrl+R aby przełączyć)
+  remember_enabled: "Hasło zapisane do automatycznego odblokowywania. Uwaga: Może być dostępne dla użytkowników z uprawnieniami superużytkownika."
+  remember_keychain_enabled: Hasło bezpiecznie zapisane w pęku kluczy systemu.
+  remember_disabled: Przechowywanie hasła wyłączone. Zostaniesz poproszony przy następnym uruchomieniu.
+  remember_warning: "Proszę założyć, że hasło może być dostępne dla każdego z dostępem superużytkownika/root do tego urządzenia."
+  remember_keychain_warning: Hasło zostanie bezpiecznie zapisane w pęku kluczy systemu.
+  remember_keychain_info: Hasło bezpiecznie zapisane w pęku kluczy systemu
+  correct: "Hasło zweryfikowane"
+  storage_keychain: Pęk kluczy systemu
+  storage_file: Plik (zaciemniony)
+  incorrect: Nieprawidłowe hasło. Spróbuj ponownie.
+  verification_failed: "Weryfikacja hasła nie powiodła się: %{error}"
+  enter_to_enable: "Wprowadź hasło, aby włączyć automatyczne odblokowywanie:"
+  create_title: Utwórz hasło
+  unlock_title: Odblokuj
+  too_short: "Hasło musi mieć co najmniej %{min} znaków"
+  same_as_account: "Użyj różnych haseł. Serwer widzi hasło konta, więc nie może ono również otwierać notatek."
+  same_as_account_warning: "Hasło konta jest takie samo jak hasło notatek, więc serwer mógłby je odczytać. Zmień hasło notatek w Ustawieniach."
+  no_file_encryption: "Ta kompilacja nie szyfruje pliku bazy danych. Notatki i tagi pozostają zaszyfrowane, ale adres e-mail, adres serwera, nazwy załączników i daty już nie."
+  change_keeps_key: "Klucz szyfrowania się nie zmienia: stare kopie zapasowe nadal otworzysz starym hasłem."
+menu:
+  notes: Notatki
+  new_note: Nowa notatka
+  settings: Ustawienia
+  help: Pomoc
+  quit: Wyjdź
+  search: Szukaj
+note:
+  new: Nowa notatka
+  save: Zapisz
+  saved: Notatka zapisana
+  save_failed: "Zapisywanie notatki nie powiodło się: %{error}"
+  delete: Usuń notatkę
+  deleted: Notatka usunięta
+  delete_failed: "Usuwanie notatki nie powiodło się: %{error}"
+  reload_failed: "Ponowne ładowanie notatek nie powiodło się: %{error}"
+  pin: Przypnij notatkę
+  unpin: Odepnij notatkę
+  pinned: Przypięta
+  pin_failed: "Aktualizacja statusu przypięcia nie powiodła się: %{error}"
+  no_notes: Nie znaleziono notatek
+  total: "%{count} notatek"
+  lock: Zablokuj notatkę
+  unlock: Odblokuj notatkę
+  locked: Zablokowana
+  lock_failed: "Aktualizacja stanu blokady nie powiodła się: %{error}"
+  locked_cannot_edit: Zablokowanej notatki nie można edytować
+  locked_cannot_delete: Zablokowanej notatki nie można usunąć
+  locked_cannot_tag: Tagów zablokowanej notatki nie można modyfikować
+  info: Info o notatce
+  info_title: Informacje o notatce
+  untitled: "Bez tytułu"
+  save_retry_hint: "q: spróbuj zapisać ponownie | e: edytuj | Esc: odrzuć zmiany"
+  empty_bin_title: "Opróżnij kosz"
+  empty_bin_confirm: "Trwale usunąć notatki z kosza (%{count})?"
+  empty_bin_warning: "Zostaną też usunięte z serwera i innych urządzeń. Tego nie można cofnąć."
+  bin_emptied: "Trwale usunięte notatki: %{count}"
+  locked_cannot_archive: "Nie można zarchiwizować zablokowanej notatki"
+  unreadable: "Nie można odczytać notatek w tym sejfie: %{count}"
+  duplicated: "Zduplikowano notatkę"
+  copied: "Skopiowano do schowka"
+  copy_too_large: "Ta notatka jest zbyt długa, by terminal mógł ją niezawodnie skopiować"
+  word_wrap_on: "Zawijanie wierszy włączone"
+  word_wrap_off: "Zawijanie wierszy wyłączone"
+  no_links: "Brak linków na ekranie"
+archive:
+  view: "Wyświetl archiwum"
+  title: "Archiwum"
+  mode: "Tryb archiwum"
+  enter_mode: "Wejdź w tryb archiwum"
+  exit_mode: "Wyjdź z trybu archiwum"
+  toggle_mode: "Przełącz tryb archiwum"
+  no_notes: "Brak zarchiwizowanych notatek"
+  archive: "Zarchiwizuj notatkę"
+  unarchive: "Przywróć notatkę z archiwum"
+  archived: "Zarchiwizowano"
+  unarchived: "Przywrócono z archiwum"
+  failed: "Archiwizacja notatki nie powiodła się: %{error}"
+  unarchive_failed: "Przywrócenie notatki z archiwum nie powiodło się: %{error}"
+  count: "%{count} zarchiwizowanych notatek"
+
+editor:
+  title: Tytuł
+  content: Treść
+  tags: Tagi
+  created: Utworzono
+  modified: Zmodyfikowano
+  launch_external: Uruchom zewnętrzny edytor
+  external_failed: "Uruchomienie edytora nie powiodło się: %{error}"
+  external_exit_error: Edytor zakończył się kodem błędu
+  temp_file_error: Utworzenie pliku tymczasowego nie powiodło się
+  temp_write_error: Zapis do pliku tymczasowego nie powiódł się
+  temp_read_error: Odczyt pliku tymczasowego nie powiódł się
+  default_editor: vi
+  temp_on_disk: "Ten komputer nie ma folderu tymczasowego w pamięci, więc otwarta notatka jest na dysku do czasu jej zamknięcia."
+attachment:
+  add: Dodaj załącznik
+  add_failed: "Dodawanie załącznika nie powiodło się: %{error}"
+  view: Wyświetl załącznik
+  view_failed: "Wyświetlanie załącznika nie powiodło się: %{error}"
+  delete: Usuń załącznik
+  no_attachments: Brak załączników
+  total: "%{count} załączników"
+  press_enter: "Naciśnij Enter, aby kontynuować..."
+  opened: "Plik otwarto w domyślnej aplikacji."
+  no_opener: "W tym systemie nie ma programu do otwierania plików. Zapisz załącznik klawiszem S."
+  delete_failed: "Nie udało się usunąć załącznika: %{error}"
+  deleted: "Usunięto: %{name}"
+  exists: "%{path} już istnieje. Wybierz inną nazwę."
+  saved: "Zapisano w %{path}"
+  save_failed: "Nie udało się zapisać załącznika: %{error}"
+  added: "Dołączono %{name}"
+  too_large: "Plik jest za duży. Limit to %{max_mb} MB."
+  unsafe_title: "Ten plik nie zostanie otwarty"
+  unsafe_body: "Otwarcie pliku tego typu może uruchomić kod nadawcy. Zapisać go zamiast tego?"
+version:
+  history: Historia wersji
+  restore: Przywróć wersję
+  restored: Wersja %{number} przywrócona
+  restore_failed: "Przywracanie wersji nie powiodło się: %{error}"
+  no_versions: Brak historii wersji
+  current: Aktualna wersja
+search:
+  prompt: Szukaj notatek...
+  no_results: Nie znaleziono wyników
+  results: "%{count} wyników"
+settings:
+  title: Ustawienia
+  language: Język
+  theme: Motyw
+  color_scheme: Schemat kolorów
+  auto_lock: Limit czasu autoblokady
+  minutes: minut
+  sync: Synchronizacja
+  sync_enabled: Synchronizacja włączona
+  sync_endpoint: Punkt końcowy synchronizacji
+  device_name: Nazwa urządzenia
+  instructions_disconnect: Naciśnij 'd', aby odłączyć się od serwera synchronizacji (zachowuje lokalne notatki)
+  instructions_status: Naciśnij 'R' (Shift+r), aby sprawdzić status zatwierdzenia rejestracji
+  instructions_register: Naciśnij 'r', aby zarejestrować się na serwerze synchronizacji
+  user_portal: Portal Użytkownika
+  auto_sync_interval: Interwał automatycznej synchronizacji
+  instructions: Instrukcje
+  instructions_navigation: "↑/↓ lub j/k: Nawiguj między polami"
+  instructions_edit: Naciśnij Enter, i lub Spację, aby edytować pole
+  instructions_text: "Pola tekstowe: wpisz i naciśnij Enter, aby zapisać, Esc, aby anulować"
+  instructions_toggle: "Dla przełączników i cykli: naciśnij Enter, aby natychmiast zmienić wartość"
+  instructions_remember: "Zapamiętaj hasło: Enter pyta o hasło (przy włączaniu) lub wyłącza (gdy włączone)"
+  instructions_sync: Naciśnij 'y', aby uruchomić synchronizację
+  instructions_force_sync: Naciśnij 'Y' (Shift+y), aby wymusić pełną synchronizację (pobierz z serwera)
+  press_enter_cycle: naciśnij Enter, aby przełączyć
+  press_enter_toggle: naciśnij Enter, aby przełączyć
+  disabled: wyłączone
+  sort_order: "Sortowanie"
+  language_auto: "Jak w systemie"
+  default_note_type: "Domyślny typ notatki"
+sync:
+  push: Wyślij na serwer
+  pull: Pobierz z serwera
+  pushing: Wysyłanie zmian...
+  pulling: Pobieranie zmian...
+  success: Synchronizacja powiodła się
+  failed: "Synchronizacja nie powiodła się: %{error}"
+  no_api_key: Nie skonfigurowano klucza API
+  account_deactivated: Twoje konto zostało dezaktywowane lub oczekuje na zatwierdzenie administratora. Skontaktuj się z administratorem.
+  invalid_key: Nieprawidłowy klucz API lub uwierzytelnianie nie powiodło się. Spróbuj ponownie zarejestrować urządzenie.
+  conflict: Wykryto konflikt synchronizacji. Niektóre notatki mają konfliktujące zmiany na serwerze.
+  request_failed: Wysłanie żądania synchronizacji nie powiodło się
+  response_parse_failed: Analiza odpowiedzi synchronizacji nie powiodła się
+  disconnected: Rozłączono z serwerem synchronizacji. Lokalne notatki zachowane.
+  disconnect_failed: Nie udało się rozłączyć z serwerem synchronizacji
+  sse_connected: "Połączono synchronizację w czasie rzeczywistym"
+  sse_notification: "Otrzymano powiadomienie o synchronizacji"
+  sse_failed: "Synchronizacja w czasie rzeczywistym nie powiodła się"
+  status:
+    check_title: Sprawdź Status Rejestracji
+    result_title: Status Rejestracji
+    enter_email: "Wprowadź adres e-mail, aby sprawdzić status zatwierdzenia:"
+    check_failed: Nie udało się sprawdzić statusu rejestracji
+    not_found: Nie znaleziono konta z tym adresem e-mail.
+    approved: Twoje konto jest zatwierdzone i aktywne. Możesz synchronizować notatki.
+    pending: Twoje konto oczekuje na zatwierdzenie. Poczekaj, aż administrator zatwierdzi rejestrację.
+    inactive: Twoje konto zostało dezaktywowane. Skontaktuj się z administratorem.
+  not_enabled: Synchronizacja nie jest włączona. Naciśnij 's', aby skonfigurować w ustawieniach.
+  endpoint_not_configured: Punkt końcowy synchronizacji nie jest skonfigurowany. Skonfiguruj w tabeli ustawień bazy danych.
+  complete: Synchronizacja zakończona! Zsynchronizowano %{count} %{unit}
+  force_syncing: Wymuszanie synchronizacji wszystkich notatek...
+  force_complete: Wymuszona synchronizacja zakończona! Pobrano %{count} %{unit} z serwera
+  reload_failed: "Synchronizacja powiodła się, ale ponowne załadowanie notatek nie powiodło się: %{error}"
+  note: notatka
+  notes: notatek
+  skipped_notes: "Nie udało się odczytać elementów z serwera (%{count}) i zostały pominięte"
+  rejected_notes: "Notatki w konflikcie z serwerem: %{count}. Otwórz Jottery, aby je rozwiązać."
+  rate_limited: "Serwer poprosił Jottery o odczekanie %{seconds} s przed ponowną synchronizacją."
+  key_refused: "Serwer nie zaakceptował klucza API tego urządzenia. Zarejestruj urządzenie ponownie."
+  server_busy: "Serwer jest zajęty. Jottery spróbuje ponownie za %{seconds} s."
+  quota_exceeded: "Konto osiągnęło limit miejsca, więc nie udało się wysłać zmian. Są bezpieczne na tym urządzeniu. Opróżnij kosz lub usuń załączniki, aby zwolnić miejsce."
+  deletions_held_title: "Usunięto wiele notatek"
+  deletions_held: "Według serwera %{count} notatek trwale usunięto gdzie indziej. Czy to Ty?"
+  deletions_held_warning: "y: przenieś je tutaj do kosza. n: zachowaj je i przywróć na serwer."
+  deletions_held_cli: "Według serwera %{count} notatek usunięto gdzie indziej. Nadal tu są: otwórz Jottery, aby zdecydować."
+  deletions_applied: "Przeniesiono do kosza notatek: %{count}"
+  force_title: "Wymuś pełną resynchronizację"
+  force_confirm: "Pobrać WSZYSTKIE notatki i załączniki z serwera?"
+  force_note: "Niewysłane zmiany lokalne zostaną zachowane."
+  disconnect_title: "Odłącz synchronizację"
+  disconnect_confirm: "Odłączyć to urządzenie od serwera?"
+  disconnect_warning: "Notatki zostają tutaj. Urządzenie zostanie unieważnione na serwerze."
+  disconnect_conflicts: "Notatki z nierozwiązanymi konfliktami: %{count}. Ich kopie z serwera zostaną tutaj zapomniane."
+  device_still_registered: "Odłączono tutaj, ale nie udało się powiadomić serwera, więc klucz tego urządzenia nadal działa. Unieważnij go w portalu użytkownika."
+
+# Skrzynka odbiorcza
+  stopped_unexpectedly: "Synchronizacja nieoczekiwanie się zatrzymała. Nic nie zostało utracone, a próba zostanie ponowiona."
+  clock_ahead: "Zegar tego urządzenia może być nieprawidłowy: niektóre zmiany mają datę o ponad dzień późniejszą niż serwer, więc nie zostały wysłane. Zostaną wysłane, gdy zegar będzie poprawny."
+inbox:
+  title: "Skrzynka odbiorcza"
+  empty: "Skrzynka odbiorcza jest pusta. Notatki przesłane przez API skrzynki odbiorczej pojawią się tutaj."
+  accepted: "Notatka zaakceptowana"
+  deleted: "Element skrzynki odbiorczej usunięty"
+  accepted_all: "Wszystkie %{count} elementów skrzynki odbiorczej zaakceptowano"
+  deleted_all: "Wszystkie elementy skrzynki odbiorczej usunięte"
+  confirm_delete_title: "Usuń element skrzynki odbiorczej"
+  confirm_delete_message: "Usunąć ten element skrzynki odbiorczej? Tej operacji nie można cofnąć."
+  confirm_delete_all_title: "Usuń wszystkie elementy skrzynki odbiorczej"
+  confirm_delete_all_message: "Usunąć wszystkie %{count} elementów skrzynki odbiorczej? Tej operacji nie można cofnąć."
+  indicator: "Skrzynka odbiorcza (%{count})"
+  token:
+    logging_in: "Logowanie..."
+    generated_success: "Token skrzynki odbiorczej wygenerowany pomyślnie!"
+    save_warning: "Zapisz ten token teraz — nie zostanie ponownie wyświetlony."
+    example_title: "Szybki start"
+    revoked: "Token skrzynki odbiorczej unieważniony"
+    active: "Token skrzynki odbiorczej jest aktywny"
+    none: "Nie skonfigurowano tokenu skrzynki odbiorczej"
+
+register:
+  title: Zarejestruj się na Serwerze Synchronizacji
+  enter_endpoint: "Wprowadź URL serwera synchronizacji (np. https://sync.example.com):"
+  enter_email: "Wprowadź swój adres e-mail:"
+  enter_password: "Utwórz hasło (min. 12 znaków):"
+  reenter_password: "Wprowadź ponownie hasło synchronizacji:"
+  pending_title: Rejestracja Oczekująca
+  pending_message: Twoja rejestracja została przesłana i oczekuje na zatwierdzenie administratora.
+  pending_instructions: Naciśnij 'r' lub Enter, aby sprawdzić status zatwierdzenia. Naciśnij Esc, aby zamknąć.
+  pending_help: "r/Enter: Sprawdź status | Esc: Zamknij"
+  device_title: Rejestracja Urządzenia
+  enter_device_name: "Wprowadź nazwę tego urządzenia (lub naciśnij Enter dla domyślnej):"
+  endpoint_required: Wymagany jest URL serwera synchronizacji
+  email_invalid: Wprowadź prawidłowy adres e-mail
+  password_too_short: Hasło musi mieć co najmniej 12 znaków
+  failed: Rejestracja nie powiodła się
+  approved: Twoja rejestracja została zatwierdzona!
+  still_pending: Twoja rejestracja wciąż oczekuje na zatwierdzenie
+  success: Zarejestrowano pomyślnie! Synchronizacja jest teraz włączona.
+  device_failed: Rejestracja urządzenia nie powiodła się
+  cleared: Rejestracja wyczyszczona. Możesz zacząć od nowa.
+  pending_status: Oczekuje na zatwierdzenie
+  password_differs: "Musi się różnić od hasła notatek."
+  insecure_endpoint: "Ten adres używa niezaszyfrowanego HTTP, więc hasło do konta i klucz urządzenia mogą zostać odczytane po drodze. Użyj https:// albo wpisz ten adres ponownie, aby to zaakceptować."
+color_scheme:
+  default_dark: Domyślny ciemny
+  default_light: Domyślny jasny
+  monokai: Monokai
+  solarized_dark: Solarized ciemny
+  solarized_light: Solarized jasny
+  nord: Nord
+  dracula: Dracula
+  gruvbox_dark: Gruvbox ciemny
+  gruvbox_light: Gruvbox jasny
+  tokyo_night: Tokyo Night
+  catppuccin: Catppuccin
+syntax:
+  javascript: JavaScript
+  python: Python
+  markdown: Markdown
+  json: JSON
+  html: HTML
+  css: CSS
+  sql: SQL
+  bash: Bash
+  perl: Perl
+  rust: Rust
+  go: Go
+  java: Java
+  c: C
+  cpp: C++
+  none: Brak
+  change_language: Zmień język składni
+  change_failed: "Aktualizacja języka składni nie powiodła się: %{error}"
+error:
+  generic: Wystąpił błąd
+  unexpected: Wystąpił nieoczekiwany błąd
+  database: "Błąd bazy danych: %{error}"
+  encryption: "Błąd szyfrowania: %{error}"
+  network: "Błąd sieci: %{error}"
+  file_not_found: Nie znaleziono pliku
+  permission_denied: Odmowa dostępu
+  invalid_input: Nieprawidłowe dane wejściowe
+  operation_failed: "Operacja nie powiodła się: %{error}"
+help:
+  title: Skróty klawiszowe
+  subtitle: Naciśnij ? lub q, aby zamknąć
+  general: Ogólne
+  notes: Notatki
+  editor: Edytor
+  navigation: Nawigacja
+  quit_app: Zamknij aplikację
+  new_note: Utwórz nową notatkę
+  save_note: Zapisz bieżącą notatkę
+  delete_note: Usuń bieżącą notatkę
+  search_notes: Szukaj notatek
+  toggle_pin: Przełącz status przypięcia
+  next_note: Następna notatka
+  prev_note: Poprzednia notatka
+  scroll_up: Przewiń w górę
+  scroll_down: Przewiń w dół
+  page_up: Strona w górę
+  page_down: Strona w dół
+  unlock_screen: EKRAN ODBLOKOWYWANIA
+  note_list: LISTA NOTATEK
+  search_mode: TRYB WYSZUKIWANIA
+  note_preview_view: PODGLĄD NOTATKI - TRYB WIDOKU
+  note_preview_tag: PODGLĄD NOTATKI - TRYB TAGÓW
+  settings: USTAWIENIA
+  attachments: ZAŁĄCZNIKI
+  global: GLOBALNE
+  press_esc_or_enter: Naciśnij Esc lub Enter, aby zamknąć
+  tab_switch: "Tab: przełącz pola | Enter: utwórz"
+  enter_unlock: "Enter: odblokuj | Ctrl+Q: wyjdź"
+  type_password_key: Wpisz
+  type_password_desc: Wprowadź hasło
+  enter_to_unlock_key: Enter
+  enter_to_unlock_desc: Odblokuj bazę danych
+  tab_to_switch_key: Tab
+  tab_to_switch_desc: Przełącz hasło/potwierdzenie (nowa baza)
+  backspace_key: Backspace
+  backspace_desc: Usuń znak
+  ctrl_q_esc_key: Ctrl+q / Esc
+  ctrl_q_esc_desc: Zamknij aplikację
+  slash_search_key: /
+  slash_search_desc: Wejdź w tryb wyszukiwania
+  y_sync_key: "y"
+  y_sync_desc: Synchronizuj notatki (jeśli skonfigurowane)
+  s_settings_key: s
+  s_settings_desc: Pokaż ustawienia
+  n_new_key: "n"
+  n_new_desc: Utwórz nową notatkę
+  i_enter_open_key: i / Enter
+  i_enter_open_desc: Otwórz notatkę w $EDITOR
+  d_delete_key: d
+  d_delete_desc: Usuń wybraną notatkę
+  j_down_key: j / ↓
+  j_down_desc: Przesuń w dół
+  k_up_key: k / ↑
+  k_up_desc: Przesuń w górę
+  question_help_key: "?"
+  question_help_desc: Pokaż tę pomoc
+  ctrl_q_quit_key: Ctrl+q
+  ctrl_q_quit_desc: Zamknij aplikację
+  q_quit_key: q / Ctrl+q
+  q_quit_desc: Zamknij aplikację
+  type_search_key: Wpisz
+  type_search_desc: Wprowadź zapytanie wyszukiwania
+  search_tag_key: "#tag"
+  search_tag_desc: Szukaj według tagu
+  search_exclude_key: "-słowo"
+  search_exclude_desc: Wyklucz słowo (negacja)
+  search_and_key: słowo1 słowo2
+  search_and_desc: Dopasuj wszystkie słowa (I)
+  search_color_key: "color:red"
+  search_color_desc: "Szukaj według koloru (notatka lub tag)"
+  search_color_note_key: "color:red note"
+  search_color_note_desc: "Szukaj notatek z kolorem"
+  search_color_tag_key: "color:red tag"
+  search_color_tag_desc: "Szukaj notatek z kolorowymi tagami"
+  search_category_key: "category:important"
+  search_category_desc: "Szukaj według nazwy kategorii koloru"
+  enter_open_editor_key: Enter
+  enter_open_editor_desc: Otwórz notatkę w $EDITOR
+  esc_exit_search_key: Esc
+  esc_exit_search_desc: Wyjdź z trybu wyszukiwania
+  arrows_navigate_key: ↑ / ↓
+  arrows_navigate_desc: Nawiguj wyniki
+  enter_e_edit_key: Enter / e
+  enter_e_edit_desc: Edytuj w zewnętrznym $EDITOR
+  t_tag_mode_key: t
+  t_tag_mode_desc: Wejdź w tryb tagów
+  q_esc_save_key: q / Esc
+  q_esc_save_desc: Zapisz i wróć do listy
+  type_tag_key: Wpisz
+  type_tag_desc: Wprowadź nazwę tagu
+  enter_add_tag_key: Enter
+  enter_add_tag_desc: Dodaj tag
+  backspace_remove_key: Backspace (pusty)
+  backspace_remove_desc: Usuń ostatni tag
+  backspace_delete_key: Backspace
+  backspace_delete_desc: Usuń znak z wprowadzania
+  esc_normal_key: Esc
+  esc_normal_desc: Wyjdź do trybu normalnego
+  jk_navigate_key: j/k lub ↑/↓
+  jk_navigate_desc: Nawiguj między polami
+  enter_edit_key: Enter / i / Spacja
+  enter_edit_desc: Edytuj wybrane pole
+  enter_save_key: Enter
+  enter_save_desc: Zapisz pola tekstowe/liczbowe, przełącz inne pola
+  esc_cancel_key: Esc
+  esc_cancel_desc: Anuluj edycję (pola tekstowe/liczbowe)
+  s_q_close_key: s / q
+  s_q_close_desc: Zamknij panel ustawień
+  tab_focus_attachment_key: Tab
+  tab_focus_attachment_desc: Fokus na panelu załączników (j/k do nawigacji, Enter do podglądu, d do usunięcia)
+  plus_add_attachment_key: "+"
+  plus_add_attachment_desc: Dodaj załącznik (wprowadź ścieżkę pliku)
+  a_view_attachment_key: a + numer
+  a_view_attachment_desc: Wyświetl załącznik (a1, a2, ...)
+  shift_jk_attachment_key: Shift+j / Shift+k
+  shift_jk_attachment_desc: Nawiguj załączniki
+  X_remove_attachment_key: X
+  X_remove_attachment_desc: Usuń wybrany załącznik
+  note_images_key: "Uwaga:"
+  note_images_desc: Obrazy używają chafa, jeśli dostępne, w przeciwnym razie domyślnej aplikacji systemowej
+  question_global_key: "?"
+  question_global_desc: Pokaż ten ekran pomocy
+  bracket_cycle_key: "] / ["
+  bracket_cycle_desc: Zmień typ składni (do przodu/do tyłu)
+  color_cycle_key: "C / c"
+  color_cycle_desc: Zmień kolor/kategorię notatki (do przodu/do tyłu)
+  shift_a_archive_key: Shift+A
+  shift_a_archive_desc: Przełącz tryb archiwum (pokaż zarchiwizowane notatki)
+  L_lock_key: L
+  L_lock_desc: Przełącz blokadę wybranej notatki
+  I_info_key: I
+  I_info_desc: Pokaż informacje o notatce
+  pageup_pagedown_key: PgUp / PgDn
+  pageup_pagedown_desc: Przewiń podgląd (cała strona)
+  ctrl_scroll_key: Ctrl+d/u/f/b
+  ctrl_scroll_desc: Przewijanie w stylu Vim (pół/cała strona)
+  mouse_scroll_key: Kółko myszy
+  mouse_scroll_desc: Przewiń podgląd
+  p_pin_key: p
+  p_pin_desc: Przełącz przypięcie wybranej notatki
+  r_recycle_key: r
+  r_recycle_desc: Przełącz widok kosza
+  v_versions_key: v
+  v_versions_desc: Wyświetl historię wersji
+  b_inbox_key: b
+  b_inbox_desc: "Otwórz skrzynkę odbiorczą"
+  tab_search_key: Tab
+  tab_search_desc: Wyjdź z wyszukiwania, fokus na załącznikach
+  multi_select: TRYB WIELOKROTNEGO WYBORU
+  space_select_key: Spacja
+  space_select_desc: Przełącz zaznaczenie bieżącej notatki
+  shift_v_range_key: Shift+V
+  shift_v_range_desc: Zaznacz zakres od ostatnio zaznaczonej
+  ctrl_a_all_key: Ctrl+A
+  ctrl_a_all_desc: Zaznacz wszystkie przefiltrowane notatki
+  multi_t_tags_key: t
+  multi_t_tags_desc: Dodaj tagi do zaznaczonych notatek
+  multi_d_delete_key: d
+  multi_d_delete_desc: Usuń zaznaczone notatki
+  multi_c_combine_key: c
+  multi_c_combine_desc: Połącz zaznaczone notatki w jedną
+  multi_e_export_key: e
+  multi_e_export_desc: Eksportuj zaznaczone notatki do JSON
+  esc_clear_key: Esc
+  esc_clear_desc: Wyczyść zaznaczenie / wyjdź z trybu wielokrotnego wyboru
+  mouse: MYSZ
+  click_note_key: Kliknij notatkę
+  click_note_desc: Wybierz notatkę na liście
+  click_tag_key: Kliknij tag
+  click_tag_desc: Szukaj tego tagu
+  click_tags_key: "Kliknij 'Tagi:'"
+  click_tags_desc: Wejdź w tryb edycji tagów
+  scroll_key: Kółko przewijania
+  scroll_desc: Przewiń podgląd w górę/w dół
+  ctrl_l_lock_key: "Ctrl+L"
+  ctrl_l_lock_desc: "Zablokuj Jottery"
+  S_save_attachment_key: "S"
+  S_save_attachment_desc: "Zapisz wybrany załącznik do pliku"
+  z_archive_key: "z"
+  z_archive_desc: "Zarchiwizuj wybraną notatkę (lub przywróć w trybie archiwum)"
+  multi_z_archive_key: "z"
+  multi_z_archive_desc: "Zarchiwizuj wybrane notatki"
+  search_or_key: "a | b"
+  search_or_desc: "Jedno z dwóch (LUB)"
+  search_phrase_key: "\"a phrase\""
+  search_phrase_desc: "Te słowa w tej kolejności"
+  search_wildcard_key: "word* / *word"
+  search_wildcard_desc: "Słowo zaczyna się lub kończy tym"
+  search_exclude_tag_key: "-#tag"
+  search_exclude_tag_desc: "Wyklucz notatki z tym tagiem"
+  search_attachment_key: "has:attachment"
+  search_attachment_desc: "Notatki z załącznikami"
+  search_archived_key: "archived"
+  search_archived_desc: "Szukaj w archiwum"
+  search_created_key: "created:>2024-01-01"
+  search_created_desc: "Utworzone po dacie (także < i a..b)"
+  search_modified_key: "modified:>2024-01-01"
+  search_modified_desc: "Zmienione po dacie (także < i a..b)"
+  search_words_key: "words:>100"
+  search_words_desc: "Liczba słów (także < i a..b)"
+  multi_remove_tags_key: "T"
+  multi_remove_tags_desc: "Usuń tagi z wybranych notatek"
+  multi_colour_key: "C"
+  multi_colour_desc: "Ustaw kolor wybranych notatek"
+  g_saved_key: "g"
+  g_saved_desc: "Zapisane wyszukiwania"
+  ctrl_s_save_search_key: "Ctrl+S"
+  ctrl_s_save_search_desc: "Zapisz to wyszukiwanie"
+  enter_confirm_esc_cancel: "Enter: potwierdź | Esc: anuluj"
+  D_duplicate_key: "Shift+D"
+  D_duplicate_desc: "Duplikuj notatkę"
+  o_copy_key: "o"
+  o_copy_desc: "Kopiuj tekst notatki do schowka"
+  w_wrap_key: "w"
+  w_wrap_desc: "Włącz lub wyłącz zawijanie wierszy"
+  ctrl_p_history_key: "Ctrl+P/N"
+  ctrl_p_history_desc: "Wcześniejsze i późniejsze wyszukiwania"
+  l_link_key: "l, Enter"
+  l_link_desc: "Przechodź przez linki i otwórz jeden"
+cli:
+  # Alternatywne (używane w niektórych miejscach)
+  list: Wyświetl notatki
+  show: Pokaż notatkę
+  new: Utwórz nową notatkę
+  edit: Edytuj notatkę
+  delete: Usuń notatkę
+  search: Szukaj notatek
+  export: Eksportuj notatki
+  import: Importuj notatki
+  sync: Synchronizuj z serwerem
+  register: Zarejestruj urządzenie
+  # Główna aplikacja
+  about: "Zorientowany na prywatność, zaszyfrowany TUI do notatek"
+  # Opcje globalne
+  database_help: "Ścieżka do pliku bazy danych"
+  debug_help: "Włącz logowanie debugowania"
+  debug_log_help: "Ścieżka do pliku logów debugowania (do rozwiązywania problemów)"
+  reset_help: "Resetuj: usuń bazę danych i zacznij od nowa"
+  # Polecenia
+  note_about: "Szybka notatka z $EDITOR"
+  list_about: "Wyświetl wszystkie notatki"
+  search_about: "Szukaj notatek"
+  show_about: "Pokaż konkretną notatkę według ID"
+  sync_about: "Synchronizuj notatki ze zdalnym serwerem"
+  register_user_about: "Zarejestruj nowe konto użytkownika na serwerze"
+  register_device_about: "Zarejestruj to urządzenie na serwerze (wymaga zatwierdzonego konta użytkownika)"
+  export_about: "Eksportuj notatki do pliku JSON"
+  import_about: "Importuj notatki z pliku JSON"
+  backup_about: "Utwórz zaszyfrowaną kopię zapasową (kompatybilną z aplikacją webową)"
+  inbox_token_about: "Zarządzaj tokenem API skrzynki odbiorczej"
+  restore_backup_about: "Przywróć z zaszyfrowanej kopii zapasowej"
+  store_password_about: "Zapisz hasło do automatycznego odblokowywania (do automatyzacji demo/testów)"
+  # Argumenty ogólne
+  password_help: "Hasło do szyfrowania (zostaniesz poproszony, jeśli nie podano)"
+  password_decrypt_help: "Hasło do odszyfrowania (zostaniesz poproszony, jeśli nie podano)"
+  tags_help: "Opcjonalne tagi dla notatki (rozdzielone przecinkami)"
+  tag_filter_help: "Filtruj według tagu"
+  limit_help: "Maksymalna liczba notatek do wyświetlenia"
+  limit_results_help: "Maksymalna liczba wyników do wyświetlenia"
+  query_help: "Zapytanie wyszukiwania"
+  id_help: "ID notatki (obsługiwane częściowe dopasowanie)"
+  server_help: "URL punktu końcowego serwera"
+  email_help: "E-mail użytkownika"
+  device_name_help: "Nazwa urządzenia"
+  key_password_help: "Hasło szyfrowania dla lokalnej bazy danych"
+  output_help: "Ścieżka pliku wyjściowego"
+  input_help: "Ścieżka pliku wejściowego"
+  backup_password_help: "Hasło do odszyfrowania (hasło kopii zapasowej)"
+  local_key_help: "Hasło szyfrowania lokalnej bazy danych (domyślnie: hasło kopii zapasowej)"
+  password_store_help: "Hasło do zapisania"
+  # Podpolecenia InboxToken
+  inbox_generate_about: "Wygeneruj nowy token skrzynki odbiorczej (wymaga logowania na serwerze)"
+  inbox_revoke_about: "Unieważnij bieżący token skrzynki odbiorczej"
+  inbox_status_about: "Sprawdź, czy token skrzynki odbiorczej istnieje"
+  server_optional_help: "URL punktu końcowego serwera (używa skonfigurowanego punktu końcowego, jeśli pominięto)"
+  # Built-in help/version
+  help_flag: "Wyświetl pomoc"
+  version_flag: "Wyświetl wersję"
+  help_subcommand: "Wyświetl tę wiadomość lub pomoc podpoleceń"
+  # Komunikaty wyjściowe
+  notes_count: "%{count} notatek"
+  results_count: "%{count} wyników: '%{query}'"
+  attach_about: "Dołącz plik do notatki"
+  save_attachment_about: "Zapisz załącznik notatki do pliku"
+  archive_about: "Zarchiwizuj notatkę"
+  unarchive_about: "Przywróć notatkę z archiwum"
+  note_id_help: "ID notatki (obsługiwane częściowe dopasowanie)"
+  attach_file_help: "Plik do dołączenia"
+  attachment_number_help: "Który załącznik, według numeracji z show"
+  archived_help: "Pokaż zamiast tego zarchiwizowane notatki"
+  import_summary: "Dodano: %{created}, zaktualizowano: %{updated}, już aktualne: %{skipped}"
+  import_failed: "Nie udało się zaimportować elementów z pliku: %{count}"
+  password_change_required: "To konto musi najpierw zmienić hasło. Zaloguj się w aplikacji internetowej, aby to zrobić, i spróbuj ponownie."
+  insecure_endpoint: "%{endpoint} używa niezaszyfrowanego HTTP, więc hasło może zostać odczytane po drodze. Użyj https:// albo podaj --allow-insecure-http, aby to zaakceptować."
+  allow_insecure_http_help: "Zezwól na wysłanie hasła przez niezaszyfrowane HTTP do publicznego hosta"
+  password_flag_deprecated: "Hasło w wierszu poleceń jest widoczne w ps i historii powłoki. Użyj zamiast tego --password-stdin lub JOTTERY_PASSWORD."
+  password_stdin_help: "Czytaj hasła ze stdin, po jednym w wierszu, zamiast pytać"
+  reset_yes_help: "Nie pytaj, zanim --reset cokolwiek usunie"
+  reset_confirm: "Spowoduje to trwałe usunięcie %{path} i zapamiętanego hasła. Wpisz %{word}, aby kontynuować:"
+  reset_cancelled: "Nic nie zostało usunięte"
+  reset_done: "Usunięto sejf i zapamiętane hasło"
+  reset_keychain_failed: "Nie udało się usunąć hasła z pęku kluczy"
+  export_force_help: "Zastąp plik, jeśli już istnieje"
+  account_about: "Zobacz lub usuń to, co serwer przechowuje dla Twojego konta"
+  colours_about: "Nazywaj kolory i przypisuj kolory do tagów"
+  doctor_about: "Sprawdź sejf pod kątem notatek, których nie da się otworzyć, i brakujących załączników"
+  doctor_repair_help: "Pobierz brakujące załączniki z serwera"
+status:
+  locked: Zablokowane
+  unlocked: Odblokowane
+  syncing: Synchronizowanie...
+  synced: Zsynchronizowane
+  offline: Offline
+  modified: Zmodyfikowane
+  saved: Zapisane
+bulk:
+  tags_added: "Dodano tagi do %{count} notatek: %{tags}"
+  deleted: Usunięto %{count} notatek
+  combined: Połączono %{count} notatek
+  combine_requires_two: Wybierz co najmniej 2 notatki do połączenia
+  exported: Wyeksportowano %{count} notatek do %{path}
+  operation_failed: "Operacja masowa nie powiodła się: %{error}"
+  confirm_delete: Usunąć %{count} notatek? (t/n)
+  confirm_combine: Połączyć %{count} notatek? (t/n)
+  enter_tags: "Wprowadź tagi (rozdzielone przecinkami):"
+  enter_export_path: "Ścieżka eksportu:"
+  add_tags_to: Dodaj tagi do
+  export_notes_to: Eksportuj
+  archived: "Zarchiwizowane notatki: %{count}"
+  tags_removed: "Usunięto tagi z notatek (%{count}): %{tags}"
+  remove_tags_from: "Usuń tagi z notatek (%{count})"
+  enter_colour: "Wpisz nazwę koloru (puste, aby wyczyścić):"
+  colour_of: "Ustaw kolor notatek (%{count})"
+  colour_set: "Zmieniono kolor notatek: %{count}"
+  unknown_colour: "Nie ma koloru o nazwie %{colour}"
+  overwrite_title: "Zastąpić ten plik?"
+  overwrite_message: "%{path} już istnieje. Zastąpienia nie można cofnąć."
+time:
+  just_now: przed chwilą
+  minutes_ago: "%{count} minut temu"
+  hours_ago: "%{count} godzin temu"
+  days_ago: "%{count} dni temu"
+  date_format: "%d.%m.%Y"
+  time_format: "%H:%M:%S"
+  datetime_format: "%d.%m.%Y %H:%M:%S"
+conflict:
+  title: Konflikt synchronizacji
+  your_version: Twoja wersja
+  server_version: Wersja serwera
+  common_ancestor: Wspólny przodek
+  ancestor_description: Wersja, od której obie zaczęły, zanim zmiany się rozeszły
+  resolved_mine: Konflikt rozwiązany - zachowano twoją wersję
+  resolved_server: Konflikt rozwiązany - zachowano wersję serwera
+  resolved_both: Konflikt rozwiązany - zachowano obie wersje
+  resolve_failed: Rozwiązanie konfliktu nie powiodło się
+  indicator: Wykryto konflikt synchronizacji
+  no_conflict: Ta notatka nie ma konfliktu synchronizacji
+  count_singular: "konflikt"
+  count_plural: "konfliktów"
+
+# Backup functionality
+backup:
+  created: "Kopia zapasowa utworzona"
+  restore: "Przywracanie kopii zapasowej"
+  valid: "Prawidłowa kopia zapasowa"
+  records: "rekordów"
+  validating: "Walidacja pliku kopii zapasowej..."
+  verifying_password: "Weryfikacja hasła..."
+  restoring: "Przywracanie danych..."
+  restored: "Przywrócono"
+  key_not_in_backup: "Ta kopia zapasowa została utworzona przez starszą wersję Jottery i nie zawiera swojego klucza. Można ją przywrócić tylko do sejfu, z którego pochodzi."
+  incomplete: "Ta kopia jest niepełna: nie udało się odczytać elementów (%{count}) i zostały pominięte."
+  records_failed: "Nie udało się przywrócić rekordów z tej kopii: %{count}. Pozostałe przywrócono."
+
+# Progress indicators
+progress:
+  backup: "Tworzenie kopii zapasowej..."
+  processing: "Przetwarzanie"
+  export: "Eksportowanie..."
+
+# Panele i tytuły UI
+ui:
+  notes: "Notatki"
+  preview: "Podgląd"
+  archive: "Archiwum"
+  recycle_bin: "Kosz"
+  version_history: "Historia wersji"
+  attachment_viewer: "Przeglądarka załączników"
+  conflict_resolution: "Rozwiązywanie konfliktów"
+  attachments: "Załączniki"
+  add_attachment: "Dodaj załącznik (Tab: uzupełnij, ↑↓: wybierz, Enter: potwierdź)"
+  search: "Szukaj:"
+  search_archive: "Szukaj zarchiwizowanych notatek:"
+  type: "Typ:"
+  modified: "Zmodyfikowano:"
+  version: "Wersja:"
+  save_attachment: "Zapisz załącznik (Tab: uzupełnij, ↑↓: wybierz, Enter: potwierdź)"
+  path: "Ścieżka"
+  attachments_hint: "Załączniki: (Tab, aby przejść)"
+  attachments_focused_hint: "Załączniki: (Tab — przełącz, j/k — nawigacja, Enter — podgląd, S — zapisz, d — usuń)"
+  attachments_keys_hint: "'a' — podgląd, '+' — dodaj, 'X' — usuń zaznaczony"
+  attachment_viewer_hint: "↑/↓: nawigacja │ 1-9: szybki wybór │ Enter: podgląd │ S: zapisz │ +: dodaj │ d: usuń │ Esc: zamknij"
+
+# Tekst pomocy paska stanu
+status_bar:
+  help: "Pomoc"
+  search: "Szukaj"
+  select: "wybierz"
+  pin: "przypnij"
+  tags: "Tagi"
+  type: "Typ"
+  bin: "Kosz"
+  archive: "Archiwum"
+  ver: "Wersja"
+  new: "Nowa"
+  toggle: "przełącz"
+  clear: "wyczyść"
+  add_tags: "Dodaj tagi"
+  delete: "usuń"
+  combine: "połącz"
+  export: "eksportuj"
+  selected: "zaznaczono"
+  unarchive: "przywróć"
+  toggle_mode: "Przełącz tryb"
+  navigate: "nawiguj"
+  exit_archive: "Wyjdź z archiwum"
+  accept: "akceptuj"
+  accept_all: "akceptuj wszystkie"
+  delete_all: "usuń wszystkie"
+  close: "zamknij"
+  keep_mine: "Zachowaj moją"
+  keep_server: "Zachowaj serwera"
+  keep_both: "Zachowaj obie"
+  switch: "przełącz"
+  scroll: "przewiń"
+  cancel: "anuluj"
+  press_b_open: "Naciśnij b, aby otworzyć"
+  # Tryb wyszukiwania
+  type_search: "Wpisz: szukaj"
+  exit: "wyjdź"
+  match: "trafienie"
+  matches: "trafień"
+  in_active: "w aktywnych"
+  in_archive: "w archiwum"
+  # Kosz
+  restore: "przywróć"
+  empty_bin: "Opróżnij kosz"
+  back_to_notes: "wróć do notatek"
+  quick_select: "Szybki wybór"
+  view: "podgląd"
+  restore_version: "Przywróć wersję"
+  save: "zapisz"
+  add: "dodaj"
+
+# Virtual tags
+tags:
+  virtual:
+    title: "tytuł"
+
+calc:
+  line_too_long: "⚠ Wiersz jest za długi do obliczenia (limit %{max} bajtów)"
+  numbers_only: "⚠ Calc działa na liczbach: tekst, krotki i ; nie są obliczane"
+  too_deep: "⚠ Zbyt wiele zagnieżdżonych nawiasów (limit %{max})"
+  gave_up: "Obliczanie tej notatki trwało zbyt długo, więc jest wyświetlana bez wyników."
+
+envelope:
+  unwrap_failed: "Hasło notatek nie otwiera klucza tego konta. Mógł zostać zapisany przez starszą wersję. Odblokuj Jottery na już połączonym urządzeniu, co to naprawi, i spróbuj ponownie."
+  rekey_failed: "Nie udało się przenieść lokalnych notatek na klucz tego konta, więc nic się nie zmieniło: %{error}"
+  diverged: "Klucz tego urządzenia różni się od klucza konta. Notatki z innych urządzeń mogą się tu nie otwierać."
+  password_changed_elsewhere: "Hasło do notatek zmieniono na innym urządzeniu, więc niczego nie nadpisano. To urządzenie nadal odblokowuje się starym hasłem. Zmień je tutaj, aby mogły dołączać nowe urządzenia."
+  server_update_pending: "Hasło zmieniono na tym urządzeniu, ale nie udało się zaktualizować kopii klucza na serwerze. Jottery spróbuje ponownie. Do tego czasu nowe urządzenie nie dołączy z nowym hasłem."
+  key_keeps_changing: "Klucz konta ciągle zmienia się na serwerze, więc to urządzenie go nie ruszyło. Spróbuj ponownie za chwilę."
+
+saved_search:
+  title: "Zapisane wyszukiwania"
+  empty: "Brak zapisanych wyszukiwań. Wyszukaj za pomocą /, a następnie naciśnij Ctrl+S, aby zapisać."
+  name_prompt: "Nazwij to wyszukiwanie"
+  nothing_to_save: "Najpierw wpisz wyszukiwanie"
+  saved: "Zapisano wyszukiwanie: %{name}"
+  deleted: "Usunięto zapisane wyszukiwanie"
+  delete_confirm: "Usunąć '%{name}' na wszystkich urządzeniach? (y/n)"
+  not_found: "Brak zapisanego wyszukiwania o nazwie %{name}"
+  failed: "Błąd zapisanego wyszukiwania: %{error}"
+
+export:
+  file_exists: "Ten plik już istnieje. Wybierz inną nazwę lub użyj --force, aby go zastąpić."
+
+account:
+  email: "Konto: %{email}"
+  usage: "Notatki: %{notes}, załączniki: %{attachments}"
+  storage: "Miejsce: %{used} MB z %{quota} MB"
+  last_sync: "Ostatnia synchronizacja: %{time}"
+  confirm_delete_notes: "Spowoduje to usunięcie wszystkich notatek na serwerze, dla wszystkich urządzeń, i nie można tego cofnąć. Wpisz swój adres e-mail, aby kontynuować:"
+  confirm_delete: "Spowoduje to usunięcie konta i wszystkiego na serwerze, i nie można tego cofnąć. To urządzenie zachowa swoje notatki. Wpisz swój adres e-mail, aby kontynuować:"
+  cancelled: "Nic nie zostało usunięte"
+  notes_deleted: "Usunięto wszystkie notatki na serwerze"
+  deleted: "Konto zostało usunięte"
+
+colours:
+  unknown: "Brak koloru o nazwie %{colour}"
+  named: "Zaktualizowano kolor: %{colour}"
+  tag_set: "Zaktualizowano tag: %{tag}"
+
+doctor:
+  notes: "Notatki: %{count}, nieczytelne: %{unreadable}"
+  versions: "Wersje: %{count}, nieczytelne: %{unreadable}"
+  attachments: "Załączniki: %{count}, nieczytelne: %{unreadable}, brakujące: %{missing}"
+  saved_searches: "Zapisane wyszukiwania: %{count}, nieczytelne: %{unreadable}"
+  conflicts: "Konflikty czekające na Ciebie: %{count}"
+  problems: "Znalezione problemy: %{count}"
+  repaired: "Pobrane załączniki: %{count}"
+  repair_needs_sync: "Ten sejf nie jest połączony z serwerem, więc nie można pobrać brakujących załączników"
+  healthy: "Nie znaleziono problemów"

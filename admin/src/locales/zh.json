@@ -1,0 +1,437 @@
+{
+  "app": {
+    "name": "Jottery Admin"
+  },
+  "common": {
+    "refresh": "刷新",
+    "refreshing": "刷新中...",
+    "cancel": "取消",
+    "confirm": "确认",
+    "close": "关闭",
+    "save": "保存",
+    "edit": "编辑",
+    "loading": "加载中...",
+    "email": "电子邮件",
+    "password": "密码",
+    "actions": "操作",
+    "status": "状态",
+    "created": "创建时间",
+    "saving": "保存中...",
+    "deleting": "删除中...",
+    "passwordRules": "至少 12 个字符。服务器可能还要求混合使用大小写字母、数字和符号。"
+  },
+  "nav": {
+    "dashboard": "仪表板",
+    "users": "用户",
+    "settings": "设置",
+    "logout": "退出登录",
+    "audit": "审计日志"
+  },
+  "login": {
+    "title": "Jottery Admin",
+    "subtitle": "登录以管理您的服务器",
+    "email": "电子邮件",
+    "password": "密码",
+    "signIn": "登录",
+    "signingIn": "登录中...",
+    "placeholder": {
+      "email": "admin@localhost",
+      "password": "••••••••"
+    },
+    "errors": {
+      "invalidCredentials": "电子邮件或密码无效",
+      "adminRequired": "需要管理员访问权限",
+      "unexpected": "发生意外错误"
+    }
+  },
+  "logout": {
+    "confirmTitle": "确认退出登录",
+    "confirmMessage": "您确定要退出登录吗？"
+  },
+  "errors": {
+    "unknown": "出现问题，请重试。",
+    "network": "无法连接到服务器。请检查您的网络连接后重试。",
+    "forbidden": "您没有执行此操作的权限。",
+    "wrongPassword": "当前密码不正确",
+    "rateLimited": "尝试次数过多。请在 {seconds} 秒后重试。",
+    "tooManyAttempts": "尝试次数过多。请稍候再试。",
+    "passwordTooShort": "新密码必须至少包含12个字符",
+    "passwordSameAsCurrent": "新密码必须与当前密码不同",
+    "ownAdminRole": "您不能移除自己的管理员权限。",
+    "lastAdminDemote": "不能降级最后一位管理员。",
+    "ownAccountDelete": "您不能在此删除自己的账户。",
+    "lastAdminDelete": "不能删除最后一位管理员。",
+    "userNotFound": "未找到用户。",
+    "deviceNotFound": "未找到设备。",
+    "quotaRange": "存储配额必须在 1 到 100000 MB 之间。",
+    "maxUploadRange": "最大上传大小必须在 1 到 1000 MB 之间。",
+    "inboxItemsRange": "收件箱最大条目数必须在 1 到 10000 之间。",
+    "inboxSizeRange": "收件箱最大容量必须在 1 到 1000 MB 之间。",
+    "passwordComplexity": "密码至少需要 4 种字符类型中的 {required} 种。缺少：{missing}。",
+    "passwordClass": {
+      "uppercase": "大写字母",
+      "lowercase": "小写字母",
+      "number": "数字",
+      "special": "符号"
+    },
+    "passwordTooLong": "密码太长。"
+  },
+  "session": {
+    "expired": "您的会话已过期。请重新登录。"
+  },
+  "forcedPasswordChange": {
+    "title": "更改您的密码",
+    "description": "您必须设置新密码才能继续。密码长度至少为 12 个字符。"
+  },
+  "dashboard": {
+    "title": "仪表板",
+    "loadingStats": "正在加载统计信息...",
+    "failedToLoad": "加载统计信息失败",
+    "stats": {
+      "totalUsers": "总用户数",
+      "approved": "已批准",
+      "pending": "待处理",
+      "activeDevices": "活跃设备",
+      "totalDevices": "总共{count}个设备",
+      "totalNotes": "总笔记数",
+      "acrossAllUsers": "所有用户",
+      "storage": "存储空间",
+      "mbQuota": "{quota} MB配额"
+    },
+    "serverInfo": {
+      "title": "服务器信息",
+      "version": "服务器版本：",
+      "activeUsers": "活跃用户：",
+      "pendingApprovals": "待批准："
+    }
+  },
+  "devices": {
+    "title": "设备",
+    "name": "设备名称",
+    "type": "类型",
+    "createdAt": "注册时间",
+    "lastSeen": "最后在线",
+    "status": "状态",
+    "active": "活跃",
+    "inactive": "未激活",
+    "revoke": "撤销",
+    "delete": "删除",
+    "rename": "重命名",
+    "revokeConfirmTitle": "撤销设备",
+    "revokeConfirm": "您确定要撤销设备「{name}」吗？此设备将无法再进行同步。",
+    "revokeWarning": "此设备将无法再进行同步。",
+    "deleteConfirmTitle": "删除设备",
+    "deleteConfirm": "您确定要永久删除设备「{name}」吗？此操作无法撤销。",
+    "noDevices": "没有已注册的设备",
+    "total": "总计",
+    "nameRequired": "设备名称为必填项",
+    "toast": {
+      "revoked": "设备「{name}」已被撤销",
+      "revokeFailed": "撤销设备失败：{error}",
+      "revokeFailedGeneric": "撤销设备失败",
+      "deleted": "设备「{name}」已被删除",
+      "deleteFailed": "删除设备失败：{error}",
+      "deleteFailedGeneric": "删除设备失败",
+      "renamed": "设备重命名成功",
+      "renameFailed": "重命名设备失败：{error}",
+      "renameFailedGeneric": "重命名设备失败"
+    }
+  },
+  "users": {
+    "title": "用户",
+    "loadingUsers": "正在加载用户...",
+    "noUsersFound": "未找到用户",
+    "failedToLoad": "加载用户失败",
+    "detail": {
+      "title": "用户详情",
+      "userInfo": "用户信息",
+      "approvedAt": "批准时间",
+      "lastLogin": "最后登录",
+      "lastSync": "最后同步",
+      "statistics": "统计",
+      "attachments": "附件",
+      "storage": "已用存储空间",
+      "quota": "存储配额",
+      "viewDevices": "点击查看设备",
+      "settings": "用户设置",
+      "maxUploadSize": "最大上传大小",
+      "maxUploadSizeHelp": "每次同步请求的最大大小（包括附件）",
+      "settingsSaved": "用户设置已成功保存",
+      "settingsSaveFailed": "保存设置失败: {error}",
+      "settingsSaveFailedGeneric": "保存设置失败",
+      "viewDetails": "点击查看详情",
+      "passwordReset": "重置密码",
+      "resetPassword": "重置密码",
+      "newPassword": "新密码",
+      "newPasswordPlaceholder": "输入新密码",
+      "confirmPassword": "确认密码",
+      "confirmPasswordPlaceholder": "确认新密码",
+      "passwordTooShort": "密码必须至少包含12个字符",
+      "passwordMismatch": "密码不匹配",
+      "passwordResetSuccess": "{email}的密码已成功重置",
+      "passwordResetFailed": "重置密码失败：{error}",
+      "passwordResetFailedGeneric": "重置密码失败",
+      "passwordResetHelp": "如果用户忘记了密码，请为其重置。",
+      "passwordResetWarning": "这只会更改账户登录密码，不会影响笔记加密。如果用户忘记了加密密码，其笔记将无法恢复。",
+      "inboxMaxItems": "收件箱最大条目数",
+      "inboxMaxSize": "收件箱最大容量",
+      "items": "条",
+      "passwordResetDevices": "设备密钥与密码无关，因此重置后该用户的设备仍会继续同步。",
+      "revokeDevicesOption": "如果账户可能已被入侵，同时撤销该用户的所有设备密钥"
+    },
+    "filters": {
+      "all": "全部",
+      "pending": "待处理",
+      "approved": "已批准",
+      "inactive": "未激活"
+    },
+    "table": {
+      "email": "电子邮件",
+      "status": "状态",
+      "devices": "设备",
+      "notes": "笔记",
+      "created": "创建时间",
+      "actions": "操作"
+    },
+    "status": {
+      "pending": "待处理",
+      "active": "活跃",
+      "inactive": "未激活",
+      "admin": "管理员"
+    },
+    "actions": {
+      "approve": "批准",
+      "makeAdmin": "设为管理员",
+      "removeAdmin": "移除管理员",
+      "deactivate": "停用",
+      "activate": "激活",
+      "delete": "删除",
+      "demoteFromAdmin": "从管理员降级",
+      "promoteToAdmin": "提升为管理员",
+      "deleteUser": "删除用户"
+    },
+    "confirm": {
+      "approve": "批准",
+      "deactivate": "停用",
+      "activate": "激活",
+      "delete": "删除",
+      "promoteToAdmin": "提升为管理员",
+      "demoteFromAdmin": "从管理员降级",
+      "messages": {
+        "approve": "批准{email}？该用户将可以登录并注册设备。",
+        "deactivate": "停用{email}？在重新激活之前，该用户将无法登录或同步。",
+        "activate": "激活{email}？该用户将可以重新登录和同步。",
+        "delete": "这将永久删除{email}以及服务器为该用户保存的所有内容：笔记、附件、设备和账户密钥。此操作无法撤销。",
+        "promoteToAdmin": "您确定要将{email}提升为管理员吗？他们将拥有所有管理功能的完全访问权限。",
+        "demoteFromAdmin": "您确定要移除{email}的管理员权限吗？"
+      },
+      "deleteCounts": "笔记：{notes} · 设备：{devices}",
+      "typeEmail": "输入该用户的电子邮箱地址以确认："
+    },
+    "toast": {
+      "approved": "用户{email}已成功批准",
+      "deactivated": "用户{email}已停用",
+      "activated": "用户{email}已激活",
+      "deleted": "用户{email}已删除",
+      "promotedToAdmin": "用户{email}已提升为管理员",
+      "demotedFromAdmin": "用户{email}已从管理员降级",
+      "failed": {
+        "approve": "无法批准用户：{error}",
+        "deactivate": "无法停用用户：{error}",
+        "activate": "无法激活用户：{error}",
+        "delete": "无法删除用户：{error}",
+        "promote": "无法将用户提升为管理员：{error}",
+        "demote": "无法移除用户的管理员权限：{error}"
+      }
+    }
+  },
+  "settings": {
+    "title": "设置",
+    "language": {
+      "title": "语言",
+      "description": "选择管理界面的首选语言。",
+      "label": "显示语言"
+    },
+    "changePassword": {
+      "title": "更改密码",
+      "description": "更新您的管理员密码。密码必须至少包含12个字符。",
+      "currentPassword": "当前密码",
+      "newPassword": "新密码",
+      "confirmPassword": "确认新密码",
+      "placeholder": {
+        "current": "输入当前密码",
+        "new": "输入新密码（至少12个字符）",
+        "confirm": "确认新密码"
+      },
+      "button": "更改密码",
+      "buttonChanging": "更改中...",
+      "cancel": "取消",
+      "errors": {
+        "currentRequired": "当前密码为必填项",
+        "newRequired": "新密码为必填项",
+        "minLength": "新密码必须至少包含12个字符",
+        "mismatch": "密码不匹配",
+        "failed": "更改密码失败"
+      },
+      "success": "密码更改成功"
+    }
+  },
+  "userPortal": {
+    "title": "我的账户",
+    "tabs": {
+      "account": "账户",
+      "settings": "设置"
+    },
+    "login": {
+      "title": "Jottery",
+      "subtitle": "登录以管理您的账户",
+      "email": "电子邮件",
+      "password": "密码",
+      "signIn": "登录",
+      "signingIn": "登录中...",
+      "placeholder": {
+        "email": "you@example.com",
+        "password": "••••••••"
+      },
+      "errors": {
+        "invalidCredentials": "电子邮件或密码无效",
+        "accountInactive": "您的账户已停用。请联系管理员。",
+        "accountPending": "您的账户正在等待管理员批准。",
+        "unexpected": "发生意外错误",
+        "statusCheckFailed": "Failed to check status. Please try again."
+      },
+      "checkStatus": "Check approval status",
+      "statusCheck": {
+        "title": "Check Approval Status",
+        "checkButton": "Check Status",
+        "notFound": "No account found with this email address.",
+        "approved": "Your account is approved and active. You can sign in above.",
+        "pending": "Your account is pending approval. Please wait for an administrator to approve your registration.",
+        "inactive": "Your account has been deactivated. Please contact an administrator."
+      }
+    },
+    "account": {
+      "title": "账户信息",
+      "loadError": "加载账户信息失败",
+      "email": "电子邮件",
+      "memberSince": "注册日期",
+      "noteCount": "笔记",
+      "attachmentCount": "附件",
+      "storageUsed": "已用存储空间",
+      "lastSync": "最后同步",
+      "never": "从未",
+      "inbox": {
+        "title": "收件箱 API",
+        "description": "通过 API 向您的帐户提交笔记——无需加密密码。项目将出现在您的收件箱中等待审阅。",
+        "itemsLabel": "项目",
+        "sizeLabel": "大小",
+        "noToken": "尚未配置收件箱令牌。生成一个以开始通过 API 提交笔记。",
+        "generate": "生成令牌",
+        "generated": "令牌已生成——请立即保存，此后将不再显示。",
+        "active": "收件箱令牌已启用",
+        "copyToken": "复制",
+        "quickStart": "快速入门",
+        "revoke": "撤销令牌",
+        "revokeConfirmTitle": "撤销收件箱令牌",
+        "revokeConfirmMessage": "撤销您的收件箱令牌？使用该令牌的所有集成将停止工作。",
+        "cancel": "取消",
+        "generateSuccess": "收件箱令牌已生成",
+        "generateFailed": "无法生成令牌：{error}",
+        "revokeSuccess": "收件箱令牌已撤销",
+        "revokeFailed": "无法撤销令牌，它仍然有效：{error}",
+        "copySuccess": "令牌已复制",
+        "copyUnavailable": "此处无法复制。请选中令牌并手动复制。"
+      },
+      "storageUsedNote": "包括笔记、笔记历史记录和附件。"
+    },
+    "devices": {
+      "title": "您的设备",
+      "loadError": "加载设备失败",
+      "noDevices": "没有已注册的设备",
+      "never": "从未",
+      "revokeTitle": "撤销设备",
+      "revokeConfirm": "您确定要撤销「{name}」吗？此设备将无法再进行同步。",
+      "revokeNote": "撤销设备将阻止其同步。如有需要，您可以稍后重新注册该设备。",
+      "revoked": "设备「{name}」已被撤销",
+      "revokeFailed": "撤销设备失败：{error}",
+      "revokeFailedGeneric": "撤销设备失败",
+      "deleteTitle": "删除设备",
+      "deleteConfirm": "您确定要永久删除「{name}」吗？此操作无法撤销。",
+      "deleted": "设备「{name}」已被删除",
+      "deleteFailed": "删除设备失败：{error}",
+      "deleteFailedGeneric": "删除设备失败"
+    },
+    "settings": {
+      "title": "设置",
+      "language": {
+        "title": "语言",
+        "description": "选择您首选的界面语言。",
+        "label": "显示语言"
+      },
+      "changePassword": "更改密码",
+      "currentPassword": "当前密码",
+      "newPassword": "新密码",
+      "confirmPassword": "确认密码",
+      "updatePassword": "更新密码",
+      "passwordChanged": "密码更改成功",
+      "dangerZone": "危险区域",
+      "deleteAccount": "删除账户",
+      "deleteDescription": "永久删除您的账户和所有数据。此操作无法撤销。",
+      "delete": "删除",
+      "deleteConfirmTitle": "永久删除账户",
+      "deleteConfirmMessage": "这将永久删除您的账户和所有数据。此操作无法撤销。",
+      "deleteConfirmLabel": "输入 DELETE 以确认：",
+      "deleteForever": "永久删除",
+      "accountDeleted": "您的账户已被删除",
+      "errors": {
+        "passwordMismatch": "密码不匹配",
+        "passwordTooShort": "密码必须至少包含12个字符",
+        "wrongPassword": "当前密码不正确",
+        "unexpected": "发生意外错误",
+        "deleteFailed": "删除账户失败",
+        "deleteNotesFailed": "Failed to delete notes"
+      },
+      "deleteNotes": "Delete Notes",
+      "deleteNotesDescription": "Delete all your notes from the server. Your account remains active and you can sync again.",
+      "deleteNotesButton": "Delete Notes",
+      "deleteNotesConfirmTitle": "Delete All Notes",
+      "deleteNotesConfirmMessage": "Are you sure you want to delete all your notes from the server? This is useful if you forgot your encryption password and need to start fresh. Your account will remain active.",
+      "notesDeleted": "All notes have been deleted from the server",
+      "passwordToConfirm": "输入您的密码以确认："
+    }
+  },
+  "audit": {
+    "title": "审计日志",
+    "description": "管理员在此服务器上所做操作的永久记录。",
+    "loading": "正在加载审计日志...",
+    "failedToLoad": "无法加载审计日志",
+    "empty": "尚无任何记录。",
+    "allActions": "所有操作",
+    "filterLabel": "显示",
+    "commandLine": "命令行",
+    "range": "第 {from}–{to} 条，共 {total} 条",
+    "previous": "上一页",
+    "next": "下一页",
+    "table": {
+      "time": "时间",
+      "action": "操作",
+      "admin": "管理员",
+      "target": "受影响对象",
+      "address": "地址"
+    },
+    "actions": {
+      "userApprove": "批准用户",
+      "userDeactivate": "停用用户",
+      "userActivate": "激活用户",
+      "userDelete": "删除用户",
+      "userPasswordReset": "重置密码",
+      "userAdminGrant": "提升为管理员",
+      "userAdminRevoke": "移除管理员",
+      "userSettingsUpdate": "更改用户设置",
+      "deviceRevoke": "撤销设备",
+      "deviceDelete": "删除设备",
+      "deviceRename": "重命名设备",
+      "adminPasswordChange": "更改自己的密码"
+    }
+  }
+}

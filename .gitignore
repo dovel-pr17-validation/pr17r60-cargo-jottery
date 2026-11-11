@@ -1,0 +1,93 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+!webview-bundles/dist
+dist-ssr
+# Retired Electron build output. The tooling is gone, but ~900 MB of artifacts
+# from v0.9.27 may still be sitting in a working copy — keep this ignored so
+# `git add -A` cannot sweep them into a commit and blow GitHub's 100 MB limit.
+dist-electron
+*.local
+
+# Test results
+test-results/
+playwright-report/
+.playwright/
+.claude/
+coverage/
+scripts/test-history.db
+
+# Release binaries. Under public/ they would also end up in the web client's dist
+releases/*
+!releases/.gitkeep
+public/releases/
+
+# Demo generation intermediates (not public/screenshots/)
+/screenshots/
+demo-generation/screenshots/*
+!demo-generation/screenshots/appstore/
+demo-generation/tui-demo/
+demo-generation/ios/raw/
+demo-generation/ios/.derived/
+
+# Xcode user data
+xcuserdata/
+*.xcuserdatad/
+
+# Android build artifacts
+android-native/.gradle/
+android-native/app/build/
+android-native/build/
+android-native/local.properties
+
+# Databases, wherever they are, including SQLite sidecars and dated copies. A
+# real server backup went out in release v0.6.7 because only the exact name
+# jottery.db was ignored, so these match by extension, and everything under
+# server/ matches on any .db suffix. scripts/check-tracked-files.sh enforces the
+# same rule in CI, for files that were added before they were ignored.
+*.db
+*.db-*
+*.db.*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+server/**/*.db*
+!demo-generation/demo-server/jottery-demo.db
+
+# Environment files and signing material
+.env
+.env.*
+!.env.example
+*.p12
+*.pfx
+*.pem
+*.key
+*.jks
+*.keystore
+*.mobileprovision
+
+# Backups and exports from a real vault. A decrypted export would be a far worse
+# leak than a database, and secret scanning can't see into either.
+*.jwe
+*.enex
+*export*.json
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

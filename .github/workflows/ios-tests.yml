@@ -1,0 +1,46 @@
+name: iOS Tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'ios-native/**'
+      - '.github/workflows/ios-tests.yml'
+  workflow_call:  # Run before publishing, from build-multiarch.yml
+  workflow_dispatch:  # Manual trigger
+
+permissions:
+  contents: read
+
+jobs:
+  ios-tests:
+    name: iOS Tests
+    # The iPhone Duo code uses iOS 27.1 APIs, so it needs Xcode 27.1 or later.
+    # Named rather than macos-latest so the SDK can't change unannounced.
+    runs-on: xcode-27
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Package.resolved holds the Runestone pin, which the iOS 26 SDK needs,
+      # so resolution must not move it.
+      - name: Run tests
+        working-directory: ios-native/Jottery
+        run: |
+          xcodebuild test \
+            -project Jottery.xcodeproj \
+            -scheme Jottery \
+            -destination 'platform=iOS Simulator,name=iPhone 17' \
+            -disableAutomaticPackageResolution \
+            -resultBundlePath TestResults.xcresult
+
+      - name: Upload test results
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: failure()
+        with:
+          name: ios-test-results
+          path: ios-native/Jottery/TestResults.xcresult
+          retention-days: 7

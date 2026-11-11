@@ -1,0 +1,444 @@
+{
+  "app": {
+    "name": "Jottery Admin"
+  },
+  "common": {
+    "refresh": "Odśwież",
+    "refreshing": "Odświeżanie...",
+    "cancel": "Anuluj",
+    "confirm": "Potwierdź",
+    "close": "Zamknij",
+    "save": "Zapisz",
+    "edit": "Edytuj",
+    "loading": "Ładowanie...",
+    "email": "E-mail",
+    "password": "Hasło",
+    "actions": "Akcje",
+    "status": "Status",
+    "created": "Utworzono",
+    "saving": "Zapisywanie...",
+    "deleting": "Usuwanie...",
+    "passwordRules": "Co najmniej 12 znaków. Serwer może też wymagać połączenia wielkich i małych liter, cyfr oraz symboli."
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "users": "Użytkownicy",
+    "settings": "Ustawienia",
+    "logout": "Wyloguj",
+    "audit": "Dziennik audytu"
+  },
+  "login": {
+    "title": "Jottery Admin",
+    "subtitle": "Zaloguj się, aby zarządzać serwerem",
+    "email": "E-mail",
+    "password": "Hasło",
+    "signIn": "Zaloguj",
+    "signingIn": "Logowanie...",
+    "placeholder": {
+      "email": "admin@localhost",
+      "password": "••••••••"
+    },
+    "errors": {
+      "invalidCredentials": "Nieprawidłowy e-mail lub hasło",
+      "adminRequired": "Wymagany dostęp administratora",
+      "unexpected": "Wystąpił nieoczekiwany błąd"
+    }
+  },
+  "logout": {
+    "confirmTitle": "Potwierdź wylogowanie",
+    "confirmMessage": "Czy na pewno chcesz się wylogować?"
+  },
+  "errors": {
+    "unknown": "Coś poszło nie tak. Spróbuj ponownie.",
+    "network": "Nie udało się połączyć z serwerem. Sprawdź połączenie i spróbuj ponownie.",
+    "forbidden": "Nie masz uprawnień do wykonania tej czynności.",
+    "wrongPassword": "Obecne hasło jest nieprawidłowe",
+    "rateLimited": "Zbyt wiele prób. Spróbuj ponownie za {seconds} s.",
+    "tooManyAttempts": "Zbyt wiele prób. Poczekaj i spróbuj ponownie.",
+    "passwordTooShort": "Nowe hasło musi mieć co najmniej 12 znaków",
+    "passwordSameAsCurrent": "Nowe hasło musi różnić się od obecnego",
+    "ownAdminRole": "Nie możesz odebrać sobie uprawnień administratora.",
+    "lastAdminDemote": "Ostatniego administratora nie można zdegradować.",
+    "ownAccountDelete": "Nie możesz tutaj usunąć własnego konta.",
+    "lastAdminDelete": "Ostatniego administratora nie można usunąć.",
+    "userNotFound": "Nie znaleziono użytkownika.",
+    "deviceNotFound": "Nie znaleziono urządzenia.",
+    "quotaRange": "Limit pamięci musi wynosić od 1 do 100000 MB.",
+    "maxUploadRange": "Maksymalny rozmiar przesyłania musi wynosić od 1 do 1000 MB.",
+    "inboxItemsRange": "Maksymalna liczba elementów w skrzynce musi wynosić od 1 do 10000.",
+    "inboxSizeRange": "Maksymalny rozmiar skrzynki musi wynosić od 1 do 1000 MB.",
+    "passwordComplexity": "Hasło wymaga co najmniej {required} z 4 rodzajów znaków. Brakuje: {missing}.",
+    "passwordClass": {
+      "uppercase": "wielka litera",
+      "lowercase": "mała litera",
+      "number": "cyfra",
+      "special": "symbol"
+    },
+    "passwordTooLong": "Hasło jest za długie."
+  },
+  "session": {
+    "expired": "Twoja sesja wygasła. Zaloguj się ponownie."
+  },
+  "forcedPasswordChange": {
+    "title": "Zmień hasło",
+    "description": "Aby kontynuować, musisz wybrać nowe hasło. Musi mieć co najmniej 12 znaków."
+  },
+  "dashboard": {
+    "title": "Panel",
+    "loadingStats": "Ładowanie statystyk...",
+    "failedToLoad": "Nie udało się załadować statystyk",
+    "stats": {
+      "totalUsers": "Łączna liczba użytkowników",
+      "approved": "zatwierdzono",
+      "pending": "oczekuje",
+      "activeDevices": "Aktywne urządzenia",
+      "totalDevices": "{count} urządzeń łącznie",
+      "totalNotes": "Łączna liczba notatek",
+      "acrossAllUsers": "Dla wszystkich użytkowników",
+      "storage": "Pamięć",
+      "mbQuota": "{quota} MB limitu"
+    },
+    "serverInfo": {
+      "title": "Informacje o serwerze",
+      "version": "Wersja serwera:",
+      "activeUsers": "Aktywni użytkownicy:",
+      "pendingApprovals": "Oczekujące zatwierdzenia:"
+    }
+  },
+  "devices": {
+    "title": "Urządzenia",
+    "name": "Nazwa urządzenia",
+    "type": "Typ",
+    "createdAt": "Zarejestrowano",
+    "lastSeen": "Ostatnio widziano",
+    "status": "Status",
+    "active": "Aktywne",
+    "inactive": "Nieaktywne",
+    "revoke": "Unieważnij",
+    "delete": "Usuń",
+    "rename": "Zmień nazwę",
+    "revokeConfirmTitle": "Unieważnij urządzenie",
+    "revokeConfirm": "Czy na pewno chcesz unieważnić urządzenie \"{name}\"? To urządzenie nie będzie mogło się synchronizować.",
+    "revokeWarning": "To urządzenie nie będzie mogło się synchronizować.",
+    "deleteConfirmTitle": "Usuń urządzenie",
+    "deleteConfirm": "Czy na pewno chcesz trwale usunąć urządzenie \"{name}\"? Ta akcja jest nieodwracalna.",
+    "noDevices": "Brak zarejestrowanych urządzeń",
+    "total": "łącznie",
+    "nameRequired": "Nazwa urządzenia jest wymagana",
+    "toast": {
+      "revoked": "Urządzenie \"{name}\" zostało unieważnione",
+      "revokeFailed": "Nie udało się unieważnić urządzenia: {error}",
+      "revokeFailedGeneric": "Nie udało się unieważnić urządzenia",
+      "deleted": "Urządzenie \"{name}\" zostało usunięte",
+      "deleteFailed": "Nie udało się usunąć urządzenia: {error}",
+      "deleteFailedGeneric": "Nie udało się usunąć urządzenia",
+      "renamed": "Nazwa urządzenia została zmieniona",
+      "renameFailed": "Nie udało się zmienić nazwy urządzenia: {error}",
+      "renameFailedGeneric": "Nie udało się zmienić nazwy urządzenia"
+    }
+  },
+  "users": {
+    "title": "Użytkownicy",
+    "loadingUsers": "Ładowanie użytkowników...",
+    "noUsersFound": "Nie znaleziono użytkowników",
+    "failedToLoad": "Nie udało się załadować użytkowników",
+    "detail": {
+      "title": "Szczegóły użytkownika",
+      "userInfo": "Informacje o użytkowniku",
+      "approvedAt": "Zatwierdzono",
+      "lastLogin": "Ostatnie logowanie",
+      "lastSync": "Ostatnia synchronizacja",
+      "statistics": "Statystyki",
+      "attachments": "Załączniki",
+      "storage": "Użyta pamięć",
+      "quota": "Limit pamięci",
+      "viewDevices": "Kliknij, aby zobaczyć urządzenia",
+      "settings": "Ustawienia użytkownika",
+      "maxUploadSize": "Maks. rozmiar przesyłania",
+      "maxUploadSizeHelp": "Maksymalny rozmiar na żądanie synchronizacji (zawiera załączniki)",
+      "settingsSaved": "Ustawienia użytkownika zostały zapisane",
+      "settingsSaveFailed": "Nie udało się zapisać ustawień: {error}",
+      "settingsSaveFailedGeneric": "Nie udało się zapisać ustawień",
+      "viewDetails": "Kliknij, aby zobaczyć szczegóły",
+      "passwordReset": "Resetowanie hasła",
+      "resetPassword": "Resetuj hasło",
+      "newPassword": "Nowe hasło",
+      "newPasswordPlaceholder": "Wprowadź nowe hasło",
+      "confirmPassword": "Potwierdź hasło",
+      "confirmPasswordPlaceholder": "Potwierdź nowe hasło",
+      "passwordTooShort": "Hasło musi mieć co najmniej 12 znaków",
+      "passwordMismatch": "Hasła nie są zgodne",
+      "passwordResetSuccess": "Hasło dla {email} zostało pomyślnie zresetowane",
+      "passwordResetFailed": "Nie udało się zresetować hasła: {error}",
+      "passwordResetFailedGeneric": "Nie udało się zresetować hasła",
+      "passwordResetHelp": "Zresetuj hasło użytkownika, jeśli je zapomniał.",
+      "passwordResetWarning": "To zmienia tylko hasło do logowania. Nie wpływa na szyfrowanie notatek. Jeśli użytkownik zapomniał hasła szyfrowania, jego notatki nie mogą być odzyskane.",
+      "inboxMaxItems": "Maks. elementów w skrzynce",
+      "inboxMaxSize": "Maks. rozmiar skrzynki",
+      "items": "elementów",
+      "passwordResetDevices": "Urządzenia tego użytkownika będą nadal synchronizować po resecie, ponieważ ich klucze nie są powiązane z hasłem.",
+      "revokeDevicesOption": "Unieważnij też wszystkie klucze urządzeń tego użytkownika, jeśli konto mogło zostać przejęte"
+    },
+    "filters": {
+      "all": "Wszyscy",
+      "pending": "Oczekujące",
+      "approved": "Zatwierdzone",
+      "inactive": "Nieaktywne"
+    },
+    "table": {
+      "email": "E-mail",
+      "status": "Status",
+      "devices": "Urządzenia",
+      "notes": "Notatki",
+      "created": "Utworzono",
+      "actions": "Akcje"
+    },
+    "status": {
+      "pending": "Oczekuje",
+      "active": "Aktywny",
+      "inactive": "Nieaktywny",
+      "admin": "Administrator"
+    },
+    "actions": {
+      "approve": "Zatwierdź",
+      "makeAdmin": "Ustaw jako administratora",
+      "removeAdmin": "Usuń administratora",
+      "deactivate": "Dezaktywuj",
+      "activate": "Aktywuj",
+      "delete": "Usuń",
+      "demoteFromAdmin": "Zdegraduj z administratora",
+      "promoteToAdmin": "Awansuj na administratora",
+      "deleteUser": "Usuń użytkownika"
+    },
+    "confirm": {
+      "approve": "Zatwierdź",
+      "deactivate": "Dezaktywuj",
+      "activate": "Aktywuj",
+      "delete": "Usuń",
+      "promoteToAdmin": "Awansuj na administratora",
+      "demoteFromAdmin": "Zdegraduj z administratora",
+      "messages": {
+        "approve": "Zatwierdzić {email}? Ta osoba będzie mogła się logować i rejestrować urządzenia.",
+        "deactivate": "Dezaktywować {email}? Ta osoba nie będzie mogła się logować ani synchronizować, dopóki konto nie zostanie ponownie aktywowane.",
+        "activate": "Aktywować {email}? Ta osoba znów będzie mogła się logować i synchronizować.",
+        "delete": "Ta operacja trwale usuwa {email} i wszystko, co serwer przechowuje dla tego użytkownika: notatki, załączniki, urządzenia i klucz konta. Nie można jej cofnąć.",
+        "promoteToAdmin": "Czy na pewno chcesz awansować {email} na administratora? Otrzyma pełny dostęp do wszystkich funkcji administracyjnych.",
+        "demoteFromAdmin": "Czy na pewno chcesz odebrać uprawnienia administratora użytkownikowi {email}?"
+      },
+      "deleteCounts": "Notatki: {notes} · Urządzenia: {devices}",
+      "typeEmail": "Wpisz adres e-mail użytkownika, aby potwierdzić:"
+    },
+    "toast": {
+      "approved": "Użytkownik {email} został pomyślnie zatwierdzony",
+      "deactivated": "Użytkownik {email} został dezaktywowany",
+      "activated": "Użytkownik {email} został aktywowany",
+      "deleted": "Użytkownik {email} został usunięty",
+      "promotedToAdmin": "Użytkownik {email} został awansowany na administratora",
+      "demotedFromAdmin": "Użytkownik {email} został zdegradowany z administratora",
+      "failed": {
+        "approve": "Nie udało się zatwierdzić użytkownika: {error}",
+        "deactivate": "Nie udało się dezaktywować użytkownika: {error}",
+        "activate": "Nie udało się aktywować użytkownika: {error}",
+        "delete": "Nie udało się usunąć użytkownika: {error}",
+        "promote": "Nie udało się awansować użytkownika na administratora: {error}",
+        "demote": "Nie udało się odebrać użytkownikowi uprawnień administratora: {error}"
+      }
+    }
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "language": {
+      "title": "Język",
+      "description": "Wybierz preferowany język interfejsu administratora.",
+      "label": "Język wyświetlania"
+    },
+    "changePassword": {
+      "title": "Zmień hasło",
+      "description": "Zaktualizuj hasło administratora. Hasło musi mieć co najmniej 12 znaków.",
+      "currentPassword": "Obecne hasło",
+      "newPassword": "Nowe hasło",
+      "confirmPassword": "Potwierdź nowe hasło",
+      "placeholder": {
+        "current": "Wprowadź obecne hasło",
+        "new": "Wprowadź nowe hasło (min. 12 znaków)",
+        "confirm": "Potwierdź nowe hasło"
+      },
+      "button": "Zmień hasło",
+      "buttonChanging": "Zmiana...",
+      "cancel": "Anuluj",
+      "errors": {
+        "currentRequired": "Obecne hasło jest wymagane",
+        "newRequired": "Nowe hasło jest wymagane",
+        "minLength": "Nowe hasło musi mieć co najmniej 12 znaków",
+        "mismatch": "Hasła nie są zgodne",
+        "failed": "Nie udało się zmienić hasła"
+      },
+      "success": "Hasło zostało pomyślnie zmienione"
+    }
+  },
+  "userPortal": {
+    "title": "Moje konto",
+    "tabs": {
+      "account": "Konto",
+      "settings": "Ustawienia"
+    },
+    "login": {
+      "title": "Jottery",
+      "subtitle": "Zaloguj się, aby zarządzać kontem",
+      "email": "E-mail",
+      "password": "Hasło",
+      "signIn": "Zaloguj",
+      "signingIn": "Logowanie...",
+      "placeholder": {
+        "email": "ty@przyklad.pl",
+        "password": "••••••••"
+      },
+      "errors": {
+        "invalidCredentials": "Nieprawidłowy e-mail lub hasło",
+        "accountInactive": "Twoje konto jest nieaktywne. Skontaktuj się z administratorem.",
+        "accountPending": "Twoje konto czeka na zatwierdzenie przez administratora.",
+        "unexpected": "Wystąpił nieoczekiwany błąd",
+        "statusCheckFailed": "Failed to check status. Please try again."
+      },
+      "checkStatus": "Check approval status",
+      "statusCheck": {
+        "title": "Check Approval Status",
+        "checkButton": "Check Status",
+        "notFound": "No account found with this email address.",
+        "approved": "Your account is approved and active. You can sign in above.",
+        "pending": "Your account is pending approval. Please wait for an administrator to approve your registration.",
+        "inactive": "Your account has been deactivated. Please contact an administrator."
+      }
+    },
+    "account": {
+      "title": "Informacje o koncie",
+      "loadError": "Nie udało się załadować informacji o koncie",
+      "email": "E-mail",
+      "memberSince": "Członek od",
+      "noteCount": "Notatki",
+      "attachmentCount": "Załączniki",
+      "storageUsed": "Użyta pamięć",
+      "lastSync": "Ostatnia synchronizacja",
+      "never": "Nigdy",
+      "inbox": {
+        "title": "API skrzynki odbiorczej",
+        "description": "Wysyłaj notatki na swoje konto przez API — bez hasła szyfrowania. Elementy pojawią się w skrzynce odbiorczej do przeglądu.",
+        "itemsLabel": "Elementy",
+        "sizeLabel": "Rozmiar",
+        "noToken": "Brak skonfigurowanego tokenu skrzynki odbiorczej. Wygeneruj jeden, aby zacząć wysyłać notatki przez API.",
+        "generate": "Generuj token",
+        "generated": "Token wygenerowany — zapisz go teraz, nie zostanie ponownie wyświetlony.",
+        "active": "Token skrzynki odbiorczej aktywny",
+        "copyToken": "Kopiuj",
+        "quickStart": "Szybki start",
+        "revoke": "Unieważnij token",
+        "revokeConfirmTitle": "Unieważnij token skrzynki odbiorczej",
+        "revokeConfirmMessage": "Unieważnić token skrzynki odbiorczej? Wszystkie integracje z niego korzystające przestaną działać.",
+        "cancel": "Anuluj",
+        "generateSuccess": "Token skrzynki odbiorczej został wygenerowany",
+        "generateFailed": "Nie udało się wygenerować tokenu: {error}",
+        "revokeSuccess": "Token skrzynki odbiorczej został unieważniony",
+        "revokeFailed": "Nie udało się unieważnić tokenu, więc nadal działa: {error}",
+        "copySuccess": "Token skopiowany",
+        "copyUnavailable": "Tutaj nie można kopiować. Zaznacz token i skopiuj go ręcznie."
+      },
+      "storageUsedNote": "Obejmuje notatki, historię notatek i załączniki."
+    },
+    "devices": {
+      "title": "Twoje urządzenia",
+      "loadError": "Nie udało się załadować urządzeń",
+      "noDevices": "Brak zarejestrowanych urządzeń",
+      "never": "Nigdy",
+      "revokeTitle": "Unieważnij urządzenie",
+      "revokeConfirm": "Czy na pewno chcesz unieważnić \"{name}\"? To urządzenie nie będzie mogło się synchronizować.",
+      "revokeNote": "Unieważnienie urządzenia uniemożliwi synchronizację. Możesz ponownie zarejestrować urządzenie później, jeśli zajdzie taka potrzeba.",
+      "revoked": "Urządzenie \"{name}\" zostało unieważnione",
+      "revokeFailed": "Nie udało się unieważnić urządzenia: {error}",
+      "revokeFailedGeneric": "Nie udało się unieważnić urządzenia",
+      "deleteTitle": "Usuń urządzenie",
+      "deleteConfirm": "Czy na pewno chcesz trwale usunąć \"{name}\"? Ta akcja jest nieodwracalna.",
+      "deleted": "Urządzenie \"{name}\" zostało usunięte",
+      "deleteFailed": "Nie udało się usunąć urządzenia: {error}",
+      "deleteFailedGeneric": "Nie udało się usunąć urządzenia"
+    },
+    "settings": {
+      "title": "Ustawienia",
+      "language": {
+        "title": "Język",
+        "description": "Wybierz preferowany język interfejsu.",
+        "label": "Język wyświetlania"
+      },
+      "changePassword": "Zmień hasło",
+      "currentPassword": "Obecne hasło",
+      "newPassword": "Nowe hasło",
+      "confirmPassword": "Potwierdź hasło",
+      "updatePassword": "Zaktualizuj hasło",
+      "passwordChanged": "Hasło zostało pomyślnie zmienione",
+      "dangerZone": "Strefa niebezpieczna",
+      "deactivateAccount": "Dezaktywuj konto",
+      "deactivateDescription": "Dezaktywuj swoje konto. Możesz ponownie się zarejestrować z zatwierdzeniem administratora.",
+      "deactivate": "Dezaktywuj",
+      "deactivateConfirmTitle": "Dezaktywuj konto",
+      "deactivateConfirmMessage": "Czy na pewno chcesz dezaktywować swoje konto? Twoje dane zostaną zachowane, ale będziesz potrzebować zatwierdzenia administratora, aby ponownie uzyskać dostęp.",
+      "accountDeactivated": "Twoje konto zostało dezaktywowane",
+      "deleteAccount": "Usuń konto",
+      "deleteDescription": "Trwale usuń swoje konto i wszystkie dane. Ta akcja jest nieodwracalna.",
+      "delete": "Usuń",
+      "deleteConfirmTitle": "Trwale usuń konto",
+      "deleteConfirmMessage": "To trwale usunie Twoje konto i wszystkie dane. Ta akcja jest nieodwracalna.",
+      "deleteConfirmLabel": "Wpisz DELETE, aby potwierdzić:",
+      "deleteForever": "Usuń na zawsze",
+      "accountDeleted": "Twoje konto zostało usunięte",
+      "errors": {
+        "passwordMismatch": "Hasła nie są zgodne",
+        "passwordTooShort": "Hasło musi mieć co najmniej 12 znaków",
+        "wrongPassword": "Obecne hasło jest nieprawidłowe",
+        "unexpected": "Wystąpił nieoczekiwany błąd",
+        "deactivateFailed": "Nie udało się dezaktywować konta",
+        "deleteFailed": "Nie udało się usunąć konta",
+        "deleteNotesFailed": "Failed to delete notes"
+      },
+      "deleteNotes": "Delete Notes",
+      "deleteNotesDescription": "Delete all your notes from the server. Your account remains active and you can sync again.",
+      "deleteNotesButton": "Delete Notes",
+      "deleteNotesConfirmTitle": "Delete All Notes",
+      "deleteNotesConfirmMessage": "Are you sure you want to delete all your notes from the server? This is useful if you forgot your encryption password and need to start fresh. Your account will remain active.",
+      "notesDeleted": "All notes have been deleted from the server",
+      "passwordToConfirm": "Wpisz hasło, aby potwierdzić:"
+    }
+  },
+  "audit": {
+    "title": "Dziennik audytu",
+    "description": "Trwały zapis działań administratorów na tym serwerze.",
+    "loading": "Wczytywanie dziennika audytu...",
+    "failedToLoad": "Nie udało się wczytać dziennika audytu",
+    "empty": "Nic jeszcze nie zapisano.",
+    "allActions": "Wszystkie działania",
+    "filterLabel": "Pokaż",
+    "commandLine": "Wiersz poleceń",
+    "range": "{from}–{to} z {total}",
+    "previous": "Poprzednie",
+    "next": "Następne",
+    "table": {
+      "time": "Kiedy",
+      "action": "Działanie",
+      "admin": "Administrator",
+      "target": "Dotyczy",
+      "address": "Adres"
+    },
+    "actions": {
+      "userApprove": "Zatwierdzono użytkownika",
+      "userDeactivate": "Dezaktywowano użytkownika",
+      "userActivate": "Aktywowano użytkownika",
+      "userDelete": "Usunięto użytkownika",
+      "userPasswordReset": "Zresetowano hasło",
+      "userAdminGrant": "Awansowano na administratora",
+      "userAdminRevoke": "Odebrano uprawnienia administratora",
+      "userSettingsUpdate": "Zmieniono ustawienia użytkownika",
+      "deviceRevoke": "Unieważniono urządzenie",
+      "deviceDelete": "Usunięto urządzenie",
+      "deviceRename": "Zmieniono nazwę urządzenia",
+      "adminPasswordChange": "Zmieniono własne hasło"
+    }
+  }
+}

@@ -1,0 +1,847 @@
+app:
+  name: Jottery
+  description: Un'interfaccia TUI per prendere appunti cifrati incentrata sulla privacy
+common:
+  loading: Caricamento...
+  saving: Salvataggio...
+  cancel: Annulla
+  confirm: Conferma
+  "yes": Sì
+  "no": "No"
+  ok: OK
+  close: Chiudi
+  quit: Esci
+  back: Indietro
+  email: Email
+password:
+  prompt: "Password: "
+  enter: Inserisci password
+  confirm: Conferma password
+  empty_error: La password non può essere vuota
+  mismatch_error: Le password non corrispondono
+  unlock_failed: "Sblocco fallito: %{error}"
+  change_success: Password modificata con successo
+  change_title: "Cambia password"
+  change_enter_current: "Inserisci la password attuale:"
+  change_enter_new: "Inserisci la nuova password (min. 8 caratteri):"
+  change_confirm_new: "Conferma la nuova password:"
+  change_current_required: "Inserisci la password attuale"
+  change_wrong_current: "La password attuale non è corretta"
+  change_too_short: "La nuova password deve avere almeno 8 caratteri"
+  change_mismatch: "Le password non corrispondono"
+  change_failed: "Modifica password non riuscita"
+  remember: Ricorda password
+  remember_toggle: Ricorda password (Ctrl+R per attivare/disattivare)
+  remember_enabled: "Password salvata per lo sblocco automatico. Nota: Potrebbe essere accessibile agli utenti con accesso superuser."
+  remember_keychain_enabled: Password salvata in modo sicuro nel portachiavi di sistema.
+  remember_disabled: Memorizzazione password disattivata. Verrà richiesta al prossimo avvio.
+  remember_warning: "Si prega di considerare che la password potrebbe essere accessibile a chiunque abbia accesso superuser/root a questo dispositivo."
+  remember_keychain_warning: La password verrà salvata in modo sicuro nel portachiavi di sistema.
+  remember_keychain_info: Password salvata in modo sicuro nel portachiavi di sistema
+  correct: "Password verificata"
+  storage_keychain: Portachiavi di sistema
+  storage_file: File (offuscato)
+  incorrect: Password errata. Riprova.
+  verification_failed: "Verifica password fallita: %{error}"
+  enter_to_enable: "Inserisci la password per attivare lo sblocco automatico:"
+  create_title: Crea password
+  unlock_title: Sblocca
+  too_short: "La password deve contenere almeno %{min} caratteri"
+  same_as_account: "Usa password diverse. Il server vede la password dell'account, quindi non deve aprire anche le note."
+  same_as_account_warning: "La password dell'account è uguale a quella delle note, quindi il server potrebbe leggerle. Cambia la password delle note nelle Impostazioni."
+  no_file_encryption: "Questa build non cifra il file del database. Note e tag restano cifrati, ma non l'email, l'indirizzo del server, i nomi degli allegati e le date."
+  change_keeps_key: "La chiave di cifratura non cambia: i vecchi backup si aprono ancora con la vecchia password."
+menu:
+  notes: Note
+  new_note: Nuova nota
+  settings: Impostazioni
+  help: Aiuto
+  quit: Esci
+  search: Cerca
+note:
+  new: Nuova nota
+  save: Salva
+  saved: Nota salvata
+  save_failed: "Salvataggio nota fallito: %{error}"
+  delete: Elimina nota
+  deleted: Nota eliminata
+  delete_failed: "Eliminazione nota fallita: %{error}"
+  reload_failed: "Ricaricamento note fallito: %{error}"
+  pin: Fissa nota
+  unpin: Rimuovi nota
+  pinned: Fissata
+  pin_failed: "Aggiornamento stato fissaggio fallito: %{error}"
+  no_notes: Nessuna nota trovata
+  total: "%{count} note"
+  lock: Blocca nota
+  unlock: Sblocca nota
+  locked: Bloccata
+  lock_failed: "Blocco fallito: %{error}"
+  locked_cannot_edit: Impossibile modificare una nota bloccata
+  locked_cannot_delete: Impossibile eliminare una nota bloccata
+  locked_cannot_tag: Impossibile modificare i tag di una nota bloccata
+  info: Info nota
+  info_title: Informazioni nota
+  untitled: "Senza titolo"
+  save_retry_hint: "q: riprova a salvare | e: modifica | Esc: scarta le modifiche"
+  empty_bin_title: "Svuota cestino"
+  empty_bin_confirm: "Eliminare definitivamente %{count} note nel cestino?"
+  empty_bin_warning: "Verranno eliminate anche dal server e dagli altri dispositivi. Non si può annullare."
+  bin_emptied: "%{count} note eliminate definitivamente"
+  locked_cannot_archive: "Impossibile archiviare una nota bloccata"
+  unreadable: "%{count} note di questo archivio non sono leggibili"
+  duplicated: "Nota duplicata"
+  copied: "Copiato negli appunti"
+  copy_too_large: "Questa nota è troppo lunga perché un terminale la copi in modo affidabile"
+  word_wrap_on: "A capo automatico attivo"
+  word_wrap_off: "A capo automatico disattivo"
+  no_links: "Nessun link sullo schermo"
+archive:
+  view: "Visualizza archivio"
+  title: "Archivio"
+  mode: "Modalità archivio"
+  enter_mode: "Entra in modalità archivio"
+  exit_mode: "Esci dalla modalità archivio"
+  toggle_mode: "Attiva/disattiva modalità archivio"
+  no_notes: "Nessuna nota archiviata"
+  archive: "Archivia nota"
+  unarchive: "Ripristina nota"
+  archived: "Archiviata"
+  unarchived: "Ripristinata"
+  failed: "Archiviazione nota fallita: %{error}"
+  unarchive_failed: "Ripristino nota dall'archivio fallito: %{error}"
+  count: "%{count} note archiviate"
+
+editor:
+  title: Titolo
+  content: Contenuto
+  tags: Tag
+  created: Creata
+  modified: Modificata
+  launch_external: Avvia editor esterno
+  external_failed: "Avvio editor fallito: %{error}"
+  external_exit_error: L'editor è uscito con codice di errore
+  temp_file_error: Creazione file temporaneo fallita
+  temp_write_error: Scrittura su file temporaneo fallita
+  temp_read_error: Lettura file temporaneo fallita
+  default_editor: vi
+  temp_on_disk: "Questa macchina non ha una cartella temporanea in memoria, quindi una nota aperta resta su disco finché non la chiudi."
+attachment:
+  add: Aggiungi allegato
+  add_failed: "Aggiunta allegato fallita: %{error}"
+  view: Visualizza allegato
+  view_failed: "Visualizzazione allegato fallita: %{error}"
+  delete: Elimina allegato
+  no_attachments: Nessun allegato
+  total: "%{count} allegati"
+  press_enter: "Premi Invio per continuare..."
+  opened: "File aperto nell'applicazione predefinita."
+  no_opener: "Nessun programma per aprire i file su questo sistema. Salva invece l'allegato con S."
+  delete_failed: "Impossibile eliminare l'allegato: %{error}"
+  deleted: "Eliminato: %{name}"
+  exists: "%{path} esiste già. Scegli un altro nome."
+  saved: "Salvato in %{path}"
+  save_failed: "Impossibile salvare l'allegato: %{error}"
+  added: "%{name} allegato"
+  too_large: "Il file è troppo grande. Il limite è %{max_mb} MB."
+  unsafe_title: "Questo file non verrà aperto"
+  unsafe_body: "Aprire questo tipo di file potrebbe eseguire codice del mittente. Salvarlo invece?"
+version:
+  history: Cronologia versioni
+  restore: Ripristina versione
+  restored: Versione %{number} ripristinata
+  restore_failed: "Ripristino versione fallito: %{error}"
+  no_versions: Nessuna cronologia versioni
+  current: Versione corrente
+search:
+  prompt: Cerca note...
+  no_results: Nessun risultato trovato
+  results: "%{count} risultati"
+settings:
+  title: Impostazioni
+  language: Lingua
+  theme: Tema
+  color_scheme: Schema colori
+  auto_lock: Timeout blocco automatico
+  minutes: minuti
+  sync: Sincronizzazione
+  sync_enabled: Sincronizzazione attivata
+  sync_endpoint: Endpoint di sincronizzazione
+  device_name: Nome dispositivo
+  instructions_disconnect: Premi 'd' per disconnetterti dal server di sincronizzazione (mantiene le note locali)
+  instructions_status: Premi 'R' (Shift+r) per verificare lo stato di approvazione della registrazione
+  instructions_register: Premi 'r' per registrarti con un server di sincronizzazione
+  user_portal: Portale Utente
+  auto_sync_interval: Intervallo auto-sync
+  instructions: Istruzioni
+  instructions_navigation: "↑/↓ o j/k: Naviga tra i campi"
+  instructions_edit: Premi Invio, i o Spazio per modificare un campo
+  instructions_text: "Campi di testo: digita e premi Invio per salvare, Esc per annullare"
+  instructions_toggle: "Per interruttori e cicli: premi Invio per cambiare valore immediatamente"
+  instructions_remember: "Ricorda password: Invio richiede password (se attivazione) o disattiva (se attivato)"
+  instructions_sync: Premi 'y' per avviare la sincronizzazione
+  instructions_force_sync: Premi 'Y' (Shift+y) per forzare la sincronizzazione completa (scarica dal server)
+  press_enter_cycle: premi Invio per ciclare
+  press_enter_toggle: premi Invio per attivare/disattivare
+  disabled: disabilitato
+  sort_order: "Ordinamento"
+  language_auto: "Come il sistema"
+  default_note_type: "Tipo di nota predefinito"
+sync:
+  push: Invia al server
+  pull: Ricevi dal server
+  pushing: Invio modifiche...
+  pulling: Ricezione modifiche...
+  success: Sincronizzazione riuscita
+  failed: "Sincronizzazione fallita: %{error}"
+  no_api_key: Nessuna chiave API configurata
+  account_deactivated: Il tuo account è stato disattivato o è in attesa di approvazione dell'amministratore. Contatta l'amministratore.
+  invalid_key: Chiave API non valida o autenticazione fallita. Prova a registrare nuovamente il tuo dispositivo.
+  conflict: Conflitto di sincronizzazione rilevato. Alcune note hanno modifiche in conflitto sul server.
+  request_failed: Invio richiesta di sincronizzazione fallito
+  response_parse_failed: Analisi risposta di sincronizzazione fallita
+  disconnected: Disconnesso dal server di sincronizzazione. Le note locali sono state conservate.
+  disconnect_failed: Disconnessione dal server di sincronizzazione non riuscita
+  sse_connected: "Sincronizzazione in tempo reale connessa"
+  sse_notification: "Notifica di sincronizzazione ricevuta"
+  sse_failed: "Sincronizzazione in tempo reale non riuscita"
+  status:
+    check_title: Verifica Stato Registrazione
+    result_title: Stato Registrazione
+    enter_email: "Inserisci il tuo indirizzo email per verificare lo stato di approvazione:"
+    check_failed: Verifica dello stato di registrazione non riuscita
+    not_found: Nessun account trovato con questo indirizzo email.
+    approved: Il tuo account è approvato e attivo. Puoi sincronizzare le tue note.
+    pending: Il tuo account è in attesa di approvazione. Attendi che un amministratore approvi la tua registrazione.
+    inactive: Il tuo account è stato disattivato. Contatta un amministratore.
+  not_enabled: Sincronizzazione non attivata. Premi 's' per configurare nelle impostazioni.
+  endpoint_not_configured: Endpoint di sincronizzazione non configurato. Configura nella tabella impostazioni del database.
+  complete: Sincronizzazione completata! %{count} %{unit} sincronizzate
+  force_syncing: Sincronizzazione forzata di tutte le note...
+  force_complete: Sincronizzazione forzata completata! %{count} %{unit} sincronizzate dal server
+  reload_failed: "Sincronizzazione riuscita ma ricaricamento note fallito: %{error}"
+  note: nota
+  notes: note
+  skipped_notes: "%{count} elementi dal server non erano leggibili e sono stati saltati"
+  rejected_notes: "%{count} note sono in conflitto con il server. Apri Jottery per risolverle."
+  rate_limited: "Il server ha chiesto a Jottery di attendere %{seconds} secondi prima di sincronizzare di nuovo."
+  key_refused: "Il server non ha accettato la chiave API di questo dispositivo. Registra di nuovo il dispositivo."
+  server_busy: "Il server è occupato. Jottery riproverà tra %{seconds} secondi."
+  quota_exceeded: "L'account ha raggiunto il limite di spazio, quindi le modifiche non sono state caricate. Sono al sicuro su questo dispositivo. Svuota il cestino o rimuovi degli allegati per fare spazio."
+  deletions_held_title: "Molte note eliminate"
+  deletions_held: "Il server indica che %{count} note sono state eliminate definitivamente altrove. Sei stato tu?"
+  deletions_held_warning: "y: spostale nel cestino qui. n: conservale e rimettile sul server."
+  deletions_held_cli: "Il server indica che %{count} note sono state eliminate altrove. Sono ancora qui: apri Jottery per decidere."
+  deletions_applied: "%{count} note spostate nel cestino"
+  force_title: "Forza risincronizzazione completa"
+  force_confirm: "Scaricare TUTTE le note e gli allegati dal server?"
+  force_note: "Le modifiche locali non inviate vengono mantenute."
+  disconnect_title: "Disconnetti dalla sincronizzazione"
+  disconnect_confirm: "Disconnettere questo dispositivo dal server?"
+  disconnect_warning: "Le note restano qui. Il dispositivo viene revocato sul server."
+  disconnect_conflicts: "%{count} note hanno conflitti irrisolti. Le loro copie del server verranno dimenticate qui."
+  device_still_registered: "Disconnesso qui, ma non è stato possibile avvisare il server, quindi la chiave di questo dispositivo funziona ancora. Revocala nel portale utente."
+
+# Posta in arrivo
+  stopped_unexpectedly: "La sincronizzazione si è interrotta inaspettatamente. Non è andato perso nulla e verrà ritentata."
+  clock_ahead: "L'orologio di questo dispositivo potrebbe essere sbagliato: alcune modifiche hanno una data di oltre un giorno successiva a quella del server e non sono state inviate. Verranno inviate quando l'orologio sarà corretto."
+inbox:
+  title: "Posta in arrivo"
+  empty: "La posta in arrivo è vuota. Le note inviate tramite l'API Inbox appariranno qui."
+  accepted: "Nota accettata"
+  deleted: "Elemento della posta in arrivo eliminato"
+  accepted_all: "Tutti i %{count} elementi della posta in arrivo accettati"
+  deleted_all: "Tutti gli elementi della posta in arrivo eliminati"
+  confirm_delete_title: "Elimina Elemento Posta in Arrivo"
+  confirm_delete_message: "Eliminare questo elemento? Questa operazione non può essere annullata."
+  confirm_delete_all_title: "Elimina Tutti gli Elementi"
+  confirm_delete_all_message: "Eliminare tutti i %{count} elementi? Questa operazione non può essere annullata."
+  indicator: "Posta in arrivo (%{count})"
+  token:
+    logging_in: "Accesso in corso..."
+    generated_success: "Token inbox generato con successo!"
+    save_warning: "Salva questo token ora — non verrà mostrato di nuovo."
+    example_title: "Avvio Rapido"
+    revoked: "Token inbox revocato"
+    active: "Token inbox attivo"
+    none: "Nessun token inbox configurato"
+
+register:
+  title: Registrati al Server di Sincronizzazione
+  enter_endpoint: "Inserisci l'URL del server di sincronizzazione (es. https://sync.example.com):"
+  enter_email: "Inserisci il tuo indirizzo email:"
+  enter_password: "Crea una password (min. 12 caratteri):"
+  reenter_password: "Reinserisci la tua password di sincronizzazione:"
+  pending_title: Registrazione in Attesa
+  pending_message: La tua registrazione è stata inviata ed è in attesa di approvazione dell'amministratore.
+  pending_instructions: Premi 'r' o Invio per verificare lo stato di approvazione. Premi Esc per chiudere.
+  pending_help: "r/Invio: Verifica stato | Esc: Chiudi"
+  device_title: Registrazione Dispositivo
+  enter_device_name: "Inserisci un nome per questo dispositivo (o premi Invio per il predefinito):"
+  endpoint_required: L'URL del server di sincronizzazione è richiesto
+  email_invalid: Inserisci un indirizzo email valido
+  password_too_short: La password deve avere almeno 12 caratteri
+  failed: Registrazione non riuscita
+  approved: La tua registrazione è stata approvata!
+  still_pending: La tua registrazione è ancora in attesa di approvazione
+  success: Registrazione completata! La sincronizzazione è ora abilitata.
+  device_failed: Registrazione dispositivo non riuscita
+  cleared: Registrazione cancellata. Puoi ricominciare.
+  pending_status: In attesa di approvazione
+  password_differs: "Deve essere diversa dalla password delle note."
+  insecure_endpoint: "Questo indirizzo usa HTTP non cifrato, quindi la password dell'account e la chiave del dispositivo potrebbero essere lette lungo il percorso. Usa https:// o inserisci di nuovo questo indirizzo per accettare."
+color_scheme:
+  default_dark: Scuro predefinito
+  default_light: Chiaro predefinito
+  monokai: Monokai
+  solarized_dark: Solarized scuro
+  solarized_light: Solarized chiaro
+  nord: Nord
+  dracula: Dracula
+  gruvbox_dark: Gruvbox scuro
+  gruvbox_light: Gruvbox chiaro
+  tokyo_night: Tokyo Night
+  catppuccin: Catppuccin
+syntax:
+  javascript: JavaScript
+  python: Python
+  markdown: Markdown
+  json: JSON
+  html: HTML
+  css: CSS
+  sql: SQL
+  bash: Bash
+  perl: Perl
+  rust: Rust
+  go: Go
+  java: Java
+  c: C
+  cpp: C++
+  none: Nessuno
+  change_language: Cambia linguaggio sintassi
+  change_failed: "Aggiornamento linguaggio sintassi fallito: %{error}"
+error:
+  generic: Si è verificato un errore
+  unexpected: Si è verificato un errore imprevisto
+  database: "Errore database: %{error}"
+  encryption: "Errore crittografia: %{error}"
+  network: "Errore di rete: %{error}"
+  file_not_found: File non trovato
+  permission_denied: Permesso negato
+  invalid_input: Input non valido
+  operation_failed: "Operazione fallita: %{error}"
+help:
+  title: Scorciatoie da tastiera
+  subtitle: Premi ? o q per chiudere
+  general: Generale
+  notes: Note
+  editor: Editor
+  navigation: Navigazione
+  quit_app: Esci dall'applicazione
+  new_note: Crea nuova nota
+  save_note: Salva nota corrente
+  delete_note: Elimina nota corrente
+  search_notes: Cerca note
+  toggle_pin: Attiva/disattiva fissaggio
+  next_note: Nota successiva
+  prev_note: Nota precedente
+  scroll_up: Scorri su
+  scroll_down: Scorri giù
+  page_up: Pagina precedente
+  page_down: Pagina successiva
+  unlock_screen: SCHERMATA DI SBLOCCO
+  note_list: ELENCO NOTE
+  search_mode: MODALITÀ RICERCA
+  note_preview_view: ANTEPRIMA NOTA - MODALITÀ VISUALIZZAZIONE
+  note_preview_tag: ANTEPRIMA NOTA - MODALITÀ TAG
+  settings: IMPOSTAZIONI
+  attachments: ALLEGATI
+  global: GLOBALE
+  press_esc_or_enter: Premi Esc o Invio per chiudere
+  tab_switch: "Tab: cambia campi | Invio: crea"
+  enter_unlock: "Invio: sblocca | Ctrl+Q: esci"
+  type_password_key: Digita
+  type_password_desc: Inserisci password
+  enter_to_unlock_key: Invio
+  enter_to_unlock_desc: Sblocca database
+  tab_to_switch_key: Tab
+  tab_to_switch_desc: Cambia password/conferma (nuovo DB)
+  backspace_key: Backspace
+  backspace_desc: Elimina carattere
+  ctrl_q_esc_key: Ctrl+q / Esc
+  ctrl_q_esc_desc: Esci dall'applicazione
+  slash_search_key: /
+  slash_search_desc: Entra in modalità ricerca
+  y_sync_key: "y"
+  y_sync_desc: Sincronizza note (se configurato)
+  s_settings_key: s
+  s_settings_desc: Mostra impostazioni
+  n_new_key: "n"
+  n_new_desc: Crea nuova nota
+  i_enter_open_key: i / Invio
+  i_enter_open_desc: Apri nota in $EDITOR
+  d_delete_key: d
+  d_delete_desc: Elimina nota selezionata
+  j_down_key: j / ↓
+  j_down_desc: Sposta giù
+  k_up_key: k / ↑
+  k_up_desc: Sposta su
+  question_help_key: "?"
+  question_help_desc: Mostra questo aiuto
+  ctrl_q_quit_key: Ctrl+q
+  ctrl_q_quit_desc: Esci dall'applicazione
+  q_quit_key: q / Ctrl+q
+  q_quit_desc: Esci dall'applicazione
+  type_search_key: Digita
+  type_search_desc: Inserisci query di ricerca
+  search_tag_key: "#tag"
+  search_tag_desc: Cerca per tag
+  search_exclude_key: "-parola"
+  search_exclude_desc: Escludi parola (negazione)
+  search_and_key: parola1 parola2
+  search_and_desc: Trova tutte le parole (E)
+  search_color_key: "color:red"
+  search_color_desc: "Cerca per colore (nota o tag)"
+  search_color_note_key: "color:red note"
+  search_color_note_desc: "Cerca note con colore"
+  search_color_tag_key: "color:red tag"
+  search_color_tag_desc: "Cerca note con tag colorati"
+  search_category_key: "category:important"
+  search_category_desc: "Cerca per nome categoria colore"
+  enter_open_editor_key: Invio
+  enter_open_editor_desc: Apri nota in $EDITOR
+  esc_exit_search_key: Esc
+  esc_exit_search_desc: Esci dalla modalità ricerca
+  arrows_navigate_key: ↑ / ↓
+  arrows_navigate_desc: Naviga risultati
+  enter_e_edit_key: Invio / e
+  enter_e_edit_desc: Modifica con $EDITOR esterno
+  t_tag_mode_key: t
+  t_tag_mode_desc: Entra in modalità tag
+  q_esc_save_key: q / Esc
+  q_esc_save_desc: Salva e torna all'elenco
+  type_tag_key: Digita
+  type_tag_desc: Inserisci nome tag
+  enter_add_tag_key: Invio
+  enter_add_tag_desc: Aggiungi tag
+  backspace_remove_key: Backspace (vuoto)
+  backspace_remove_desc: Rimuovi ultimo tag
+  backspace_delete_key: Backspace
+  backspace_delete_desc: Elimina carattere dall'input
+  esc_normal_key: Esc
+  esc_normal_desc: Esci in modalità normale
+  jk_navigate_key: j/k o ↑/↓
+  jk_navigate_desc: Naviga tra i campi
+  enter_edit_key: Invio / i / Spazio
+  enter_edit_desc: Modifica campo selezionato
+  enter_save_key: Invio
+  enter_save_desc: Salva campi testo/numero, attiva/disattiva altri campi
+  esc_cancel_key: Esc
+  esc_cancel_desc: Annulla modifica (campi testo/numero)
+  s_q_close_key: s / q
+  s_q_close_desc: Chiudi pannello impostazioni
+  tab_focus_attachment_key: Tab
+  tab_focus_attachment_desc: Sposta focus sul pannello allegati (j/k per navigare, Invio per visualizzare, d per eliminare)
+  plus_add_attachment_key: "+"
+  plus_add_attachment_desc: Aggiungi allegato (inserisci percorso file)
+  a_view_attachment_key: a + numero
+  a_view_attachment_desc: Visualizza allegato (a1, a2, ...)
+  shift_jk_attachment_key: Shift+j / Shift+k
+  shift_jk_attachment_desc: Naviga allegati
+  X_remove_attachment_key: X
+  X_remove_attachment_desc: Rimuovi allegato selezionato
+  note_images_key: "Nota:"
+  note_images_desc: Le immagini usano chafa se disponibile, altrimenti l'app di sistema predefinita
+  question_global_key: "?"
+  question_global_desc: Mostra questa schermata di aiuto
+  bracket_cycle_key: "] / ["
+  bracket_cycle_desc: Cambia tipo di sintassi (avanti/indietro)
+  color_cycle_key: "C / c"
+  color_cycle_desc: Cambia colore/categoria nota (avanti/indietro)
+  shift_a_archive_key: Shift+A
+  shift_a_archive_desc: Attiva/disattiva modalità archivio (visualizza note archiviate)
+  L_lock_key: L
+  L_lock_desc: Attiva/disattiva blocco della nota selezionata
+  I_info_key: I
+  I_info_desc: Mostra informazioni nota
+  pageup_pagedown_key: PgUp / PgDn
+  pageup_pagedown_desc: Scorri anteprima (pagina intera)
+  ctrl_scroll_key: Ctrl+d/u/f/b
+  ctrl_scroll_desc: Scorrimento stile Vim (mezza/pagina intera)
+  mouse_scroll_key: Rotella mouse
+  mouse_scroll_desc: Scorri anteprima
+  p_pin_key: p
+  p_pin_desc: Attiva/disattiva fissaggio della nota selezionata
+  r_recycle_key: r
+  r_recycle_desc: Attiva/disattiva visualizzazione cestino
+  v_versions_key: v
+  v_versions_desc: Visualizza cronologia versioni
+  b_inbox_key: b
+  b_inbox_desc: Apri posta in arrivo
+  tab_search_key: Tab
+  tab_search_desc: Esci dalla ricerca, sposta focus sugli allegati
+  multi_select: MODALITÀ SELEZIONE MULTIPLA
+  space_select_key: Spazio
+  space_select_desc: Attiva/disattiva selezione nota corrente
+  shift_v_range_key: Shift+V
+  shift_v_range_desc: Selezione intervallo dall'ultima selezionata
+  ctrl_a_all_key: Ctrl+A
+  ctrl_a_all_desc: Seleziona tutte le note filtrate
+  multi_t_tags_key: t
+  multi_t_tags_desc: Aggiungi tag alle note selezionate
+  multi_d_delete_key: d
+  multi_d_delete_desc: Elimina note selezionate
+  multi_c_combine_key: c
+  multi_c_combine_desc: Combina note selezionate in una
+  multi_e_export_key: e
+  multi_e_export_desc: Esporta note selezionate in JSON
+  esc_clear_key: Esc
+  esc_clear_desc: Cancella selezione / esci da selezione multipla
+  mouse: MOUSE
+  click_note_key: Clic su nota
+  click_note_desc: Seleziona nota nell'elenco
+  click_tag_key: Clic su tag
+  click_tag_desc: Cerca quel tag
+  click_tags_key: "Clic su 'Tag:'"
+  click_tags_desc: Entra in modalità modifica tag
+  scroll_key: Rotella del mouse
+  scroll_desc: Scorri anteprima su/giù
+  ctrl_l_lock_key: "Ctrl+L"
+  ctrl_l_lock_desc: "Blocca Jottery"
+  S_save_attachment_key: "S"
+  S_save_attachment_desc: "Salva l'allegato selezionato in un file"
+  z_archive_key: "z"
+  z_archive_desc: "Archivia la nota selezionata (o ripristinala in modalità archivio)"
+  multi_z_archive_key: "z"
+  multi_z_archive_desc: "Archivia le note selezionate"
+  search_or_key: "a | b"
+  search_or_desc: "Uno dei due (O)"
+  search_phrase_key: "\"a phrase\""
+  search_phrase_desc: "Queste parole in quest'ordine"
+  search_wildcard_key: "word* / *word"
+  search_wildcard_desc: "Una parola inizia o finisce così"
+  search_exclude_tag_key: "-#tag"
+  search_exclude_tag_desc: "Escludi le note con questo tag"
+  search_attachment_key: "has:attachment"
+  search_attachment_desc: "Note con allegati"
+  search_archived_key: "archived"
+  search_archived_desc: "Cerca nell'archivio"
+  search_created_key: "created:>2024-01-01"
+  search_created_desc: "Creata dopo una data (anche < e a..b)"
+  search_modified_key: "modified:>2024-01-01"
+  search_modified_desc: "Modificata dopo una data (anche < e a..b)"
+  search_words_key: "words:>100"
+  search_words_desc: "Numero di parole (anche < e a..b)"
+  multi_remove_tags_key: "T"
+  multi_remove_tags_desc: "Rimuovi tag dalle note selezionate"
+  multi_colour_key: "C"
+  multi_colour_desc: "Imposta il colore delle note selezionate"
+  g_saved_key: "g"
+  g_saved_desc: "Ricerche salvate"
+  ctrl_s_save_search_key: "Ctrl+S"
+  ctrl_s_save_search_desc: "Salva questa ricerca"
+  enter_confirm_esc_cancel: "Invio: conferma | Esc: annulla"
+  D_duplicate_key: "Maiusc+D"
+  D_duplicate_desc: "Duplica nota"
+  o_copy_key: "o"
+  o_copy_desc: "Copia il testo della nota negli appunti"
+  w_wrap_key: "w"
+  w_wrap_desc: "Attiva o disattiva l'a capo automatico"
+  ctrl_p_history_key: "Ctrl+P/N"
+  ctrl_p_history_desc: "Ricerche precedenti e successive"
+  l_link_key: "l, Invio"
+  l_link_desc: "Scorri i link e seguine uno"
+cli:
+  # Alt (usato in alcuni contesti)
+  list: Elenca note
+  show: Mostra nota
+  new: Crea nuova nota
+  edit: Modifica nota
+  delete: Elimina nota
+  search: Cerca note
+  export: Esporta note
+  import: Importa note
+  sync: Sincronizza con il server
+  register: Registra dispositivo
+  # App principale
+  about: "Un'interfaccia TUI per prendere appunti cifrati incentrata sulla privacy"
+  # Opzioni globali
+  database_help: "Percorso del file database"
+  debug_help: "Abilita registrazione debug"
+  debug_log_help: "Percorso file log debug (per risoluzione problemi)"
+  reset_help: "Ripristina: elimina database e ricomincia"
+  # Comandi
+  note_about: "Crea nota rapida con $EDITOR"
+  list_about: "Elenca tutte le note"
+  search_about: "Cerca tra le note"
+  show_about: "Mostra una nota specifica per ID"
+  sync_about: "Sincronizza note con server remoto"
+  register_user_about: "Registra nuovo account utente sul server"
+  register_device_about: "Registra questo dispositivo con il server (richiede account utente approvato)"
+  export_about: "Esporta note in file JSON"
+  import_about: "Importa note da file JSON"
+  backup_about: "Crea backup crittografato (compatibile con app web)"
+  inbox_token_about: "Gestisci token API inbox"
+  restore_backup_about: "Ripristina da backup crittografato"
+  store_password_about: "Memorizza password per sblocco automatico (per automazione demo/test)"
+  # Argomenti comuni
+  password_help: "Password per crittografia (richiesta se non specificata)"
+  password_decrypt_help: "Password per decrittografia (richiesta se non specificata)"
+  tags_help: "Tag opzionali per la nota (separati da virgole)"
+  tag_filter_help: "Filtra per tag"
+  limit_help: "Numero massimo di note da visualizzare"
+  limit_results_help: "Numero massimo di risultati da visualizzare"
+  query_help: "Query di ricerca"
+  id_help: "ID nota (supporta corrispondenza parziale)"
+  server_help: "URL endpoint server"
+  email_help: "Email utente"
+  device_name_help: "Nome dispositivo"
+  key_password_help: "Password di crittografia per database locale"
+  output_help: "Percorso file di output"
+  input_help: "Percorso file di input"
+  backup_password_help: "Password per decrittografia (password del backup)"
+  local_key_help: "Password crittografia database locale (predefinito: password backup)"
+  password_store_help: "Password da memorizzare"
+  # Sottocomandi InboxToken
+  inbox_generate_about: "Genera nuovo token inbox (richiede login al server)"
+  inbox_revoke_about: "Revoca token inbox corrente"
+  inbox_status_about: "Verifica se esiste un token inbox"
+  server_optional_help: "URL endpoint server (usa endpoint configurato se omesso)"
+  # Built-in help/version
+  help_flag: "Mostra aiuto"
+  version_flag: "Mostra versione"
+  help_subcommand: "Mostra questo messaggio o l'aiuto dei sottocomandi"
+  # Messaggi di output
+  notes_count: "%{count} note"
+  results_count: "%{count} risultati: '%{query}'"
+  attach_about: "Allega un file a una nota"
+  save_attachment_about: "Salva l'allegato di una nota in un file"
+  archive_about: "Archivia una nota"
+  unarchive_about: "Ripristina una nota dall'archivio"
+  note_id_help: "ID nota (corrispondenza parziale supportata)"
+  attach_file_help: "File da allegare"
+  attachment_number_help: "Quale allegato, secondo la numerazione di show"
+  archived_help: "Elenca invece le note archiviate"
+  import_summary: "%{created} aggiunte, %{updated} aggiornate, %{skipped} già aggiornate"
+  import_failed: "Non è stato possibile importare %{count} elementi del file"
+  password_change_required: "Questo account deve prima cambiare la password. Accedi all'app web per farlo, poi riprova."
+  insecure_endpoint: "%{endpoint} usa HTTP non cifrato, quindi la password potrebbe essere letta lungo il percorso. Usa https:// o passa --allow-insecure-http per accettare."
+  allow_insecure_http_help: "Consenti l'invio di una password via HTTP non cifrato a un host pubblico"
+  password_flag_deprecated: "Una password sulla riga di comando è visibile in ps e nella cronologia della shell. Usa invece --password-stdin o JOTTERY_PASSWORD."
+  password_stdin_help: "Leggi le password da stdin, una per riga, invece di chiederle"
+  reset_yes_help: "Non chiedere conferma prima che --reset elimini qualcosa"
+  reset_confirm: "Questo elimina definitivamente %{path} e l'eventuale password memorizzata. Digita %{word} per procedere:"
+  reset_cancelled: "Non è stato eliminato nulla"
+  reset_done: "Archivio e password memorizzata eliminati"
+  reset_keychain_failed: "Impossibile rimuovere la password dal portachiavi"
+  export_force_help: "Sostituisci il file se esiste già"
+  account_about: "Vedi o elimina ciò che il server conserva per il tuo account"
+  colours_about: "Assegna nomi ai colori e un colore ai tag"
+  doctor_about: "Controlla l'archivio per note non leggibili e allegati mancanti"
+  doctor_repair_help: "Recupera dal server gli allegati mancanti"
+status:
+  locked: Bloccato
+  unlocked: Sbloccato
+  syncing: Sincronizzazione...
+  synced: Sincronizzato
+  offline: Offline
+  modified: Modificato
+  saved: Salvato
+bulk:
+  tags_added: "Tag aggiunti a %{count} note: %{tags}"
+  deleted: "%{count} note eliminate"
+  combined: "%{count} note combinate"
+  combine_requires_two: Seleziona almeno 2 note da combinare
+  exported: "%{count} note esportate in %{path}"
+  operation_failed: "Operazione di massa fallita: %{error}"
+  confirm_delete: Eliminare %{count} note? (s/n)
+  confirm_combine: Combinare %{count} note? (s/n)
+  enter_tags: "Inserisci tag (separati da virgole):"
+  enter_export_path: "Percorso di esportazione:"
+  add_tags_to: Aggiungi tag a
+  export_notes_to: Esporta
+  archived: "%{count} note archiviate"
+  tags_removed: "Tag rimossi da %{count} note: %{tags}"
+  remove_tags_from: "Rimuovi tag da %{count} note"
+  enter_colour: "Inserisci un nome di colore (vuoto per togliere):"
+  colour_of: "Imposta il colore di %{count} note"
+  colour_set: "Colore cambiato su %{count} note"
+  unknown_colour: "Non esiste un colore chiamato %{colour}"
+  overwrite_title: "Sostituire questo file?"
+  overwrite_message: "%{path} esiste già. La sostituzione non può essere annullata."
+time:
+  just_now: proprio ora
+  minutes_ago: "%{count} minuti fa"
+  hours_ago: "%{count} ore fa"
+  days_ago: "%{count} giorni fa"
+  date_format: "%d/%m/%Y"
+  time_format: "%H:%M:%S"
+  datetime_format: "%d/%m/%Y %H:%M:%S"
+conflict:
+  title: Conflitto di Sincronizzazione
+  your_version: La Tua Versione
+  server_version: Versione Server
+  common_ancestor: Antenato Comune
+  ancestor_description: La versione da cui entrambi sono partiti prima che le modifiche divergessero
+  resolved_mine: Conflitto risolto - mantenuta la tua versione
+  resolved_server: Conflitto risolto - mantenuta versione server
+  resolved_both: Conflitto risolto - mantenute entrambe le versioni
+  resolve_failed: Risoluzione conflitto fallita
+  indicator: Conflitto di sincronizzazione rilevato
+  no_conflict: Questa nota non ha conflitti di sincronizzazione
+  count_singular: "conflitto"
+  count_plural: "conflitti"
+
+# Backup functionality
+backup:
+  created: "Backup creato"
+  restore: "Ripristino backup"
+  valid: "Backup valido"
+  records: "record"
+  validating: "Validazione file di backup..."
+  verifying_password: "Verifica password..."
+  restoring: "Ripristino dati..."
+  restored: "Ripristinato"
+  key_not_in_backup: "Questo backup è stato creato da una versione precedente di Jottery e non contiene la sua chiave. Può essere ripristinato solo nella cassaforte da cui proviene."
+  incomplete: "Questo backup è incompleto: %{count} elementi non erano leggibili e sono stati esclusi."
+  records_failed: "%{count} record di questo backup non sono stati ripristinati. Tutto il resto sì."
+
+# Progress indicators
+progress:
+  backup: "Creazione backup..."
+  processing: "Elaborazione"
+  export: "Esportazione..."
+
+# Pannelli e titoli UI
+ui:
+  notes: "Note"
+  preview: "Anteprima"
+  archive: "Archivio"
+  recycle_bin: "Cestino"
+  version_history: "Cronologia Versioni"
+  attachment_viewer: "Visualizzatore Allegati"
+  conflict_resolution: "Risoluzione Conflitti"
+  attachments: "Allegati"
+  add_attachment: "Aggiungi allegato (Tab: completa, ↑↓: seleziona, Invio: conferma)"
+  search: "Cerca:"
+  search_archive: "Cerca note archiviate:"
+  type: "Tipo:"
+  modified: "Modificato:"
+  version: "Versione:"
+  save_attachment: "Salva allegato (Tab: completa, ↑↓: seleziona, Invio: conferma)"
+  path: "Percorso"
+  attachments_hint: "Allegati: (Tab per il focus)"
+  attachments_focused_hint: "Allegati: (Tab per cambiare, j/k per navigare, Invio per vedere, S per salvare, d per eliminare)"
+  attachments_keys_hint: "'a' per vedere, '+' per aggiungere, 'X' per rimuovere il selezionato"
+  attachment_viewer_hint: "↑/↓: naviga │ 1-9: selezione rapida │ Invio: vedi │ S: salva │ +: aggiungi │ d: elimina │ Esc: chiudi"
+
+# Testo di aiuto barra di stato
+status_bar:
+  help: "Aiuto"
+  search: "Cerca"
+  select: "seleziona"
+  pin: "fissa"
+  tags: "Tag"
+  type: "Tipo"
+  bin: "Cestino"
+  archive: "Archivio"
+  ver: "Versione"
+  new: "Nuovo"
+  toggle: "attiva/disattiva"
+  clear: "cancella"
+  add_tags: "Aggiungi tag"
+  delete: "elimina"
+  combine: "combina"
+  export: "esporta"
+  selected: "selezionate"
+  unarchive: "ripristina"
+  toggle_mode: "Cambia modalità"
+  navigate: "naviga"
+  exit_archive: "Esci da archivio"
+  accept: "accetta"
+  accept_all: "accetta tutto"
+  delete_all: "elimina tutto"
+  close: "chiudi"
+  keep_mine: "Mantieni mia"
+  keep_server: "Mantieni server"
+  keep_both: "Mantieni entrambe"
+  switch: "cambia"
+  scroll: "scorri"
+  cancel: "annulla"
+  press_b_open: "Premi b per aprire"
+  # Modalità ricerca
+  type_search: "Digita: cerca"
+  exit: "esci"
+  match: "Risultato"
+  matches: "Risultati"
+  in_active: "in attive"
+  in_archive: "in archivio"
+  # Cestino
+  restore: "ripristina"
+  empty_bin: "Svuota cestino"
+  back_to_notes: "torna alle note"
+  quick_select: "Selezione rapida"
+  view: "visualizza"
+  restore_version: "Ripristina versione"
+  save: "salva"
+  add: "aggiungi"
+
+# Virtual tags
+tags:
+  virtual:
+    title: "titolo"
+
+calc:
+  line_too_long: "⚠ Riga troppo lunga da calcolare (limite %{max} byte)"
+  numbers_only: "⚠ Calc lavora con i numeri: testo, tuple e ; non vengono calcolati"
+  too_deep: "⚠ Troppe parentesi annidate (limite %{max})"
+  gave_up: "Il calcolo di questa nota ha richiesto troppo tempo, quindi viene mostrata senza risultati."
+
+envelope:
+  unwrap_failed: "La password delle note non apre la chiave di questo account. Potrebbe essere stata salvata da una versione precedente. Sblocca Jottery su un dispositivo già connesso, che risolverà il problema, poi riprova."
+  rekey_failed: "Non è stato possibile spostare le note locali sulla chiave di questo account, quindi non è cambiato nulla: %{error}"
+  diverged: "La chiave di questo dispositivo è diversa da quella dell'account. Le note degli altri dispositivi potrebbero non aprirsi qui."
+  password_changed_elsewhere: "La password delle note è stata cambiata su un altro dispositivo, quindi non è stato sovrascritto nulla. Questo dispositivo si sblocca ancora con la vecchia password. Cambiala anche qui perché nuovi dispositivi possano collegarsi."
+  server_update_pending: "La password è stata cambiata su questo dispositivo, ma non è stato possibile aggiornare la copia della chiave sul server. Jottery riproverà. Fino ad allora, un nuovo dispositivo non potrà collegarsi con la nuova password."
+  key_keeps_changing: "La chiave dell'account continua a cambiare sul server, quindi questo dispositivo non l'ha toccata. Riprova tra poco."
+
+saved_search:
+  title: "Ricerche salvate"
+  empty: "Nessuna ricerca salvata. Cerca con /, poi premi Ctrl+S per salvarla."
+  name_prompt: "Assegna un nome a questa ricerca"
+  nothing_to_save: "Digita prima una ricerca"
+  saved: "Ricerca salvata: %{name}"
+  deleted: "Ricerca salvata eliminata"
+  delete_confirm: "Eliminare '%{name}' su tutti i dispositivi? (y/n)"
+  not_found: "Nessuna ricerca salvata chiamata %{name}"
+  failed: "Ricerca salvata non riuscita: %{error}"
+
+export:
+  file_exists: "Il file esiste già. Scegli un altro nome oppure usa --force per sostituirlo."
+
+account:
+  email: "Account: %{email}"
+  usage: "Note: %{notes}, allegati: %{attachments}"
+  storage: "Spazio: %{used} MB su %{quota} MB"
+  last_sync: "Ultima sincronizzazione: %{time}"
+  confirm_delete_notes: "Questo elimina tutte le note sul server, per tutti i dispositivi, e non può essere annullato. Digita il tuo indirizzo email per procedere:"
+  confirm_delete: "Questo elimina il tuo account e tutto ciò che si trova sul server, e non può essere annullato. Questo dispositivo conserva le sue note. Digita il tuo indirizzo email per procedere:"
+  cancelled: "Non è stato eliminato nulla"
+  notes_deleted: "Tutte le note sul server sono state eliminate"
+  deleted: "L'account è stato eliminato"
+
+colours:
+  unknown: "Nessun colore chiamato %{colour}"
+  named: "Colore aggiornato: %{colour}"
+  tag_set: "Tag aggiornato: %{tag}"
+
+doctor:
+  notes: "Note: %{count}, illeggibili: %{unreadable}"
+  versions: "Versioni: %{count}, illeggibili: %{unreadable}"
+  attachments: "Allegati: %{count}, illeggibili: %{unreadable}, mancanti: %{missing}"
+  saved_searches: "Ricerche salvate: %{count}, illeggibili: %{unreadable}"
+  conflicts: "Conflitti in attesa: %{count}"
+  problems: "Problemi trovati: %{count}"
+  repaired: "Allegati recuperati: %{count}"
+  repair_needs_sync: "Questo archivio non è collegato a un server, quindi gli allegati mancanti non possono essere recuperati"
+  healthy: "Nessun problema trovato"

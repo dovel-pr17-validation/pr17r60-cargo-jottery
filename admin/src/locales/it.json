@@ -1,0 +1,444 @@
+{
+  "app": {
+    "name": "Jottery Admin"
+  },
+  "common": {
+    "refresh": "Aggiorna",
+    "refreshing": "Aggiornamento...",
+    "cancel": "Annulla",
+    "confirm": "Conferma",
+    "close": "Chiudi",
+    "save": "Salva",
+    "edit": "Modifica",
+    "loading": "Caricamento...",
+    "email": "Email",
+    "password": "Password",
+    "actions": "Azioni",
+    "status": "Stato",
+    "created": "Creato",
+    "saving": "Salvataggio...",
+    "deleting": "Eliminazione...",
+    "passwordRules": "Almeno 12 caratteri. Il server può anche richiedere un mix di maiuscole, minuscole, numeri e simboli."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "users": "Utenti",
+    "settings": "Impostazioni",
+    "logout": "Esci",
+    "audit": "Registro di controllo"
+  },
+  "login": {
+    "title": "Jottery Admin",
+    "subtitle": "Accedi per gestire il tuo server",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Accedi",
+    "signingIn": "Accesso...",
+    "placeholder": {
+      "email": "admin@localhost",
+      "password": "••••••••"
+    },
+    "errors": {
+      "invalidCredentials": "Email o password non validi",
+      "adminRequired": "Accesso amministratore richiesto",
+      "unexpected": "Si è verificato un errore imprevisto"
+    }
+  },
+  "logout": {
+    "confirmTitle": "Conferma uscita",
+    "confirmMessage": "Sei sicuro di voler uscire?"
+  },
+  "errors": {
+    "unknown": "Si è verificato un errore. Riprova.",
+    "network": "Impossibile raggiungere il server. Controlla la connessione e riprova.",
+    "forbidden": "Non hai l'autorizzazione per farlo.",
+    "wrongPassword": "La password attuale non è corretta",
+    "rateLimited": "Troppi tentativi. Riprova tra {seconds} secondi.",
+    "tooManyAttempts": "Troppi tentativi. Attendi e riprova.",
+    "passwordTooShort": "La nuova password deve essere di almeno 12 caratteri",
+    "passwordSameAsCurrent": "La nuova password deve essere diversa da quella attuale",
+    "ownAdminRole": "Non puoi rimuovere i tuoi diritti admin.",
+    "lastAdminDemote": "L'ultimo admin non può essere retrocesso.",
+    "ownAccountDelete": "Non puoi eliminare il tuo account da qui.",
+    "lastAdminDelete": "L'ultimo admin non può essere eliminato.",
+    "userNotFound": "Utente non trovato.",
+    "deviceNotFound": "Dispositivo non trovato.",
+    "quotaRange": "La quota di archiviazione deve essere compresa tra 1 e 100000 MB.",
+    "maxUploadRange": "La dimensione massima di caricamento deve essere compresa tra 1 e 1000 MB.",
+    "inboxItemsRange": "Il numero massimo di elementi in arrivo deve essere compreso tra 1 e 10000.",
+    "inboxSizeRange": "La dimensione massima in arrivo deve essere compresa tra 1 e 1000 MB.",
+    "passwordComplexity": "La password richiede almeno {required} tipi di carattere su 4. Mancano: {missing}.",
+    "passwordClass": {
+      "uppercase": "lettera maiuscola",
+      "lowercase": "lettera minuscola",
+      "number": "numero",
+      "special": "simbolo"
+    },
+    "passwordTooLong": "La password è troppo lunga."
+  },
+  "session": {
+    "expired": "La sessione è scaduta. Accedi di nuovo."
+  },
+  "forcedPasswordChange": {
+    "title": "Cambia la password",
+    "description": "Devi scegliere una nuova password per continuare. Deve contenere almeno 12 caratteri."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "loadingStats": "Caricamento statistiche...",
+    "failedToLoad": "Impossibile caricare le statistiche",
+    "stats": {
+      "totalUsers": "Utenti totali",
+      "approved": "approvato",
+      "pending": "in attesa",
+      "activeDevices": "Dispositivi attivi",
+      "totalDevices": "{count} dispositivi totali",
+      "totalNotes": "Note totali",
+      "acrossAllUsers": "Per tutti gli utenti",
+      "storage": "Archiviazione",
+      "mbQuota": "{quota} MB di quota"
+    },
+    "serverInfo": {
+      "title": "Informazioni server",
+      "version": "Versione server:",
+      "activeUsers": "Utenti attivi:",
+      "pendingApprovals": "Approvazioni in attesa:"
+    }
+  },
+  "devices": {
+    "title": "Dispositivi",
+    "name": "Nome dispositivo",
+    "type": "Tipo",
+    "createdAt": "Registrato",
+    "lastSeen": "Ultima attività",
+    "status": "Stato",
+    "active": "Attivo",
+    "inactive": "Inattivo",
+    "revoke": "Revoca",
+    "delete": "Elimina",
+    "rename": "Rinomina",
+    "revokeConfirmTitle": "Revoca dispositivo",
+    "revokeConfirm": "Sei sicuro di voler revocare il dispositivo \"{name}\"? Questo dispositivo non potrà più sincronizzarsi.",
+    "revokeWarning": "Questo dispositivo non potrà più sincronizzarsi.",
+    "deleteConfirmTitle": "Elimina dispositivo",
+    "deleteConfirm": "Sei sicuro di voler eliminare definitivamente il dispositivo \"{name}\"? Questa azione non può essere annullata.",
+    "noDevices": "Nessun dispositivo registrato",
+    "total": "totale",
+    "nameRequired": "Il nome del dispositivo è obbligatorio",
+    "toast": {
+      "revoked": "Il dispositivo \"{name}\" è stato revocato",
+      "revokeFailed": "Impossibile revocare il dispositivo: {error}",
+      "revokeFailedGeneric": "Impossibile revocare il dispositivo",
+      "deleted": "Il dispositivo \"{name}\" è stato eliminato",
+      "deleteFailed": "Impossibile eliminare il dispositivo: {error}",
+      "deleteFailedGeneric": "Impossibile eliminare il dispositivo",
+      "renamed": "Dispositivo rinominato con successo",
+      "renameFailed": "Impossibile rinominare il dispositivo: {error}",
+      "renameFailedGeneric": "Impossibile rinominare il dispositivo"
+    }
+  },
+  "users": {
+    "title": "Utenti",
+    "loadingUsers": "Caricamento utenti...",
+    "noUsersFound": "Nessun utente trovato",
+    "failedToLoad": "Impossibile caricare gli utenti",
+    "detail": {
+      "title": "Dettagli utente",
+      "userInfo": "Informazioni utente",
+      "approvedAt": "Approvato",
+      "lastLogin": "Ultimo accesso",
+      "lastSync": "Ultima sincronizzazione",
+      "statistics": "Statistiche",
+      "attachments": "Allegati",
+      "storage": "Spazio utilizzato",
+      "quota": "Quota di archiviazione",
+      "viewDevices": "Clicca per visualizzare i dispositivi",
+      "settings": "Impostazioni utente",
+      "maxUploadSize": "Dim. max caricamento",
+      "maxUploadSizeHelp": "Dimensione massima per richiesta di sincronizzazione (include allegati)",
+      "settingsSaved": "Impostazioni utente salvate con successo",
+      "settingsSaveFailed": "Impossibile salvare le impostazioni: {error}",
+      "settingsSaveFailedGeneric": "Impossibile salvare le impostazioni",
+      "viewDetails": "Clicca per vedere i dettagli",
+      "passwordReset": "Reimposta password",
+      "resetPassword": "Reimposta password",
+      "newPassword": "Nuova password",
+      "newPasswordPlaceholder": "Inserisci nuova password",
+      "confirmPassword": "Conferma password",
+      "confirmPasswordPlaceholder": "Conferma nuova password",
+      "passwordTooShort": "La password deve avere almeno 12 caratteri",
+      "passwordMismatch": "Le password non corrispondono",
+      "passwordResetSuccess": "Password di {email} reimpostata con successo",
+      "passwordResetFailed": "Impossibile reimpostare la password: {error}",
+      "passwordResetFailedGeneric": "Impossibile reimpostare la password",
+      "passwordResetHelp": "Reimposta la password dell'utente se l'ha dimenticata.",
+      "passwordResetWarning": "Questo cambia solo la password di accesso. Non influisce sulla crittografia delle note. Se l'utente ha dimenticato la password di crittografia, le sue note non possono essere recuperate.",
+      "inboxMaxItems": "Max elementi in arrivo",
+      "inboxMaxSize": "Dimensione max in arrivo",
+      "items": "elementi",
+      "passwordResetDevices": "I dispositivi di questo utente continuano a sincronizzare dopo il ripristino, perché le loro chiavi non dipendono dalla password.",
+      "revokeDevicesOption": "Revoca anche tutte le chiavi dei dispositivi di questo utente, se l'account potrebbe essere compromesso"
+    },
+    "filters": {
+      "all": "Tutti",
+      "pending": "In attesa",
+      "approved": "Approvati",
+      "inactive": "Inattivi"
+    },
+    "table": {
+      "email": "Email",
+      "status": "Stato",
+      "devices": "Dispositivi",
+      "notes": "Note",
+      "created": "Creato",
+      "actions": "Azioni"
+    },
+    "status": {
+      "pending": "In attesa",
+      "active": "Attivo",
+      "inactive": "Inattivo",
+      "admin": "Admin"
+    },
+    "actions": {
+      "approve": "Approva",
+      "makeAdmin": "Rendi admin",
+      "removeAdmin": "Rimuovi admin",
+      "deactivate": "Disattiva",
+      "activate": "Attiva",
+      "delete": "Elimina",
+      "demoteFromAdmin": "Retrocedi da admin",
+      "promoteToAdmin": "Promuovi ad admin",
+      "deleteUser": "Elimina utente"
+    },
+    "confirm": {
+      "approve": "Approva",
+      "deactivate": "Disattiva",
+      "activate": "Attiva",
+      "delete": "Elimina",
+      "promoteToAdmin": "Promuovi ad admin",
+      "demoteFromAdmin": "Retrocedi da admin",
+      "messages": {
+        "approve": "Approvare {email}? Potrà accedere e registrare dispositivi.",
+        "deactivate": "Disattivare {email}? Non potrà accedere né sincronizzare finché non verrà riattivato.",
+        "activate": "Attivare {email}? Potrà di nuovo accedere e sincronizzare.",
+        "delete": "Questa azione elimina definitivamente {email} e tutto ciò che il server conserva per questo utente: note, allegati, dispositivi e chiave dell'account. Non può essere annullata.",
+        "promoteToAdmin": "Sei sicuro di voler promuovere {email} ad amministratore? Avrà accesso completo a tutte le funzioni di amministrazione.",
+        "demoteFromAdmin": "Sei sicuro di voler rimuovere i privilegi di amministratore da {email}?"
+      },
+      "deleteCounts": "Note: {notes} · Dispositivi: {devices}",
+      "typeEmail": "Digita l'indirizzo email dell'utente per confermare:"
+    },
+    "toast": {
+      "approved": "Utente {email} approvato con successo",
+      "deactivated": "Utente {email} disattivato",
+      "activated": "Utente {email} attivato",
+      "deleted": "Utente {email} eliminato",
+      "promotedToAdmin": "Utente {email} promosso ad admin",
+      "demotedFromAdmin": "Utente {email} retrocesso da admin",
+      "failed": {
+        "approve": "Impossibile approvare l'utente: {error}",
+        "deactivate": "Impossibile disattivare l'utente: {error}",
+        "activate": "Impossibile attivare l'utente: {error}",
+        "delete": "Impossibile eliminare l'utente: {error}",
+        "promote": "Impossibile promuovere l'utente ad admin: {error}",
+        "demote": "Impossibile rimuovere i diritti admin dell'utente: {error}"
+      }
+    }
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "language": {
+      "title": "Lingua",
+      "description": "Seleziona la tua lingua preferita per l'interfaccia di amministrazione.",
+      "label": "Lingua di visualizzazione"
+    },
+    "changePassword": {
+      "title": "Cambia password",
+      "description": "Aggiorna la tua password amministratore. La password deve essere di almeno 12 caratteri.",
+      "currentPassword": "Password attuale",
+      "newPassword": "Nuova password",
+      "confirmPassword": "Conferma nuova password",
+      "placeholder": {
+        "current": "Inserisci la password attuale",
+        "new": "Inserisci la nuova password (min 12 caratteri)",
+        "confirm": "Conferma la nuova password"
+      },
+      "button": "Cambia password",
+      "buttonChanging": "Modifica...",
+      "cancel": "Annulla",
+      "errors": {
+        "currentRequired": "La password attuale è richiesta",
+        "newRequired": "La nuova password è richiesta",
+        "minLength": "La nuova password deve essere di almeno 12 caratteri",
+        "mismatch": "Le password non corrispondono",
+        "failed": "Impossibile cambiare la password"
+      },
+      "success": "Password cambiata con successo"
+    }
+  },
+  "userPortal": {
+    "title": "Il mio account",
+    "tabs": {
+      "account": "Account",
+      "settings": "Impostazioni"
+    },
+    "login": {
+      "title": "Jottery",
+      "subtitle": "Accedi per gestire il tuo account",
+      "email": "Email",
+      "password": "Password",
+      "signIn": "Accedi",
+      "signingIn": "Accesso...",
+      "placeholder": {
+        "email": "tu@esempio.com",
+        "password": "••••••••"
+      },
+      "errors": {
+        "invalidCredentials": "Email o password non validi",
+        "accountInactive": "Il tuo account è inattivo. Contatta l'amministratore.",
+        "accountPending": "Il tuo account è in attesa dell'approvazione di un amministratore.",
+        "unexpected": "Si è verificato un errore imprevisto",
+        "statusCheckFailed": "Failed to check status. Please try again."
+      },
+      "checkStatus": "Check approval status",
+      "statusCheck": {
+        "title": "Check Approval Status",
+        "checkButton": "Check Status",
+        "notFound": "No account found with this email address.",
+        "approved": "Your account is approved and active. You can sign in above.",
+        "pending": "Your account is pending approval. Please wait for an administrator to approve your registration.",
+        "inactive": "Your account has been deactivated. Please contact an administrator."
+      }
+    },
+    "account": {
+      "title": "Informazioni account",
+      "loadError": "Impossibile caricare le informazioni dell'account",
+      "email": "Email",
+      "memberSince": "Membro dal",
+      "noteCount": "Note",
+      "attachmentCount": "Allegati",
+      "storageUsed": "Spazio utilizzato",
+      "lastSync": "Ultima sincronizzazione",
+      "never": "Mai",
+      "inbox": {
+        "title": "API Posta in arrivo",
+        "description": "Invia note al tuo account tramite API — nessuna password di crittografia necessaria. Gli elementi appaiono nella tua posta in arrivo per la revisione.",
+        "itemsLabel": "Elementi",
+        "sizeLabel": "Dimensione",
+        "noToken": "Nessun token di posta in arrivo configurato. Generane uno per iniziare a inviare note tramite API.",
+        "generate": "Genera token",
+        "generated": "Token generato — salvalo ora, non verrà mostrato di nuovo.",
+        "active": "Token posta in arrivo attivo",
+        "copyToken": "Copia",
+        "quickStart": "Avvio rapido",
+        "revoke": "Revoca token",
+        "revokeConfirmTitle": "Revoca token posta in arrivo",
+        "revokeConfirmMessage": "Revocare il token della posta in arrivo? Le integrazioni che lo utilizzano smetteranno di funzionare.",
+        "cancel": "Annulla",
+        "generateSuccess": "Token posta in arrivo generato",
+        "generateFailed": "Impossibile generare il token: {error}",
+        "revokeSuccess": "Token posta in arrivo revocato",
+        "revokeFailed": "Impossibile revocare il token, che quindi funziona ancora: {error}",
+        "copySuccess": "Token copiato",
+        "copyUnavailable": "Impossibile copiare qui. Seleziona il token e copialo manualmente."
+      },
+      "storageUsedNote": "Include note, cronologia delle note e allegati."
+    },
+    "devices": {
+      "title": "I tuoi dispositivi",
+      "loadError": "Impossibile caricare i dispositivi",
+      "noDevices": "Nessun dispositivo registrato",
+      "never": "Mai",
+      "revokeTitle": "Revoca dispositivo",
+      "revokeConfirm": "Sei sicuro di voler revocare \"{name}\"? Questo dispositivo non potrà più sincronizzarsi.",
+      "revokeNote": "La revoca di un dispositivo ne impedirà la sincronizzazione. Potrai registrare nuovamente il dispositivo in seguito se necessario.",
+      "revoked": "Il dispositivo \"{name}\" è stato revocato",
+      "revokeFailed": "Impossibile revocare il dispositivo: {error}",
+      "revokeFailedGeneric": "Impossibile revocare il dispositivo",
+      "deleteTitle": "Elimina dispositivo",
+      "deleteConfirm": "Sei sicuro di voler eliminare definitivamente \"{name}\"? Questa azione non può essere annullata.",
+      "deleted": "Il dispositivo \"{name}\" è stato eliminato",
+      "deleteFailed": "Impossibile eliminare il dispositivo: {error}",
+      "deleteFailedGeneric": "Impossibile eliminare il dispositivo"
+    },
+    "settings": {
+      "title": "Impostazioni",
+      "language": {
+        "title": "Lingua",
+        "description": "Seleziona la lingua preferita per l'interfaccia.",
+        "label": "Lingua di visualizzazione"
+      },
+      "changePassword": "Cambia password",
+      "currentPassword": "Password attuale",
+      "newPassword": "Nuova password",
+      "confirmPassword": "Conferma password",
+      "updatePassword": "Aggiorna password",
+      "passwordChanged": "Password cambiata con successo",
+      "dangerZone": "Zona pericolosa",
+      "deactivateAccount": "Disattiva account",
+      "deactivateDescription": "Disattiva il tuo account. Puoi registrarti nuovamente con l'approvazione dell'amministratore.",
+      "deactivate": "Disattiva",
+      "deactivateConfirmTitle": "Disattiva account",
+      "deactivateConfirmMessage": "Sei sicuro di voler disattivare il tuo account? I tuoi dati saranno conservati, ma avrai bisogno dell'approvazione dell'amministratore per accedervi nuovamente.",
+      "accountDeactivated": "Il tuo account è stato disattivato",
+      "deleteAccount": "Elimina account",
+      "deleteDescription": "Elimina definitivamente il tuo account e tutti i dati. Questa azione non può essere annullata.",
+      "delete": "Elimina",
+      "deleteConfirmTitle": "Elimina account definitivamente",
+      "deleteConfirmMessage": "Questo eliminerà definitivamente il tuo account e tutti i tuoi dati. Questa azione non può essere annullata.",
+      "deleteConfirmLabel": "Digita DELETE per confermare:",
+      "deleteForever": "Elimina per sempre",
+      "accountDeleted": "Il tuo account è stato eliminato",
+      "errors": {
+        "passwordMismatch": "Le password non corrispondono",
+        "passwordTooShort": "La password deve essere di almeno 12 caratteri",
+        "wrongPassword": "La password attuale non è corretta",
+        "unexpected": "Si è verificato un errore imprevisto",
+        "deactivateFailed": "Impossibile disattivare l'account",
+        "deleteFailed": "Impossibile eliminare l'account",
+        "deleteNotesFailed": "Failed to delete notes"
+      },
+      "deleteNotes": "Delete Notes",
+      "deleteNotesDescription": "Delete all your notes from the server. Your account remains active and you can sync again.",
+      "deleteNotesButton": "Delete Notes",
+      "deleteNotesConfirmTitle": "Delete All Notes",
+      "deleteNotesConfirmMessage": "Are you sure you want to delete all your notes from the server? This is useful if you forgot your encryption password and need to start fresh. Your account will remain active.",
+      "notesDeleted": "All notes have been deleted from the server",
+      "passwordToConfirm": "Inserisci la password per confermare:"
+    }
+  },
+  "audit": {
+    "title": "Registro di controllo",
+    "description": "Una registrazione permanente di ciò che gli admin hanno fatto su questo server.",
+    "loading": "Caricamento del registro di controllo...",
+    "failedToLoad": "Impossibile caricare il registro di controllo",
+    "empty": "Non è stato ancora registrato nulla.",
+    "allActions": "Tutte le azioni",
+    "filterLabel": "Mostra",
+    "commandLine": "Riga di comando",
+    "range": "{from}–{to} di {total}",
+    "previous": "Precedente",
+    "next": "Successiva",
+    "table": {
+      "time": "Quando",
+      "action": "Azione",
+      "admin": "Admin",
+      "target": "Interessato",
+      "address": "Indirizzo"
+    },
+    "actions": {
+      "userApprove": "Utente approvato",
+      "userDeactivate": "Utente disattivato",
+      "userActivate": "Utente attivato",
+      "userDelete": "Utente eliminato",
+      "userPasswordReset": "Password ripristinata",
+      "userAdminGrant": "Promosso ad admin",
+      "userAdminRevoke": "Admin rimosso",
+      "userSettingsUpdate": "Impostazioni utente modificate",
+      "deviceRevoke": "Dispositivo revocato",
+      "deviceDelete": "Dispositivo eliminato",
+      "deviceRename": "Dispositivo rinominato",
+      "adminPasswordChange": "Password personale modificata"
+    }
+  }
+}

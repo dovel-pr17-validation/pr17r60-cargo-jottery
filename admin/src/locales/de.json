@@ -1,0 +1,444 @@
+{
+  "app": {
+    "name": "Jottery Admin"
+  },
+  "common": {
+    "refresh": "Aktualisieren",
+    "refreshing": "Aktualisierung...",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "close": "Schließen",
+    "save": "Speichern",
+    "edit": "Bearbeiten",
+    "loading": "Laden...",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "actions": "Aktionen",
+    "status": "Status",
+    "created": "Erstellt",
+    "saving": "Speichern...",
+    "deleting": "Löschen...",
+    "passwordRules": "Mindestens 12 Zeichen. Der Server kann zusätzlich eine Mischung aus Groß- und Kleinbuchstaben, Zahlen und Sonderzeichen verlangen."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "users": "Benutzer",
+    "settings": "Einstellungen",
+    "logout": "Abmelden",
+    "audit": "Audit-Protokoll"
+  },
+  "login": {
+    "title": "Jottery Admin",
+    "subtitle": "Melden Sie sich an, um Ihren Server zu verwalten",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "signIn": "Anmelden",
+    "signingIn": "Anmeldung...",
+    "placeholder": {
+      "email": "admin@localhost",
+      "password": "••••••••"
+    },
+    "errors": {
+      "invalidCredentials": "Ungültige E-Mail oder Passwort",
+      "adminRequired": "Administratorzugriff erforderlich",
+      "unexpected": "Ein unerwarteter Fehler ist aufgetreten"
+    }
+  },
+  "logout": {
+    "confirmTitle": "Abmeldung bestätigen",
+    "confirmMessage": "Sind Sie sicher, dass Sie sich abmelden möchten?"
+  },
+  "errors": {
+    "unknown": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "network": "Der Server ist nicht erreichbar. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+    "forbidden": "Sie haben dafür keine Berechtigung.",
+    "wrongPassword": "Aktuelles Passwort ist falsch",
+    "rateLimited": "Zu viele Versuche. Versuchen Sie es in {seconds} Sekunden erneut.",
+    "tooManyAttempts": "Zu viele Versuche. Bitte warten Sie und versuchen Sie es erneut.",
+    "passwordTooShort": "Neues Passwort muss mindestens 12 Zeichen lang sein",
+    "passwordSameAsCurrent": "Das neue Passwort muss sich vom aktuellen unterscheiden",
+    "ownAdminRole": "Sie können sich Ihre eigenen Admin-Rechte nicht entziehen.",
+    "lastAdminDemote": "Der letzte Admin kann nicht herabgestuft werden.",
+    "ownAccountDelete": "Sie können Ihr eigenes Konto hier nicht löschen.",
+    "lastAdminDelete": "Der letzte Admin kann nicht gelöscht werden.",
+    "userNotFound": "Benutzer nicht gefunden.",
+    "deviceNotFound": "Gerät nicht gefunden.",
+    "quotaRange": "Das Speicherkontingent muss zwischen 1 und 100000 MB liegen.",
+    "maxUploadRange": "Die maximale Upload-Größe muss zwischen 1 und 1000 MB liegen.",
+    "inboxItemsRange": "Die maximale Anzahl an Posteingang-Elementen muss zwischen 1 und 10000 liegen.",
+    "inboxSizeRange": "Die maximale Posteingang-Größe muss zwischen 1 und 1000 MB liegen.",
+    "passwordComplexity": "Das Passwort braucht mindestens {required} von 4 Zeichentypen. Es fehlen: {missing}.",
+    "passwordClass": {
+      "uppercase": "Großbuchstabe",
+      "lowercase": "Kleinbuchstabe",
+      "number": "Zahl",
+      "special": "Sonderzeichen"
+    },
+    "passwordTooLong": "Das Passwort ist zu lang."
+  },
+  "session": {
+    "expired": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an."
+  },
+  "forcedPasswordChange": {
+    "title": "Ändern Sie Ihr Passwort",
+    "description": "Sie müssen ein neues Passwort wählen, bevor Sie fortfahren können. Es muss mindestens 12 Zeichen lang sein."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "loadingStats": "Statistiken werden geladen...",
+    "failedToLoad": "Fehler beim Laden der Statistiken",
+    "stats": {
+      "totalUsers": "Benutzer insgesamt",
+      "approved": "genehmigt",
+      "pending": "ausstehend",
+      "activeDevices": "Aktive Geräte",
+      "totalDevices": "{count} Geräte insgesamt",
+      "totalNotes": "Notizen insgesamt",
+      "acrossAllUsers": "Über alle Benutzer",
+      "storage": "Speicher",
+      "mbQuota": "{quota} MB Kontingent"
+    },
+    "serverInfo": {
+      "title": "Serverinformationen",
+      "version": "Serverversion:",
+      "activeUsers": "Aktive Benutzer:",
+      "pendingApprovals": "Ausstehende Genehmigungen:"
+    }
+  },
+  "devices": {
+    "title": "Geräte",
+    "name": "Gerätename",
+    "type": "Typ",
+    "createdAt": "Registriert",
+    "lastSeen": "Zuletzt gesehen",
+    "status": "Status",
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "revoke": "Widerrufen",
+    "delete": "Löschen",
+    "rename": "Umbenennen",
+    "revokeConfirmTitle": "Gerät widerrufen",
+    "revokeConfirm": "Sind Sie sicher, dass Sie das Gerät \"{name}\" widerrufen möchten? Dieses Gerät kann nicht mehr synchronisiert werden.",
+    "revokeWarning": "Dieses Gerät kann nicht mehr synchronisiert werden.",
+    "deleteConfirmTitle": "Gerät löschen",
+    "deleteConfirm": "Sind Sie sicher, dass Sie das Gerät \"{name}\" dauerhaft löschen möchten? Dies kann nicht rückgängig gemacht werden.",
+    "noDevices": "Keine Geräte registriert",
+    "total": "insgesamt",
+    "nameRequired": "Gerätename ist erforderlich",
+    "toast": {
+      "revoked": "Gerät \"{name}\" wurde widerrufen",
+      "revokeFailed": "Fehler beim Widerrufen des Geräts: {error}",
+      "revokeFailedGeneric": "Fehler beim Widerrufen des Geräts",
+      "deleted": "Gerät \"{name}\" wurde gelöscht",
+      "deleteFailed": "Fehler beim Löschen des Geräts: {error}",
+      "deleteFailedGeneric": "Fehler beim Löschen des Geräts",
+      "renamed": "Gerät erfolgreich umbenannt",
+      "renameFailed": "Fehler beim Umbenennen des Geräts: {error}",
+      "renameFailedGeneric": "Fehler beim Umbenennen des Geräts"
+    }
+  },
+  "users": {
+    "title": "Benutzer",
+    "loadingUsers": "Benutzer werden geladen...",
+    "noUsersFound": "Keine Benutzer gefunden",
+    "failedToLoad": "Fehler beim Laden der Benutzer",
+    "detail": {
+      "title": "Benutzerdetails",
+      "userInfo": "Benutzerinformationen",
+      "approvedAt": "Genehmigt",
+      "lastLogin": "Letzte Anmeldung",
+      "lastSync": "Letzte Synchronisation",
+      "statistics": "Statistiken",
+      "attachments": "Anhänge",
+      "storage": "Speichernutzung",
+      "quota": "Speicherkontingent",
+      "viewDevices": "Klicken Sie, um Geräte anzuzeigen",
+      "settings": "Benutzereinstellungen",
+      "maxUploadSize": "Max. Upload-Größe",
+      "maxUploadSizeHelp": "Maximale Größe pro Sync-Anfrage (inkl. Anhänge)",
+      "settingsSaved": "Benutzereinstellungen erfolgreich gespeichert",
+      "settingsSaveFailed": "Fehler beim Speichern der Einstellungen: {error}",
+      "settingsSaveFailedGeneric": "Fehler beim Speichern der Einstellungen",
+      "viewDetails": "Klicken, um Details anzuzeigen",
+      "passwordReset": "Passwort zurücksetzen",
+      "resetPassword": "Passwort zurücksetzen",
+      "newPassword": "Neues Passwort",
+      "newPasswordPlaceholder": "Neues Passwort eingeben",
+      "confirmPassword": "Passwort bestätigen",
+      "confirmPasswordPlaceholder": "Neues Passwort bestätigen",
+      "passwordTooShort": "Passwort muss mindestens 12 Zeichen lang sein",
+      "passwordMismatch": "Passwörter stimmen nicht überein",
+      "passwordResetSuccess": "Passwort für {email} wurde erfolgreich zurückgesetzt",
+      "passwordResetFailed": "Fehler beim Zurücksetzen des Passworts: {error}",
+      "passwordResetFailedGeneric": "Fehler beim Zurücksetzen des Passworts",
+      "passwordResetHelp": "Setzen Sie das Passwort des Benutzers zurück, wenn er es vergessen hat.",
+      "passwordResetWarning": "Dies ändert nur das Anmeldepasswort. Die Notizen-Verschlüsselung bleibt unberührt. Wenn der Benutzer sein Verschlüsselungspasswort vergessen hat, können seine Notizen nicht wiederhergestellt werden.",
+      "inboxMaxItems": "Max. Posteingang-Elemente",
+      "inboxMaxSize": "Max. Posteingang-Größe",
+      "items": "Elemente",
+      "passwordResetDevices": "Die Geräte dieses Benutzers synchronisieren nach dem Zurücksetzen weiter, weil ihre Schlüssel nicht an das Passwort gebunden sind.",
+      "revokeDevicesOption": "Auch alle Geräteschlüssel dieses Benutzers widerrufen, falls das Konto kompromittiert sein könnte"
+    },
+    "filters": {
+      "all": "Alle",
+      "pending": "Ausstehend",
+      "approved": "Genehmigt",
+      "inactive": "Inaktiv"
+    },
+    "table": {
+      "email": "E-Mail",
+      "status": "Status",
+      "devices": "Geräte",
+      "notes": "Notizen",
+      "created": "Erstellt",
+      "actions": "Aktionen"
+    },
+    "status": {
+      "pending": "Ausstehend",
+      "active": "Aktiv",
+      "inactive": "Inaktiv",
+      "admin": "Admin"
+    },
+    "actions": {
+      "approve": "Genehmigen",
+      "makeAdmin": "Zum Admin machen",
+      "removeAdmin": "Admin entfernen",
+      "deactivate": "Deaktivieren",
+      "activate": "Aktivieren",
+      "delete": "Löschen",
+      "demoteFromAdmin": "Vom Admin herabstufen",
+      "promoteToAdmin": "Zum Admin befördern",
+      "deleteUser": "Benutzer löschen"
+    },
+    "confirm": {
+      "approve": "Genehmigen",
+      "deactivate": "Deaktivieren",
+      "activate": "Aktivieren",
+      "delete": "Löschen",
+      "promoteToAdmin": "Zum Admin befördern",
+      "demoteFromAdmin": "Vom Admin herabstufen",
+      "messages": {
+        "approve": "{email} genehmigen? Der Benutzer kann sich dann anmelden und Geräte registrieren.",
+        "deactivate": "{email} deaktivieren? Der Benutzer kann sich erst wieder anmelden und synchronisieren, wenn er erneut aktiviert wird.",
+        "activate": "{email} aktivieren? Der Benutzer kann sich dann wieder anmelden und synchronisieren.",
+        "delete": "Damit werden {email} und alle Daten, die der Server für diesen Benutzer speichert, endgültig gelöscht: Notizen, Anhänge, Geräte und der Kontoschlüssel. Das kann nicht rückgängig gemacht werden.",
+        "promoteToAdmin": "Sind Sie sicher, dass Sie {email} zum Administrator befördern möchten? Sie erhalten vollen Zugriff auf alle Verwaltungsfunktionen.",
+        "demoteFromAdmin": "Sind Sie sicher, dass Sie die Administratorrechte von {email} entfernen möchten?"
+      },
+      "deleteCounts": "Notizen: {notes} · Geräte: {devices}",
+      "typeEmail": "Geben Sie zur Bestätigung die E-Mail-Adresse des Benutzers ein:"
+    },
+    "toast": {
+      "approved": "Benutzer {email} erfolgreich genehmigt",
+      "deactivated": "Benutzer {email} deaktiviert",
+      "activated": "Benutzer {email} aktiviert",
+      "deleted": "Benutzer {email} gelöscht",
+      "promotedToAdmin": "Benutzer {email} zum Admin befördert",
+      "demotedFromAdmin": "Benutzer {email} vom Admin herabgestuft",
+      "failed": {
+        "approve": "Der Benutzer konnte nicht genehmigt werden: {error}",
+        "deactivate": "Der Benutzer konnte nicht deaktiviert werden: {error}",
+        "activate": "Der Benutzer konnte nicht aktiviert werden: {error}",
+        "delete": "Der Benutzer konnte nicht gelöscht werden: {error}",
+        "promote": "Der Benutzer konnte nicht zum Admin befördert werden: {error}",
+        "demote": "Dem Benutzer konnten die Admin-Rechte nicht entzogen werden: {error}"
+      }
+    }
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": {
+      "title": "Sprache",
+      "description": "Wählen Sie Ihre bevorzugte Sprache für die Admin-Oberfläche.",
+      "label": "Anzeigesprache"
+    },
+    "changePassword": {
+      "title": "Passwort ändern",
+      "description": "Aktualisieren Sie Ihr Admin-Passwort. Das Passwort muss mindestens 12 Zeichen lang sein.",
+      "currentPassword": "Aktuelles Passwort",
+      "newPassword": "Neues Passwort",
+      "confirmPassword": "Neues Passwort bestätigen",
+      "placeholder": {
+        "current": "Aktuelles Passwort eingeben",
+        "new": "Neues Passwort eingeben (min. 12 Zeichen)",
+        "confirm": "Neues Passwort bestätigen"
+      },
+      "button": "Passwort ändern",
+      "buttonChanging": "Wird geändert...",
+      "cancel": "Abbrechen",
+      "errors": {
+        "currentRequired": "Aktuelles Passwort ist erforderlich",
+        "newRequired": "Neues Passwort ist erforderlich",
+        "minLength": "Neues Passwort muss mindestens 12 Zeichen lang sein",
+        "mismatch": "Passwörter stimmen nicht überein",
+        "failed": "Fehler beim Ändern des Passworts"
+      },
+      "success": "Passwort erfolgreich geändert"
+    }
+  },
+  "userPortal": {
+    "title": "Mein Konto",
+    "tabs": {
+      "account": "Konto",
+      "settings": "Einstellungen"
+    },
+    "login": {
+      "title": "Jottery",
+      "subtitle": "Melden Sie sich an, um Ihr Konto zu verwalten",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "signIn": "Anmelden",
+      "signingIn": "Anmeldung...",
+      "placeholder": {
+        "email": "sie@beispiel.de",
+        "password": "••••••••"
+      },
+      "errors": {
+        "invalidCredentials": "Ungültige E-Mail oder Passwort",
+        "accountInactive": "Ihr Konto ist inaktiv. Bitte kontaktieren Sie den Administrator.",
+        "accountPending": "Ihr Konto wartet auf die Freigabe durch einen Administrator.",
+        "unexpected": "Ein unerwarteter Fehler ist aufgetreten",
+        "statusCheckFailed": "Failed to check status. Please try again."
+      },
+      "checkStatus": "Check approval status",
+      "statusCheck": {
+        "title": "Check Approval Status",
+        "checkButton": "Check Status",
+        "notFound": "No account found with this email address.",
+        "approved": "Your account is approved and active. You can sign in above.",
+        "pending": "Your account is pending approval. Please wait for an administrator to approve your registration.",
+        "inactive": "Your account has been deactivated. Please contact an administrator."
+      }
+    },
+    "account": {
+      "title": "Kontoinformationen",
+      "loadError": "Fehler beim Laden der Kontoinformationen",
+      "email": "E-Mail",
+      "memberSince": "Mitglied seit",
+      "noteCount": "Notizen",
+      "attachmentCount": "Anhänge",
+      "storageUsed": "Speicher genutzt",
+      "lastSync": "Letzte Synchronisation",
+      "never": "Nie",
+      "inbox": {
+        "title": "Posteingang-API",
+        "description": "Senden Sie Notizen per API an Ihr Konto — kein Verschlüsselungspasswort nötig. Einträge erscheinen in Ihrem Posteingang zur Überprüfung.",
+        "itemsLabel": "Einträge",
+        "sizeLabel": "Größe",
+        "noToken": "Kein Posteingang-Token konfiguriert. Generieren Sie einen, um Notizen per API einzureichen.",
+        "generate": "Token generieren",
+        "generated": "Token generiert — speichern Sie ihn jetzt, er wird nicht erneut angezeigt.",
+        "active": "Posteingang-Token aktiv",
+        "copyToken": "Kopieren",
+        "quickStart": "Schnellstart",
+        "revoke": "Token widerrufen",
+        "revokeConfirmTitle": "Posteingang-Token widerrufen",
+        "revokeConfirmMessage": "Posteingang-Token widerrufen? Alle Integrationen, die ihn verwenden, funktionieren nicht mehr.",
+        "cancel": "Abbrechen",
+        "generateSuccess": "Posteingang-Token generiert",
+        "generateFailed": "Das Token konnte nicht generiert werden: {error}",
+        "revokeSuccess": "Posteingang-Token widerrufen",
+        "revokeFailed": "Das Token konnte nicht widerrufen werden und funktioniert weiterhin: {error}",
+        "copySuccess": "Token kopiert",
+        "copyUnavailable": "Kopieren ist hier nicht möglich. Markieren und kopieren Sie das Token selbst."
+      },
+      "storageUsedNote": "Umfasst Notizen, Notizverlauf und Anhänge."
+    },
+    "devices": {
+      "title": "Ihre Geräte",
+      "loadError": "Fehler beim Laden der Geräte",
+      "noDevices": "Keine Geräte registriert",
+      "never": "Nie",
+      "revokeTitle": "Gerät widerrufen",
+      "revokeConfirm": "Sind Sie sicher, dass Sie \"{name}\" widerrufen möchten? Dieses Gerät kann nicht mehr synchronisiert werden.",
+      "revokeNote": "Das Widerrufen eines Geräts verhindert die Synchronisation. Sie können das Gerät später bei Bedarf erneut registrieren.",
+      "revoked": "Gerät \"{name}\" wurde widerrufen",
+      "revokeFailed": "Fehler beim Widerrufen des Geräts: {error}",
+      "revokeFailedGeneric": "Fehler beim Widerrufen des Geräts",
+      "deleteTitle": "Gerät löschen",
+      "deleteConfirm": "Sind Sie sicher, dass Sie \"{name}\" dauerhaft löschen möchten? Dies kann nicht rückgängig gemacht werden.",
+      "deleted": "Gerät \"{name}\" wurde gelöscht",
+      "deleteFailed": "Fehler beim Löschen des Geräts: {error}",
+      "deleteFailedGeneric": "Fehler beim Löschen des Geräts"
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "language": {
+        "title": "Sprache",
+        "description": "Wählen Sie Ihre bevorzugte Sprache für die Benutzeroberfläche.",
+        "label": "Anzeigesprache"
+      },
+      "changePassword": "Passwort ändern",
+      "currentPassword": "Aktuelles Passwort",
+      "newPassword": "Neues Passwort",
+      "confirmPassword": "Passwort bestätigen",
+      "updatePassword": "Passwort aktualisieren",
+      "passwordChanged": "Passwort erfolgreich geändert",
+      "dangerZone": "Gefahrenzone",
+      "deactivateAccount": "Konto deaktivieren",
+      "deactivateDescription": "Deaktivieren Sie Ihr Konto. Sie können sich mit Genehmigung des Administrators erneut registrieren.",
+      "deactivate": "Deaktivieren",
+      "deactivateConfirmTitle": "Konto deaktivieren",
+      "deactivateConfirmMessage": "Sind Sie sicher, dass Sie Ihr Konto deaktivieren möchten? Ihre Daten bleiben erhalten, aber Sie benötigen die Genehmigung des Administrators, um erneut darauf zuzugreifen.",
+      "accountDeactivated": "Ihr Konto wurde deaktiviert",
+      "deleteAccount": "Konto löschen",
+      "deleteDescription": "Konto und alle Daten dauerhaft löschen. Dies kann nicht rückgängig gemacht werden.",
+      "delete": "Löschen",
+      "deleteConfirmTitle": "Konto dauerhaft löschen",
+      "deleteConfirmMessage": "Dies wird Ihr Konto und alle Ihre Daten dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "deleteConfirmLabel": "Geben Sie DELETE zur Bestätigung ein:",
+      "deleteForever": "Für immer löschen",
+      "accountDeleted": "Ihr Konto wurde gelöscht",
+      "errors": {
+        "passwordMismatch": "Passwörter stimmen nicht überein",
+        "passwordTooShort": "Passwort muss mindestens 12 Zeichen lang sein",
+        "wrongPassword": "Aktuelles Passwort ist falsch",
+        "unexpected": "Ein unerwarteter Fehler ist aufgetreten",
+        "deactivateFailed": "Fehler beim Deaktivieren des Kontos",
+        "deleteFailed": "Fehler beim Löschen des Kontos",
+        "deleteNotesFailed": "Failed to delete notes"
+      },
+      "deleteNotes": "Delete Notes",
+      "deleteNotesDescription": "Delete all your notes from the server. Your account remains active and you can sync again.",
+      "deleteNotesButton": "Delete Notes",
+      "deleteNotesConfirmTitle": "Delete All Notes",
+      "deleteNotesConfirmMessage": "Are you sure you want to delete all your notes from the server? This is useful if you forgot your encryption password and need to start fresh. Your account will remain active.",
+      "notesDeleted": "All notes have been deleted from the server",
+      "passwordToConfirm": "Geben Sie zur Bestätigung Ihr Passwort ein:"
+    }
+  },
+  "audit": {
+    "title": "Audit-Protokoll",
+    "description": "Eine dauerhafte Aufzeichnung dessen, was Admins auf diesem Server getan haben.",
+    "loading": "Audit-Protokoll wird geladen...",
+    "failedToLoad": "Das Audit-Protokoll konnte nicht geladen werden",
+    "empty": "Bisher wurde nichts aufgezeichnet.",
+    "allActions": "Alle Aktionen",
+    "filterLabel": "Anzeigen",
+    "commandLine": "Befehlszeile",
+    "range": "{from}–{to} von {total}",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "table": {
+      "time": "Wann",
+      "action": "Aktion",
+      "admin": "Admin",
+      "target": "Betroffen",
+      "address": "Adresse"
+    },
+    "actions": {
+      "userApprove": "Benutzer genehmigt",
+      "userDeactivate": "Benutzer deaktiviert",
+      "userActivate": "Benutzer aktiviert",
+      "userDelete": "Benutzer gelöscht",
+      "userPasswordReset": "Passwort zurückgesetzt",
+      "userAdminGrant": "Zum Admin befördert",
+      "userAdminRevoke": "Admin-Rechte entzogen",
+      "userSettingsUpdate": "Benutzereinstellungen geändert",
+      "deviceRevoke": "Gerät widerrufen",
+      "deviceDelete": "Gerät gelöscht",
+      "deviceRename": "Gerät umbenannt",
+      "adminPasswordChange": "Eigenes Passwort geändert"
+    }
+  }
+}

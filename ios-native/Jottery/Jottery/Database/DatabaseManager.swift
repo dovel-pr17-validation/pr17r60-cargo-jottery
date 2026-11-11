@@ -1,0 +1,369 @@
+import Foundation
+import GRDB
+
+/// Manages the GRDB `DatabasePool` and runs migrations.
+/// Database location: `~/Library/Application Support/Jottery/jottery.db`
+final class DatabaseManager: Sendable {
+
+    let dbPool: DatabasePool
+
+    /// Initialise with the default application support path.
+    convenience init() throws {
+        try self.init(protecting: DatabaseManager.databasePath())
+    }
+
+    /// Open the vault's own database, with its files protected.
+    /// - Parameter protect: replaces the attribute being set. Only used by tests,
+    ///   because the simulator doesn't keep it.
+    init(protecting path: String, protect: (String) throws -> Void = DatabaseManager.protectFile) throws {
+        try Self.protectFiles(ofDatabaseAt: path, protect: protect)
+        var config = Configuration()
+        config.foreignKeysEnabled = true
+        dbPool = try DatabasePool(path: path, configuration: config)
+        try migrate()
+        // The first run has only just created these.
+        try Self.protectFiles(ofDatabaseAt: path, protect: protect)
+    }
+
+    /// Initialise with a specific path (for testing).
+    init(path: String) throws {
+        var config = Configuration()
+        config.foreignKeysEnabled = true
+        dbPool = try DatabasePool(path: path, configuration: config)
+        try migrate()
+    }
+
+    /// In-memory database (for unit tests).
+    init(inMemory: Bool) throws {
+        var config = Configuration()
+        config.foreignKeysEnabled = true
+        if inMemory {
+            dbPool = try DatabasePool(path: ":memory:", configuration: config)
+        } else {
+            let path = try DatabaseManager.databasePath()
+            dbPool = try DatabasePool(path: path, configuration: config)
+        }
+        try migrate()
+    }
+
+    // MARK: - Path
+
+    private static func databasePath() throws -> String {
+        let fm = FileManager.default
+        let appSupport = try fm.url(
+            for: .applicationSupportDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true
+        )
+        let dir = appSupport.appendingPathComponent("Jottery", isDirectory: true)
+        try fm.createDirectory(at: dir, withIntermediateDirectories: true)
+        return dir.appendingPathComponent("jottery.db").path
+    }
+
+    /// How the database is protected at rest. It holds the password-wrapped
+    /// master key, account details and every note's metadata, so the system
+    /// default, which leaves files readable on a locked phone at any time after
+    /// the first unlock, isn't enough. This class keeps a file readable only
+    /// while it's open, as SQLite's need to be when the phone locks with the app
+    /// running. New files in the directory, like the WAL, take the same class.
+    static let fileProtection = FileProtectionType.completeUnlessOpen
+
+    static func protectFile(_ path: String) throws {
+        try FileManager.default.setAttributes([.protectionKey: fileProtection], ofItemAtPath: path)
+    }
+
+    /// Apply `fileProtection` to the database's directory and files. The files
+    /// stay in device backups on purpose: a vault that doesn't sync has no
+    /// other copy, and notes in a backup are encrypted with the vault's key.
+    ///
+    /// `protect` is replaced in tests: the simulator ignores file protection.
+    static func protectFiles(
+        ofDatabaseAt path: String,
+        protect: (String) throws -> Void = protectFile
+    ) throws {
+        try protect((path as NSString).deletingLastPathComponent)
+        for file in [path, path + "-wal", path + "-shm"] where FileManager.default.fileExists(atPath: file) {
+            try protect(file)
+        }
+    }
+
+    // MARK: - Migrations
+
+    /// Run all migrations matching the TUI's 15 migration files.
+    private func migrate() throws {
+        // Migrations run at launch, and iOS kills an app that takes over 10 seconds
+        // to start. Attachment data lives in its row, so never UPDATE `attachments`
+        // here: changing a row's size rewrites its data, and a real vault holds
+        // hundreds of megabytes. The kill rolls the migration back, so it would
+        // happen on every launch. Do that work in the background, in small batches.
+        var migrator = DatabaseMigrator()
+
+        // 001_initial
+        migrator.registerMigration("001_initial") { db in
+            try db.create(table: "notes", ifNotExists: true) { t in
+                t.column("id", .text).primaryKey()
+                t.column("created_at", .text).notNull()
+                t.column("modified_at", .text).notNull()
+                t.column("synced_at", .text)
+                t.column("content", .text).notNull()
+                t.column("tags", .text).notNull()
+                t.column("attachments", .text).notNull()
+                t.column("pinned", .boolean).notNull().defaults(to: false)
+                t.column("deleted", .boolean).notNull().defaults(to: false)
+                t.column("deleted_at", .text)
+                t.column("sync_hash", .text)
+                t.column("version", .integer).notNull().defaults(to: 1)
+                t.column("word_wrap", .boolean).notNull().defaults(to: true)
+                t.column("syntax_language", .text).notNull().defaults(to: "plain")
+            }
+
+            try db.create(indexOn: "notes", columns: ["modified_at"])
+            try db.create(indexOn: "notes", columns: ["created_at"])
+            try db.create(indexOn: "notes", columns: ["deleted"])
+            try db.create(indexOn: "notes", columns: ["pinned"])
+            try db.create(indexOn: "notes", columns: ["deleted", "modified_at"])
+
+            try db.create(table: "attachments", ifNotExists: true) { t in
+                t.column("id", .text).primaryKey()
+                t.column("filename", .text).notNull()
+                t.column("mime_type", .text).notNull()
+                t.column("size", .integer).notNull()
+                t.column("data", .blob).notNull()
+                t.column("thumbnail_data", .blob)
+            }
+
+            try db.create(table: "settings", ifNotExists: true) { t in
+                t.column("id", .integer).primaryKey().check { $0 == 1 }
+                t.column("language", .text).notNull().defaults(to: "en-GB")
+                t.column("theme", .text).notNull().defaults(to: "auto")
+                t.column("sort_order", .text).notNull().defaults(to: "recent")
+                t.column("auto_lock_timeout", .integer).notNull().defaults(to: 15)
+                t.column("sync_enabled", .boolean).notNull().defaults(to: false)
+                t.column("sync_endpoint", .text)
+            }
+
+            try db.execute(sql: """
+                INSERT OR IGNORE INTO settings (id, language, theme, sort_order, auto_lock_timeout, sync_enabled)
+                VALUES (1, 'en-GB', 'auto', 'recent', 15, 0)
+            """)
+
+            try db.create(table: "encryption_metadata", ifNotExists: true) { t in
+                t.column("id", .integer).primaryKey().check { $0 == 1 }
+                t.column("salt", .text).notNull()
+                t.column("iterations", .integer).notNull()
+                t.column("created_at", .text).notNull()
+                t.column("algorithm", .text).notNull().defaults(to: "AES-256-GCM")
+            }
+
+            try db.create(table: "sync_metadata", ifNotExists: true) { t in
+                t.column("id", .integer).primaryKey().check { $0 == 1 }
+                t.column("last_sync_at", .text)
+                t.column("last_push_at", .text)
+                t.column("last_pull_at", .text)
+                t.column("api_key", .text)
+                t.column("client_id", .text)
+                t.column("sync_enabled", .boolean).notNull().defaults(to: false)
+                t.column("sync_endpoint", .text)
+                t.column("auto_sync_interval", .integer).defaults(to: 5)
+            }
+
+            try db.execute(sql: """
+                INSERT OR IGNORE INTO sync_metadata (id, sync_enabled)
+                VALUES (1, 0)
+            """)
+
+            try db.create(table: "note_sync_metadata", ifNotExists: true) { t in
+                t.column("note_id", .text).primaryKey()
+                    .references("notes", column: "id", onDelete: .cascade)
+                t.column("synced_at", .text).notNull()
+                t.column("sync_hash", .text).notNull()
+                t.column("server_version", .integer).notNull()
+                t.column("last_sync_status", .text).notNull().defaults(to: "pending")
+                t.column("error_message", .text)
+            }
+        }
+
+        // 004_update_syntax_default — update existing 'plain' to 'markdown'
+        migrator.registerMigration("004_update_syntax_default") { db in
+            try db.execute(sql: """
+                UPDATE notes SET syntax_language = 'markdown' WHERE syntax_language = 'plain'
+            """)
+        }
+
+        // 005_add_note_versions
+        migrator.registerMigration("005_add_note_versions") { db in
+            try db.create(table: "note_versions", ifNotExists: true) { t in
+                t.column("version_key", .text).primaryKey()
+                t.column("note_id", .text).notNull()
+                t.column("version", .integer).notNull()
+                t.column("created_at", .text).notNull()
+                t.column("synced_at", .text).notNull()
+                t.column("content", .text).notNull()
+                t.column("tags", .text).notNull()
+                t.column("attachments", .text).notNull()
+                t.column("syntax_language", .text)
+                t.column("word_wrap", .boolean)
+                t.column("reason", .text).notNull()
+            }
+
+            try db.create(indexOn: "note_versions", columns: ["note_id"])
+            try db.create(indexOn: "note_versions", columns: ["note_id", "version"])
+        }
+
+        // 006_add_user_email
+        migrator.registerMigration("006_add_user_email") { db in
+            try db.execute(sql: """
+                ALTER TABLE sync_metadata ADD COLUMN user_email TEXT
+            """)
+        }
+
+        // 007_add_conflict_data
+        migrator.registerMigration("007_add_conflict_data") { db in
+            try db.execute(sql: """
+                ALTER TABLE note_sync_metadata ADD COLUMN conflict_data TEXT
+            """)
+        }
+
+        // 008_add_pending_registration
+        migrator.registerMigration("008_add_pending_registration") { db in
+            try db.execute(sql: """
+                ALTER TABLE sync_metadata ADD COLUMN pending_registration_email TEXT
+            """)
+        }
+
+        // 009_add_note_colors
+        migrator.registerMigration("009_add_note_colors") { db in
+            try db.execute(sql: "ALTER TABLE notes ADD COLUMN color TEXT")
+            try db.execute(sql: "ALTER TABLE note_versions ADD COLUMN color TEXT")
+            try db.execute(sql: "ALTER TABLE settings ADD COLUMN color_palette TEXT")
+            try db.execute(sql: "ALTER TABLE settings ADD COLUMN tag_colors TEXT")
+        }
+
+        // 010_add_archive_support
+        migrator.registerMigration("010_add_archive_support") { db in
+            try db.execute(sql: "ALTER TABLE notes ADD COLUMN archived INTEGER NOT NULL DEFAULT 0")
+            try db.execute(sql: "ALTER TABLE notes ADD COLUMN archived_at TEXT")
+            try db.create(indexOn: "notes", columns: ["archived"])
+            try db.create(indexOn: "notes", columns: ["archived", "modified_at"])
+        }
+
+        // 011_add_lock_support
+        migrator.registerMigration("011_add_lock_support") { db in
+            try db.execute(sql: "ALTER TABLE notes ADD COLUMN locked INTEGER NOT NULL DEFAULT 0")
+            try db.execute(sql: "ALTER TABLE notes ADD COLUMN locked_at TEXT")
+        }
+
+        // 012_add_deletions_tracking
+        migrator.registerMigration("012_add_deletions_tracking") { db in
+            try db.create(table: "note_deletions", ifNotExists: true) { t in
+                t.column("id", .text).primaryKey()
+                t.column("deleted_at", .text).notNull()
+            }
+        }
+
+        // 013_add_pending_device_name
+        migrator.registerMigration("013_add_pending_device_name") { db in
+            try db.execute(sql: """
+                ALTER TABLE sync_metadata ADD COLUMN pending_device_name TEXT
+            """)
+        }
+
+        // 014_add_version_show_preview
+        migrator.registerMigration("014_add_version_show_preview") { db in
+            try db.execute(sql: "ALTER TABLE note_versions ADD COLUMN show_preview INTEGER")
+        }
+
+        // 015_add_hash_chain
+        migrator.registerMigration("015_add_hash_chain") { db in
+            try db.execute(sql: "ALTER TABLE notes ADD COLUMN content_hash TEXT")
+            try db.execute(sql: "ALTER TABLE notes ADD COLUMN parent_hash TEXT")
+            try db.execute(sql: "ALTER TABLE notes ADD COLUMN hash_chain TEXT")
+            try db.execute(sql: "ALTER TABLE note_versions ADD COLUMN content_hash TEXT")
+            try db.execute(sql: "ALTER TABLE note_versions ADD COLUMN parent_hash TEXT")
+        }
+
+        // iOS-specific: add show_preview and needs_sync to notes
+        migrator.registerMigration("ios_001_add_show_preview") { db in
+            try db.execute(sql: "ALTER TABLE notes ADD COLUMN show_preview INTEGER NOT NULL DEFAULT 0")
+        }
+
+        migrator.registerMigration("ios_002_add_needs_sync") { db in
+            try db.execute(sql: "ALTER TABLE notes ADD COLUMN needs_sync INTEGER NOT NULL DEFAULT 0")
+        }
+
+        migrator.registerMigration("ios_003_add_verification") { db in
+            try db.execute(sql: "ALTER TABLE encryption_metadata ADD COLUMN verification TEXT")
+        }
+
+        // Migrate existing "en-GB" default to "system" so the app follows the OS locale.
+        migrator.registerMigration("ios_004_language_default") { db in
+            try db.execute(sql: "UPDATE settings SET language = 'system' WHERE language = 'en-GB'")
+        }
+
+        migrator.registerMigration("ios_005_add_saved_searches") { db in
+            try db.create(table: "saved_searches", ifNotExists: true) { t in
+                t.column("id", .text).primaryKey()
+                t.column("name", .text).notNull()       // Encrypted
+                t.column("query", .text).notNull()       // Encrypted
+                t.column("display_order", .integer).notNull().defaults(to: 0)
+                t.column("created_at", .text).notNull()
+                t.column("modified_at", .text).notNull()
+            }
+        }
+
+        migrator.registerMigration("ios_006_saved_searches_sync") { db in
+            try db.execute(sql: "ALTER TABLE saved_searches ADD COLUMN synced_at TEXT")
+            try db.execute(sql: "ALTER TABLE saved_searches ADD COLUMN deleted INTEGER NOT NULL DEFAULT 0")
+            try db.execute(sql: "ALTER TABLE saved_searches ADD COLUMN deleted_at TEXT")
+            try db.execute(sql: "ALTER TABLE saved_searches ADD COLUMN version INTEGER NOT NULL DEFAULT 1")
+            try db.execute(sql: "ALTER TABLE saved_searches ADD COLUMN needs_sync INTEGER NOT NULL DEFAULT 0")
+        }
+
+        // Envelope encryption — decouples master key from password
+        migrator.registerMigration("ios_007_add_envelope") { db in
+            try db.execute(sql: "ALTER TABLE encryption_metadata ADD COLUMN envelope_version INTEGER")
+            try db.execute(sql: "ALTER TABLE encryption_metadata ADD COLUMN device_salt TEXT")
+            try db.execute(sql: "ALTER TABLE encryption_metadata ADD COLUMN local_wrapped_master TEXT")
+            try db.execute(sql: "ALTER TABLE encryption_metadata ADD COLUMN wrapping_kdf_version INTEGER")
+            try db.execute(sql: "ALTER TABLE sync_metadata ADD COLUMN user_id TEXT")
+        }
+
+        // Per-account sync state: the pull cursor, and what this device knows
+        // about the wrapped key on the server.
+        migrator.registerMigration("ios_008_account_sync_state") { db in
+            try db.execute(sql: "ALTER TABLE sync_metadata ADD COLUMN pull_cursor TEXT")
+            try db.execute(sql: "ALTER TABLE sync_metadata ADD COLUMN server_key_opened INTEGER NOT NULL DEFAULT 0")
+            try db.execute(sql: "ALTER TABLE sync_metadata ADD COLUMN pending_wrapped_key TEXT")
+        }
+
+        // What the server has been sent and told. Filenames in `attachments`
+        // were never read, and everything uses the refs in the note, so the
+        // plaintext names older builds left there are cleared after launch, by
+        // AppState, rather than here.
+        migrator.registerMigration("ios_009_local_sync_tracking") { db in
+            try db.execute(sql: "ALTER TABLE notes ADD COLUMN local_deleted_at TEXT")
+            try db.execute(sql: "ALTER TABLE notes ADD COLUMN from_inbox INTEGER NOT NULL DEFAULT 0")
+            // Not `deleted_at`, which a server chooses: a date it put a long way
+            // back would have the note purged at the next unlock. What's in the
+            // bin now gets its 30 days from here.
+            try db.execute(
+                sql: "UPDATE notes SET local_deleted_at = ? WHERE deleted = 1",
+                arguments: [Date().iso8601]
+            )
+            try db.execute(sql: "ALTER TABLE attachments ADD COLUMN uploaded INTEGER NOT NULL DEFAULT 0")
+        }
+
+        migrator.registerMigration("ios_w3_settings_1") { db in
+            try db.execute(sql: "ALTER TABLE settings ADD COLUMN last_backup_at TEXT")
+            try db.execute(sql: "ALTER TABLE settings ADD COLUMN backup_reminder_days INTEGER")
+            try db.execute(sql: "ALTER TABLE settings ADD COLUMN backup_reminder_since TEXT")
+        }
+
+        migrator.registerMigration("ios_w3_settings_2") { db in
+            try db.execute(sql: "ALTER TABLE settings ADD COLUMN default_syntax_language TEXT")
+        }
+
+        try migrator.migrate(dbPool)
+    }
+}

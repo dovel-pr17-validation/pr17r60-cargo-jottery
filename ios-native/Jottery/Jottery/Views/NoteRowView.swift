@@ -1,0 +1,99 @@
+import SwiftUI
+
+struct NoteRowView: View {
+    let note: DecryptedNote
+    var hasConflict: Bool = false
+    @Environment(\.colorScheme) private var colorScheme
+    @Environment(AppState.self) private var appState
+
+    var body: some View {
+        HStack(spacing: 12) {
+            // Colour indicator
+            if let colorName = note.color,
+               let color = Color.noteColor(named: colorName, scheme: colorScheme) {
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(color)
+                    .frame(width: 4)
+            }
+
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    if hasConflict {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .font(.caption)
+                            .foregroundStyle(.orange)
+                    }
+
+                    if note.pinned {
+                        Image(systemName: "pin.fill")
+                            .font(.caption)
+                            .foregroundStyle(.orange)
+                    }
+
+                    if note.locked {
+                        Image(systemName: "lock.fill")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Text(note.title)
+                        .font(.headline)
+                        .lineLimit(1)
+
+                    Spacer()
+                }
+
+                if !note.preview.isEmpty {
+                    Text(note.preview)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
+                }
+
+                HStack(spacing: 8) {
+                    Text(note.modifiedAt.relativeDescription)
+                        .font(.caption)
+                        .foregroundStyle(.tertiary)
+
+                    if !note.regularTags.isEmpty {
+                        HStack(spacing: 4) {
+                            ForEach(note.regularTags.prefix(3), id: \.self) { tag in
+                                tagLabel(tag)
+                            }
+                            if note.regularTags.count > 3 {
+                                Text("+\(note.regularTags.count - 3)")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+
+                    if !note.attachments.isEmpty {
+                        Image(systemName: "paperclip")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+        }
+        .padding(.vertical, 4)
+    }
+
+    /// A tag with a colour sits on it. The palette is made of pale tints in
+    /// light mode and dark ones in dark mode, so it works as a fill, not as text.
+    @ViewBuilder
+    private func tagLabel(_ tag: String) -> some View {
+        if let key = appState.noteColours.colourKey(forTag: tag),
+           let color = Color.noteColor(named: key, scheme: colorScheme) {
+            Text("#\(tag)")
+                .font(.caption)
+                .foregroundStyle(.primary)
+                .padding(.horizontal, 5)
+                .background(color, in: Capsule())
+        } else {
+            Text("#\(tag)")
+                .font(.caption)
+                .foregroundStyle(.accent)
+        }
+    }
+}

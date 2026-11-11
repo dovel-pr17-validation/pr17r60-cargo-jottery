@@ -1,0 +1,761 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A1000001 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = A2000001 /* GRDB */; };
+		C3000001 /* Runestone in Frameworks */ = {isa = PBXBuildFile; productRef = C2000001 /* Runestone */; };
+		C3000002 /* TreeSitterBashRunestone in Frameworks */ = {isa = PBXBuildFile; productRef = C2000002 /* TreeSitterBashRunestone */; };
+		C3000003 /* TreeSitterCSSRunestone in Frameworks */ = {isa = PBXBuildFile; productRef = C2000003 /* TreeSitterCSSRunestone */; };
+		C3000004 /* TreeSitterHTMLRunestone in Frameworks */ = {isa = PBXBuildFile; productRef = C2000004 /* TreeSitterHTMLRunestone */; };
+		C3000005 /* TreeSitterJavaScriptRunestone in Frameworks */ = {isa = PBXBuildFile; productRef = C2000005 /* TreeSitterJavaScriptRunestone */; };
+		C3000006 /* TreeSitterJSONRunestone in Frameworks */ = {isa = PBXBuildFile; productRef = C2000006 /* TreeSitterJSONRunestone */; };
+		C3000007 /* TreeSitterMarkdownRunestone in Frameworks */ = {isa = PBXBuildFile; productRef = C2000007 /* TreeSitterMarkdownRunestone */; };
+		C3000008 /* TreeSitterMarkdownInlineRunestone in Frameworks */ = {isa = PBXBuildFile; productRef = C2000008 /* TreeSitterMarkdownInlineRunestone */; };
+		C3000009 /* TreeSitterPythonRunestone in Frameworks */ = {isa = PBXBuildFile; productRef = C2000009 /* TreeSitterPythonRunestone */; };
+		C300000A /* TreeSitterSQLRunestone in Frameworks */ = {isa = PBXBuildFile; productRef = C200000A /* TreeSitterSQLRunestone */; };
+		C300000B /* TreeSitterTypeScriptRunestone in Frameworks */ = {isa = PBXBuildFile; productRef = C200000B /* TreeSitterTypeScriptRunestone */; };
+		D2000001 /* preview.html in Resources */ = {isa = PBXBuildFile; fileRef = D1000001 /* preview.html */; };
+		D2000002 /* calc.html in Resources */ = {isa = PBXBuildFile; fileRef = D1000002 /* calc.html */; };
+		D2000003 /* outliner.html in Resources */ = {isa = PBXBuildFile; fileRef = D1000003 /* outliner.html */; };
+		F0000001 /* JotteryShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F3000001 /* JotteryShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E9000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5000001;
+			remoteInfo = Jottery;
+		};
+		F9000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F5000001;
+			remoteInfo = JotteryShare;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F1000001 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F0000001 /* JotteryShare.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A3000001 /* Jottery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jottery.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1000001 /* preview.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = preview.html; path = "../../webview-bundles/dist/preview.html"; sourceTree = "<group>"; };
+		D1000002 /* calc.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = calc.html; path = "../../webview-bundles/dist/calc.html"; sourceTree = "<group>"; };
+		D1000003 /* outliner.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = outliner.html; path = "../../webview-bundles/dist/outliner.html"; sourceTree = "<group>"; };
+		E3000001 /* JotteryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JotteryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3000001 /* JotteryShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JotteryShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		A6000001 /* Jottery */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Jottery;
+			sourceTree = "<group>";
+		};
+		E6000001 /* JotteryTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = JotteryTests;
+			sourceTree = "<group>";
+		};
+		F6000001 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		F6000002 /* JotteryShare */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = JotteryShare;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A7000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000001 /* GRDB in Frameworks */,
+				C3000001 /* Runestone in Frameworks */,
+				C3000002 /* TreeSitterBashRunestone in Frameworks */,
+				C3000003 /* TreeSitterCSSRunestone in Frameworks */,
+				C3000004 /* TreeSitterHTMLRunestone in Frameworks */,
+				C3000005 /* TreeSitterJavaScriptRunestone in Frameworks */,
+				C3000006 /* TreeSitterJSONRunestone in Frameworks */,
+				C3000007 /* TreeSitterMarkdownRunestone in Frameworks */,
+				C3000008 /* TreeSitterMarkdownInlineRunestone in Frameworks */,
+				C3000009 /* TreeSitterPythonRunestone in Frameworks */,
+				C300000A /* TreeSitterSQLRunestone in Frameworks */,
+				C300000B /* TreeSitterTypeScriptRunestone in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A8000001 = {
+			isa = PBXGroup;
+			children = (
+				A6000001 /* Jottery */,
+				F6000001 /* Shared */,
+				F6000002 /* JotteryShare */,
+				E6000001 /* JotteryTests */,
+				D3000001 /* WebViewBundles */,
+				A9000001 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A9000001 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A3000001 /* Jottery.app */,
+				E3000001 /* JotteryTests.xctest */,
+				F3000001 /* JotteryShare.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D3000001 /* WebViewBundles */ = {
+			isa = PBXGroup;
+			children = (
+				D1000001 /* preview.html */,
+				D1000002 /* calc.html */,
+				D1000003 /* outliner.html */,
+			);
+			name = WebViewBundles;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A5000001 /* Jottery */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA000001 /* Build configuration list for PBXNativeTarget "Jottery" */;
+			buildPhases = (
+				AB000001 /* Sources */,
+				A7000001 /* Frameworks */,
+				AC000001 /* Resources */,
+				F1000001 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F8000001 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A6000001 /* Jottery */,
+				F6000001 /* Shared */,
+			);
+			name = Jottery;
+			packageProductDependencies = (
+				A2000001 /* GRDB */,
+				C2000001 /* Runestone */,
+				C2000002 /* TreeSitterBashRunestone */,
+				C2000003 /* TreeSitterCSSRunestone */,
+				C2000004 /* TreeSitterHTMLRunestone */,
+				C2000005 /* TreeSitterJavaScriptRunestone */,
+				C2000006 /* TreeSitterJSONRunestone */,
+				C2000007 /* TreeSitterMarkdownRunestone */,
+				C2000008 /* TreeSitterMarkdownInlineRunestone */,
+				C2000009 /* TreeSitterPythonRunestone */,
+				C200000A /* TreeSitterSQLRunestone */,
+				C200000B /* TreeSitterTypeScriptRunestone */,
+			);
+			productName = Jottery;
+			productReference = A3000001 /* Jottery.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E5000001 /* JotteryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA000001 /* Build configuration list for PBXNativeTarget "JotteryTests" */;
+			buildPhases = (
+				E7000001 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E8000001 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				E6000001 /* JotteryTests */,
+			);
+			name = JotteryTests;
+			packageProductDependencies = (
+			);
+			productName = JotteryTests;
+			productReference = E3000001 /* JotteryTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F5000001 /* JotteryShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA000001 /* Build configuration list for PBXNativeTarget "JotteryShare" */;
+			buildPhases = (
+				F7000001 /* Sources */,
+				F7000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				F6000001 /* Shared */,
+				F6000002 /* JotteryShare */,
+			);
+			name = JotteryShare;
+			packageProductDependencies = (
+			);
+			productName = JotteryShare;
+			productReference = F3000001 /* JotteryShare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AD000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 2620;
+				TargetAttributes = {
+					A5000001 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					E5000001 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = A5000001;
+					};
+					F5000001 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = AE000001 /* Build configuration list for PBXProject "Jottery" */;
+			developmentRegion = "en-GB";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				"en-GB",
+				"en-US",
+				Base,
+				de,
+				el,
+				es,
+				fr,
+				it,
+				ja,
+				ko,
+				nl,
+				pl,
+				pt,
+				ru,
+				tr,
+				"zh-Hans",
+			);
+			mainGroup = A8000001;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AF000001 /* XCRemoteSwiftPackageReference "GRDB" */,
+				C1000001 /* XCRemoteSwiftPackageReference "Runestone" */,
+				C1000002 /* XCRemoteSwiftPackageReference "TreeSitterLanguages" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A9000001 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A5000001 /* Jottery */,
+				E5000001 /* JotteryTests */,
+				F5000001 /* JotteryShare */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AC000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2000001 /* preview.html in Resources */,
+				D2000002 /* calc.html in Resources */,
+				D2000003 /* outliner.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AB000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E7000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E8000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5000001 /* Jottery */;
+			targetProxy = E9000001 /* PBXContainerItemProxy */;
+		};
+		F8000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F5000001 /* JotteryShare */;
+			targetProxy = F9000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		B0000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = QA72EA3LC2;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B1000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = QA72EA3LC2;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B2000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Jottery.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10301;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = QA72EA3LC2;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Jottery;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Unlock Jottery with Face ID";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.3.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jottery.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B3000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Jottery.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10301;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = QA72EA3LC2;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Jottery;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Unlock Jottery with Face ID";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.3.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jottery.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EB000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10301;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.3.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jottery.ios.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jottery.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Jottery";
+			};
+			name = Debug;
+		};
+		EB000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10301;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.3.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jottery.ios.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jottery.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Jottery";
+			};
+			name = Release;
+		};
+		FB000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = JotteryShare.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10301;
+				DEVELOPMENT_TEAM = QA72EA3LC2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "JotteryShare-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Jottery;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jottery.ios.JotteryShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FB000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = JotteryShare.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10301;
+				DEVELOPMENT_TEAM = QA72EA3LC2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "JotteryShare-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Jottery;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jottery.ios.JotteryShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AA000001 /* Build configuration list for PBXNativeTarget "Jottery" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2000001 /* Debug */,
+				B3000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE000001 /* Build configuration list for PBXProject "Jottery" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0000001 /* Debug */,
+				B1000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA000001 /* Build configuration list for PBXNativeTarget "JotteryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB000001 /* Debug */,
+				EB000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA000001 /* Build configuration list for PBXNativeTarget "JotteryShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB000001 /* Debug */,
+				FB000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AF000001 /* XCRemoteSwiftPackageReference "GRDB" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		C1000001 /* XCRemoteSwiftPackageReference "Runestone" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/simonbs/Runestone";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.1;
+			};
+		};
+		C1000002 /* XCRemoteSwiftPackageReference "TreeSitterLanguages" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/simonbs/TreeSitterLanguages";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.10;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A2000001 /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AF000001 /* XCRemoteSwiftPackageReference "GRDB" */;
+			productName = GRDB;
+		};
+		C2000001 /* Runestone */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1000001 /* XCRemoteSwiftPackageReference "Runestone" */;
+			productName = Runestone;
+		};
+		C2000002 /* TreeSitterBashRunestone */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1000002 /* XCRemoteSwiftPackageReference "TreeSitterLanguages" */;
+			productName = TreeSitterBashRunestone;
+		};
+		C2000003 /* TreeSitterCSSRunestone */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1000002 /* XCRemoteSwiftPackageReference "TreeSitterLanguages" */;
+			productName = TreeSitterCSSRunestone;
+		};
+		C2000004 /* TreeSitterHTMLRunestone */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1000002 /* XCRemoteSwiftPackageReference "TreeSitterLanguages" */;
+			productName = TreeSitterHTMLRunestone;
+		};
+		C2000005 /* TreeSitterJavaScriptRunestone */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1000002 /* XCRemoteSwiftPackageReference "TreeSitterLanguages" */;
+			productName = TreeSitterJavaScriptRunestone;
+		};
+		C2000006 /* TreeSitterJSONRunestone */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1000002 /* XCRemoteSwiftPackageReference "TreeSitterLanguages" */;
+			productName = TreeSitterJSONRunestone;
+		};
+		C2000007 /* TreeSitterMarkdownRunestone */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1000002 /* XCRemoteSwiftPackageReference "TreeSitterLanguages" */;
+			productName = TreeSitterMarkdownRunestone;
+		};
+		C2000008 /* TreeSitterMarkdownInlineRunestone */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1000002 /* XCRemoteSwiftPackageReference "TreeSitterLanguages" */;
+			productName = TreeSitterMarkdownInlineRunestone;
+		};
+		C2000009 /* TreeSitterPythonRunestone */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1000002 /* XCRemoteSwiftPackageReference "TreeSitterLanguages" */;
+			productName = TreeSitterPythonRunestone;
+		};
+		C200000A /* TreeSitterSQLRunestone */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1000002 /* XCRemoteSwiftPackageReference "TreeSitterLanguages" */;
+			productName = TreeSitterSQLRunestone;
+		};
+		C200000B /* TreeSitterTypeScriptRunestone */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1000002 /* XCRemoteSwiftPackageReference "TreeSitterLanguages" */;
+			productName = TreeSitterTypeScriptRunestone;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = AD000001 /* Project object */;
+}

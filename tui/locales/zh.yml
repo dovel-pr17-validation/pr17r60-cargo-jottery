@@ -1,0 +1,847 @@
+app:
+  name: Jottery
+  description: 注重隐私的加密笔记TUI
+common:
+  loading: 加载中...
+  saving: 保存中...
+  cancel: 取消
+  confirm: 确认
+  "yes": 是
+  "no": 否
+  ok: 确定
+  close: 关闭
+  quit: 退出
+  back: 返回
+  email: 电子邮件
+password:
+  prompt: "密码: "
+  enter: 输入密码
+  confirm: 确认密码
+  empty_error: 密码不能为空
+  mismatch_error: 密码不匹配
+  unlock_failed: "解锁失败: %{error}"
+  change_success: 密码修改成功
+  change_title: "修改密码"
+  change_enter_current: "请输入当前密码："
+  change_enter_new: "请输入新密码（至少8个字符）："
+  change_confirm_new: "请确认新密码："
+  change_current_required: "请输入当前密码"
+  change_wrong_current: "当前密码不正确"
+  change_too_short: "新密码必须至少8个字符"
+  change_mismatch: "密码不匹配"
+  change_failed: "修改密码失败"
+  remember: 记住密码
+  remember_toggle: 记住密码 (Ctrl+R 切换)
+  remember_enabled: "密码已保存用于自动解锁。注意：具有超级用户权限的用户可能可以访问。"
+  remember_keychain_enabled: 密码已安全存储在系统钥匙串中。
+  remember_disabled: 密码存储已禁用。下次启动时将提示输入。
+  remember_warning: "请假设您的密码可能被任何拥有此设备超级用户/root权限的人访问。"
+  remember_keychain_warning: 密码将安全存储在系统钥匙串中。
+  remember_keychain_info: 密码已安全存储在系统钥匙串中
+  correct: "密码已验证"
+  storage_keychain: 系统钥匙串
+  storage_file: 文件（混淆）
+  incorrect: 密码错误，请重试。
+  verification_failed: "密码验证失败: %{error}"
+  enter_to_enable: "输入密码以启用自动解锁："
+  create_title: 创建密码
+  unlock_title: 解锁
+  too_short: "密码至少需要 %{min} 个字符"
+  same_as_account: "请使用不同的密码。服务器能看到您的账户密码，因此它不能同时用于打开笔记。"
+  same_as_account_warning: "您的账户密码与笔记密码相同，服务器可能读取您的笔记。请在设置中更改笔记密码。"
+  no_file_encryption: "此版本不加密数据库文件。笔记和标签仍保持加密，但您的邮箱、服务器地址、附件名称和日期不会加密。"
+  change_keeps_key: "这不会更改您的加密密钥:旧备份仍可用旧密码打开。"
+menu:
+  notes: 笔记
+  new_note: 新建笔记
+  settings: 设置
+  help: 帮助
+  quit: 退出
+  search: 搜索
+note:
+  new: 新建笔记
+  save: 保存
+  saved: 笔记已保存
+  save_failed: "保存笔记失败: %{error}"
+  delete: 删除笔记
+  deleted: 笔记已删除
+  delete_failed: "删除笔记失败: %{error}"
+  reload_failed: "重新加载笔记失败: %{error}"
+  pin: 固定笔记
+  unpin: 取消固定笔记
+  pinned: 已固定
+  pin_failed: "更新固定状态失败: %{error}"
+  no_notes: 未找到笔记
+  total: "%{count} 条笔记"
+  lock: 锁定笔记
+  unlock: 解锁笔记
+  locked: 已锁定
+  lock_failed: "更新锁定状态失败: %{error}"
+  locked_cannot_edit: 无法编辑已锁定的笔记
+  locked_cannot_delete: 无法删除已锁定的笔记
+  locked_cannot_tag: 无法修改已锁定笔记的标签
+  info: 笔记信息
+  info_title: 笔记信息
+  untitled: "无标题"
+  save_retry_hint: "q：重试保存 | e：编辑 | Esc：放弃更改"
+  empty_bin_title: "清空回收站"
+  empty_bin_confirm: "要永久删除回收站中的 %{count} 条笔记吗？"
+  empty_bin_warning: "这也会将它们从服务器和您的其他设备中删除，且无法撤销。"
+  bin_emptied: "已永久删除 %{count} 条笔记"
+  locked_cannot_archive: "无法归档已锁定的笔记"
+  unreadable: "此保险库中有 %{count} 条笔记无法读取"
+  duplicated: "已复制笔记"
+  copied: "已复制到剪贴板"
+  copy_too_large: "此笔记过长,终端无法可靠地复制"
+  word_wrap_on: "自动换行已开启"
+  word_wrap_off: "自动换行已关闭"
+  no_links: "屏幕上没有链接"
+archive:
+  view: "查看归档"
+  title: "归档"
+  mode: "归档模式"
+  enter_mode: "进入归档模式"
+  exit_mode: "退出归档模式"
+  toggle_mode: "切换归档模式"
+  no_notes: "没有已归档的笔记"
+  archive: "归档笔记"
+  unarchive: "取消归档"
+  archived: "已归档"
+  unarchived: "已取消归档"
+  failed: "归档笔记失败: %{error}"
+  unarchive_failed: "取消归档失败: %{error}"
+  count: "%{count} 条已归档笔记"
+
+editor:
+  title: 标题
+  content: 内容
+  tags: 标签
+  created: 创建时间
+  modified: 修改时间
+  launch_external: 启动外部编辑器
+  external_failed: "启动编辑器失败: %{error}"
+  external_exit_error: 编辑器退出时出错
+  temp_file_error: 创建临时文件失败
+  temp_write_error: 写入临时文件失败
+  temp_read_error: 读取临时文件失败
+  default_editor: vi
+  temp_on_disk: "此计算机没有内存临时文件夹，因此打开的笔记在关闭前都保存在磁盘上。"
+attachment:
+  add: 添加附件
+  add_failed: "添加附件失败: %{error}"
+  view: 查看附件
+  view_failed: "查看附件失败: %{error}"
+  delete: 删除附件
+  no_attachments: 无附件
+  total: "%{count} 个附件"
+  press_enter: "按 Enter 继续..."
+  opened: "已在默认应用程序中打开文件。"
+  no_opener: "此系统没有可打开文件的程序。请改用 S 保存附件。"
+  delete_failed: "删除附件失败：%{error}"
+  deleted: "已删除：%{name}"
+  exists: "%{path} 已存在。请选择其他名称。"
+  saved: "已保存到 %{path}"
+  save_failed: "保存附件失败：%{error}"
+  added: "已添加附件 %{name}"
+  too_large: "文件过大。上限为 %{max_mb} MB。"
+  unsafe_title: "不会打开此文件"
+  unsafe_body: "打开此类型的文件可能会运行发送者的代码。是否改为保存？"
+version:
+  history: 版本历史
+  restore: 恢复版本
+  restored: 已恢复版本 %{number}
+  restore_failed: "恢复版本失败: %{error}"
+  no_versions: 无版本历史
+  current: 当前版本
+search:
+  prompt: 搜索笔记...
+  no_results: 未找到结果
+  results: "%{count} 个结果"
+settings:
+  title: 设置
+  language: 语言
+  theme: 主题
+  color_scheme: 配色方案
+  auto_lock: 自动锁定超时
+  minutes: 分钟
+  sync: 同步
+  sync_enabled: 同步已启用
+  sync_endpoint: 同步端点
+  device_name: 设备名称
+  instructions_disconnect: 按 'd' 断开与同步服务器的连接 (保留本地笔记)
+  instructions_status: 按 'R' (Shift+r) 检查注册审批状态
+  instructions_register: 按 'r' 注册到同步服务器
+  user_portal: 用户门户
+  auto_sync_interval: 自动同步间隔
+  instructions: 操作说明
+  instructions_navigation: "↑/↓ 或 j/k：在字段间导航"
+  instructions_edit: 按 Enter、i 或空格编辑字段
+  instructions_text: "文本字段：输入后按 Enter 保存，按 Esc 取消"
+  instructions_toggle: "开关和循环：按 Enter 立即更改值"
+  instructions_remember: "记住密码：Enter 提示输入密码（启用时）或禁用（已启用时）"
+  instructions_sync: 按 'y' 触发同步
+  instructions_force_sync: 按 'Y' (Shift+y) 强制完全同步（从服务器拉取）
+  press_enter_cycle: 按 Enter 循环
+  press_enter_toggle: 按 Enter 切换
+  disabled: 禁用
+  sort_order: "排序"
+  language_auto: "跟随系统"
+  default_note_type: "默认笔记类型"
+sync:
+  push: 推送到服务器
+  pull: 从服务器拉取
+  pushing: 正在推送更改...
+  pulling: 正在拉取更改...
+  success: 同步成功
+  failed: "同步失败: %{error}"
+  no_api_key: 未配置API密钥
+  account_deactivated: 您的账户已被停用或正在等待管理员批准。请联系管理员。
+  invalid_key: 无效的API密钥或身份验证失败。请尝试重新注册您的设备。
+  conflict: 检测到同步冲突。某些笔记在服务器上有冲突的更改。
+  request_failed: 发送同步请求失败
+  response_parse_failed: 解析同步响应失败
+  disconnected: 已断开与同步服务器的连接。本地笔记已保留。
+  disconnect_failed: 断开与同步服务器的连接失败
+  sse_connected: "实时同步已连接"
+  sse_notification: "收到同步通知"
+  sse_failed: "实时同步失败"
+  status:
+    check_title: 检查注册状态
+    result_title: 注册状态
+    enter_email: "输入您的电子邮件地址以检查审批状态:"
+    check_failed: 检查注册状态失败
+    not_found: 未找到使用此电子邮件地址的账户。
+    approved: 您的账户已获批准并处于活动状态。您可以同步笔记。
+    pending: 您的账户正在等待审批。请等待管理员批准您的注册。
+    inactive: 您的账户已被停用。请联系管理员。
+  not_enabled: 同步未启用。按 's' 进入设置进行配置。
+  endpoint_not_configured: 同步端点未配置。请在数据库设置表中配置。
+  complete: 同步完成！已同步 %{count} %{unit}
+  force_syncing: 正在强制同步所有笔记...
+  force_complete: 强制同步完成！从服务器同步了 %{count} %{unit}
+  reload_failed: "同步成功但重新加载笔记失败: %{error}"
+  note: 条笔记
+  notes: 条笔记
+  skipped_notes: "服务器上的 %{count} 项无法读取，已跳过"
+  rejected_notes: "%{count} 条笔记与服务器冲突。请打开 Jottery 解决。"
+  rate_limited: "服务器要求 Jottery 等待 %{seconds} 秒后再同步。"
+  key_refused: "服务器未接受此设备的 API 密钥。请重新注册设备。"
+  server_busy: "服务器繁忙。Jottery 将在 %{seconds} 秒后重试。"
+  quota_exceeded: "您的账户已达到存储上限，因此无法上传更改。更改已安全保存在此设备上。请清空回收站或移除附件以腾出空间。"
+  deletions_held_title: "大量笔记被删除"
+  deletions_held: "服务器称有 %{count} 条笔记已在别处被永久删除。这是您的操作吗？"
+  deletions_held_warning: "y：在此移至回收站。n：保留并放回服务器。"
+  deletions_held_cli: "服务器称有 %{count} 条笔记已在别处被删除。它们仍在这里：请打开 Jottery 决定。"
+  deletions_applied: "已将 %{count} 条笔记移至回收站"
+  force_title: "强制完全重新同步"
+  force_confirm: "要从服务器拉取所有笔记和附件吗？"
+  force_note: "尚未推送的本地更改将被保留。"
+  disconnect_title: "断开同步"
+  disconnect_confirm: "要断开此设备与服务器的连接吗？"
+  disconnect_warning: "您的笔记保留在此处。此设备将在服务器上被撤销。"
+  disconnect_conflicts: "%{count} 条笔记存在未解决的冲突。其服务器副本将在此处被遗忘。"
+  device_still_registered: "已在此处断开，但无法通知服务器，因此此设备的密钥仍然有效。请在用户门户中撤销。"
+
+# 收件箱
+  stopped_unexpectedly: "同步意外停止。没有丢失任何内容,将会重试。"
+  clock_ahead: "此设备的时钟可能有误:部分更改的日期比服务器提前一天以上,因此未发送。时钟校正后将会发送。"
+inbox:
+  title: "收件箱"
+  empty: "收件箱为空。通过收件箱 API 提交的笔记将显示在这里。"
+  accepted: "笔记已接受"
+  deleted: "收件箱项目已删除"
+  accepted_all: "已接受全部 %{count} 个收件箱项目"
+  deleted_all: "已删除所有收件箱项目"
+  confirm_delete_title: "删除收件箱项目"
+  confirm_delete_message: "删除此收件箱项目？此操作无法撤销。"
+  confirm_delete_all_title: "删除所有收件箱项目"
+  confirm_delete_all_message: "删除全部 %{count} 个收件箱项目？此操作无法撤销。"
+  indicator: "收件箱 (%{count})"
+  token:
+    logging_in: "正在登录..."
+    generated_success: "收件箱令牌生成成功！"
+    save_warning: "请立即保存此令牌 — 它不会再次显示。"
+    example_title: "快速开始"
+    revoked: "收件箱令牌已撤销"
+    active: "收件箱令牌已激活"
+    none: "未配置收件箱令牌"
+
+register:
+  title: 注册到同步服务器
+  enter_endpoint: "输入同步服务器 URL (例如 https://sync.example.com):"
+  enter_email: "输入您的电子邮件地址:"
+  enter_password: "创建密码 (最少12个字符):"
+  reenter_password: "重新输入您的同步密码:"
+  pending_title: 注册待处理
+  pending_message: 您的注册已提交，正在等待管理员审批。
+  pending_instructions: 按 'r' 或 Enter 检查审批状态。按 Esc 关闭。
+  pending_help: "r/Enter: 检查状态 | Esc: 关闭"
+  device_title: 设备注册
+  enter_device_name: "为此设备输入名称 (或按 Enter 使用默认值):"
+  endpoint_required: 需要同步服务器 URL
+  email_invalid: 请输入有效的电子邮件地址
+  password_too_short: 密码必须至少12个字符
+  failed: 注册失败
+  approved: 您的注册已获批准！
+  still_pending: 您的注册仍在等待审批
+  success: 注册成功！同步已启用。
+  device_failed: 设备注册失败
+  cleared: 注册已清除。您可以重新开始。
+  pending_status: 等待审批
+  password_differs: "必须与笔记密码不同。"
+  insecure_endpoint: "此地址使用未加密的 HTTP，您的账户密码和设备密钥可能在传输途中被读取。请使用 https://，或再次输入此地址以接受此风险。"
+color_scheme:
+  default_dark: 默认深色
+  default_light: 默认浅色
+  monokai: Monokai
+  solarized_dark: Solarized 深色
+  solarized_light: Solarized 浅色
+  nord: Nord
+  dracula: Dracula
+  gruvbox_dark: Gruvbox 深色
+  gruvbox_light: Gruvbox 浅色
+  tokyo_night: Tokyo Night
+  catppuccin: Catppuccin
+syntax:
+  javascript: JavaScript
+  python: Python
+  markdown: Markdown
+  json: JSON
+  html: HTML
+  css: CSS
+  sql: SQL
+  bash: Bash
+  perl: Perl
+  rust: Rust
+  go: Go
+  java: Java
+  c: C
+  cpp: C++
+  none: 无
+  change_language: 更改语法语言
+  change_failed: "更新语法语言失败: %{error}"
+error:
+  generic: 发生错误
+  unexpected: 发生意外错误
+  database: "数据库错误: %{error}"
+  encryption: "加密错误: %{error}"
+  network: "网络错误: %{error}"
+  file_not_found: 文件未找到
+  permission_denied: 权限被拒绝
+  invalid_input: 无效输入
+  operation_failed: "操作失败: %{error}"
+help:
+  title: 键盘快捷键
+  subtitle: 按 ? 或 q 关闭
+  general: 常规
+  notes: 笔记
+  editor: 编辑器
+  navigation: 导航
+  quit_app: 退出应用程序
+  new_note: 创建新笔记
+  save_note: 保存当前笔记
+  delete_note: 删除当前笔记
+  search_notes: 搜索笔记
+  toggle_pin: 切换固定状态
+  next_note: 下一条笔记
+  prev_note: 上一条笔记
+  scroll_up: 向上滚动
+  scroll_down: 向下滚动
+  page_up: 上一页
+  page_down: 下一页
+  unlock_screen: 解锁屏幕
+  note_list: 笔记列表
+  search_mode: 搜索模式
+  note_preview_view: 笔记预览 - 查看模式
+  note_preview_tag: 笔记预览 - 标签模式
+  settings: 设置
+  attachments: 附件
+  global: 全局
+  press_esc_or_enter: 按 Esc 或 Enter 关闭
+  tab_switch: "Tab: 切换字段 | Enter: 创建"
+  enter_unlock: "Enter: 解锁 | Ctrl+Q: 退出"
+  type_password_key: 输入
+  type_password_desc: 输入密码
+  enter_to_unlock_key: Enter
+  enter_to_unlock_desc: 解锁数据库
+  tab_to_switch_key: Tab
+  tab_to_switch_desc: 切换密码/确认 (新数据库)
+  backspace_key: Backspace
+  backspace_desc: 删除字符
+  ctrl_q_esc_key: Ctrl+q / Esc
+  ctrl_q_esc_desc: 退出应用程序
+  slash_search_key: /
+  slash_search_desc: 进入搜索模式
+  y_sync_key: "y"
+  y_sync_desc: 同步笔记 (如已配置)
+  s_settings_key: s
+  s_settings_desc: 显示设置
+  n_new_key: "n"
+  n_new_desc: 创建新笔记
+  i_enter_open_key: i / Enter
+  i_enter_open_desc: 在 $EDITOR 中打开笔记
+  d_delete_key: d
+  d_delete_desc: 删除选定的笔记
+  j_down_key: j / ↓
+  j_down_desc: 向下移动
+  k_up_key: k / ↑
+  k_up_desc: 向上移动
+  question_help_key: "?"
+  question_help_desc: 显示此帮助
+  ctrl_q_quit_key: Ctrl+q
+  ctrl_q_quit_desc: 退出应用程序
+  q_quit_key: q / Ctrl+q
+  q_quit_desc: 退出应用程序
+  type_search_key: 输入
+  type_search_desc: 输入搜索查询
+  search_tag_key: "#标签"
+  search_tag_desc: 按标签搜索
+  search_exclude_key: "-词"
+  search_exclude_desc: 排除词 (否定)
+  search_and_key: 词1 词2
+  search_and_desc: 匹配所有词 (与)
+  search_color_key: "color:red"
+  search_color_desc: "按颜色搜索（笔记或标签）"
+  search_color_note_key: "color:red note"
+  search_color_note_desc: "搜索有颜色的笔记"
+  search_color_tag_key: "color:red tag"
+  search_color_tag_desc: "搜索有彩色标签的笔记"
+  search_category_key: "category:important"
+  search_category_desc: "按颜色类别名称搜索"
+  enter_open_editor_key: Enter
+  enter_open_editor_desc: 在 $EDITOR 中打开笔记
+  esc_exit_search_key: Esc
+  esc_exit_search_desc: 退出搜索模式
+  arrows_navigate_key: ↑ / ↓
+  arrows_navigate_desc: 浏览结果
+  enter_e_edit_key: Enter / e
+  enter_e_edit_desc: 使用外部 $EDITOR 编辑
+  t_tag_mode_key: t
+  t_tag_mode_desc: 进入标签模式
+  q_esc_save_key: q / Esc
+  q_esc_save_desc: 保存并返回列表
+  type_tag_key: 输入
+  type_tag_desc: 输入标签名称
+  enter_add_tag_key: Enter
+  enter_add_tag_desc: 添加标签
+  backspace_remove_key: Backspace (空)
+  backspace_remove_desc: 删除最后一个标签
+  backspace_delete_key: Backspace
+  backspace_delete_desc: 从输入中删除字符
+  esc_normal_key: Esc
+  esc_normal_desc: 退出到正常模式
+  jk_navigate_key: j/k 或 ↑/↓
+  jk_navigate_desc: 在字段间导航
+  enter_edit_key: Enter / i / Space
+  enter_edit_desc: 编辑选定的字段
+  enter_save_key: Enter
+  enter_save_desc: 保存文本/数字字段，切换其他字段
+  esc_cancel_key: Esc
+  esc_cancel_desc: 取消编辑 (文本/数字字段)
+  s_q_close_key: s / q
+  s_q_close_desc: 关闭设置面板
+  tab_focus_attachment_key: Tab
+  tab_focus_attachment_desc: 聚焦附件面板 (j/k 导航，Enter 查看，d 删除)
+  plus_add_attachment_key: "+"
+  plus_add_attachment_desc: 添加附件 (输入文件路径)
+  a_view_attachment_key: a + 数字
+  a_view_attachment_desc: 查看附件 (a1, a2, ...)
+  shift_jk_attachment_key: Shift+j / Shift+k
+  shift_jk_attachment_desc: 浏览附件
+  X_remove_attachment_key: X
+  X_remove_attachment_desc: 删除选定的附件
+  note_images_key: "注意:"
+  note_images_desc: 图像如果可用则使用 chafa，否则使用系统默认应用
+  question_global_key: "?"
+  question_global_desc: 显示此帮助屏幕
+  bracket_cycle_key: "] / ["
+  bracket_cycle_desc: 切换语法类型（向前/向后）
+  color_cycle_key: "C / c"
+  color_cycle_desc: 切换笔记颜色/分类（向前/向后）
+  shift_a_archive_key: Shift+A
+  shift_a_archive_desc: 切换归档模式（查看已归档笔记）
+  L_lock_key: L
+  L_lock_desc: 切换所选笔记的锁定状态
+  I_info_key: I
+  I_info_desc: 显示笔记信息
+  pageup_pagedown_key: PgUp / PgDn
+  pageup_pagedown_desc: 滚动预览（整页）
+  ctrl_scroll_key: Ctrl+d/u/f/b
+  ctrl_scroll_desc: Vim 风格滚动（半页/整页）
+  mouse_scroll_key: 鼠标滚轮
+  mouse_scroll_desc: 滚动预览
+  p_pin_key: p
+  p_pin_desc: 切换所选笔记的固定状态
+  r_recycle_key: r
+  r_recycle_desc: 切换回收站视图
+  v_versions_key: v
+  v_versions_desc: 查看版本历史
+  b_inbox_key: b
+  b_inbox_desc: "打开收件箱"
+  tab_search_key: Tab
+  tab_search_desc: 退出搜索，聚焦附件
+  multi_select: 多选模式
+  space_select_key: 空格
+  space_select_desc: 切换当前笔记的选中状态
+  shift_v_range_key: Shift+V
+  shift_v_range_desc: 从上次选中处范围选择
+  ctrl_a_all_key: Ctrl+A
+  ctrl_a_all_desc: 选择所有筛选的笔记
+  multi_t_tags_key: t
+  multi_t_tags_desc: 为选中的笔记添加标签
+  multi_d_delete_key: d
+  multi_d_delete_desc: 删除选中的笔记
+  multi_c_combine_key: c
+  multi_c_combine_desc: 合并选中的笔记
+  multi_e_export_key: e
+  multi_e_export_desc: 将选中的笔记导出为 JSON
+  esc_clear_key: Esc
+  esc_clear_desc: 清除选择 / 退出多选
+  mouse: 鼠标
+  click_note_key: 点击笔记
+  click_note_desc: 在列表中选择笔记
+  click_tag_key: 点击标签
+  click_tag_desc: 搜索该标签
+  click_tags_key: 点击 '标签:'
+  click_tags_desc: 进入标签编辑模式
+  scroll_key: 滚轮
+  scroll_desc: 上下滚动预览
+  ctrl_l_lock_key: "Ctrl+L"
+  ctrl_l_lock_desc: "锁定 Jottery"
+  S_save_attachment_key: "S"
+  S_save_attachment_desc: "将所选附件保存到文件"
+  z_archive_key: "z"
+  z_archive_desc: "归档所选笔记（在归档模式下恢复）"
+  multi_z_archive_key: "z"
+  multi_z_archive_desc: "归档所选笔记"
+  search_or_key: "a | b"
+  search_or_desc: "匹配任一项（或）"
+  search_phrase_key: "\"a phrase\""
+  search_phrase_desc: "按此顺序匹配这些词"
+  search_wildcard_key: "word* / *word"
+  search_wildcard_desc: "词以此开头或结尾"
+  search_exclude_tag_key: "-#tag"
+  search_exclude_tag_desc: "排除带此标签的笔记"
+  search_attachment_key: "has:attachment"
+  search_attachment_desc: "有附件的笔记"
+  search_archived_key: "archived"
+  search_archived_desc: "搜索归档"
+  search_created_key: "created:>2024-01-01"
+  search_created_desc: "在某日期之后创建（也可用 < 和 a..b）"
+  search_modified_key: "modified:>2024-01-01"
+  search_modified_desc: "在某日期之后修改（也可用 < 和 a..b）"
+  search_words_key: "words:>100"
+  search_words_desc: "字数（也可用 < 和 a..b）"
+  multi_remove_tags_key: "T"
+  multi_remove_tags_desc: "从所选笔记中移除标签"
+  multi_colour_key: "C"
+  multi_colour_desc: "设置所选笔记的颜色"
+  g_saved_key: "g"
+  g_saved_desc: "已保存的搜索"
+  ctrl_s_save_search_key: "Ctrl+S"
+  ctrl_s_save_search_desc: "保存此搜索"
+  enter_confirm_esc_cancel: "Enter:确认 | Esc:取消"
+  D_duplicate_key: "Shift+D"
+  D_duplicate_desc: "复制笔记"
+  o_copy_key: "o"
+  o_copy_desc: "将笔记文本复制到剪贴板"
+  w_wrap_key: "w"
+  w_wrap_desc: "开启或关闭自动换行"
+  ctrl_p_history_key: "Ctrl+P/N"
+  ctrl_p_history_desc: "上一个和下一个搜索"
+  l_link_key: "l, Enter"
+  l_link_desc: "在链接间移动并打开"
+cli:
+  # 简短命令描述（用于旧版/备用）
+  list: 列出笔记
+  show: 显示笔记
+  new: 创建新笔记
+  edit: 编辑笔记
+  delete: 删除笔记
+  search: 搜索笔记
+  export: 导出笔记
+  import: 导入笔记
+  sync: 与服务器同步
+  register: 注册设备
+  # 主应用
+  about: "注重隐私的加密笔记TUI"
+  # 全局选项
+  database_help: "数据库文件路径"
+  debug_help: "启用调试日志"
+  debug_log_help: "调试日志文件路径（用于故障排除）"
+  reset_help: "重置：删除数据库并重新开始"
+  # 命令
+  note_about: "使用 $EDITOR 快速创建笔记"
+  list_about: "列出所有笔记"
+  search_about: "搜索笔记"
+  show_about: "按 ID 显示特定笔记"
+  sync_about: "与远程服务器同步笔记"
+  register_user_about: "在服务器上注册新用户账户"
+  register_device_about: "在服务器上注册此设备（需要已批准的用户账户）"
+  export_about: "将笔记导出为 JSON 文件"
+  import_about: "从 JSON 文件导入笔记"
+  backup_about: "创建加密备份（与 Web 应用兼容）"
+  inbox_token_about: "管理收件箱 API 令牌"
+  restore_backup_about: "从加密备份恢复"
+  store_password_about: "存储密码用于自动解锁（用于演示/测试自动化）"
+  # 通用参数
+  password_help: "加密密码（如未提供则提示输入）"
+  password_decrypt_help: "解密密码（如未提供则提示输入）"
+  tags_help: "笔记的可选标签（逗号分隔）"
+  tag_filter_help: "按标签筛选"
+  limit_help: "显示的最大笔记数"
+  limit_results_help: "显示的最大结果数"
+  query_help: "搜索查询"
+  id_help: "笔记 ID（支持部分匹配）"
+  server_help: "服务器端点 URL"
+  email_help: "用户邮箱"
+  device_name_help: "设备名称"
+  key_password_help: "本地数据库加密密码"
+  output_help: "输出文件路径"
+  input_help: "输入文件路径"
+  backup_password_help: "解密密码（备份密码）"
+  local_key_help: "本地数据库加密密码（默认：备份密码）"
+  password_store_help: "要存储的密码"
+  # 收件箱令牌子命令
+  inbox_generate_about: "生成新的收件箱令牌（需要服务器登录）"
+  inbox_revoke_about: "撤销当前收件箱令牌"
+  inbox_status_about: "检查收件箱令牌是否存在"
+  server_optional_help: "服务器端点 URL（如省略则使用已配置的端点）"
+  # Built-in help/version
+  help_flag: "显示帮助"
+  version_flag: "显示版本"
+  help_subcommand: "显示此消息或子命令的帮助"
+  # 输出消息
+  notes_count: "%{count} 条笔记"
+  results_count: "%{count} 个结果：'%{query}'"
+  attach_about: "将文件附加到笔记"
+  save_attachment_about: "将笔记的附件保存到文件"
+  archive_about: "归档笔记"
+  unarchive_about: "从归档中恢复笔记"
+  note_id_help: "笔记 ID（支持部分匹配）"
+  attach_file_help: "要附加的文件"
+  attachment_number_help: "哪个附件（按 show 的编号）"
+  archived_help: "改为列出已归档的笔记"
+  import_summary: "已添加 %{created} 条，已更新 %{updated} 条，%{skipped} 条已是最新"
+  import_failed: "文件中有 %{count} 项无法导入"
+  password_change_required: "此账户需要先更改密码。请登录 Web 应用进行更改，然后重试。"
+  insecure_endpoint: "%{endpoint} 使用未加密的 HTTP，密码可能在传输途中被读取。请使用 https://，或指定 --allow-insecure-http 接受此风险。"
+  allow_insecure_http_help: "允许通过未加密的 HTTP 将密码发送到公共主机"
+  password_flag_deprecated: "命令行上的密码会显示在 ps 和 shell 历史记录中。请改用 --password-stdin 或 JOTTERY_PASSWORD。"
+  password_stdin_help: "从 stdin 逐行读取密码，而不是提示输入"
+  reset_yes_help: "--reset 删除内容前不询问"
+  reset_confirm: "这将永久删除 %{path} 和所有已记住的密码。输入 %{word} 以继续:"
+  reset_cancelled: "未删除任何内容"
+  reset_done: "已删除保险库和已记住的密码"
+  reset_keychain_failed: "无法从钥匙串中移除密码"
+  export_force_help: "如果文件已存在则替换"
+  account_about: "查看或删除服务器为您的账户保存的内容"
+  colours_about: "为颜色命名并为标签指定颜色"
+  doctor_about: "检查保险库中无法打开的笔记和缺失的附件"
+  doctor_repair_help: "从服务器获取缺失的附件"
+status:
+  locked: 已锁定
+  unlocked: 已解锁
+  syncing: 同步中...
+  synced: 已同步
+  offline: 离线
+  modified: 已修改
+  saved: 已保存
+bulk:
+  tags_added: "已为 %{count} 条笔记添加标签: %{tags}"
+  deleted: 已删除 %{count} 条笔记
+  combined: 已合并 %{count} 条笔记
+  combine_requires_two: 请至少选择 2 条笔记进行合并
+  exported: 已将 %{count} 条笔记导出至 %{path}
+  operation_failed: "批量操作失败: %{error}"
+  confirm_delete: 删除 %{count} 条笔记？ (y/n)
+  confirm_combine: 合并 %{count} 条笔记？ (y/n)
+  enter_tags: "输入标签 (逗号分隔):"
+  enter_export_path: "导出路径:"
+  add_tags_to: 添加标签到
+  export_notes_to: 导出
+  archived: "已归档 %{count} 条笔记"
+  tags_removed: "已从 %{count} 条笔记中移除标签：%{tags}"
+  remove_tags_from: "从 %{count} 条笔记中移除标签"
+  enter_colour: "输入颜色名称（留空以清除）："
+  colour_of: "设置 %{count} 条笔记的颜色"
+  colour_set: "已更改 %{count} 条笔记的颜色"
+  unknown_colour: "没有名为 %{colour} 的颜色"
+  overwrite_title: "要替换此文件吗?"
+  overwrite_message: "%{path} 已存在。替换后无法撤销。"
+time:
+  just_now: 刚刚
+  minutes_ago: "%{count} 分钟前"
+  hours_ago: "%{count} 小时前"
+  days_ago: "%{count} 天前"
+  date_format: "%Y年%m月%d日"
+  time_format: "%H:%M:%S"
+  datetime_format: "%Y年%m月%d日 %H:%M:%S"
+conflict:
+  title: 同步冲突
+  your_version: 您的版本
+  server_version: 服务器版本
+  common_ancestor: 共同祖先
+  ancestor_description: 变更分歧之前双方共同的版本
+  resolved_mine: 冲突已解决 - 保留您的版本
+  resolved_server: 冲突已解决 - 保留服务器版本
+  resolved_both: 冲突已解决 - 保留两个版本
+  resolve_failed: 解决冲突失败
+  indicator: 检测到同步冲突
+  no_conflict: 此笔记没有同步冲突
+  count_singular: "个冲突"
+  count_plural: "个冲突"
+
+# Backup functionality
+backup:
+  created: "备份已创建"
+  restore: "正在恢复备份"
+  valid: "有效的备份"
+  records: "条记录"
+  validating: "正在验证备份文件..."
+  verifying_password: "正在验证密码..."
+  restoring: "正在恢复数据..."
+  restored: "已恢复"
+  key_not_in_backup: "此备份由旧版 Jottery 创建，不包含其密钥。只能恢复到其来源的保险库。"
+  incomplete: "此备份不完整：保险库中有 %{count} 项无法读取，已被略过。"
+  records_failed: "此备份中有 %{count} 条记录无法恢复，其余均已恢复。"
+
+# Progress indicators
+progress:
+  backup: "正在创建备份..."
+  processing: "处理中"
+  export: "正在导出..."
+
+# UI面板和标题
+ui:
+  notes: "笔记"
+  preview: "预览"
+  archive: "归档"
+  recycle_bin: "回收站"
+  version_history: "版本历史"
+  attachment_viewer: "附件查看器"
+  conflict_resolution: "冲突解决"
+  attachments: "附件"
+  add_attachment: "添加附件 (Tab: 补全，↑↓: 选择，Enter: 确认)"
+  search: "搜索："
+  search_archive: "搜索已归档笔记："
+  type: "类型："
+  modified: "修改时间："
+  version: "版本："
+  save_attachment: "保存附件（Tab：补全，↑↓：选择，Enter：确认）"
+  path: "路径"
+  attachments_hint: "附件：（按 Tab 聚焦）"
+  attachments_focused_hint: "附件：（Tab 切换，j/k 移动，Enter 查看，S 保存，d 删除）"
+  attachments_keys_hint: "按 'a' 查看，'+' 添加，'X' 删除所选"
+  attachment_viewer_hint: "↑/↓：移动 │ 1-9：快速选择 │ Enter：查看 │ S：保存 │ +：添加 │ d：删除 │ Esc：关闭"
+
+# 状态栏帮助文本
+status_bar:
+  help: "帮助"
+  search: "搜索"
+  select: "选择"
+  pin: "固定"
+  tags: "标签"
+  type: "类型"
+  bin: "回收站"
+  archive: "归档"
+  ver: "版本"
+  new: "新建"
+  toggle: "切换"
+  clear: "清除"
+  add_tags: "添加标签"
+  delete: "删除"
+  combine: "合并"
+  export: "导出"
+  selected: "已选"
+  unarchive: "取消归档"
+  toggle_mode: "切换模式"
+  navigate: "导航"
+  exit_archive: "退出归档"
+  accept: "接受"
+  accept_all: "全部接受"
+  delete_all: "全部删除"
+  close: "关闭"
+  keep_mine: "保留我的"
+  keep_server: "保留服务器"
+  keep_both: "保留两者"
+  switch: "切换"
+  scroll: "滚动"
+  cancel: "取消"
+  press_b_open: "按 b 打开"
+  # 搜索模式
+  type_search: "输入：搜索"
+  exit: "退出"
+  match: "匹配"
+  matches: "匹配"
+  in_active: "活动中"
+  in_archive: "归档中"
+  # 回收站
+  restore: "恢复"
+  empty_bin: "清空回收站"
+  back_to_notes: "返回笔记"
+  quick_select: "快速选择"
+  view: "查看"
+  restore_version: "恢复版本"
+  save: "保存"
+  add: "添加"
+
+# Virtual tags
+tags:
+  virtual:
+    title: "标题"
+
+calc:
+  line_too_long: "⚠ 此行过长，无法计算（上限 %{max} 字节）"
+  numbers_only: "⚠ Calc 只处理数字：文本、元组和 ; 不会计算"
+  too_deep: "⚠ 括号嵌套过多（上限 %{max}）"
+  gave_up: "此笔记计算耗时过长，因此不显示结果。"
+
+envelope:
+  unwrap_failed: "您的笔记密码无法打开此账户的密钥。它可能由旧版本保存。请在已连接的设备上解锁 Jottery 以修复此问题，然后重试。"
+  rekey_failed: "无法将本地笔记迁移到此账户的密钥，因此未做任何更改：%{error}"
+  diverged: "此设备的密钥与账户密钥不同。来自其他设备的笔记可能无法在此打开。"
+  password_changed_elsewhere: "您的笔记密码已在另一台设备上更改，因此没有覆盖任何内容。此设备仍使用旧密码解锁。请在此处改为相同的密码，以便新设备可以加入。"
+  server_update_pending: "此设备上的密码已更改，但无法更新服务器上的密钥副本。Jottery 将重试。在此之前，新设备无法使用新密码加入。"
+  key_keeps_changing: "服务器上的账户密钥一直在变化，因此此设备未作更改。请稍后重试。"
+
+saved_search:
+  title: "已保存的搜索"
+  empty: "还没有已保存的搜索。用 / 搜索,然后按 Ctrl+S 保存。"
+  name_prompt: "为此搜索命名"
+  nothing_to_save: "请先输入搜索内容"
+  saved: "已保存搜索:%{name}"
+  deleted: "已删除保存的搜索"
+  delete_confirm: "要在所有设备上删除“%{name}”吗?(y/n)"
+  not_found: "没有名为 %{name} 的已保存搜索"
+  failed: "保存的搜索失败:%{error}"
+
+export:
+  file_exists: "该文件已存在。请换一个名称,或使用 --force 替换它。"
+
+account:
+  email: "账户:%{email}"
+  usage: "笔记:%{notes},附件:%{attachments}"
+  storage: "存储空间:%{used} MB / %{quota} MB"
+  last_sync: "上次同步:%{time}"
+  confirm_delete_notes: "这将删除服务器上所有设备的全部笔记,且无法撤销。输入您的电子邮件地址以继续:"
+  confirm_delete: "这将删除您的账户和服务器上的所有内容,且无法撤销。此设备会保留其笔记。输入您的电子邮件地址以继续:"
+  cancelled: "未删除任何内容"
+  notes_deleted: "服务器上的所有笔记已删除"
+  deleted: "账户已删除"
+
+colours:
+  unknown: "没有名为 %{colour} 的颜色"
+  named: "颜色已更新:%{colour}"
+  tag_set: "标签已更新:%{tag}"
+
+doctor:
+  notes: "笔记:%{count},无法读取:%{unreadable}"
+  versions: "版本:%{count},无法读取:%{unreadable}"
+  attachments: "附件:%{count},无法读取:%{unreadable},缺失:%{missing}"
+  saved_searches: "已保存的搜索:%{count},无法读取:%{unreadable}"
+  conflicts: "等待处理的冲突:%{count}"
+  problems: "发现的问题:%{count}"
+  repaired: "已获取的附件:%{count}"
+  repair_needs_sync: "此保险库未连接到服务器,因此无法获取缺失的附件"
+  healthy: "未发现问题"

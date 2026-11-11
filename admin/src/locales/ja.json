@@ -1,0 +1,444 @@
+{
+  "app": {
+    "name": "Jottery Admin"
+  },
+  "common": {
+    "refresh": "更新",
+    "refreshing": "更新中...",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "close": "閉じる",
+    "save": "保存",
+    "edit": "編集",
+    "loading": "読み込み中...",
+    "email": "メール",
+    "password": "パスワード",
+    "actions": "アクション",
+    "status": "ステータス",
+    "created": "作成日",
+    "saving": "保存中...",
+    "deleting": "削除中...",
+    "passwordRules": "12文字以上。サーバーによっては、大文字、小文字、数字、記号の組み合わせも必要です。"
+  },
+  "nav": {
+    "dashboard": "ダッシュボード",
+    "users": "ユーザー",
+    "settings": "設定",
+    "logout": "ログアウト",
+    "audit": "監査ログ"
+  },
+  "login": {
+    "title": "Jottery Admin",
+    "subtitle": "サーバーを管理するにはログインしてください",
+    "email": "メール",
+    "password": "パスワード",
+    "signIn": "ログイン",
+    "signingIn": "ログイン中...",
+    "placeholder": {
+      "email": "admin@localhost",
+      "password": "••••••••"
+    },
+    "errors": {
+      "invalidCredentials": "メールまたはパスワードが無効です",
+      "adminRequired": "管理者アクセスが必要です",
+      "unexpected": "予期しないエラーが発生しました"
+    }
+  },
+  "logout": {
+    "confirmTitle": "ログアウトの確認",
+    "confirmMessage": "ログアウトしてもよろしいですか？"
+  },
+  "errors": {
+    "unknown": "問題が発生しました。もう一度お試しください。",
+    "network": "サーバーに接続できませんでした。接続を確認して、もう一度お試しください。",
+    "forbidden": "この操作を行う権限がありません。",
+    "wrongPassword": "現在のパスワードが正しくありません",
+    "rateLimited": "試行回数が多すぎます。{seconds}秒後にもう一度お試しください。",
+    "tooManyAttempts": "試行回数が多すぎます。しばらく待ってからもう一度お試しください。",
+    "passwordTooShort": "新しいパスワードは12文字以上である必要があります",
+    "passwordSameAsCurrent": "新しいパスワードは現在のパスワードと異なるものにしてください",
+    "ownAdminRole": "自分の管理者権限は削除できません。",
+    "lastAdminDemote": "最後の管理者は降格できません。",
+    "ownAccountDelete": "ここでは自分のアカウントを削除できません。",
+    "lastAdminDelete": "最後の管理者は削除できません。",
+    "userNotFound": "ユーザーが見つかりません。",
+    "deviceNotFound": "デバイスが見つかりません。",
+    "quotaRange": "ストレージクォータは1〜100000 MBの範囲で指定してください。",
+    "maxUploadRange": "最大アップロードサイズは1〜1000 MBの範囲で指定してください。",
+    "inboxItemsRange": "受信トレイ最大件数は1〜10000の範囲で指定してください。",
+    "inboxSizeRange": "受信トレイ最大サイズは1〜1000 MBの範囲で指定してください。",
+    "passwordComplexity": "パスワードには4種類の文字のうち少なくとも{required}種類が必要です。不足: {missing}。",
+    "passwordClass": {
+      "uppercase": "大文字",
+      "lowercase": "小文字",
+      "number": "数字",
+      "special": "記号"
+    },
+    "passwordTooLong": "パスワードが長すぎます。"
+  },
+  "session": {
+    "expired": "セッションの有効期限が切れました。もう一度サインインしてください。"
+  },
+  "forcedPasswordChange": {
+    "title": "パスワードを変更してください",
+    "description": "続行するには新しいパスワードを設定する必要があります。12文字以上で入力してください。"
+  },
+  "dashboard": {
+    "title": "ダッシュボード",
+    "loadingStats": "統計を読み込み中...",
+    "failedToLoad": "統計の読み込みに失敗しました",
+    "stats": {
+      "totalUsers": "総ユーザー数",
+      "approved": "承認済み",
+      "pending": "保留中",
+      "activeDevices": "アクティブデバイス",
+      "totalDevices": "合計{count}台のデバイス",
+      "totalNotes": "総ノート数",
+      "acrossAllUsers": "全ユーザー",
+      "storage": "ストレージ",
+      "mbQuota": "{quota} MBのクォータ"
+    },
+    "serverInfo": {
+      "title": "サーバー情報",
+      "version": "サーバーバージョン:",
+      "activeUsers": "アクティブユーザー:",
+      "pendingApprovals": "保留中の承認:"
+    }
+  },
+  "devices": {
+    "title": "デバイス",
+    "name": "デバイス名",
+    "type": "タイプ",
+    "createdAt": "登録日",
+    "lastSeen": "最終アクセス",
+    "status": "ステータス",
+    "active": "アクティブ",
+    "inactive": "非アクティブ",
+    "revoke": "取り消し",
+    "delete": "削除",
+    "rename": "名前変更",
+    "revokeConfirmTitle": "デバイスの取り消し",
+    "revokeConfirm": "デバイス「{name}」を取り消してもよろしいですか？このデバイスは同期できなくなります。",
+    "revokeWarning": "このデバイスは同期できなくなります。",
+    "deleteConfirmTitle": "デバイスの削除",
+    "deleteConfirm": "デバイス「{name}」を完全に削除してもよろしいですか？この操作は元に戻せません。",
+    "noDevices": "登録されているデバイスはありません",
+    "total": "合計",
+    "nameRequired": "デバイス名は必須です",
+    "toast": {
+      "revoked": "デバイス「{name}」が取り消されました",
+      "revokeFailed": "デバイスの取り消しに失敗しました: {error}",
+      "revokeFailedGeneric": "デバイスの取り消しに失敗しました",
+      "deleted": "デバイス「{name}」が削除されました",
+      "deleteFailed": "デバイスの削除に失敗しました: {error}",
+      "deleteFailedGeneric": "デバイスの削除に失敗しました",
+      "renamed": "デバイスの名前が変更されました",
+      "renameFailed": "デバイスの名前変更に失敗しました: {error}",
+      "renameFailedGeneric": "デバイスの名前変更に失敗しました"
+    }
+  },
+  "users": {
+    "title": "ユーザー",
+    "loadingUsers": "ユーザーを読み込み中...",
+    "noUsersFound": "ユーザーが見つかりません",
+    "failedToLoad": "ユーザーの読み込みに失敗しました",
+    "detail": {
+      "title": "ユーザー詳細",
+      "userInfo": "ユーザー情報",
+      "approvedAt": "承認日",
+      "lastLogin": "最終ログイン",
+      "lastSync": "最終同期",
+      "statistics": "統計",
+      "attachments": "添付ファイル",
+      "storage": "使用容量",
+      "quota": "ストレージクォータ",
+      "viewDevices": "クリックしてデバイスを表示",
+      "settings": "ユーザー設定",
+      "maxUploadSize": "最大アップロードサイズ",
+      "maxUploadSizeHelp": "同期リクエストあたりの最大サイズ（添付ファイルを含む）",
+      "settingsSaved": "ユーザー設定が正常に保存されました",
+      "settingsSaveFailed": "設定の保存に失敗しました: {error}",
+      "settingsSaveFailedGeneric": "設定の保存に失敗しました",
+      "viewDetails": "クリックして詳細を表示",
+      "passwordReset": "パスワードリセット",
+      "resetPassword": "パスワードをリセット",
+      "newPassword": "新しいパスワード",
+      "newPasswordPlaceholder": "新しいパスワードを入力",
+      "confirmPassword": "パスワードの確認",
+      "confirmPasswordPlaceholder": "新しいパスワードを確認",
+      "passwordTooShort": "パスワードは12文字以上である必要があります",
+      "passwordMismatch": "パスワードが一致しません",
+      "passwordResetSuccess": "{email}のパスワードが正常にリセットされました",
+      "passwordResetFailed": "パスワードのリセットに失敗しました: {error}",
+      "passwordResetFailedGeneric": "パスワードのリセットに失敗しました",
+      "passwordResetHelp": "ユーザーがパスワードを忘れた場合にリセットします。",
+      "passwordResetWarning": "これはアカウントのログインパスワードのみを変更します。ノートの暗号化には影響しません。ユーザーが暗号化パスワードを忘れた場合、ノートは復元できません。",
+      "inboxMaxItems": "受信トレイ最大件数",
+      "inboxMaxSize": "受信トレイ最大サイズ",
+      "items": "件",
+      "passwordResetDevices": "デバイスキーはパスワードに紐付いていないため、リセット後もこのユーザーのデバイスは同期を続けます。",
+      "revokeDevicesOption": "アカウントが侵害された可能性がある場合は、このユーザーのデバイスキーもすべて取り消す"
+    },
+    "filters": {
+      "all": "すべて",
+      "pending": "保留中",
+      "approved": "承認済み",
+      "inactive": "非アクティブ"
+    },
+    "table": {
+      "email": "メール",
+      "status": "ステータス",
+      "devices": "デバイス",
+      "notes": "ノート",
+      "created": "作成日",
+      "actions": "アクション"
+    },
+    "status": {
+      "pending": "保留中",
+      "active": "アクティブ",
+      "inactive": "非アクティブ",
+      "admin": "管理者"
+    },
+    "actions": {
+      "approve": "承認",
+      "makeAdmin": "管理者にする",
+      "removeAdmin": "管理者を削除",
+      "deactivate": "無効化",
+      "activate": "有効化",
+      "delete": "削除",
+      "demoteFromAdmin": "管理者から降格",
+      "promoteToAdmin": "管理者に昇格",
+      "deleteUser": "ユーザーを削除"
+    },
+    "confirm": {
+      "approve": "承認",
+      "deactivate": "無効化",
+      "activate": "有効化",
+      "delete": "削除",
+      "promoteToAdmin": "管理者に昇格",
+      "demoteFromAdmin": "管理者から降格",
+      "messages": {
+        "approve": "{email}を承認しますか？ログインとデバイスの登録ができるようになります。",
+        "deactivate": "{email}を無効化しますか？再度有効化されるまで、ログインも同期もできなくなります。",
+        "activate": "{email}を有効化しますか？ログインと同期が再びできるようになります。",
+        "delete": "{email}と、サーバーに保存されているこのユーザーのすべてのデータ（ノート、添付ファイル、デバイス、アカウントキー）を完全に削除します。この操作は元に戻せません。",
+        "promoteToAdmin": "{email}を管理者に昇格してもよろしいですか？すべての管理機能へのフルアクセスが付与されます。",
+        "demoteFromAdmin": "{email}から管理者権限を削除してもよろしいですか？"
+      },
+      "deleteCounts": "ノート: {notes} · デバイス: {devices}",
+      "typeEmail": "確認のため、ユーザーのメールアドレスを入力してください："
+    },
+    "toast": {
+      "approved": "ユーザー{email}が正常に承認されました",
+      "deactivated": "ユーザー{email}が無効化されました",
+      "activated": "ユーザー{email}が有効化されました",
+      "deleted": "ユーザー{email}が削除されました",
+      "promotedToAdmin": "ユーザー{email}が管理者に昇格されました",
+      "demotedFromAdmin": "ユーザー{email}が管理者から降格されました",
+      "failed": {
+        "approve": "ユーザーを承認できませんでした: {error}",
+        "deactivate": "ユーザーを無効化できませんでした: {error}",
+        "activate": "ユーザーを有効化できませんでした: {error}",
+        "delete": "ユーザーを削除できませんでした: {error}",
+        "promote": "ユーザーを管理者に昇格できませんでした: {error}",
+        "demote": "ユーザーの管理者権限を削除できませんでした: {error}"
+      }
+    }
+  },
+  "settings": {
+    "title": "設定",
+    "language": {
+      "title": "言語",
+      "description": "管理画面の表示言語を選択してください。",
+      "label": "表示言語"
+    },
+    "changePassword": {
+      "title": "パスワードの変更",
+      "description": "管理者パスワードを更新してください。パスワードは12文字以上である必要があります。",
+      "currentPassword": "現在のパスワード",
+      "newPassword": "新しいパスワード",
+      "confirmPassword": "新しいパスワードの確認",
+      "placeholder": {
+        "current": "現在のパスワードを入力",
+        "new": "新しいパスワードを入力（最低12文字）",
+        "confirm": "新しいパスワードを確認"
+      },
+      "button": "パスワードを変更",
+      "buttonChanging": "変更中...",
+      "cancel": "キャンセル",
+      "errors": {
+        "currentRequired": "現在のパスワードは必須です",
+        "newRequired": "新しいパスワードは必須です",
+        "minLength": "新しいパスワードは12文字以上である必要があります",
+        "mismatch": "パスワードが一致しません",
+        "failed": "パスワードの変更に失敗しました"
+      },
+      "success": "パスワードが正常に変更されました"
+    }
+  },
+  "userPortal": {
+    "title": "マイアカウント",
+    "tabs": {
+      "account": "アカウント",
+      "settings": "設定"
+    },
+    "login": {
+      "title": "Jottery",
+      "subtitle": "アカウントを管理するにはログインしてください",
+      "email": "メール",
+      "password": "パスワード",
+      "signIn": "ログイン",
+      "signingIn": "ログイン中...",
+      "placeholder": {
+        "email": "you@example.com",
+        "password": "••••••••"
+      },
+      "errors": {
+        "invalidCredentials": "メールまたはパスワードが無効です",
+        "accountInactive": "アカウントが無効です。管理者にお問い合わせください。",
+        "accountPending": "アカウントは管理者の承認待ちです。",
+        "unexpected": "予期しないエラーが発生しました",
+        "statusCheckFailed": "Failed to check status. Please try again."
+      },
+      "checkStatus": "Check approval status",
+      "statusCheck": {
+        "title": "Check Approval Status",
+        "checkButton": "Check Status",
+        "notFound": "No account found with this email address.",
+        "approved": "Your account is approved and active. You can sign in above.",
+        "pending": "Your account is pending approval. Please wait for an administrator to approve your registration.",
+        "inactive": "Your account has been deactivated. Please contact an administrator."
+      }
+    },
+    "account": {
+      "title": "アカウント情報",
+      "loadError": "アカウント情報の読み込みに失敗しました",
+      "email": "メール",
+      "memberSince": "登録日",
+      "noteCount": "ノート",
+      "attachmentCount": "添付ファイル",
+      "storageUsed": "使用容量",
+      "lastSync": "最終同期",
+      "never": "なし",
+      "inbox": {
+        "title": "受信トレイ API",
+        "description": "API 経由でアカウントにノートを送信 — 暗号化パスワード不要。アイテムは受信トレイに表示され、確認できます。",
+        "itemsLabel": "アイテム",
+        "sizeLabel": "サイズ",
+        "noToken": "受信トレイトークンが設定されていません。API 経由でノートを送信するにはトークンを生成してください。",
+        "generate": "トークンを生成",
+        "generated": "トークンが生成されました — 今すぐ保存してください。再表示されません。",
+        "active": "受信トレイトークン有効",
+        "copyToken": "コピー",
+        "quickStart": "クイックスタート",
+        "revoke": "トークンを取り消す",
+        "revokeConfirmTitle": "受信トレイトークンを取り消す",
+        "revokeConfirmMessage": "受信トレイトークンを取り消しますか？このトークンを使用するすべての連携が停止します。",
+        "cancel": "キャンセル",
+        "generateSuccess": "受信トレイトークンを生成しました",
+        "generateFailed": "トークンを生成できませんでした: {error}",
+        "revokeSuccess": "受信トレイトークンを取り消しました",
+        "revokeFailed": "トークンを取り消せなかったため、まだ有効です: {error}",
+        "copySuccess": "トークンをコピーしました",
+        "copyUnavailable": "ここではコピーできません。トークンを選択して手動でコピーしてください。"
+      },
+      "storageUsedNote": "ノート、ノートの履歴、添付ファイルを含みます。"
+    },
+    "devices": {
+      "title": "あなたのデバイス",
+      "loadError": "デバイスの読み込みに失敗しました",
+      "noDevices": "登録されているデバイスはありません",
+      "never": "なし",
+      "revokeTitle": "デバイスの取り消し",
+      "revokeConfirm": "「{name}」を取り消してもよろしいですか？このデバイスは同期できなくなります。",
+      "revokeNote": "デバイスを取り消すと同期ができなくなります。必要に応じて後でデバイスを再登録できます。",
+      "revoked": "デバイス「{name}」が取り消されました",
+      "revokeFailed": "デバイスの取り消しに失敗しました: {error}",
+      "revokeFailedGeneric": "デバイスの取り消しに失敗しました",
+      "deleteTitle": "デバイスの削除",
+      "deleteConfirm": "「{name}」を完全に削除してもよろしいですか？この操作は元に戻せません。",
+      "deleted": "デバイス「{name}」が削除されました",
+      "deleteFailed": "デバイスの削除に失敗しました: {error}",
+      "deleteFailedGeneric": "デバイスの削除に失敗しました"
+    },
+    "settings": {
+      "title": "設定",
+      "language": {
+        "title": "言語",
+        "description": "インターフェースの言語を選択してください。",
+        "label": "表示言語"
+      },
+      "changePassword": "パスワードを変更",
+      "currentPassword": "現在のパスワード",
+      "newPassword": "新しいパスワード",
+      "confirmPassword": "パスワードの確認",
+      "updatePassword": "パスワードを更新",
+      "passwordChanged": "パスワードが正常に変更されました",
+      "dangerZone": "危険な操作",
+      "deactivateAccount": "アカウントを無効化",
+      "deactivateDescription": "アカウントを無効化します。管理者の承認を得て再登録できます。",
+      "deactivate": "無効化",
+      "deactivateConfirmTitle": "アカウントを無効化",
+      "deactivateConfirmMessage": "アカウントを無効化してもよろしいですか？データは保持されますが、再度アクセスするには管理者の承認が必要です。",
+      "accountDeactivated": "アカウントが無効化されました",
+      "deleteAccount": "アカウントを削除",
+      "deleteDescription": "アカウントとすべてのデータを完全に削除します。この操作は元に戻せません。",
+      "delete": "削除",
+      "deleteConfirmTitle": "アカウントを完全に削除",
+      "deleteConfirmMessage": "アカウントとすべてのデータが完全に削除されます。この操作は元に戻せません。",
+      "deleteConfirmLabel": "確認のためDELETEと入力してください：",
+      "deleteForever": "完全に削除",
+      "accountDeleted": "アカウントが削除されました",
+      "errors": {
+        "passwordMismatch": "パスワードが一致しません",
+        "passwordTooShort": "パスワードは12文字以上である必要があります",
+        "wrongPassword": "現在のパスワードが正しくありません",
+        "unexpected": "予期しないエラーが発生しました",
+        "deactivateFailed": "アカウントの無効化に失敗しました",
+        "deleteFailed": "アカウントの削除に失敗しました",
+        "deleteNotesFailed": "Failed to delete notes"
+      },
+      "deleteNotes": "Delete Notes",
+      "deleteNotesDescription": "Delete all your notes from the server. Your account remains active and you can sync again.",
+      "deleteNotesButton": "Delete Notes",
+      "deleteNotesConfirmTitle": "Delete All Notes",
+      "deleteNotesConfirmMessage": "Are you sure you want to delete all your notes from the server? This is useful if you forgot your encryption password and need to start fresh. Your account will remain active.",
+      "notesDeleted": "All notes have been deleted from the server",
+      "passwordToConfirm": "確認のためパスワードを入力してください："
+    }
+  },
+  "audit": {
+    "title": "監査ログ",
+    "description": "このサーバーで管理者が行った操作の永続的な記録です。",
+    "loading": "監査ログを読み込み中...",
+    "failedToLoad": "監査ログを読み込めませんでした",
+    "empty": "まだ何も記録されていません。",
+    "allActions": "すべての操作",
+    "filterLabel": "表示",
+    "commandLine": "コマンドライン",
+    "range": "{total}件中 {from}–{to}件",
+    "previous": "前へ",
+    "next": "次へ",
+    "table": {
+      "time": "日時",
+      "action": "操作",
+      "admin": "管理者",
+      "target": "対象",
+      "address": "アドレス"
+    },
+    "actions": {
+      "userApprove": "ユーザーを承認",
+      "userDeactivate": "ユーザーを無効化",
+      "userActivate": "ユーザーを有効化",
+      "userDelete": "ユーザーを削除",
+      "userPasswordReset": "パスワードをリセット",
+      "userAdminGrant": "管理者に昇格",
+      "userAdminRevoke": "管理者から降格",
+      "userSettingsUpdate": "ユーザー設定を変更",
+      "deviceRevoke": "デバイスを取り消し",
+      "deviceDelete": "デバイスを削除",
+      "deviceRename": "デバイス名を変更",
+      "adminPasswordChange": "自分のパスワードを変更"
+    }
+  }
+}

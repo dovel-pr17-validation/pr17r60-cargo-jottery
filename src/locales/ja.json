@@ -1,0 +1,1510 @@
+{
+  "app": {
+    "name": "Jottery",
+    "tagline": "ウェブとターミナルのための個人メモ"
+  },
+  "a11y": {
+    "skipToContent": "メインコンテンツへスキップ"
+  },
+  "common": {
+    "loading": "読み込み中...",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "confirm": "確認",
+    "close": "閉じる",
+    "lock": "ロック",
+    "unlock": "ロック解除",
+    "settings": "設定",
+    "search": "検索",
+    "error": "エラー",
+    "back": "戻る",
+    "edit": "編集",
+    "add": "追加",
+    "showPassword": "パスワードを表示",
+    "hidePassword": "パスワードを非表示"
+  },
+  "docs": {
+    "title": "ドキュメント",
+    "copy": "コピー",
+    "copyMarkdown": "ドキュメントをMarkdownとしてコピー",
+    "copied": "ドキュメントをクリップボードにコピーしました",
+    "copyError": "ドキュメントのコピーに失敗しました"
+  },
+  "note": {
+    "new": "新規",
+    "create": "新しいノートを作成",
+    "delete": "ノートを削除",
+    "pin": "ピン留め",
+    "pinned": "ピン留め済み",
+    "unpin": "ピン留めを外す",
+    "copy": "コピー",
+    "copyContent": "ノートの内容をコピー",
+    "noNoteSelected": "ノートが選択されていません",
+    "selectNote": "リストからノートを選択するか、新しいノートを作成してください",
+    "created": "作成日時",
+    "modified": "更新日時",
+    "version": "バージョン",
+    "synced": "同期済み",
+    "unsynced": "未同期",
+    "neverSynced": "未同期（同期なし）",
+    "attachments": "添付ファイル",
+    "filterByTag": "#{tag}でフィルター",
+    "noNotesYet": "まだノートがありません",
+    "createFirstNote": "最初のノートを作成して始めましょう",
+    "noResultsFound": "結果が見つかりませんでした",
+    "tryDifferentSearch": "別の検索クエリを試してください",
+    "noNotes": "ノートがありません",
+    "somethingWentWrong": "問題が発生しました",
+    "matchSingular": "件",
+    "matchPlural": "件",
+    "editTitleTooltip": "ダブルクリックでタイトルを編集"
+  },
+  "search": {
+    "placeholder": "ノートを検索...",
+    "clear": "検索をクリア",
+    "resultCount": "検索結果: 一致 / 全体",
+    "resultsFound": "{total}件中{matches}件一致",
+    "tagSuggestions": "タグの候補",
+    "savedSearches": "保存された検索",
+    "newSavedSearch": "現在の検索を保存",
+    "editSearch": "編集",
+    "deleteSearch": "削除",
+    "searchName": "検索名",
+    "query": "クエリ",
+    "saveSearch": "保存",
+    "applySavedSearch": "適用",
+    "confirmDeleteSearch": "保存された検索「{name}」を削除しますか？",
+    "noSavedSearches": "保存された検索がありません",
+    "noCurrentQuery": "保存する検索がありません",
+    "placeholderArchive": "アーカイブ内を検索..."
+  },
+  "editor": {
+    "noNoteSelected": "ノートが選択されていません",
+    "noNoteSelectedHint": "リストからノートを選択するか、新しいノートを作成してください",
+    "attachmentPreview": "添付ファイルのプレビュー",
+    "download": "ダウンロード",
+    "tags": "タグ",
+    "addTags": "タグを追加...",
+    "plainText": "プレーンテキスト",
+    "syntaxHighlight": "シンタックスハイライト",
+    "wordWrap": "折り返し",
+    "noWrap": "折り返しなし",
+    "toggleWordWrap": "行の折り返しを切り替え",
+    "backToNotes": "ノート一覧に戻る",
+    "moreActions": "その他の操作",
+    "closeNote": "ノートを閉じる (Esc)",
+    "preview": "プレビュー",
+    "edit": "編集",
+    "undo": "元に戻す",
+    "redo": "やり直す",
+    "wordWrapOn": "行の折り返し: オン",
+    "wordWrapOff": "行の折り返し: オフ",
+    "copyContent": "内容をコピー",
+    "copyLink": "ノートへのリンクをコピー",
+    "linkCopied": "リンクをクリップボードにコピーしました",
+    "exportToFile": "ファイルにエクスポート",
+    "printPdf": "印刷 / PDF出力",
+    "printFailed": "印刷ウィンドウを開けませんでした",
+    "duplicateNote": "ノートを複製",
+    "noteDuplicated": "ノートを複製しました",
+    "duplicateFailed": "ノートの複製に失敗しました",
+    "info": "情報",
+    "versionHistory": "バージョン履歴",
+    "deleteNote": "ノートを削除",
+    "noteInformation": "ノート情報",
+    "characters": "文字数:",
+    "charactersNoSpaces": "文字数(スペース除く):",
+    "words": "単語数:",
+    "lines": "行数:",
+    "attachmentsCount": "添付ファイル:",
+    "syntax": "構文:",
+    "noteId": "ノートID:",
+    "uploading": "アップロード中...",
+    "attachmentsHeader": "添付ファイル ({count})",
+    "status": {
+      "uploading": "アップロード中...",
+      "processingNotes": "{total}件中{current}件のノートを処理中...",
+      "readingFile": "ファイルを読み込み中...",
+      "loadingPreview": "プレビューを読み込み中...",
+      "loading": "読み込み中..."
+    },
+    "tooltips": {
+      "saveNoteFirst": "最初にノートを保存してください",
+      "pinNote": "ノートをピン留め",
+      "unpinNote": "ピン留めを外す"
+    },
+    "errors": {
+      "loadingAttachment": "添付ファイルの読み込みエラー",
+      "videoNotSupported": "お使いのブラウザは動画の再生に対応していません。",
+      "previewNotAvailable": "このファイルタイプのプレビューは利用できません。",
+      "downloadToView": "表示するにはダウンロードしてください"
+    },
+    "attachments": "添付ファイル",
+    "noAttachments": "添付ファイルはまだありません",
+    "noteColor": "ノートのカテゴリ",
+    "setColor": "カテゴリを設定",
+    "removeColor": "カテゴリを削除",
+    "selectColor": "カテゴリを選択",
+    "colorSet": "カテゴリを設定しました",
+    "colorRemoved": "カテゴリを削除しました",
+    "wysiwyg": {
+      "mode": "エディターモード",
+      "rawMode": "テキスト",
+      "visualMode": "ビジュアル",
+      "bold": "太字",
+      "italic": "斜体",
+      "strikethrough": "取り消し線",
+      "inlineCode": "インラインコード",
+      "heading1": "見出し1",
+      "heading2": "見出し2",
+      "heading3": "見出し3",
+      "bulletList": "箇条書き",
+      "orderedList": "番号付きリスト",
+      "taskList": "タスクリスト",
+      "blockquote": "引用",
+      "codeBlock": "コードブロック",
+      "horizontalRule": "水平線",
+      "link": "リンクを挿入",
+      "table": "テーブルを挿入",
+      "enterUrl": "URLを入力:"
+    },
+    "lock": {
+      "lock": "ノートをロック",
+      "unlock": "ノートのロックを解除",
+      "locked": "ノートがロックされました",
+      "unlocked": "ノートのロックが解除されました",
+      "lockTooltip": "ノートをロックして編集を防止",
+      "unlockTooltip": "ノートのロックを解除して編集を許可",
+      "lockedBanner": "このノートはロックされています。編集するにはロックを解除してください。",
+      "mustUnlockToDelete": "削除する前にノートのロックを解除してください"
+    },
+    "readOnly": {
+      "archivedBanner": "このノートはアーカイブされています。編集するにはアーカイブを解除してください。",
+      "lockedBanner": "このノートはロックされています。編集するにはロックを解除してください。"
+    },
+    "confirmDelete": {
+      "title": "ノートを削除",
+      "message": "このノートはごみ箱に移動されます。必要に応じて後から復元できます。"
+    },
+    "actionFailed": {
+      "archive": "ノートのアーカイブに失敗しました: {error}",
+      "unarchive": "ノートのアーカイブ解除に失敗しました: {error}",
+      "lock": "ノートのロックに失敗しました: {error}",
+      "unlock": "ノートのロック解除に失敗しました: {error}",
+      "delete": "ノートの削除に失敗しました: {error}"
+    },
+    "copyLinkFailed": "リンクのコピーに失敗しました",
+    "noteEditor": "ノートエディター",
+    "calc": {
+      "tooLong": "このノートは長すぎて計算できません（{lines} 行、上限 {max} 行）。短くするか、別の構文を使用してください。",
+      "consecutiveErrors": "{count} 件連続でエラーになったため停止しました。計算ではないようです。別の構文を試してください。",
+      "totalErrors": "{count} 件のエラーで停止しました。このノートには別の構文を試してください。",
+      "tooSlow": "時間がかかりすぎたため停止しました。これ以降の行には結果がありません。"
+    }
+  },
+  "noteList": {
+    "deleteNote": "ノートを削除",
+    "filterByTag": "#{tag}でフィルター",
+    "noteCount": "{total}件中{filtered}件",
+    "noteCountAll": "{total}件のノート"
+  },
+  "tagInput": {
+    "removeTag": "タグを削除",
+    "suggestions": "タグの候補"
+  },
+  "backupReminder": {
+    "title": "ノートをバックアップする時間です",
+    "lastBackup": "前回のバックアップ: {date}",
+    "never": "なし",
+    "backupNow": "今すぐバックアップ",
+    "backingUp": "バックアップ中...",
+    "dismissLabel": "後で通知"
+  },
+  "backupSettings": {
+    "title": "自動バックアップ",
+    "lastBackup": "前回のバックアップ",
+    "never": "なし",
+    "enableReminders": "バックアップリマインダーを有効にする",
+    "enableAutoBackup": "自動バックアップを有効にする",
+    "frequencyDaily": "毎日",
+    "frequencyWeekly": "毎週",
+    "frequencyMonthly": "毎月",
+    "frequencyOnChanges": "一定回数の変更後",
+    "changesThreshold": "この回数の変更後にバックアップ",
+    "description": "自動バックアップはデバイスにダウンロードされます。リマインダーを有効にすると、バックアップの時間になったら通知されます。",
+    "saveFailed": "その設定は保存されませんでした。もう一度お試しください。"
+  },
+  "backup": {
+    "title": "暗号化バックアップ",
+    "description": "どのデバイスでも復元できる安全なバックアップを作成します。バックアップはパスワードで暗号化されます。",
+    "createButton": "暗号化バックアップを作成",
+    "creating": "バックアップを作成中...",
+    "created": "バックアップが正常に作成されました",
+    "failed": "バックアップの作成に失敗しました",
+    "loadingAttachments": "添付ファイルを読み込み中...",
+    "encrypting": "データを暗号化中...",
+    "restore": {
+      "title": "バックアップから復元",
+      "selectFile": "バックアップファイルを選択",
+      "selectFileHint": ".jottery-backupファイルを選択してください",
+      "noFileSelected": "ファイルが選択されていません",
+      "password": "パスワード",
+      "passwordHint": "バックアップ作成時に使用したパスワードを入力してください",
+      "restoreButton": "復元",
+      "restoring": "復元中...",
+      "cancel": "キャンセル",
+      "success": "バックアップが正常に復元されました！",
+      "wrongPassword": "パスワードが正しくありません。バックアップ作成時に使用したパスワードを使用してください。",
+      "invalidFile": "無効なバックアップファイルです。有効な.jottery-backupファイルを選択してください。",
+      "confirmOverwrite": "既存のすべてのデータが置き換えられます。続行してもよろしいですか？",
+      "confirmOverwriteTitle": "バックアップを復元しますか？",
+      "confirmOverwriteMessage": "このバックアップを復元すると、このデバイス上のすべての既存のノートと設定が置き換えられます。この操作は元に戻せません。",
+      "confirmButton": "バックアップを復元",
+      "progress": {
+        "validating": "バックアップを検証中...",
+        "decrypting": "レコードを復号化中...",
+        "restoring": "データを復元中...",
+        "complete": "復元が完了しました！"
+      },
+      "stats": {
+        "title": "バックアップ情報",
+        "created": "作成日",
+        "records": "レコード"
+      },
+      "storageFull": "ブラウザーの保存容量が不足したため、復元は完了せず、何も保持されませんでした。バックアップファイルは問題ありません。空き容量を確保して、もう一度復元してください。"
+    },
+    "autoFailed": "自動バックアップに失敗しました。手動でバックアップを作成してください。"
+  },
+  "settings": {
+    "title": "設定",
+    "closeLabel": "設定を閉じる",
+    "tabs": {
+      "general": "一般",
+      "editor": "エディター",
+      "colors": "カテゴリ",
+      "keyboard": "キーボードショートカット",
+      "sync": "同期",
+      "advanced": "詳細設定",
+      "about": "アプリについて"
+    },
+    "colors": {
+      "paletteTitle": "カテゴリの色",
+      "paletteDescription": "ノートとタグに使用する色をカスタマイズ（赤、オレンジ、黄色、緑、青、紫、ピンク、グレー）",
+      "lightMode": "ライトモード",
+      "darkMode": "ダークモード",
+      "resetPalette": "デフォルトに戻す",
+      "tagColorsTitle": "タグのカテゴリ",
+      "tagColorsDescription": "タグにカテゴリをグローバルに割り当て（赤、オレンジ、黄色、緑、青、紫、ピンク、グレー）",
+      "addTagColor": "タグのカテゴリを追加",
+      "removeTagColor": "削除",
+      "noColor": "なし",
+      "noTagColors": "まだタグのカテゴリが割り当てられていません",
+      "tagNamePlaceholder": "タグ名...",
+      "selectColor": "カテゴリを選択",
+      "selectTag": "タグを選択"
+    },
+    "theme": "テーマ",
+    "themeLight": "ライト",
+    "themeDark": "ダーク",
+    "themeAuto": "自動",
+    "timezone": "タイムゾーン",
+    "timezoneDescription": "すべてのタイムスタンプはUTCで保存され、選択したタイムゾーンで表示されます",
+    "timezoneLocal": "ローカル(ブラウザのタイムゾーン)",
+    "layoutMode": "レイアウトモード",
+    "layoutModeDescription": "このデバイスの自動レイアウト検出を上書きします",
+    "layoutModeAuto": "自動(レスポンシブ)",
+    "layoutModeMobile": "モバイルレイアウトを強制",
+    "layoutModeDesktop": "デスクトップレイアウトを強制",
+    "fontSize": "エディターのフォントサイズ",
+    "fontSizeDescription": "自動モードでは、ブラウザのズームを防ぐため、モバイルで大きめのフォントを使用します",
+    "fontSizeAuto": "自動(モバイル対応: モバイル16px、デスクトップ14px)",
+    "fontSizeSmall": "小(12px)",
+    "fontSizeMedium": "中(14px)",
+    "fontSizeLarge": "大(16px)",
+    "autoLockTimeout": "自動ロックのタイムアウト(分)",
+    "sortOrder": "デフォルトの並び順",
+    "sortRecent": "最新順",
+    "sortOldest": "古い順",
+    "sortAlpha": "アルファベット順",
+    "sortCreated": "作成日順",
+    "language": "言語",
+    "languageAuto": "自動（ブラウザから検出）",
+    "languageDescription": "ブラウザの言語設定を使用するには「自動」を選択",
+    "rememberPassword": "パスワードを記憶する(セキュリティリスク)",
+    "rememberPasswordWarning": "訪問するたびにパスワードを入力する手間を省くため、このデバイスにパスワードを保存します。警告: これによりパスワードが平文でlocalStorageに保存されるため、非常に安全性が低くなります。",
+    "rememberPasswordNote": "この機能を有効にすると、自動ロックが無効になります。この機能を無効にすると、すぐにアプリケーションがロックされます。",
+    "openLinksInNewTab": "外部リンクを新しいタブで開く",
+    "openLinksInNewTabDescription": "有効にすると、マークダウンプレビュー内の外部ウェブサイトへのリンクは、Jotteryから離れる代わりに新しいブラウザタブで開きます",
+    "persistSession": "ページ更新後もセッションを維持",
+    "persistSessionDescription": "ページを更新してもセッションをアクティブに保ちます。パスワードはブラウザのセッションストレージに一時的に保存されます。",
+    "persistSessionNote": "「パスワードを記憶」より安全 - 自動的に期限切れになり、タブを閉じると削除されます。",
+    "persistSessionUnavailable": "セッションストレージは利用できません（file:// URLまたはブラウザのプライバシー設定）。",
+    "persistSessionDisabledByRemember": "「パスワードを記憶」が有効な場合は無効になります。",
+    "persistSessionTimeout": "セッションタイムアウト（分）",
+    "persistSessionTimeoutDescription": "この分数が経過するとセッションが期限切れになります。範囲: 5-480。",
+    "persistSessionModal": {
+      "confirmPassword": "有効にするにはパスワードを入力してください:",
+      "enableButton": "セッション維持を有効にする"
+    },
+    "rememberPasswordModal": {
+      "title": "⚠️ セキュリティ警告",
+      "insecureWarning": "この機能を有効にすると、パスワードが平文でlocalStorageに保存されるため、非常に安全性が低くなります。",
+      "riskDevice": "デバイスにアクセスできる人は誰でも読み取ることができます",
+      "riskExtensions": "ブラウザの拡張機能がアクセスできます",
+      "riskCache": "ブラウザのキャッシュクリア後も残る可能性があります",
+      "riskAutolock": "自動ロックが無効になります",
+      "confirmWarning": "セキュリティリスクを完全に理解している場合のみ有効にしてください。",
+      "confirmPassword": "確認のためパスワードを入力してください:",
+      "passwordPlaceholder": "パスワード",
+      "cancelButton": "キャンセル",
+      "enableButton": "理解しました。有効にします"
+    },
+    "saveSettings": "設定を保存",
+    "saving": "保存中...",
+    "autoSaved": "変更は自動的に保存されます",
+    "settingsSaved": "設定を保存しました",
+    "settingsSaveFailed": "設定の保存に失敗しました: {error}",
+    "deleteDatabaseFailed": "データベースの削除に失敗しました: {error}",
+    "exportFailed": "ノートのエクスポートに失敗しました: {error}",
+    "importFailed": "ノートのインポートに失敗しました: {error}",
+    "exportNotes": "ノートをエクスポート",
+    "importNotes": "ノートをインポート",
+    "importDialog": {
+      "importing": "ノートをインポート中",
+      "complete": "インポート完了",
+      "notesImported": "インポートされたノート:",
+      "notesSkipped": "スキップされたノート:",
+      "attachmentsImported": "インポートされた添付ファイル:",
+      "uniqueTags": "ユニークなタグ:",
+      "errorsOccurred": "{count}件のエラー{plural}が発生しました:",
+      "done": "完了",
+      "processingNotes": "{total}件中{current}件のノートを処理中...",
+      "readingFile": "ファイルを読み込み中...",
+      "pleaseWait": "ノートをインポート中です。しばらくお待ちください..."
+    },
+    "deleteDatabase": "データベースを削除",
+    "keyboardShortcuts": "キーボードショートカット",
+    "syncSetup": {
+      "endpoint": {
+        "label": "同期サーバーのエンドポイント",
+        "help": "セルフホスト型Jottery同期サーバーのURL"
+      },
+      "deviceName": {
+        "label": "デバイス名",
+        "placeholder": "私のノートPC",
+        "help": "このデバイスを識別する名前"
+      },
+      "chooseMethod": "同期のセットアップ方法を選択してください:",
+      "registerServer": {
+        "title": "同期サーバーに登録",
+        "subtitle": "<strong>最初のデバイスのみ:</strong> アカウントを作成します",
+        "benefit1": "✓ メール/パスワードアカウントを作成",
+        "benefit2": "✓ このデバイスの同期を有効化",
+        "benefit3": "✓ 管理者の承認が必要",
+        "button": "🚀 新規アカウントを登録"
+      },
+      "existingAccount": {
+        "title": "既存のアカウントに接続",
+        "subtitle": "<strong>すでにアカウントをお持ちですか?</strong> このデバイスを接続",
+        "benefit1": "✓ 既存のメール/パスワードを使用",
+        "benefit2": "✓ このデバイスをアカウントに追加",
+        "benefit3": "✓ サーバーからノートを同期",
+        "button": "🔗 既存のアカウントに接続",
+        "formTitle": "既存のアカウントに接続",
+        "infoText": "同期サーバーの認証情報を入力してください。接続後、既存のノートがこのデバイスに同期されます。",
+        "emailLabel": "メールアドレス",
+        "passwordLabel": "サーバーパスワード",
+        "connectButton": "デバイスを接続",
+        "connecting": "接続中..."
+      },
+      "privacyNote": "<strong>🔒 プライバシー:</strong> すべてのノートはエンドツーエンドで暗号化されています。サーバーには暗号化されたデータのみが保存され、内容を読み取ることはできません。",
+      "selfHostNote": "<strong>💡 セルフホスト?</strong> 独自のサーバーを運用できます - <a href=\"https://github.com/seesee/jottery\" target=\"_blank\" class=\"underline\">GitHubを参照</a>",
+      "back": "← 戻る",
+      "registration": {
+        "title": "新規ユーザーアカウントを登録",
+        "emailLabel": "メールアドレス",
+        "emailPlaceholder": "you@example.com",
+        "passwordLabel": "パスワード(最低12文字)",
+        "passwordPlaceholder": "••••••••••••",
+        "confirmPasswordLabel": "パスワードの確認",
+        "confirmPasswordPlaceholder": "••••••••••••",
+        "passwordMismatch": "パスワードが一致しません",
+        "passwordWarningTitle": "<strong>推奨:</strong> ノートの暗号化パスワードとは異なるパスワードを使用してください。",
+        "passwordWarningText": "このパスワードは認証のためにサーバーに送信されます。ノートのパスワードはデバイスから送信されるべきではありません。",
+        "registerButton": "ユーザーアカウントを登録",
+        "registering": "登録中...",
+        "pendingTitle": "管理者の承認待ち",
+        "pendingText": "管理者に連絡してアカウントを承認してもらってください。承認されたら、以下をクリックしてセットアップを完了してください。",
+        "approvedButton": "承認されました - セットアップを完了",
+        "completingSetup": "セットアップを完了中...",
+        "deviceRegistering": "⏳ デバイスを登録して同期中...",
+        "successTitle": "同期が正常に有効化されました!",
+        "successText": "デバイスが登録され、<strong>既存のすべてのノートがサーバーに同期されました</strong>。今後の変更は自動的に同期されます。",
+        "successNextSteps": "🔗 別のデバイスを追加するには: 新しいデバイスで「既存アカウントに接続」を使用してください。",
+        "done": "完了",
+        "checkStatusLink": "ユーザーポータルで承認状況を確認 →"
+      },
+      "linkAccount": {
+        "title": "アカウントをリンク(オプション)",
+        "infoText": "ℹ️ この機能は将来の使用のためのものです(管理ダッシュボードへのアクセス、サブスクリプション管理)。このデバイスで同期を有効にする<strong>わけではありません</strong>。",
+        "emailLabel": "メールアドレス",
+        "passwordLabel": "パスワード",
+        "comingSoon": "近日公開",
+        "futureUpdate": "アカウントリンクは今後のアップデートで有効になります"
+      },
+      "error": "エラー",
+      "notesPassword": {
+        "label": "ノートのパスワード",
+        "placeholder": "ノートのロック解除に使うパスワード",
+        "hintNew": "サーバーに保存される暗号化キーを保護し、他のデバイスから接続できるようにします。サーバーには送信されません。このデバイスのロック解除に使うパスワードを入力してください。",
+        "hintExisting": "他のデバイスでノートのロック解除に使っているパスワードです。サーバーには送信されません。",
+        "required": "ノートのパスワードを入力してください。",
+        "incorrect": "このデバイスでノートのロックを解除するパスワードと一致しません。サーバーのパスワードではなく、ノートのパスワードを入力してください。",
+        "uploadFailed": "同期は設定されましたが、暗号化キーをサーバーに保存できなかったため、他のデバイスはまだ接続できません。次回ロックを解除したときに再試行します",
+        "mustDiffer": "ノートのパスワードとアカウントのパスワードは別にする必要があります。同期サーバーはアカウントのパスワードを受け取るため、同じだとノートを読まれる可能性があります。",
+        "matchesAccountWarning": "ノートのパスワードがアカウントのパスワードと同じため、同期サーバーにノートを読まれる可能性があります。ノートのパスワードを変更してください。"
+      },
+      "existingAccountDetected": "このメールアドレスのアカウントは既に存在するため、このデバイスをそのアカウントに接続します。他のデバイスで使用しているノートのパスワードを入力してください。",
+      "errors": {
+        "credentialsRequired": "メールアドレスとパスワードが必要です",
+        "passwordTooShort": "パスワードは12文字以上にしてください",
+        "registrationFailed": "ユーザー登録に失敗しました",
+        "deviceRegistrationFailed": "デバイス登録に失敗しました",
+        "loginFailed": "ログインに失敗しました",
+        "accountInfoFailed": "アカウント情報の読み込みに失敗しました",
+        "deleteNotesFailed": "ノートの削除に失敗しました",
+        "disconnectFailed": "切断に失敗しました",
+        "syncFailed": "同期に失敗しました",
+        "toggleFailed": "同期の変更に失敗しました"
+      }
+    },
+    "editorTab": {
+      "vimMode": "エディターモード",
+      "vimModeHelp": "上級ユーザー向けのvimスタイルのキーバインドを有効にします。i、Esc、dd、yy、pなどの一般的なvimコマンドをサポートしています。",
+      "enableVimMode": "vimキーバインドを有効にする",
+      "quickCommands": "クイックコマンド",
+      "quickCommandsHelp": "/now、/date、/time、/uuid、/hrなどのスラッシュコマンドを入力してコンテンツを素早く挿入します。スペースまたはEnterキーに続けて入力するとコマンドが展開されます。",
+      "enableQuickCommands": "クイックコマンドを有効にする",
+      "syntaxHighlighting": "シンタックスハイライト",
+      "syntaxHelp": "Markdownコードブロックとプレビューでシンタックスハイライトを有効にするプログラミング言語を選択してください。コア言語は常に有効です。",
+      "languagesEnabled": "{count}言語が有効",
+      "estimatedSize": "推定サイズ: 約{size} KB",
+      "resetToCore": "コアにリセット",
+      "enableAll": "すべて有効化",
+      "coreLanguages": "コア言語",
+      "alwaysEnabled": "(常に有効)",
+      "popularLanguages": "人気の言語",
+      "webLanguages": "Web言語",
+      "systemsLanguages": "システム言語",
+      "dataLanguages": "データ言語",
+      "otherLanguages": "その他の言語",
+      "enabledCount": "{total}件中{enabled}件が有効",
+      "defaultNoteType": "デフォルトのノートタイプ",
+      "defaultNoteTypeHelp": "新しいノートのデフォルトの構文言語を選択します。デフォルトタイプは有効な言語から選択解除できません。",
+      "default": "デフォルト",
+      "commandsConfigured": "{count}個のコマンドが設定済み",
+      "resetToDefaults": "デフォルトにリセット",
+      "addCommand": "コマンドを追加",
+      "noCommands": "コマンドが設定されていません。「コマンドを追加」をクリックして作成してください。",
+      "addNewCommand": "新しいコマンドを追加",
+      "editCommand": "コマンドを編集",
+      "trigger": "トリガー",
+      "type": "タイプ",
+      "format": "フォーマット",
+      "formatHelp": "YYYY、MM、DD、HH、mm、ssトークンを使用",
+      "value": "値",
+      "description": "説明",
+      "preview": "プレビュー",
+      "textPlaceholder": "挿入するテキスト",
+      "descriptionPlaceholder": "オートコンプリートに表示される説明"
+    },
+    "keyboardTab": {
+      "description": "キーボードショートカットをカスタマイズします。ショートカットをクリックして変更し、希望するキーの組み合わせを押してください。",
+      "resetToDefaults": "デフォルトにリセット",
+      "viewAllShortcuts": "すべてのショートカットを表示",
+      "quickReference": "すべてのキーボードショートカットのクイックリファレンス",
+      "globalShortcuts": "グローバル",
+      "noteListShortcuts": "ノートリスト",
+      "editorShortcuts": "エディター",
+      "focusSearch": "検索にフォーカス",
+      "createNewNote": "新しいノートを作成",
+      "lockApplication": "アプリケーションをロック",
+      "openSettings": "設定を開く",
+      "showShortcutsHelp": "ショートカットヘルプを表示",
+      "openRecycleBin": "ごみ箱を開く",
+      "navigateUp": "上へ移動",
+      "navigateDown": "下へ移動",
+      "openNote": "選択したノートを開く",
+      "deleteNote": "選択したノートを削除",
+      "pinNote": "ノートをピン留め/解除",
+      "selectAll": "すべてのノートを選択",
+      "copyNoteContent": "ノートの内容をコピー",
+      "undo": "元に戻す",
+      "redo": "やり直す",
+      "versionHistory": "バージョン履歴",
+      "noteInfo": "ノート情報",
+      "toggleWordWrap": "折り返しを切り替え",
+      "togglePreview": "プレビューを切り替え",
+      "duplicateNote": "ノートを複製",
+      "exportNote": "ノートをエクスポート",
+      "pressKey": "キーを押してください...",
+      "notSet": "未設定",
+      "needsModifier": "このショートカットは入力中にも動作するため、Ctrl、Cmd、Altのいずれかが必要です。別のキーを押すか、Escでキャンセルしてください。",
+      "reserved": "そのキーは予約されています。別のキーを押すか、Escでキャンセルしてください。",
+      "toggleCollapse": "折りたたむ／展開する"
+    },
+    "syncTab": {
+      "enableSync": "同期を有効化",
+      "syncDescription": "セルフホストサーバーを使用してデバイス間でノートを同期",
+      "syncDisabled": "同期が無効(プライバシーモード)",
+      "syncDisabledDescription": "同期はオプトインで、最大限のプライバシーのためにデフォルトで無効になっています。",
+      "syncDisabledDetails": "無効の場合、Jotteryは同期サーバーへのネットワークリクエストを一切行いません。すべてのノートは完全にこのデバイスにローカル保存されます。",
+      "toEnableSync": "同期を有効にするには: 上記のスイッチを切り替えて、同期サーバーを設定してください。",
+      "existingAccount": {
+        "title": "既存のアカウントに接続",
+        "subtitle": "<strong>すでにアカウントをお持ちですか?</strong> このデバイスを接続",
+        "benefit1": "✓ 既存のメール/パスワードを使用",
+        "benefit2": "✓ このデバイスをアカウントに追加",
+        "benefit3": "✓ サーバーからノートを同期",
+        "button": "🔗 既存のアカウントに接続",
+        "formTitle": "既存のアカウントに接続",
+        "infoText": "同期サーバーの認証情報を入力してください。接続後、既存のノートがこのデバイスに同期されます。",
+        "emailLabel": "メールアドレス",
+        "passwordLabel": "サーバーパスワード",
+        "connectButton": "デバイスを接続",
+        "connecting": "接続中..."
+      },
+      "privacyNote": "プライバシー: 有効にしても、すべてのノートはエンドツーエンドで暗号化されています。同期サーバーは内容を読み取ることができません。",
+      "syncEnabled": "同期が有効",
+      "syncing": "同期中...",
+      "lastSync": "最終同期:",
+      "syncNow": "今すぐ同期",
+      "fullSync": {
+        "title": "フル同期",
+        "description": "同期状態に関係なく、すべてのノートをサーバーにプッシュします。ノートが同期されていない場合やデータのインポート後に使用してください。",
+        "button": "フル同期"
+      },
+      "notesPendingSingle": "{count}件のノートが同期待ち",
+      "notesPendingPlural": "{count}件のノートが同期待ち",
+      "userPortal": {
+        "title": "ユーザーポータル",
+        "description": "アカウントの管理、パスワードの変更、またはデータの削除",
+        "openButton": "ユーザーポータルを開く"
+      },
+      "changePassword": {
+        "title": "パスワードの変更",
+        "description": "暗号化パスワードを変更します。エンベロープ暗号化のおかげで、この操作は高速です — ノートを再暗号化する必要はありません。",
+        "currentPasswordLabel": "現在のパスワード",
+        "newPasswordLabel": "新しいパスワード",
+        "confirmPasswordLabel": "新しいパスワードの確認",
+        "currentPasswordPlaceholder": "現在のパスワードを入力",
+        "newPasswordPlaceholder": "新しいパスワードを入力",
+        "confirmPasswordPlaceholder": "新しいパスワードを確認",
+        "mismatch": "パスワードが一致しません",
+        "changing": "パスワードを変更中...",
+        "button": "パスワードを変更",
+        "success": "パスワードが正常に変更されました",
+        "error": "パスワードの変更に失敗しました: {error}",
+        "serverKeyFailed": "このデバイスのパスワードは変更されましたが、サーバーを更新できませんでした。次回のロック解除時に再試行します。それまでは、新しいデバイスには古いパスワードが必要です。",
+        "keyStaysTheSame": "暗号化キーは変わらないため、古いバックアップは以前のパスワードで開くことができます。安全に保管してください。"
+      },
+      "connectionDetails": {
+        "title": "接続詳細",
+        "server": "サーバー",
+        "deviceName": "デバイス名",
+        "deviceId": "デバイスID"
+      },
+      "dangerZone": {
+        "title": "危険ゾーン",
+        "disconnectTitle": "同期サーバーから切断",
+        "disconnectDescription": "このデバイスを同期サーバーから切断し、すべての同期認証情報を削除します。ノートは削除されず、このデバイスに残ります。",
+        "disconnectButton": "切断"
+      },
+      "accountManagement": {
+        "title": "アカウント管理",
+        "loginPrompt": "ログインしてアカウント情報を表示し、同期されたノートを管理します。",
+        "emailLabel": "メールアドレス",
+        "passwordLabel": "パスワード",
+        "loggingIn": "ログイン中...",
+        "loginButton": "ログインしてアカウントを表示",
+        "loggedInAs": "ログイン中:",
+        "adminAccount": "管理者アカウント",
+        "logOut": "ログアウト",
+        "loadingInfo": "アカウント情報を読み込み中...",
+        "syncedNotes": "同期されたノート",
+        "attachments": "添付ファイル",
+        "storageUsed": "使用済みストレージ",
+        "storageQuota": "ストレージ容量",
+        "storageUsage": "ストレージ使用状況",
+        "privacyTitle": "プライバシーとセキュリティ",
+        "privacyDescription": "すべてのノートはエンドツーエンドで暗号化されています。サーバーは内容を読み取ることができません。",
+        "selfHostLink": "セルフホストしたいですか？GitHubを参照 →",
+        "dangerZone": "危険ゾーン",
+        "deleteNotesDescription": "同期サーバーからすべてのノートを削除します。この操作は取り消せません。ローカルのノートは削除されません。",
+        "deleteNotesButton": "サーバーからすべてのノートを削除"
+      },
+      "disconnectNotRevoked": "このデバイスは切断されましたが、サーバーに通知できなかったため、まだ一覧に残っており、キーも有効です。ユーザーポータルで取り消してください。"
+    },
+    "advancedTab": {
+      "importExport": "インポート/エクスポート",
+      "exportDescription": "エクスポートは、ノートを他へ移すための暗号化されていない JSON コピーを作成します。ファイルを持つ人は誰でも読めます。暗号化されたコピーにはバックアップを使用してください。インポートは既存のノートに統合します。",
+      "downloadClient": "ターミナル/HTMLクライアントをダウンロード",
+      "downloadTerminalClient": "ターミナルクライアントをダウンロード",
+      "clientDescription": "コマンドラインアクセス用のターミナルクライアント、またはファイルシステムからローカルで実行するHTMLクライアントをダウンロード",
+      "terminalClientDescription": "コマンドラインからノートにアクセスするにはターミナルクライアントを使用",
+      "selectPlatform": "プラットフォームを選択...",
+      "download": "ダウンロード",
+      "deleteAllData": "すべてのデータを削除",
+      "deleteAllDataWarning": "これにより、すべてのノート、設定、暗号化キーが完全に削除されます。この操作は元に戻せません。"
+    },
+    "aboutTab": {
+      "version": "バージョン",
+      "documentation": "ドキュメント",
+      "viewDocumentation": "ドキュメントを表示",
+      "documentationDescription": "Jotteryを効果的に使用する方法を学ぶ",
+      "statistics": "統計",
+      "activeNotes": "アクティブなノート",
+      "pinnedNotes": "ピン留めされたノート",
+      "inRecycleBin": "ごみ箱内",
+      "totalNotes": "合計ノート数",
+      "popularTags": "人気のタグ",
+      "terminalClient": "ターミナルクライアント",
+      "terminalClientDescription": "Jotteryターミナルクライアントでコマンドラインからノートにアクセスできます。TUIは、ノートを管理するための高速なキーボード駆動インターフェースを提供します。",
+      "terminalClientDownload": "詳細設定タブからターミナルクライアントをダウンロードしてください。",
+      "aboutJottery": "Jotteryについて",
+      "aboutDescription": "Jotteryは、リッチコンテンツ、シンタックスハイライト、暗号化を備えた、ノートをキャプチャ、整理、検索するためのプライバシー重視のセルフホスト型スクラッチパッドアプリケーションです。",
+      "viewOnGithub": "GitHubで表示",
+      "license": "MITライセンスの下でライセンスされています。"
+    },
+    "exportIncomplete": "エクスポートは不完全です: ノート {notes} 件と添付ファイル {attachments} 件を読み取れず、除外しました。"
+  },
+  "landing": {
+    "languagePicker": {
+      "label": "言語を選択"
+    },
+    "hero": {
+      "title": "Jottery",
+      "subtitle": "エンドツーエンド暗号化、高度な検索、オプションの同期機能を備えた、プライバシー重視の強力なノートアプリ。Webまたはターミナルからノートにアクセスできます。",
+      "cta": "試してみる",
+      "note": "アカウント不要 • オフラインで動作 • セルフホスト可能"
+    },
+    "screenshots": {
+      "mainInterface": "ノートリストとエディターを表示するメインインターフェース",
+      "carouselLabel": "スクリーンショットのカルーセル",
+      "fullSizeLabel": "画像のフルサイズ表示"
+    },
+    "features": {
+      "title": "必要なすべてが揃っています",
+      "encrypted": {
+        "title": "エンドツーエンド暗号化",
+        "description": "すべてのノートは保存または同期の前に、AES-256-GCMでローカルに暗号化されます。"
+      },
+      "localFirst": {
+        "title": "ローカルファーストストレージ",
+        "description": "完全にオフラインで動作します。同期を選択しない限り、データはデバイスに保存されます。"
+      },
+      "optionalSync": {
+        "title": "オプションの同期",
+        "description": "独自の同期サーバーをセルフホストして、複数のデバイスでノートにアクセスできます。"
+      },
+      "powerfulSearch": {
+        "title": "強力な検索",
+        "description": "修飾子、日付フィルター、単語数などを使用した高度な検索。"
+      },
+      "tagging": {
+        "title": "スマートタグ付け",
+        "description": "タグとカラーカテゴリーでノートを整理し、すばやく視覚的に識別できます。"
+      },
+      "attachments": {
+        "title": "添付ファイル",
+        "description": "ファイル、画像、ドキュメントをノートに追加できます。すべて暗号化されます。"
+      },
+      "keyboard": {
+        "title": "キーボードショートカット",
+        "description": "効率的なノート管理のために完全にカスタマイズ可能なキーボードショートカット。"
+      },
+      "categories": {
+        "title": "カラーカテゴリー",
+        "description": "ノートとタグに色を割り当てて視覚的に整理できます。"
+      }
+    },
+    "webFeatures": {
+      "title": "Webアプリケーション",
+      "subtitle": "最新のWeb技術による豊富な編集体験",
+      "richEditor": {
+        "title": "リッチテキストエディター",
+        "description": "20以上のプログラミング言語のシンタックスハイライト、Markdownサポート、ライブプレビューを備えたCodeMirror 6ベース。",
+        "points": [
+          "コードスニペットのシンタックスハイライト",
+          "Markdownのレンダリングとプレビュー",
+          "検索と置換",
+          "折り返し切り替え",
+          "カスタマイズ可能なフォントとテーマ"
+        ],
+        "screenshotDescription": "シンタックスハイライトとMarkdownプレビュー付きエディター"
+      },
+      "multiSelect": {
+        "title": "複数選択と一括操作",
+        "description": "複数のノートを一度に選択し、効率的なノート管理のためにバッチ操作を実行できます。",
+        "points": [
+          "Ctrl/Cmd+クリックで選択を切り替え",
+          "Shift+クリックで範囲選択",
+          "一括タグ操作",
+          "バッチエクスポートと削除",
+          "フィルタされたすべてのノートを選択"
+        ],
+        "screenshotDescription": "一括操作ツールバー付き複数選択モード"
+      },
+      "versions": {
+        "title": "バージョン履歴",
+        "description": "自動バージョン管理で変更を追跡。ノートの以前のバージョンを表示、比較、復元できます。",
+        "points": [
+          "自動バージョン作成",
+          "並べて表示する差分ビュー",
+          "以前のバージョンを復元",
+          "バージョンメタデータの追跡",
+          "競合解決サポート"
+        ],
+        "screenshotDescription": "差分ビューアー付きバージョン履歴"
+      },
+      "calculator": {
+        "title": "REPL電卓",
+        "description": "永続的な履歴を持つ内蔵電卓。素早い計算と変換に最適です。",
+        "points": [
+          "基本および高度な数学演算",
+          "変数ストレージ",
+          "計算履歴",
+          "単位変換",
+          "結果をノートにコピー"
+        ],
+        "screenshotDescription": "REPL電卓インターフェース"
+      },
+      "outliner": {
+        "title": "アウトラインモード",
+        "description": "階層的なアウトラインで考えを整理しましょう。プロジェクト計画、会議メモ、ブレインストーミングに最適です。",
+        "points": [
+          "階層的な箇条書き",
+          "折りたたみ可能なセクション",
+          "簡単な再構成",
+          "キーボードナビゲーション",
+          "Markdownへエクスポート"
+        ],
+        "screenshotDescription": "階層構造を持つアウトラインモード"
+      },
+      "multilingual": {
+        "title": "多言語インターフェース",
+        "description": "お好みの言語でJotteryを使用できます。インターフェースは15言語で利用可能で、さらに増え続けています。",
+        "points": [
+          "15言語対応",
+          "自動検出",
+          "簡単な言語切り替え",
+          "コミュニティ翻訳",
+          "完全なUI地域化"
+        ],
+        "screenshotDescription": "ギリシャ語インターフェース"
+      }
+    },
+    "tuiFeatures": {
+      "title": "ターミナルユーザーインターフェース",
+      "subtitle": "コマンドライン愛好家とSSHセッション向けのフル機能TUI",
+      "terminal": {
+        "title": "高速TUIインターフェース",
+        "description": "Ratatuiで構築された超高速ターミナルインターフェース。ターミナルを離れることなくノートをナビゲートできます。",
+        "screenshotDescription": "ノートリストとプレビューを表示するターミナルインターフェース",
+        "code": ""
+      },
+      "cli": {
+        "title": "強力なCLIコマンド",
+        "description": "迅速なノート操作と自動化のためのコマンドラインツール。",
+        "screenshotDescription": "実行中のCLIコマンド",
+        "code": "jottery note\njottery list\njottery search \"query\"\njottery show <id>\njottery sync"
+      },
+      "piping": {
+        "title": "コンテンツを直接パイプ",
+        "description": "コマンド出力を即座にノートとしてキャプチャします。ロギングとドキュメント作成に最適です。",
+        "screenshotDescription": "コマンド出力をノートにパイプ",
+        "code": "echo \"クイックノート\" | jottery note\nls -la | jottery note -t system,logs\ncat error.log | jottery note -t errors"
+      },
+      "crossPlatform": {
+        "title": "クロスプラットフォーム同期",
+        "description": "WebクライアントとTUIクライアント間でノートをシームレスに同期。同じ暗号化、同じデータ。",
+        "screenshotDescription": "WebとTUI間の同期ステータス",
+        "code": ""
+      }
+    },
+    "mobileFeatures": {
+      "title": "モバイル対応",
+      "subtitle": "レスポンシブなモバイルインターフェースで外出先でもノートにアクセス",
+      "list": {
+        "alt": "モバイルノートリスト表示",
+        "caption": "ノートリスト"
+      },
+      "travel": {
+        "alt": "日本旅行の旅程を表示するモバイルノート",
+        "caption": "ノート表示"
+      },
+      "calculator": {
+        "alt": "モバイル電卓ノート",
+        "caption": "電卓"
+      }
+    },
+    "security": {
+      "title": "セキュリティとプライバシーを最優先",
+      "lead": "あなたのノートはあなたのものです。Jotteryはプライバシーとセキュリティを中核に設計されています。",
+      "encryption": {
+        "title": "強力な暗号化",
+        "description": "PBKDF2鍵導出を使用したAES-256-GCM暗号化。パスワードが鍵です。パスワードなしでは、ノートは数学的に読み取り不可能です。"
+      },
+      "selfHosted": {
+        "title": "セルフホスト",
+        "description": "完全なコントロールで独自の同期サーバーを実行できます。サーバーは復号化できない暗号化されたデータのみを保存します。"
+      },
+      "noTracking": {
+        "title": "トラッキングゼロ",
+        "description": "分析なし、トラッキングなし、サードパーティサービスなし。データは常にあなたのコントロール下にあります。"
+      }
+    },
+    "finalCta": {
+      "title": "始める準備はできましたか？",
+      "subtitle": "数秒で暗号化されたノートブックをセットアップ。アカウント不要。",
+      "viewOnGitHub": "GitHubで表示"
+    }
+  },
+  "unlock": {
+    "welcome": "Jotteryへようこそ",
+    "enterPassword": "パスワードを入力してロック解除してください",
+    "setupPassword": "マスターパスワードを設定",
+    "password": "パスワード",
+    "confirmPassword": "パスワードを確認",
+    "createPassword": "パスワードを作成",
+    "unlock": "ロック解除",
+    "processing": "処理中...",
+    "passwordMinLength": "パスワードは8文字以上である必要があります",
+    "passwordMismatch": "パスワードが一致しません",
+    "incorrectPassword": "パスワードが正しくありません",
+    "warning": "重要: パスワードは復旧できません。パスワードを紛失すると、データに永久にアクセスできなくなります。",
+    "failedAttempts": "パスワードが正しくありません。3回失敗すると、データベースを削除して最初からやり直す必要がある場合があります。",
+    "deleteAndStartOver": "データベースを削除して最初からやり直す",
+    "storedPasswordInvalid": "保存されたパスワードが無効です。パスワードを再入力してください。",
+    "landingPage": {
+      "privateEncrypted": {
+        "title": "🔒 プライベート & 暗号化",
+        "description": "Jotteryはプライバシー重視のノートアプリです。すべてのノートは、マスターパスワードを使用してデバイス上で<strong>ローカルに暗号化</strong>されています。パスワードがなければ誰もノートを読むことはできません。デバイスのストレージにアクセスしても読めません。"
+      },
+      "localFirst": {
+        "title": "💾 ローカル優先ストレージ",
+        "description": "ノートはブラウザのローカルデータベースに直接保存されます。Jotteryは完全に<strong>オフライン</strong>で動作し、使用するためにインターネット接続やアカウントは必要ありません。"
+      },
+      "optionalSync": {
+        "title": "☁️ オプションの同期サーバー",
+        "description": "デバイス間で同期したいですか? Jotteryはオプションでセルフホストサーバーと同期できます。ノートとタグは<strong>同期前に暗号化</strong>されます。サーバーには読み取ることができない暗号化データのみが保存されます。"
+      },
+      "selfHosting": {
+        "title": "🏠 セルフホスティング",
+        "description": "独自の同期サーバーを運用したいですか? Jotteryはオープンソースで、セルフホストが簡単です。",
+        "viewOnGitHub": "GitHubで表示"
+      },
+      "syncWarning": {
+        "title": "⚠️ 同期を推奨",
+        "description": "同期機能なしでJotteryを実行することは<strong>推奨されません</strong>。ブラウザのキャッシュをクリアすると、基盤となるデータベースが削除される可能性があります。時間をかけて同期機能を設定してください。Jotteryシステムは完全にオープンソースでセルフホスト可能です。"
+      }
+    },
+    "sessionExpiredOrInvalid": "セッションが期限切れまたは無効です。パスワードを入力してください。",
+    "alreadyUsingJottery": "すでにJotteryをお使いですか？",
+    "alreadyUsingJotteryDescription": "バックアップから復元するか、同期を設定して既存のノートにアクセスできます。",
+    "restoreFromBackupSubtitle": ".jottery-backupファイルからノートを復元",
+    "syncConfig": {
+      "title": "同期設定（オプション）",
+      "description": "オプションで今すぐ同期を設定できます。設定 > 同期で後から設定することもできます。",
+      "endpoint": "同期サーバーURL",
+      "deviceName": "デバイス名",
+      "deviceNamePlaceholder": "私のラップトップ",
+      "note": "注: 設定後もサーバーへの登録が必要です。"
+    },
+    "syncSetup": {
+      "existingAccount": {
+        "title": "既存のアカウントに接続",
+        "subtitle": "すでにアカウントをお持ちですか？このデバイスを接続",
+        "formTitle": "既存のアカウントに接続",
+        "infoText": "同期サーバーの認証情報を入力してください。マスターパスワードを作成後、ノートが同期されます。",
+        "emailLabel": "メールアドレス",
+        "passwordLabel": "サーバーパスワード",
+        "createPasswordNote": "同期情報を入力後、下でマスターパスワードを入力してセットアップを完了してください。"
+      },
+      "registerServer": {
+        "title": "新しいアカウントを登録",
+        "subtitle": "最初のデバイスのみ - アカウントを作成",
+        "formTitle": "新しいアカウントを登録"
+      },
+      "completeInSettings": "パスワード作成後、設定 > 同期で同期設定を完了してください。"
+    },
+    "restoreFromBackup": "バックアップから復元",
+    "orDivider": "または",
+    "connectExisting": {
+      "title": "既存アカウントに接続",
+      "subtitle": "このデバイスを既存のJotteryアカウントにリンクし、ノートを同期します。",
+      "endpoint": "同期サーバーURL",
+      "endpointHint": "Jottery同期サーバーのアドレス。",
+      "deviceName": "デバイス名",
+      "deviceNamePlaceholder": "例：仕事用ノートPC",
+      "deviceNameHint": "このデバイスを識別するためのわかりやすい名前。",
+      "email": "メールアドレス",
+      "emailPlaceholder": "you@example.com",
+      "serverPassword": "サーバーパスワード",
+      "serverPasswordPlaceholder": "アカウントのパスワード",
+      "serverPasswordHint": "同期サーバーへのサインインに使用するパスワード。",
+      "notesPassword": "ノートパスワード",
+      "notesPasswordPlaceholder": "ローカルパスワードを選択（8文字以上）",
+      "notesPasswordHint": "このデバイスでノートのロック解除に使用します。他の同期済みデバイスのノートパスワードと一致している必要があります。",
+      "submitButton": "接続して同期",
+      "errors": {
+        "endpointRequired": "同期サーバーURLは必須です。",
+        "deviceNameRequired": "デバイス名は必須です。",
+        "emailRequired": "メールアドレスは必須です。",
+        "serverPasswordRequired": "サーバーパスワードは必須です。",
+        "notesPasswordMinLength": "ノートパスワードは8文字以上である必要があります。",
+        "onboardingFailed": "サーバーからの暗号化キーのダウンロードに失敗しました。ノートパスワードが他のデバイスと一致していること、および元のデバイスが同期済みであることを確認してください",
+        "accountKeyUnreadable": "このノートのパスワードではアカウントの鍵を開けません。パスワードを確認してください。正しい場合は、古いバージョンの Jottery が鍵を保存した可能性があります。既に接続済みのデバイスで Jottery のロックを解除すると修復されます。その後、もう一度お試しください。",
+        "localNotesOrphaned": "このデバイスのノートはアカウントとは別の鍵を使用しているため、接続すると読めなくなります。何も変更していません。ノートを残すには、エクスポートしてこのデバイスのデータを削除し、接続してからインポートしてください。"
+      },
+      "steps": {
+        "initialising": "ローカル暗号化を初期化中…",
+        "registering": "サーバーにデバイスを登録中…",
+        "onboarding": "暗号化キーをダウンロード中…",
+        "encrypting": "認証情報を保護中…",
+        "syncing": "初期同期を開始中…"
+      }
+    },
+    "passwordChangedElsewhere": "ノートのパスワードが別のデバイスで変更されました。このデバイスは引き続き古いパスワードでロックを解除でき、ノートは安全ですが、新しいデバイスには新しいパスワードが必要です。"
+  },
+  "lock": {
+    "title": "アプリケーションをロック",
+    "message": "アプリケーションをロックしますか? 保存されていない変更は失われます。",
+    "confirmButton": "ロック",
+    "locking": "ロック中...",
+    "savingAndSyncing": "ノートを保存して同期しています"
+  },
+  "recycleBin": {
+    "title": "ごみ箱",
+    "empty": "ごみ箱は空です",
+    "emptyDescription": "削除されたノートがここに表示されます",
+    "restore": "復元",
+    "restoreTitle": "ノートを復元",
+    "deletePermanently": "完全に削除",
+    "deletePermanentlyTitle": "完全に削除",
+    "deleteForever": "完全に削除",
+    "emptyBin": "ごみ箱を空にする",
+    "loading": "読み込み中...",
+    "closeLabel": "ごみ箱を閉じる",
+    "deleted": "削除日時:",
+    "unknown": "不明",
+    "untitled": "無題",
+    "footer": {
+      "single": "ごみ箱に{count}件のノート。ノートは30日後に自動的に削除されます。",
+      "multiple": "ごみ箱に{count}件のノート。ノートは30日後に自動的に削除されます。"
+    },
+    "confirm": {
+      "deleteNote": {
+        "title": "ノートを完全に削除",
+        "message": "このノートを完全に削除します。この操作は元に戻せません!",
+        "confirmButton": "完全に削除"
+      },
+      "emptyBin": {
+        "title": "ごみ箱を空にする",
+        "message": "ごみ箱内のすべての{count}件の{notes}を完全に削除しますか? この操作は元に戻せません!",
+        "note": "ノート",
+        "notes": "ノート",
+        "confirmButton": "ごみ箱を空にする"
+      }
+    },
+    "error": {
+      "restore": "ノートの復元に失敗しました",
+      "delete": "ノートの削除に失敗しました",
+      "emptyBin": "ごみ箱を空にできませんでした"
+    }
+  },
+  "attachments": {
+    "title": "添付ファイル",
+    "upload": "ファイルをアップロード",
+    "dropHere": "ここにファイルをドロップするか、クリックして参照",
+    "uploading": "アップロード中...",
+    "download": "ダウンロード",
+    "validationError": "ファイル検証エラー",
+    "clickToView": "クリックして添付ファイルを表示",
+    "clickToHide": "クリックして添付ファイルを非表示",
+    "noAttachments": "添付ファイルなし",
+    "loading": "読み込み中...",
+    "attachment": "添付ファイル",
+    "thumbnail": "サムネイル",
+    "clickToPreview": "クリックしてプレビュー",
+    "clickToPreviewHint": "• クリックしてプレビュー",
+    "copyMarkdown": "Markdownリンクをコピー",
+    "delete": "削除",
+    "close": "閉じる",
+    "closePreview": "プレビューを閉じる",
+    "downloadToView": "表示するにはダウンロードしてください",
+    "markdownCopied": "Markdownリンクをクリップボードにコピーしました",
+    "error": {
+      "download": "添付ファイルのダウンロードに失敗しました",
+      "copyMarkdown": "Markdownリンクのコピーに失敗しました",
+      "upload": "{name} のアップロードに失敗しました: {error}",
+      "delete": "添付ファイルの削除に失敗しました: {error}",
+      "paste": "画像の貼り付けに失敗しました: {error}"
+    },
+    "preview": {
+      "title": "添付ファイルのプレビュー",
+      "loading": "プレビューを読み込み中...",
+      "notAvailable": "このファイルタイプのプレビューは利用できません。",
+      "audioNotSupported": "お使いのブラウザは音声の再生に対応していません。",
+      "videoNotSupported": "お使いのブラウザは動画の再生に対応していません。",
+      "videoLabel": "動画プレビュー"
+    },
+    "confirmDelete": {
+      "title": "添付ファイルを削除しますか？",
+      "message": "このファイルはノートから削除されます。ノートの以前のバージョンに残っていない限り、復元できません。",
+      "confirmButton": "削除"
+    }
+  },
+  "keyboard": {
+    "title": "キーボードショートカット",
+    "closeLabel": "ショートカットヘルプを閉じる",
+    "global": "グローバル",
+    "noteList": "ノート一覧",
+    "editor": "エディター",
+    "focusSearch": "検索にフォーカス",
+    "createNote": "新しいノートを作成",
+    "lockApp": "アプリケーションをロック",
+    "openSettings": "設定を開く",
+    "showShortcuts": "キーボードショートカットを表示",
+    "navigateNotes": "ノートを移動",
+    "navigateVim": "ノートを移動(vimスタイル)",
+    "openNote": "選択したノートを開く",
+    "deleteNote": "選択したノートを削除",
+    "pinNote": "選択したノートをピン留め/解除",
+    "closeNote": "ノートを閉じる",
+    "copyNote": "ノートの内容をコピー",
+    "versionHistory": "バージョン履歴",
+    "noteInfo": "ノート情報",
+    "findInNote": "ノート内を検索(CodeMirror)",
+    "replaceInNote": "ノート内を置換(CodeMirror)",
+    "macNote": "macOSでは、CtrlではなくCmdを使用してください。",
+    "note": "注:",
+    "cmd": "Cmd",
+    "ctrl": "Ctrl"
+  },
+  "releases": {
+    "title": "リリース",
+    "description": "お使いのプラットフォーム用のJottery TUIをダウンロードしてください。",
+    "tuiClient": "TUIクライアント",
+    "standaloneWebApp": "スタンドアロンWebアプリ",
+    "webAppNote": "ファイルシステムからローカル実行（同期無効）"
+  },
+  "fileUpload": {
+    "dropHere": "ここにファイルをドロップ",
+    "clickOrDrag": "<span class=\"font-medium\">クリックしてアップロード</span>またはドラッグ&ドロップ",
+    "maxFileSize": "最大ファイルサイズ: 10MB"
+  },
+  "pdfViewer": {
+    "loading": "PDFビューアーを読み込み中...",
+    "pageOfPages": "{total}ページ中{current}ページ",
+    "previousPage": "前のページ",
+    "nextPage": "次のページ",
+    "zoomOut": "縮小",
+    "zoomIn": "拡大",
+    "loadFailed": "このPDFを開けませんでした。ダウンロードは可能です。"
+  },
+  "versionHistory": {
+    "title": "バージョン履歴",
+    "closeLabel": "バージョン履歴を閉じる",
+    "loading": "バージョンを読み込み中...",
+    "noVersions": "バージョン履歴がありません",
+    "versionsCreatedDuringSync": "同期中にバージョンが作成されます",
+    "current": "(現在)",
+    "autoSync": "自動同期",
+    "manualSync": "手動同期",
+    "version": "バージョン:",
+    "characters": "文字数:",
+    "created": "作成日時:",
+    "synced": "同期日時:",
+    "tags": "タグ:",
+    "contentPreview": "内容のプレビュー",
+    "selectToPreview": "プレビューするバージョンを選択してください",
+    "restoreButton": "このバージョンを復元",
+    "restoreConfirm": {
+      "title": "バージョンを復元",
+      "message": "このバージョンを復元してもよろしいですか? 現在のノートは復元前に新しいバージョンとして保存されます。",
+      "confirmButton": "復元"
+    },
+    "restoreFailed": "バージョンの復元に失敗しました: {error}"
+  },
+  "header": {
+    "menu": "メニュー",
+    "loadingNotes": "{total}件中{current}件のノートを読み込み中...",
+    "creatingNote": "ノートを作成中...",
+    "addContentFirst": "最初に現在のノートに内容を追加してください",
+    "lastSynced": "最終同期: {time}",
+    "neverSynced": "まだ同期されていません",
+    "syncDisabled": "同期が有効になっていません",
+    "newNote": "新規ノート"
+  },
+  "confirm": {
+    "deleteDatabase": {
+      "title": "データベースを削除",
+      "message": "⚠️ 警告: これにより、暗号化されたすべてのノートと添付ファイルが完全に削除されます。この操作は元に戻せません!\n\nデータベースを削除してもよろしいですか?",
+      "confirmButton": "データベースを削除"
+    },
+    "deleteAllData": {
+      "title": "すべてのデータを削除",
+      "message": "これにより、すべてのノート、設定、暗号化キーが完全に削除されます。この操作は元に戻せません。\n\n確認するためにDELETEと入力してください:",
+      "confirmButton": "すべてを削除",
+      "cancelButton": "キャンセル"
+    },
+    "disconnectSync": {
+      "title": "同期サーバーから切断しますか?",
+      "message": "このデバイスを同期サーバーから切断し、すべての同期認証情報をクリアします。\n\nノートは削除されず、このデバイスに残ります。\n\n後で同期サーバーに再接続できます。",
+      "confirmButton": "切断",
+      "cancelButton": "キャンセル"
+    },
+    "deleteServerNotes": {
+      "title": "サーバーからすべてのノートを削除しますか?",
+      "message": "これにより、同期サーバーからすべてのノートが完全に削除されます。この操作は元に戻せません。\n\nこのデバイス上のローカルノートは残り、削除されません。\n\n確認するためにDELETEと入力してください:",
+      "confirmButton": "サーバーから削除",
+      "cancelButton": "キャンセル"
+    },
+    "disableRememberPassword": {
+      "title": "パスワードを記憶する機能を無効にしますか?",
+      "message": "これにより、保存されたパスワードがクリアされ、アプリケーションがロックされます。\n\n次回アプリにアクセスする際にパスワードの入力が必要になります。",
+      "confirmButton": "無効にしてロック",
+      "cancelButton": "キャンセル"
+    },
+    "requireText": "確認するために<strong>{text}</strong>と入力してください:",
+    "deleteKeyword": "DELETE"
+  },
+  "updateBanner": {
+    "title": "新しいバージョンが利用可能です",
+    "message": "リロードして最新の機能と改善を入手してください",
+    "reloadButton": "今すぐリロード",
+    "dismissLabel": "閉じる",
+    "backupButton": "先にバックアップ",
+    "backingUp": "バックアップ中..."
+  },
+  "bulk": {
+    "toggleSelect": "選択を切り替え",
+    "selected": "件選択中",
+    "addTags": "タグを追加",
+    "removeTags": "タグを削除",
+    "setColor": "カテゴリを設定",
+    "colorSet": "{count}件のノートにカテゴリを設定しました",
+    "selectColorForBulk": "選択したノートのカテゴリを選択",
+    "delete": "削除",
+    "export": "エクスポート",
+    "combine": "結合",
+    "cancel": "選択を解除",
+    "confirmDelete": "{count}件のノートを削除しますか？",
+    "confirmDeleteMessage": "{count}件のノートをごみ箱に移動します。",
+    "confirmCombine": "{count}件のノートを結合しますか？",
+    "confirmCombineMessage": "{count}件のノートを1つのノートに結合します（作成日順、古いものから）。元のノートはごみ箱に移動されます。",
+    "mergeTagsOption": "すべてのノートからタグを統合",
+    "mergeTagsDescription": "オフにすると、最初（最も古い）のノートのタグのみが保持されます。",
+    "combinedSuccess": "{count}件のノートを結合しました",
+    "enterTags": "タグを入力（カンマ区切り）",
+    "progress": "{total}件中{current}件",
+    "selectAll": "すべて選択",
+    "deselectAll": "すべて選択解除",
+    "archive": "アーカイブ",
+    "moreActions": "その他の操作"
+  },
+  "conflict": {
+    "title": "同期の競合を検出",
+    "description": "このノートはローカルとサーバーの両方で変更されました。競合の解決方法を選択してください。",
+    "yourVersion": "あなたのバージョン",
+    "serverVersion": "サーバーのバージョン",
+    "commonAncestor": "共通の祖先",
+    "ancestorDescription": "両者が開始した元のバージョン",
+    "chooseAction": "この競合の解決方法を選択:",
+    "keepMine": "自分のを保持",
+    "keepServer": "サーバーを保持",
+    "keepBoth": "両方を保持",
+    "merge": "マージ",
+    "resolved": "競合が解決しました",
+    "resolvedBoth": "競合が解決しました - 複製ノートが作成されました",
+    "noConflict": "競合データが見つかりません",
+    "indicator": "同期の競合",
+    "bannerText": "このノートには解決が必要な同期の競合があります",
+    "resolveButton": "競合を解決",
+    "syncNotification": "{count}件のノートに同期の競合があります",
+    "serverUnreadable": "サーバー上のこのノートのコピーは読み取れず、改ざんされている可能性があります。保持できるのはお使いのバージョンのみです。",
+    "localUnreadable": "このデバイス上のノートのコピーは読み取れません。",
+    "loadFailed": "競合データの読み込みに失敗しました",
+    "resolveFailed": "競合の解決に失敗しました"
+  },
+  "pullToRefresh": {
+    "pull": "下に引いて同期",
+    "release": "離して同期",
+    "syncing": "同期中...",
+    "region": "引いて更新"
+  },
+  "sync": {
+    "syncing": "同期中...",
+    "syncProgress": "同期中: {percentage}% 完了",
+    "notesRefused": "一部のノートはアカウントのアップロード上限を超えているため同期されませんでした。それ以外はすべて同期されました。",
+    "accountDisabled": "アカウントが無効化されているか承認待ちのため、同期を停止しました。このデバイスのノートは安全です。管理者に連絡してください。",
+    "storageQuotaExceeded": "アカウントのストレージ上限に達したため、このデバイスの変更をアップロードできません。ノートや添付ファイルを完全に削除して空き容量を確保してください。",
+    "massDeletionHeld": "サーバーが {count} 件のノートを一度に削除するよう要求しました。ご自身の操作でない場合に備えてごみ箱に移動しています。そこから復元するか、ご自身の操作であればごみ箱を空にしてください。",
+    "clockAhead": "日付がサーバーより1日以上先になっているため、一部の変更を同期できませんでした。このデバイスの日付と時刻を確認してください。",
+    "deviceRevoked": "このデバイスはアカウントに接続されなくなったため、同期を停止しました。このデバイスのノートは安全です。設定から再接続してください。",
+    "databaseLost": "データベースとの接続が切れました。続行するにはページを再読み込みしてください。"
+  },
+  "inbox": {
+    "title": "受信トレイ",
+    "count": "{count} 件",
+    "countSingle": "1 件",
+    "empty": "受信トレイは空です",
+    "emptyDescription": "Inbox API経由で送信されたノートはここに表示されレビューできます",
+    "accept": "受け入れる",
+    "acceptAll": "すべて受け入れる",
+    "delete": "削除",
+    "deleteAll": "すべて削除",
+    "accepting": "受け入れ中...",
+    "deleting": "削除中...",
+    "accepted": "ノートを受け入れました",
+    "acceptedAll": "{count}件のノートをすべて受け入れました",
+    "deleted": "受信トレイの項目を削除しました",
+    "deletedAll": "すべての受信トレイ項目を削除しました",
+    "source": "ソース: {source}",
+    "untitled": "無題",
+    "closeLabel": "受信トレイを閉じる",
+    "indicator": "受信トレイ ({count})",
+    "confirm": {
+      "delete": {
+        "title": "受信トレイ項目を削除",
+        "message": "この受信トレイ項目を削除しますか？この操作は元に戻せません。",
+        "confirmButton": "削除"
+      },
+      "deleteAll": {
+        "title": "すべての受信トレイ項目を削除",
+        "message": "{count}件の受信トレイ項目をすべて削除しますか？この操作は元に戻せません。",
+        "confirmButton": "すべて削除"
+      }
+    },
+    "error": {
+      "accept": "受信トレイ項目の受け入れに失敗しました",
+      "delete": "受信トレイ項目の削除に失敗しました",
+      "acceptAll": "受信トレイ項目の受け入れに失敗しました",
+      "deleteAll": "受信トレイアイテムの削除に失敗しました"
+    },
+    "token": {
+      "title": "Inbox API",
+      "description": "API経由でアカウントにノートを送信 — 暗号化パスワード不要。アイテムは確認用に受信トレイに表示されます。",
+      "generate": "トークンを生成",
+      "revoke": "トークンを取り消す",
+      "active": "トークン有効",
+      "none": "トークンが設定されていません",
+      "generated": "トークンが生成されました — 今すぐ保存してください。再表示されません。",
+      "revoked": "受信トレイトークンが取り消されました",
+      "copyToken": "トークンをコピー",
+      "copied": "トークンをクリップボードにコピーしました",
+      "quickStart": "クイックスタート",
+      "curlExample": "例：curlでノートを送信",
+      "confirm": {
+        "revoke": {
+          "title": "受信トレイトークンを取り消す",
+          "message": "受信トレイトークンを取り消しますか？それを使用しているすべての連携が機能しなくなります。",
+          "confirmButton": "取り消す"
+        }
+      },
+      "error": {
+        "generate": "受信トレイトークンの生成に失敗しました",
+        "revoke": "受信トレイトークンの取り消しに失敗しました"
+      }
+    },
+    "quota": {
+      "items": "アイテム: {used}/{max}",
+      "size": "サイズ: {used}/{max}"
+    }
+  },
+  "archive": {
+    "title": "アーカイブ",
+    "closeLabel": "アーカイブを閉じる",
+    "loading": "アーカイブされたノートを読み込み中...",
+    "empty": "アーカイブされたノートはありません",
+    "emptyDescription": "アーカイブしたノートはここに表示されます",
+    "archived": "アーカイブ済み",
+    "archive": "アーカイブする",
+    "unknown": "不明",
+    "untitled": "無題",
+    "unarchive": "復元",
+    "unarchiveTitle": "ノートをアクティブリストに復元",
+    "unarchived": "ノートを復元しました",
+    "footer": {
+      "single": "{count}件のアーカイブノート",
+      "multiple": "{count}件のアーカイブノート"
+    },
+    "error": {
+      "unarchive": "ノートの復元に失敗しました"
+    },
+    "mode": "アーカイブ",
+    "enterMode": "アーカイブされたノートを表示",
+    "exitMode": "アクティブなノートを表示",
+    "inActive": "アクティブ内",
+    "inArchive": "アーカイブ内",
+    "crossModeHintActive": "クリックしてこの検索に一致するアーカイブノートを表示",
+    "crossModeHintArchive": "クリックしてこの検索に一致するアクティブノートを表示"
+  },
+  "outliner": {
+    "name": "アウトライン",
+    "emptyHint": "入力を開始して最初の項目を追加",
+    "newItem": "新規項目",
+    "indent": "インデント",
+    "outdent": "インデント解除",
+    "collapse": "折りたたむ",
+    "expand": "展開",
+    "moveUp": "上へ移動",
+    "moveDown": "下へ移動",
+    "expandAll": "すべて展開",
+    "collapseAll": "すべて折りたたむ",
+    "level": "レベル {n}"
+  },
+  "progress": {
+    "title": "お待ちください",
+    "processing": "処理中...",
+    "backup": "バックアップを作成中...",
+    "export": "ノートをエクスポート中..."
+  },
+  "tags": {
+    "virtual": {
+      "title": "タイトル"
+    }
+  },
+  "searchHelp": {
+    "title": "検索構文",
+    "tags": "タグ",
+    "text": "テキスト",
+    "wildcards": "ワイルドカード",
+    "modifiers": "修飾子",
+    "combined": "組み合わせの例",
+    "clickToTry": "例をクリックして試す",
+    "tagsAnd": "両方のタグ（AND）",
+    "tagsOr": "いずれかのタグ（OR）",
+    "exactPhrase": "完全一致フレーズ",
+    "bothWords": "両方の単語（AND）",
+    "eitherWord": "いずれかの単語（OR）",
+    "notContaining": "含まない",
+    "startsWith": "で始まる",
+    "endsWith": "で終わる",
+    "containsAnywhere": "どこかに含む",
+    "hasAttachment": "添付ファイル付きノート",
+    "createdAfter": "指定日以降に作成",
+    "createdBefore": "指定日以前に作成",
+    "createdRange": "日付範囲内に作成",
+    "modifiedAfter": "指定日以降に更新",
+    "wordsMore": "N語以上",
+    "wordsLess": "N語未満",
+    "wordsRange": "N語からM語の間"
+  },
+  "commandPalette": {
+    "title": "コマンドパレット",
+    "placeholder": "コマンドを入力...",
+    "noResults": "一致するコマンドがありません",
+    "navigation": "ナビゲーション",
+    "editorActions": "エディター",
+    "focusSearch": "検索にフォーカス",
+    "newNote": "新規ノート",
+    "openSettings": "設定",
+    "openRecycleBin": "ごみ箱",
+    "openArchive": "アーカイブ",
+    "lockApp": "アプリをロック",
+    "showShortcuts": "キーボードショートカット",
+    "togglePreview": "プレビューの切り替え",
+    "toggleWordWrap": "行の折り返しの切り替え",
+    "copyContent": "ノートの内容をコピー",
+    "copyLink": "ノートへのリンクをコピー",
+    "duplicateNote": "ノートを複製",
+    "exportNote": "ファイルにエクスポート",
+    "printNote": "印刷 / PDF出力",
+    "noteInfo": "ノート情報",
+    "versionHistory": "バージョン履歴",
+    "deleteNote": "ノートを削除",
+    "lockNote": "ノートのロック/ロック解除",
+    "setColor": "ノートのカテゴリを設定",
+    "archiveNote": "ノートをアーカイブ"
+  },
+  "contextMenu": {
+    "title": "ノートの操作",
+    "open": "開く",
+    "pin": "ノートをピン留め",
+    "unpin": "ピン留めを外す",
+    "duplicate": "複製",
+    "setColour": "カテゴリの色を設定",
+    "archive": "アーカイブ",
+    "unarchive": "アーカイブ解除",
+    "delete": "削除"
+  },
+  "swipeHints": {
+    "swipeLeftToDelete": "左にスワイプして削除",
+    "swipeRightToSelect": "右にスワイプして選択",
+    "tapToDismiss": "どこかをタップして閉じる"
+  },
+  "welcomeNote": {
+    "content": "# Jotteryへようこそ\n\nJotteryは、ノートを記録・整理するためのプライベートで暗号化されたメモ帳です。\n\n## クイックスタート\n\n- **ノートを作成**: +ボタンをクリックするか `Ctrl+N` を押す\n- **検索**: 検索バーを使うか `Ctrl+K` を押す\n- **タグ**: ノートを整理するためにタグを追加し、`#タグ名` でフィルター\n- **ピン留め**: 重要なノートをピン留めして上部に固定\n\n## 検索構文\n\nJotteryは強力な検索クエリに対応しています：\n\n- `#タグ名` — タグでフィルター\n- `\"完全一致フレーズ\"` — 完全一致\n- `has:attachment` — 添付ファイル付きノート\n- `created:>2024-01-01` — 日付フィルター\n- `words:>100` — 単語数フィルター\n- `-除外` — 用語を除外\n\n完全なリファレンスは検索バーの横にある **?** ボタンをクリックしてください。\n\n## コマンドパレット\n\n`Ctrl+Shift+P` を押してコマンドパレットを開き、すべての操作にすばやくアクセスできます。\n\n## キーボードショートカット\n\n`Ctrl+/` を押してすべてのキーボードショートカットを確認できます。\n\n## プライバシー\n\nすべてのノートはローカルで暗号化されます。同期を有効にしない限り、データがデバイスから出ることはありません。\n\n---\n\n*このノートはいつでも削除できます。楽しく書いてください！*",
+    "tags": "ようこそ,はじめに"
+  },
+  "emptyState": {
+    "title": "はじめましょう",
+    "createNote": "ノートを作成",
+    "createNoteDescription": "最初のノートを書き始めましょう",
+    "importNotes": "ノートをインポート",
+    "importNotesDescription": "JSONエクスポートファイルからインポート",
+    "exploreSearch": "検索構文を探索",
+    "exploreSearchDescription": "強力な検索演算子を学ぶ"
+  },
+  "searchSuggestions": {
+    "recentSearches": "最近の検索",
+    "clearRecent": "削除",
+    "tryThese": "おすすめ",
+    "clearAll": "すべてクリア"
+  },
+  "vaultHealth": {
+    "title": "保管庫の状態",
+    "description": "復号できないノートや、この端末にない添付ファイルを検出します。",
+    "healthy": "問題は見つかりませんでした。",
+    "loadToast": "{count}件のノートを復号できませんでした — 設定→詳細を確認してください",
+    "undecryptableTitle": "復号できないノート",
+    "undecryptableHint": "これらのノートは現在のパスワードでは読めません。通常、別のパスワードで作成されたものです。削除は取り消せず、同期サーバーとすべての端末から削除されます。",
+    "createdAt": "作成日時",
+    "modifiedAt": "更新日時",
+    "size": "サイズ",
+    "errorLabel": "エラー",
+    "delete": "完全に削除",
+    "deleteConfirmTitle": "復号できないノートを削除しますか？",
+    "deleteConfirmMessage": "このノートは復号できず、内容を復元できません。削除すると、この端末、同期サーバー、他のすべての端末から削除されます。この操作は取り消せません。",
+    "deleteFailed": "ノートを削除できませんでした",
+    "missingTitle": "見つからない添付ファイル",
+    "missingHint": "これらの添付ファイルはノートから参照されていますが、この端末には保存されていません。",
+    "noteLabel": "ノート",
+    "unknownNote": "（ノートを復号できません）",
+    "repair": "サーバーから復元",
+    "repairSuccess": "添付ファイルを復元しました",
+    "repairFailed": "復元に失敗しました — 同期接続とサーバーのバージョンを確認してください",
+    "rescan": "再スキャン",
+    "scanning": "スキャン中…",
+    "loadToastAction": "保管庫の状態で確認",
+    "openNote": "このノートを開く",
+    "repairNotOnServer": "サーバーにも存在しません — ノートを開いて添付ファイルを削除してください",
+    "serverMissingTitle": "サーバーにない添付ファイル",
+    "serverMissingHint": "同期サーバーにもこの端末にもこれらの添付ファイルのコピーがありません。ノートを開いて添付ファイルを削除するか、ファイルが残っている端末から同期してください。",
+    "rejectedTitle": "同期サーバーから拒否されたデータ",
+    "rejectedHint": "同期サーバーから信頼できない形式で送信されたため、保存しませんでした。既存のノートに影響はありません。繰り返し発生する場合は、サーバーの管理者を確認してください。",
+    "rejectedKind": {
+      "note": "ノート",
+      "version": "ノートのバージョン",
+      "conflict": "同期の競合",
+      "savedSearch": "保存した検索",
+      "attachment": "添付ファイル",
+      "inboxItem": "受信トレイの項目",
+      "deletion": "削除"
+    },
+    "scanFailed": "スキャンが完了しませんでした。もう一度お試しください。"
+  }
+}

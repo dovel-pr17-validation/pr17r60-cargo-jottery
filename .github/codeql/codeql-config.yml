@@ -1,0 +1,16 @@
+name: "CodeQL Config"
+
+paths-ignore:
+  - 'public/pdf.worker.min.mjs'  # Vendored third-party library (PDF.js)
+  - 'android-native/app/src/main/assets/*.html'  # Copies of webview-bundles/dist
+  - 'webview-bundles/dist/**'    # Built bundles — third-party library code (CodeMirror, highlight.js, math.js)
+  - '**/*.test.ts'               # Unit test files contain test fixtures
+  - '**/*.spec.ts'               # E2E test files contain test fixtures
+  - 'e2e/**'                     # E2E test directory
+  - 'src/test/**'                # Test utilities
+  - 'tui/tests/**'               # TUI test files
+  - 'server/tests/**'            # Server integration tests hash random API keys/tokens with SHA-256, mirroring the server's design
+
+# Note: The following are intentional design choices with user warnings:
+# - src/lib/services/passwordStorageService.ts: Optional "remember password" feature
+#   Users are explicitly warned about cleartext localStorage storage

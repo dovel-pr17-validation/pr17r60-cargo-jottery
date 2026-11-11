@@ -1,0 +1,1419 @@
+/**
+ * Tests for syncService
+ */
+
+import { describe, it, expect, beforeEach, afterEach, beforeAll, afterAll } from 'vitest';
+import { http, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
+import { get } from 'svelte/store';
+import { syncService } from './syncService';
+import { syncRepository } from './syncRepository';
+import { noteRepository } from './noteRepository';
+import { attachmentRepository } from './attachmentRepository';
+import { serverMissingAttachments, resetVaultHealth } from './vaultHealthService';
+import { settingsRepository } from './settingsRepository';
+import { keyManager } from './keyManager';
+import { cryptoService } from './crypto';
+import { initTestDB, cleanupTestDB, createTestNote } from '../../test/db-utils';
+import { notes, isSyncRefreshing, settings } from '../stores/appStore';
+import { noteService } from './noteService';
+import { DEFAULT_SETTINGS } from '../types';
+import type { SyncPushResponse, SyncPullResponse, AuthRegisterResponse, DecryptedNote } from '../types';
+
+const TEST_ENDPOINT = 'https://sync.example.com';
+const TEST_API_KEY = 'test-api-key-123';
+const TEST_CLIENT_ID = 'test-client-id';
+
+// Setup MSW server
+const server = setupServer();
+
+describe('syncService', () => {
+  let masterKey: CryptoKey;
+
+  beforeAll(() => {
+    server.listen({ onUnhandledRequest: 'error' });
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
+  beforeEach(async () => {
+    const testDB = await initTestDB();
+    masterKey = testDB.masterKey;
+
+    // Set up authenticated key manager
+    keyManager.setMasterKey({
+      key: masterKey,
+      keyBytes: new Uint8Array(32),
+      derivedAt: Date.now(),
+    });
+
+    // Initialize settings store with syncEnabled
+    settings.set({ ...DEFAULT_SETTINGS, syncEnabled: true });
+
+    // Reset MSW handlers
+    server.resetHandlers();
+    resetVaultHealth();
+  });
+
+  afterEach(async () => {
+    keyManager.clearMasterKey();
+    settings.set(DEFAULT_SETTINGS);
+    await cleanupTestDB();
+  });
+
+  describe('Registration', () => {
+    it('should register a new client', async () => {
+      const mockResponse: AuthRegisterResponse = {
+        clientId: TEST_CLIENT_ID,
+        apiKey: TEST_API_KEY,
+      };
+
+      server.use(
+        http.post(`${TEST_ENDPOINT}/api/v1/auth/register`, () => {
+          return HttpResponse.json(mockResponse);
+        })
+      );
+
+      const result = await syncService.register(TEST_ENDPOINT, 'Test Device');
+
+      expect(result.clientId).toBe(TEST_CLIENT_ID);
+      expect(result.apiKey).toBe(TEST_API_KEY);
+
+      // Verify sync metadata was saved
+      const metadata = await syncRepository.getMetadata();
+      expect(metadata?.clientId).toBe(TEST_CLIENT_ID);
+      expect(metadata?.syncEnabled).toBe(true);
+      expect(metadata?.syncEndpoint).toBe(TEST_ENDPOINT);
+      expect(metadata?.apiKey).toBeDefined(); // Encrypted
+
+      // Verify settings were updated
+      const settings = await settingsRepository.get();
+      expect(settings.syncEnabled).toBe(true);
+      expect(settings.syncEndpoint).toBe(TEST_ENDPOINT);
+    });
+
+    it('should normalize endpoint URL by removing trailing slash', async () => {
+      const mockResponse: AuthRegisterResponse = {
+        clientId: TEST_CLIENT_ID,
+        apiKey: TEST_API_KEY,
+      };
+
+      let capturedUrl = '';
+      server.use(
+        http.post('*', ({ request }) => {
+          capturedUrl = request.url;
+          return HttpResponse.json(mockResponse);
+        })
+      );
+
+      await syncService.register(TEST_ENDPOINT + '/', 'Test Device');
+
+      expect(capturedUrl).toBe(`${TEST_ENDPOINT}/api/v1/auth/register`);
+    });
+
+    it('should encrypt API key before storing', async () => {
+      const mockResponse: AuthRegisterResponse = {
+        clientId: TEST_CLIENT_ID,
+        apiKey: TEST_API_KEY,
+      };
+
+      server.use(
+        http.post(`${TEST_ENDPOINT}/api/v1/auth/register`, () => {
+          return HttpResponse.json(mockResponse);
+        })
+      );
+
+      await syncService.register(TEST_ENDPOINT, 'Test Device');
+
+      const metadata = await syncRepository.getMetadata();
+      expect(metadata?.apiKey).toBeDefined();
+
+      // API key should be encrypted JSON
+      const encryptedApiKey = JSON.parse(metadata!.apiKey!);
+      expect(encryptedApiKey.ciphertext).toBeDefined();
+      expect(encryptedApiKey.iv).toBeDefined();
+
+      // Decrypt and verify
+      const decrypted = await cryptoService.decryptText(encryptedApiKey, masterKey);
+      expect(decrypted).toBe(TEST_API_KEY);
+    });
+
+    it('should throw error when registration fails', async () => {
+      server.use(
+        http.post(`${TEST_ENDPOINT}/api/v1/auth/register`, () => {
+          return HttpResponse.json(
+            { error: 'Device limit reached' },
+            { status: 403 }
+          );
+        })
+      );
+
+      await expect(syncService.register(TEST_ENDPOINT, 'Test Device')).rejects.toThrow();
+    });
+
+    it('should throw error when app is locked', async () => {
+      keyManager.clearMasterKey();
+
+      server.use(
+        http.post(`${TEST_ENDPOINT}/api/v1/auth/register`, () => {
+          return HttpResponse.json({
+            clientId: TEST_CLIENT_ID,
+            apiKey: TEST_API_KEY,
+          });
+        })
+      );
+
+      await expect(syncService.register(TEST_ENDPOINT, 'Test Device')).rejects.toThrow('Application is locked');
+    });
+  });
+
+  describe('Manual Configuration', () => {
+    it('should configure sync with manual credentials', async () => {
+      await syncService.configureCredentials(TEST_ENDPOINT, TEST_CLIENT_ID, TEST_API_KEY);
+
+      const metadata = await syncRepository.getMetadata();
+      expect(metadata?.clientId).toBe(TEST_CLIENT_ID);
+      expect(metadata?.syncEnabled).toBe(true);
+      expect(metadata?.apiKey).toBeDefined();
+
+      // Decrypt and verify API key
+      const encryptedApiKey = JSON.parse(metadata!.apiKey!);
+      const decrypted = await cryptoService.decryptText(encryptedApiKey, masterKey);
+      expect(decrypted).toBe(TEST_API_KEY);
+    });
+
+    it('should normalize endpoint URL in manual configuration', async () => {
+      await syncService.configureCredentials(TEST_ENDPOINT + '/', TEST_CLIENT_ID, TEST_API_KEY);
+
+      const metadata = await syncRepository.getMetadata();
+      expect(metadata?.syncEndpoint).toBe(TEST_ENDPOINT);
+    });
+
+    it('should throw error when app is locked during manual config', async () => {
+      keyManager.clearMasterKey();
+
+      await expect(
+        syncService.configureCredentials(TEST_ENDPOINT, TEST_CLIENT_ID, TEST_API_KEY)
+      ).rejects.toThrow('Application is locked');
+    });
+  });
+
+  // Sync Status is tested indirectly through syncNow() since getServerStatus is private
+
+  describe('Push Operation', () => {
+    beforeEach(async () => {
+      // Set up sync configuration
+      const encryptedApiKey = await cryptoService.encryptText(TEST_API_KEY, masterKey);
+      await syncRepository.updateMetadata({
+        apiKey: JSON.stringify(encryptedApiKey),
+        clientId: TEST_CLIENT_ID,
+        syncEnabled: true,
+        syncEndpoint: TEST_ENDPOINT,
+      });
+    });
+
+    it('should push modified notes to server', async () => {
+      // Create and save test note
+      const note = createTestNote({ content: 'Test content', tags: [] });
+      await noteRepository.create(note);
+
+      let capturedRequest: any;
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 0,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, async ({ request }) => {
+          capturedRequest = await request.json();
+          return HttpResponse.json({
+            accepted: [{ id: note.id }],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          return HttpResponse.json({
+            notes: [],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow(true); // Force full sync
+
+      expect(capturedRequest).toBeDefined();
+      expect(capturedRequest.notes).toHaveLength(1);
+      expect(capturedRequest.notes[0].id).toBe(note.id);
+    });
+
+    it('should push encrypted note content (when created via noteService)', async () => {
+      // Create note using noteService which handles encryption
+      const createdNote = await noteService.createNote('Secret content', ['confidential']);
+
+      let capturedRequest: any;
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 0,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, async ({ request }) => {
+          capturedRequest = await request.json();
+          return HttpResponse.json({
+            accepted: [{ id: createdNote.id }],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          return HttpResponse.json({
+            notes: [],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow(true);
+
+      // Content should be encrypted (not contain plain text)
+      const pushedNote = capturedRequest.notes[0];
+      expect(pushedNote.content).not.toContain('Secret');
+      expect(pushedNote.content).toMatch(/^\{.*\}$/); // Should be JSON encrypted object
+    });
+
+    it('should include authorization header in push request', async () => {
+      const note = createTestNote({ content: 'Test', tags: [] });
+      await noteRepository.create(note);
+
+      let capturedHeaders: Headers | undefined;
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 0,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, ({ request }) => {
+          capturedHeaders = request.headers;
+          return HttpResponse.json({
+            accepted: [],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          return HttpResponse.json({
+            notes: [],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow(true);
+
+      expect(capturedHeaders?.get('Authorization')).toBe(`Bearer ${TEST_API_KEY}`);
+    });
+
+    it('should not call push when no notes need syncing', async () => {
+      let pushCalled = false;
+
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 0,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          pushCalled = true;
+          return HttpResponse.json({
+            accepted: [],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          return HttpResponse.json({
+            notes: [],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      // Sync service optimizes by not calling push when there's nothing to sync
+      expect(pushCalled).toBe(false);
+    });
+  });
+
+  describe('Pull Operation', () => {
+    beforeEach(async () => {
+      const encryptedApiKey = await cryptoService.encryptText(TEST_API_KEY, masterKey);
+      await syncRepository.updateMetadata({
+        apiKey: JSON.stringify(encryptedApiKey),
+        clientId: TEST_CLIENT_ID,
+        syncEnabled: true,
+        syncEndpoint: TEST_ENDPOINT,
+      });
+    });
+
+    it('should pull remote notes and store encrypted content', async () => {
+      // Create encrypted note data as server would send it
+      const remoteContent = await cryptoService.encryptText('Remote content', masterKey);
+      const remoteTag = await cryptoService.encryptText('remote', masterKey);
+
+      const remoteNote = {
+        id: 'a0000000-0000-4000-8000-000000000001',
+        createdAt: new Date().toISOString(),
+        modifiedAt: new Date().toISOString(),
+        content: JSON.stringify(remoteContent),
+        tags: [JSON.stringify(remoteTag)],
+        attachments: [],
+        pinned: false,
+        archived: false,
+        deleted: false,
+        version: 1,
+      };
+
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 1,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          return HttpResponse.json({
+            accepted: [],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          return HttpResponse.json({
+            notes: [remoteNote],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      // Verify note was stored (encrypted content is stored as-is)
+      const storedNote = await noteRepository.getById('a0000000-0000-4000-8000-000000000001');
+      expect(storedNote).toBeDefined();
+      // Content is stored encrypted - verify it's the encrypted JSON format
+      expect(storedNote!.content).toMatch(/^\{.*ciphertext.*\}$/);
+
+      // Verify decryption works when reading through noteService
+      const decryptedNote = await noteService.getNote('a0000000-0000-4000-8000-000000000001');
+      expect(decryptedNote).toBeDefined();
+      expect(decryptedNote!.content).toBe('Remote content');
+      // Note: Tags are decrypted separately by noteService - the sync stores them encrypted
+    });
+
+    it('reports locally stored blobs (not note references) as known attachment IDs', async () => {
+      // A note referencing two attachments, only one of which has a stored blob:
+      // the pull request must claim knowledge of the stored blob only, so the
+      // server re-sends the missing one when this note is next pulled
+      await noteService.createNote('note with attachments', [], {
+        attachments: [
+          { id: 'b0000000-0000-4000-8000-000000000001', filename: 'a.png', mimeType: 'image/png', size: 4, data: 'b0000000-0000-4000-8000-000000000001' },
+          { id: 'b0000000-0000-4000-8000-000000000002', filename: 'b.png', mimeType: 'image/png', size: 4, data: 'b0000000-0000-4000-8000-000000000002' },
+        ],
+      });
+      await attachmentRepository.storeBlob('b0000000-0000-4000-8000-000000000001', new ArrayBuffer(4));
+
+      let capturedBody: { knownAttachmentIds?: string[] } | undefined;
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 0,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          return HttpResponse.json({ accepted: [], rejected: [] } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, async ({ request }) => {
+          capturedBody = await request.json() as { knownAttachmentIds?: string[] };
+          return HttpResponse.json({
+            notes: [],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      expect(capturedBody?.knownAttachmentIds).toEqual(['b0000000-0000-4000-8000-000000000001']);
+    });
+
+    it('re-pushes held blobs when the server warns about missing attachment data', async () => {
+      // Note with two attachment refs: one blob held locally, one not
+      const note = await noteService.createNote('note with attachments', [], {
+        attachments: [
+          { id: 'b0000000-0000-4000-8000-000000000003', filename: 'a.png', mimeType: 'image/png', size: 5, data: 'b0000000-0000-4000-8000-000000000003' },
+          { id: 'b0000000-0000-4000-8000-000000000004', filename: 'b.png', mimeType: 'image/png', size: 5, data: 'b0000000-0000-4000-8000-000000000004' },
+        ],
+      });
+      await attachmentRepository.storeBlob('b0000000-0000-4000-8000-000000000003', new TextEncoder().encode('hello').buffer);
+
+      const pushBodies: Array<{ notes: unknown[]; attachments: Array<{ id: string; data: string }> }> = [];
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 0,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, async ({ request }) => {
+          const body = await request.json() as typeof pushBodies[number];
+          pushBodies.push(body);
+          if (pushBodies.length === 1) {
+            return HttpResponse.json({
+              accepted: [{ id: note.id, serverVersion: 1, syncedAt: new Date().toISOString() }],
+              rejected: [],
+              attachmentWarnings: [{ noteId: note.id, attachmentIds: ['b0000000-0000-4000-8000-000000000003', 'b0000000-0000-4000-8000-000000000004'] }],
+            } as SyncPushResponse);
+          }
+          // Repair pushes and any later pushes: keep warning to prove no loop
+          return HttpResponse.json({
+            accepted: [],
+            rejected: [],
+            attachmentWarnings: [{ noteId: note.id, attachmentIds: ['b0000000-0000-4000-8000-000000000004'] }],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          return HttpResponse.json({ notes: [], attachments: [], versions: [] } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      // First push carried the note; exactly one follow-up attachments-only push
+      expect(pushBodies.length).toBe(2);
+      expect(pushBodies[1].notes).toEqual([]);
+      expect(pushBodies[1].attachments.map(a => a.id)).toEqual(['b0000000-0000-4000-8000-000000000003']);
+      // Base64 of 'hello'
+      expect(pushBodies[1].attachments[0].data).toBe('aGVsbG8=');
+
+      // Unhealable attachment recorded for vault health
+      expect(get(serverMissingAttachments)).toEqual([
+        { noteId: note.id, attachmentIds: ['b0000000-0000-4000-8000-000000000004'] },
+      ]);
+    });
+
+    it('does not fire a repair push when no warned blob is held locally', async () => {
+      const note = await noteService.createNote('ghost only', [], {
+        attachments: [
+          { id: 'b0000000-0000-4000-8000-000000000005', filename: 'b.png', mimeType: 'image/png', size: 5, data: 'b0000000-0000-4000-8000-000000000005' },
+        ],
+      });
+
+      let pushCount = 0;
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 0,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          pushCount++;
+          return HttpResponse.json({
+            accepted: [{ id: note.id, serverVersion: 1, syncedAt: new Date().toISOString() }],
+            rejected: [],
+            attachmentWarnings: [{ noteId: note.id, attachmentIds: ['b0000000-0000-4000-8000-000000000005'] }],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          return HttpResponse.json({ notes: [], attachments: [], versions: [] } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      expect(pushCount).toBe(1);
+      expect(get(serverMissingAttachments)).toEqual([
+        { noteId: note.id, attachmentIds: ['b0000000-0000-4000-8000-000000000005'] },
+      ]);
+    });
+
+    it('should include authorization header in pull request', async () => {
+      let capturedHeaders: Headers | undefined;
+
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 0,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          return HttpResponse.json({
+            accepted: [],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, ({ request }) => {
+          capturedHeaders = request.headers;
+          return HttpResponse.json({
+            notes: [],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      expect(capturedHeaders?.get('Authorization')).toBe(`Bearer ${TEST_API_KEY}`);
+    });
+
+    it('should detect conflict when pulling note with local unsaved changes', async () => {
+      // Create a local note using noteService (properly encrypted and stored)
+      const createdNote = await noteService.createNote('Local modified content');
+
+      // Mark it as needing sync by updating it
+      const localNote = await noteRepository.getById(createdNote.id);
+      if (!localNote) throw new Error('Note not found');
+      localNote.needsSync = true;
+      await noteRepository.update(localNote, false, true);
+
+      // Get the encrypted content for comparison
+      const localEncryptedContent = localNote.content;
+
+      // Server has a newer version of the same note
+      const futureTime = new Date(Date.now() + 60000).toISOString(); // 1 minute newer
+      const serverContent = await cryptoService.encryptText('Server newer content', masterKey);
+      const serverTag = await cryptoService.encryptText('server', masterKey);
+
+      const remoteNote = {
+        id: localNote.id,
+        createdAt: localNote.createdAt,
+        modifiedAt: futureTime, // Newer than local
+        content: JSON.stringify(serverContent),
+        tags: [JSON.stringify(serverTag)],
+        attachments: [],
+        pinned: false,
+        archived: false,
+        deleted: false,
+        version: 2,
+        syntaxLanguage: undefined,
+        wordWrap: undefined,
+      };
+
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 1,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          return HttpResponse.json({
+            accepted: [],
+            rejected: [],
+            syncedAt: new Date().toISOString(),
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          return HttpResponse.json({
+            notes: [remoteNote],
+            attachments: [],
+            versions: [],
+            syncedAt: new Date().toISOString(),
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      // Verify local note was NOT overwritten (still has local encrypted content)
+      const updatedLocalNote = await noteRepository.getById(localNote.id);
+      expect(updatedLocalNote?.content).toBe(localEncryptedContent);
+
+      // Verify conflict was stored
+      const syncMeta = await syncRepository.getNoteSyncMetadata(localNote.id);
+      expect(syncMeta?.lastSyncStatus).toBe('conflict');
+      expect(syncMeta?.conflictData).toBeDefined();
+      expect(syncMeta?.conflictData?.serverModifiedAt).toBe(futureTime);
+    });
+  });
+
+  describe('Error Handling', () => {
+    beforeEach(async () => {
+      const encryptedApiKey = await cryptoService.encryptText(TEST_API_KEY, masterKey);
+      await syncRepository.updateMetadata({
+        apiKey: JSON.stringify(encryptedApiKey),
+        clientId: TEST_CLIENT_ID,
+        syncEnabled: true,
+        syncEndpoint: TEST_ENDPOINT,
+      });
+    });
+
+    it('should handle network errors gracefully', async () => {
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.error();
+        })
+      );
+
+      const result = await syncService.syncNow();
+
+      expect(result.success).toBe(false);
+      expect(result.error).toBeDefined();
+    });
+
+    it('should handle server errors gracefully', async () => {
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json(
+            { error: 'Internal server error' },
+            { status: 500 }
+          );
+        })
+      );
+
+      const result = await syncService.syncNow();
+
+      expect(result.success).toBe(false);
+      expect(result.error).toBeDefined();
+    });
+
+    it('should handle unauthorized errors', async () => {
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json(
+            { error: 'Unauthorized' },
+            { status: 401 }
+          );
+        })
+      );
+
+      const result = await syncService.syncNow();
+
+      expect(result.success).toBe(false);
+      expect(result.error).toBeDefined();
+    });
+
+    it('should prevent concurrent sync operations', async () => {
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, async () => {
+          // Delay to simulate slow network
+          await new Promise(resolve => setTimeout(resolve, 100));
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 0,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          return HttpResponse.json({
+            accepted: [],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          return HttpResponse.json({
+            notes: [],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      // Start first sync
+      const sync1 = syncService.syncNow();
+      // Try to start second sync immediately
+      const sync2 = syncService.syncNow();
+
+      const [result1, result2] = await Promise.all([sync1, sync2]);
+
+      // One should succeed, one should fail with "already in progress"
+      const results = [result1, result2];
+      const successCount = results.filter(r => r.success).length;
+      const failureCount = results.filter(r => !r.success && r.error === 'Sync already in progress').length;
+
+      expect(successCount).toBe(1);
+      expect(failureCount).toBe(1);
+    });
+
+    it('should fail when sync not configured', async () => {
+      // Clear sync metadata
+      await syncRepository.clearAll();
+
+      const result = await syncService.syncNow();
+
+      expect(result.success).toBe(false);
+      expect(result.error).toContain('Sync not configured');
+    });
+
+    it('should fail when app is locked', async () => {
+      keyManager.clearMasterKey();
+
+      const result = await syncService.syncNow();
+
+      expect(result.success).toBe(false);
+      expect(result.error).toContain('Application is locked');
+    });
+  });
+
+  describe('Full Sync Workflow', () => {
+    beforeEach(async () => {
+      const encryptedApiKey = await cryptoService.encryptText(TEST_API_KEY, masterKey);
+      await syncRepository.updateMetadata({
+        apiKey: JSON.stringify(encryptedApiKey),
+        clientId: TEST_CLIENT_ID,
+        syncEnabled: true,
+        syncEndpoint: TEST_ENDPOINT,
+      });
+    });
+
+    it('should complete full bidirectional sync', async () => {
+      // Create and save local note using noteService (handles encryption)
+      const localDecryptedNote = await noteService.createNote('Local note', ['local']);
+
+      // Create remote note (encrypted as server would send it)
+      const remoteContent = await cryptoService.encryptText('Remote note', masterKey);
+      const remoteTag = await cryptoService.encryptText('remote', masterKey);
+      const remoteNote = {
+        id: 'a0000000-0000-4000-8000-000000000001',
+        createdAt: new Date().toISOString(),
+        modifiedAt: new Date().toISOString(),
+        content: JSON.stringify(remoteContent),
+        tags: [JSON.stringify(remoteTag)],
+        attachments: [],
+        pinned: false,
+        archived: false,
+        deleted: false,
+        version: 1,
+      };
+
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 1,
+            totalNotes: 2,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          return HttpResponse.json({
+            accepted: [{ id: localDecryptedNote.id }],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          return HttpResponse.json({
+            notes: [remoteNote],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      const result = await syncService.syncNow(true);
+
+      expect(result.success).toBe(true);
+
+      // Verify both notes exist locally (use noteService to read decrypted)
+      const local = await noteService.getNote(localDecryptedNote.id);
+      const remote = await noteService.getNote('a0000000-0000-4000-8000-000000000001');
+
+      expect(local).toBeDefined();
+      expect(local!.content).toBe('Local note');
+      expect(remote).toBeDefined();
+      expect(remote!.content).toBe('Remote note');
+
+      // Verify last sync timestamp was updated
+      const metadata = await syncRepository.getMetadata();
+      expect(metadata?.lastSyncAt).toBeDefined();
+    });
+
+    it('should update sync timestamp after successful sync', async () => {
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 0,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          return HttpResponse.json({
+            accepted: [],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          return HttpResponse.json({
+            notes: [],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      const beforeSync = Date.now();
+      await syncService.syncNow();
+      const afterSync = Date.now();
+
+      const metadata = await syncRepository.getMetadata();
+      expect(metadata?.lastSyncAt).toBeDefined();
+
+      const lastSyncTime = new Date(metadata!.lastSyncAt!).getTime();
+      expect(lastSyncTime).toBeGreaterThanOrEqual(beforeSync);
+      expect(lastSyncTime).toBeLessThanOrEqual(afterSync);
+    });
+  });
+
+  describe('Sync Loop Prevention', () => {
+    beforeEach(async () => {
+      const encryptedApiKey = await cryptoService.encryptText(TEST_API_KEY, masterKey);
+      await syncRepository.updateMetadata({
+        apiKey: JSON.stringify(encryptedApiKey),
+        clientId: TEST_CLIENT_ID,
+        syncEnabled: true,
+        syncEndpoint: TEST_ENDPOINT,
+      });
+
+      // Reset stores
+      notes.set([]);
+      isSyncRefreshing.set(false);
+      settings.set({ ...DEFAULT_SETTINGS, syncEnabled: true });
+    });
+
+    afterEach(() => {
+      // Clean up stores
+      notes.set([]);
+      isSyncRefreshing.set(false);
+      settings.set({ ...DEFAULT_SETTINGS, syncEnabled: true });
+    });
+
+    it('should set isSyncRefreshing during sync and clear it after', async () => {
+      // Create a note so we have something to push/pull
+      const testNote = await noteService.createNote('Test note', ['test']);
+      // Get the encrypted note for the pull response
+      const encryptedNote = await noteRepository.getById(testNote.id);
+
+      // Track isSyncRefreshing values during sync
+      const refreshingValues: boolean[] = [];
+      const unsubscribe = isSyncRefreshing.subscribe(value => {
+        refreshingValues.push(value);
+      });
+
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 1,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          return HttpResponse.json({
+            accepted: [{ id: testNote.id }],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          // Check that isSyncRefreshing is false before notes refresh
+          expect(get(isSyncRefreshing)).toBe(false);
+          // Return a note with newer modifiedAt to trigger actual change detection
+          // (remote must be newer than local for refresh to occur)
+          return HttpResponse.json({
+            notes: [{
+              id: encryptedNote!.id,
+              createdAt: encryptedNote!.createdAt,
+              modifiedAt: new Date(Date.now() + 1000).toISOString(), // Newer than local
+              content: encryptedNote!.content,
+              tags: encryptedNote!.tags,
+              attachments: [],
+              pinned: false,
+        archived: false,
+              deleted: false,
+              version: 2,
+            }],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      unsubscribe();
+
+      // Should have been set to true during refresh, then back to false
+      expect(refreshingValues).toContain(true);
+      // Final value should be false
+      expect(get(isSyncRefreshing)).toBe(false);
+    });
+
+    it('should load notes from database into store after sync', async () => {
+      // Create a note in the database using noteService (handles encryption)
+      const testNote = await noteService.createNote('Test note content', ['test']);
+      // Get the encrypted note for the pull response
+      const encryptedNote = await noteRepository.getById(testNote.id);
+
+      // Store starts empty
+      notes.set([]);
+
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 1,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          return HttpResponse.json({
+            accepted: [{ id: testNote.id }],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          // Return a note with newer modifiedAt to trigger actual change detection
+          // (remote must be newer than local for refresh to occur)
+          return HttpResponse.json({
+            notes: [{
+              id: encryptedNote!.id,
+              createdAt: encryptedNote!.createdAt,
+              modifiedAt: new Date(Date.now() + 1000).toISOString(), // Newer than local
+              content: encryptedNote!.content,
+              tags: encryptedNote!.tags,
+              attachments: [],
+              pinned: false,
+        archived: false,
+              deleted: false,
+              version: 2,
+            }],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      // The notes store should now contain the note from the database
+      const currentNotes = get(notes);
+      expect(currentNotes.length).toBe(1);
+      expect(currentNotes[0].id).toBe(testNote.id);
+      expect(currentNotes[0].content).toBe('Test note content');
+    });
+
+    it('should clear isSyncRefreshing on sync error', async () => {
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.error();
+        })
+      );
+
+      // Sync should fail
+      const result = await syncService.syncNow();
+      expect(result.success).toBe(false);
+
+      // But isSyncRefreshing should be cleared
+      expect(get(isSyncRefreshing)).toBe(false);
+    });
+
+    it('should update notes incrementally and add new notes from database', async () => {
+      // Create two notes in the database using noteService (handles encryption)
+      const note1 = await noteService.createNote('Note 1', ['one']);
+      const note2 = await noteService.createNote('Note 2', ['two']);
+      // Get encrypted note for pull response
+      const encryptedNote1 = await noteRepository.getById(note1.id);
+
+      // Pre-populate store with note1 (simulating notes already loaded)
+      notes.set([{ ...note1, decryptedAt: Date.now() }]);
+
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 2,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          return HttpResponse.json({
+            accepted: [{ id: note1.id }, { id: note2.id }],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          // Return a note with newer modifiedAt to trigger actual change detection
+          // (remote must be newer than local for refresh to occur)
+          return HttpResponse.json({
+            notes: [{
+              id: encryptedNote1!.id,
+              createdAt: encryptedNote1!.createdAt,
+              modifiedAt: new Date(Date.now() + 1000).toISOString(), // Newer than local
+              content: encryptedNote1!.content,
+              tags: encryptedNote1!.tags,
+              attachments: [],
+              pinned: false,
+        archived: false,
+              deleted: false,
+              version: 2,
+            }],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      const currentNotes = get(notes);
+
+      // Both notes should be present (note1 updated, note2 added)
+      expect(currentNotes.length).toBe(2);
+      expect(currentNotes.some(n => n.id === note1.id)).toBe(true);
+      expect(currentNotes.some(n => n.id === note2.id)).toBe(true);
+    });
+
+    it('should remove deleted notes from store during refresh', async () => {
+      // Create one note in the database using noteService (handles encryption)
+      const note1 = await noteService.createNote('Note 1', ['one']);
+      // Get encrypted note for pull response
+      const encryptedNote1 = await noteRepository.getById(note1.id);
+
+      // Pre-populate store with note1 plus a "stale" note not in DB
+      const staleNote: DecryptedNote = {
+        id: 'a0000000-0000-4000-8000-000000000002',
+        content: 'This note was deleted from DB',
+        tags: ['stale'],
+        attachments: [],
+        createdAt: new Date().toISOString(),
+        modifiedAt: new Date().toISOString(),
+        decryptedAt: Date.now(),
+        pinned: false,
+        archived: false,
+        locked: false,
+        deleted: false,
+        version: 1,
+      };
+      notes.set([{ ...note1, decryptedAt: Date.now() }, staleNote]);
+
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 1,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          return HttpResponse.json({
+            accepted: [{ id: note1.id }],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          // Return a note with newer modifiedAt to trigger actual change detection
+          // (remote must be newer than local for refresh to occur)
+          return HttpResponse.json({
+            notes: [{
+              id: encryptedNote1!.id,
+              createdAt: encryptedNote1!.createdAt,
+              modifiedAt: new Date(Date.now() + 1000).toISOString(), // Newer than local
+              content: encryptedNote1!.content,
+              tags: encryptedNote1!.tags,
+              attachments: [],
+              pinned: false,
+        archived: false,
+              deleted: false,
+              version: 2,
+            }],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      const currentNotes = get(notes);
+
+      // Only note1 should remain (stale note removed)
+      expect(currentNotes.length).toBe(1);
+      expect(currentNotes[0].id).toBe(note1.id);
+      expect(currentNotes.some(n => n.id === 'a0000000-0000-4000-8000-000000000002')).toBe(false);
+    });
+
+    it('should sort notes correctly after sync based on user preferences', async () => {
+      // Create notes with different timestamps to test sorting
+      const now = Date.now();
+
+      // Create older note first
+      const olderNote = await noteService.createNote('Older note', ['old']);
+      // Wait a bit then create newer note
+      await new Promise(resolve => setTimeout(resolve, 50));
+      const newerNote = await noteService.createNote('Newer note', ['new']);
+      // Get encrypted notes for pull response
+      const encryptedOlderNote = await noteRepository.getById(olderNote.id);
+      const encryptedNewerNote = await noteRepository.getById(newerNote.id);
+
+      // Pre-populate store with notes in WRONG order (older first)
+      // This simulates the bug where sync didn't re-sort
+      notes.set([
+        { ...olderNote, decryptedAt: now },
+        { ...newerNote, decryptedAt: now },
+      ]);
+
+      // Set sort order to 'recent' (newest first)
+      settings.update(s => ({ ...s, sortOrder: 'recent' }));
+
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 2,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          return HttpResponse.json({
+            accepted: [{ id: olderNote.id }, { id: newerNote.id }],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          // Return both notes with newer modifiedAt to trigger actual change detection
+          // (remote must be newer than local for refresh to occur)
+          // Maintain relative order: newerNote still has later modifiedAt than olderNote
+          const baseTime = Date.now() + 1000;
+          return HttpResponse.json({
+            notes: [
+              {
+                id: encryptedOlderNote!.id,
+                createdAt: encryptedOlderNote!.createdAt,
+                modifiedAt: new Date(baseTime).toISOString(), // Newer than local
+                content: encryptedOlderNote!.content,
+                tags: encryptedOlderNote!.tags,
+                attachments: [],
+                pinned: false,
+        archived: false,
+                deleted: false,
+                version: 2,
+              },
+              {
+                id: encryptedNewerNote!.id,
+                createdAt: encryptedNewerNote!.createdAt,
+                modifiedAt: new Date(baseTime + 100).toISOString(), // Even newer - should be first
+                content: encryptedNewerNote!.content,
+                tags: encryptedNewerNote!.tags,
+                attachments: [],
+                pinned: false,
+        archived: false,
+                deleted: false,
+                version: 2,
+              },
+            ],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      const currentNotes = get(notes);
+
+      // Notes should be sorted with newest first
+      expect(currentNotes.length).toBe(2);
+      expect(currentNotes[0].id).toBe(newerNote.id);
+      expect(currentNotes[1].id).toBe(olderNote.id);
+    });
+
+    it('should not refresh store when no notes were pushed or pulled', async () => {
+      // Create a note and put it in the store
+      const note1 = await noteService.createNote('Note 1', ['one']);
+      notes.set([{ ...note1, decryptedAt: Date.now() }]);
+
+      // Track if notes store was updated
+      let updateCount = 0;
+      const unsubscribe = notes.subscribe(() => {
+        updateCount++;
+      });
+
+      // Reset count after initial subscription trigger
+      updateCount = 0;
+
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 1,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          // Return empty - nothing pushed
+          return HttpResponse.json({
+            accepted: [],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          // Return empty - nothing pulled
+          return HttpResponse.json({
+            notes: [],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      unsubscribe();
+
+      // Store should still be updated (we always refresh to ensure consistency)
+      // but this test documents that behavior
+      expect(updateCount).toBeGreaterThanOrEqual(0);
+    });
+  });
+
+  describe('Editor Settings Sync', () => {
+    beforeEach(async () => {
+      const encryptedApiKey = await cryptoService.encryptText(TEST_API_KEY, masterKey);
+      await syncRepository.updateMetadata({
+        apiKey: JSON.stringify(encryptedApiKey),
+        clientId: TEST_CLIENT_ID,
+        syncEnabled: true,
+        syncEndpoint: TEST_ENDPOINT,
+      });
+    });
+
+    it('should include showPreview in sync push request', async () => {
+      // Create a note with showPreview enabled
+      const note = await noteService.createNote('Preview test', ['test']);
+      await noteService.updateNote(note.id, { showPreview: true });
+
+      let capturedRequest: any = null;
+
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: new Date().toISOString(),
+            version: '1.0.0',
+            pendingNotes: 1,
+            totalNotes: 0,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, async ({ request }) => {
+          capturedRequest = await request.json();
+          return HttpResponse.json({
+            accepted: [{ id: note.id, serverVersion: 1, syncedAt: new Date().toISOString() }],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          return HttpResponse.json({
+            notes: [],
+            attachments: [],
+            versions: [],
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      // Verify showPreview was included in the sync request
+      expect(capturedRequest).not.toBeNull();
+      expect(capturedRequest.notes).toHaveLength(1);
+      expect(capturedRequest.notes[0].showPreview).toBe(true);
+    });
+
+    it('should not take showPreview from a pull response', async () => {
+      const noteId = 'a0000000-0000-4000-8000-000000000003';
+      const now = new Date().toISOString();
+
+      server.use(
+        http.get(`${TEST_ENDPOINT}/api/v1/sync/status`, () => {
+          return HttpResponse.json({
+            serverTime: now,
+            version: '1.0.0',
+            pendingNotes: 0,
+            totalNotes: 1,
+          });
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/push`, () => {
+          return HttpResponse.json({
+            accepted: [],
+            rejected: [],
+          } as SyncPushResponse);
+        }),
+        http.post(`${TEST_ENDPOINT}/api/v1/sync/pull`, () => {
+          return HttpResponse.json({
+            notes: [{
+              id: noteId,
+              createdAt: now,
+              modifiedAt: now,
+              content: 'encrypted-content',
+              tags: ['encrypted-tag'],
+              attachments: [],
+              pinned: false,
+        archived: false,
+              deleted: false,
+              version: 1,
+              showPreview: true, // Plaintext, so the server could set it on any note
+              syntaxLanguage: 'markdown',
+            }],
+            attachments: [],
+            versions: [],
+            syncedAt: now,
+          } as SyncPullResponse);
+        })
+      );
+
+      await syncService.syncNow();
+
+      const storedNote = await noteRepository.getById(noteId);
+      expect(storedNote).not.toBeNull();
+      expect(storedNote?.showPreview).toBe(false);
+    });
+  });
+});

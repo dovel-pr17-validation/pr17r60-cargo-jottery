@@ -1,0 +1,444 @@
+{
+  "app": {
+    "name": "Jottery Admin"
+  },
+  "common": {
+    "refresh": "Actualiser",
+    "refreshing": "Actualisation...",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "close": "Fermer",
+    "save": "Enregistrer",
+    "edit": "Modifier",
+    "loading": "Chargement...",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "actions": "Actions",
+    "status": "Statut",
+    "created": "Créé",
+    "saving": "Enregistrement...",
+    "deleting": "Suppression...",
+    "passwordRules": "Au moins 12 caractères. Le serveur peut aussi exiger un mélange de majuscules, de minuscules, de chiffres et de symboles."
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "users": "Utilisateurs",
+    "settings": "Paramètres",
+    "logout": "Se déconnecter",
+    "audit": "Journal d'audit"
+  },
+  "login": {
+    "title": "Jottery Admin",
+    "subtitle": "Connectez-vous pour gérer votre serveur",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "signIn": "Se connecter",
+    "signingIn": "Connexion...",
+    "placeholder": {
+      "email": "admin@localhost",
+      "password": "••••••••"
+    },
+    "errors": {
+      "invalidCredentials": "E-mail ou mot de passe incorrect",
+      "adminRequired": "Accès administrateur requis",
+      "unexpected": "Une erreur inattendue s'est produite"
+    }
+  },
+  "logout": {
+    "confirmTitle": "Confirmer la déconnexion",
+    "confirmMessage": "Êtes-vous sûr de vouloir vous déconnecter ?"
+  },
+  "errors": {
+    "unknown": "Une erreur s'est produite. Veuillez réessayer.",
+    "network": "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez.",
+    "forbidden": "Vous n'avez pas l'autorisation de faire cela.",
+    "wrongPassword": "Le mot de passe actuel est incorrect",
+    "rateLimited": "Trop de tentatives. Réessayez dans {seconds} secondes.",
+    "tooManyAttempts": "Trop de tentatives. Veuillez patienter et réessayer.",
+    "passwordTooShort": "Le nouveau mot de passe doit comporter au moins 12 caractères",
+    "passwordSameAsCurrent": "Le nouveau mot de passe doit être différent de l'actuel",
+    "ownAdminRole": "Vous ne pouvez pas retirer vos propres droits admin.",
+    "lastAdminDemote": "Le dernier admin ne peut pas être rétrogradé.",
+    "ownAccountDelete": "Vous ne pouvez pas supprimer votre propre compte ici.",
+    "lastAdminDelete": "Le dernier admin ne peut pas être supprimé.",
+    "userNotFound": "Utilisateur introuvable.",
+    "deviceNotFound": "Appareil introuvable.",
+    "quotaRange": "Le quota de stockage doit être compris entre 1 et 100000 Mo.",
+    "maxUploadRange": "La taille maximale de téléchargement doit être comprise entre 1 et 1000 Mo.",
+    "inboxItemsRange": "Le nombre maximal d'éléments de la boîte de réception doit être compris entre 1 et 10000.",
+    "inboxSizeRange": "La taille maximale de la boîte de réception doit être comprise entre 1 et 1000 Mo.",
+    "passwordComplexity": "Le mot de passe doit contenir au moins {required} types de caractères sur 4. Manquants : {missing}.",
+    "passwordClass": {
+      "uppercase": "majuscule",
+      "lowercase": "minuscule",
+      "number": "chiffre",
+      "special": "symbole"
+    },
+    "passwordTooLong": "Le mot de passe est trop long."
+  },
+  "session": {
+    "expired": "Votre session a expiré. Veuillez vous reconnecter."
+  },
+  "forcedPasswordChange": {
+    "title": "Changez votre mot de passe",
+    "description": "Vous devez choisir un nouveau mot de passe pour continuer. Il doit contenir au moins 12 caractères."
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "loadingStats": "Chargement des statistiques...",
+    "failedToLoad": "Échec du chargement des statistiques",
+    "stats": {
+      "totalUsers": "Utilisateurs totaux",
+      "approved": "approuvé",
+      "pending": "en attente",
+      "activeDevices": "Appareils actifs",
+      "totalDevices": "{count} appareils au total",
+      "totalNotes": "Notes totales",
+      "acrossAllUsers": "Pour tous les utilisateurs",
+      "storage": "Stockage",
+      "mbQuota": "{quota} Mo de quota"
+    },
+    "serverInfo": {
+      "title": "Informations du serveur",
+      "version": "Version du serveur :",
+      "activeUsers": "Utilisateurs actifs :",
+      "pendingApprovals": "Approbations en attente :"
+    }
+  },
+  "devices": {
+    "title": "Appareils",
+    "name": "Nom de l'appareil",
+    "type": "Type",
+    "createdAt": "Enregistré",
+    "lastSeen": "Dernière connexion",
+    "status": "Statut",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "revoke": "Révoquer",
+    "delete": "Supprimer",
+    "rename": "Renommer",
+    "revokeConfirmTitle": "Révoquer l'appareil",
+    "revokeConfirm": "Êtes-vous sûr de vouloir révoquer l'appareil \"{name}\" ? Cet appareil ne pourra plus se synchroniser.",
+    "revokeWarning": "Cet appareil ne pourra plus se synchroniser.",
+    "deleteConfirmTitle": "Supprimer l'appareil",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer définitivement l'appareil \"{name}\" ? Cette action est irréversible.",
+    "noDevices": "Aucun appareil enregistré",
+    "total": "total",
+    "nameRequired": "Le nom de l'appareil est requis",
+    "toast": {
+      "revoked": "L'appareil \"{name}\" a été révoqué",
+      "revokeFailed": "Échec de la révocation de l'appareil : {error}",
+      "revokeFailedGeneric": "Échec de la révocation de l'appareil",
+      "deleted": "L'appareil \"{name}\" a été supprimé",
+      "deleteFailed": "Échec de la suppression de l'appareil : {error}",
+      "deleteFailedGeneric": "Échec de la suppression de l'appareil",
+      "renamed": "Appareil renommé avec succès",
+      "renameFailed": "Échec du renommage de l'appareil : {error}",
+      "renameFailedGeneric": "Échec du renommage de l'appareil"
+    }
+  },
+  "users": {
+    "title": "Utilisateurs",
+    "loadingUsers": "Chargement des utilisateurs...",
+    "noUsersFound": "Aucun utilisateur trouvé",
+    "failedToLoad": "Échec du chargement des utilisateurs",
+    "detail": {
+      "title": "Détails de l'utilisateur",
+      "userInfo": "Informations utilisateur",
+      "approvedAt": "Approuvé",
+      "lastLogin": "Dernière connexion",
+      "lastSync": "Dernière synchronisation",
+      "statistics": "Statistiques",
+      "attachments": "Pièces jointes",
+      "storage": "Stockage utilisé",
+      "quota": "Quota de stockage",
+      "viewDevices": "Cliquez pour voir les appareils",
+      "settings": "Paramètres utilisateur",
+      "maxUploadSize": "Taille max. téléchargement",
+      "maxUploadSizeHelp": "Taille maximale par requête de synchronisation (inclut les pièces jointes)",
+      "settingsSaved": "Paramètres utilisateur enregistrés avec succès",
+      "settingsSaveFailed": "Échec de l'enregistrement des paramètres : {error}",
+      "settingsSaveFailedGeneric": "Échec de l'enregistrement des paramètres",
+      "viewDetails": "Cliquez pour voir les détails",
+      "passwordReset": "Réinitialisation du mot de passe",
+      "resetPassword": "Réinitialiser le mot de passe",
+      "newPassword": "Nouveau mot de passe",
+      "newPasswordPlaceholder": "Entrez le nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "Confirmez le nouveau mot de passe",
+      "passwordTooShort": "Le mot de passe doit contenir au moins 12 caractères",
+      "passwordMismatch": "Les mots de passe ne correspondent pas",
+      "passwordResetSuccess": "Mot de passe de {email} réinitialisé avec succès",
+      "passwordResetFailed": "Échec de la réinitialisation du mot de passe: {error}",
+      "passwordResetFailedGeneric": "Échec de la réinitialisation du mot de passe",
+      "passwordResetHelp": "Réinitialisez le mot de passe de l'utilisateur s'il l'a oublié.",
+      "passwordResetWarning": "Ceci ne change que le mot de passe de connexion. Le chiffrement des notes n'est pas affecté. Si l'utilisateur a oublié son mot de passe de chiffrement, ses notes ne peuvent pas être récupérées.",
+      "inboxMaxItems": "Éléments max. boîte de réception",
+      "inboxMaxSize": "Taille max. boîte de réception",
+      "items": "éléments",
+      "passwordResetDevices": "Les appareils de cet utilisateur continuent de se synchroniser après la réinitialisation, car leurs clés ne dépendent pas du mot de passe.",
+      "revokeDevicesOption": "Révoquer aussi toutes les clés d'appareil de cet utilisateur, si le compte a pu être compromis"
+    },
+    "filters": {
+      "all": "Tous",
+      "pending": "En attente",
+      "approved": "Approuvé",
+      "inactive": "Inactif"
+    },
+    "table": {
+      "email": "E-mail",
+      "status": "Statut",
+      "devices": "Appareils",
+      "notes": "Notes",
+      "created": "Créé",
+      "actions": "Actions"
+    },
+    "status": {
+      "pending": "En attente",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "admin": "Admin"
+    },
+    "actions": {
+      "approve": "Approuver",
+      "makeAdmin": "Rendre admin",
+      "removeAdmin": "Retirer admin",
+      "deactivate": "Désactiver",
+      "activate": "Activer",
+      "delete": "Supprimer",
+      "demoteFromAdmin": "Rétrograder l'admin",
+      "promoteToAdmin": "Promouvoir admin",
+      "deleteUser": "Supprimer l'utilisateur"
+    },
+    "confirm": {
+      "approve": "Approuver",
+      "deactivate": "Désactiver",
+      "activate": "Activer",
+      "delete": "Supprimer",
+      "promoteToAdmin": "Promouvoir admin",
+      "demoteFromAdmin": "Rétrograder admin",
+      "messages": {
+        "approve": "Approuver {email} ? Cette personne pourra se connecter et enregistrer des appareils.",
+        "deactivate": "Désactiver {email} ? Cette personne ne pourra plus se connecter ni synchroniser tant que son compte ne sera pas réactivé.",
+        "activate": "Activer {email} ? Cette personne pourra de nouveau se connecter et synchroniser.",
+        "delete": "Cette action supprime définitivement {email} et tout ce que le serveur conserve pour cet utilisateur : notes, pièces jointes, appareils et clé de compte. Elle est irréversible.",
+        "promoteToAdmin": "Êtes-vous sûr de vouloir promouvoir {email} en tant qu'admin ? Ils auront un accès complet à toutes les fonctions d'administration.",
+        "demoteFromAdmin": "Êtes-vous sûr de vouloir retirer les privilèges d'administrateur à {email} ?"
+      },
+      "deleteCounts": "Notes : {notes} · Appareils : {devices}",
+      "typeEmail": "Saisissez l'adresse e-mail de l'utilisateur pour confirmer :"
+    },
+    "toast": {
+      "approved": "Utilisateur {email} approuvé avec succès",
+      "deactivated": "Utilisateur {email} désactivé",
+      "activated": "Utilisateur {email} activé",
+      "deleted": "Utilisateur {email} supprimé",
+      "promotedToAdmin": "Utilisateur {email} promu admin",
+      "demotedFromAdmin": "Utilisateur {email} rétrogradé d'admin",
+      "failed": {
+        "approve": "Impossible d'approuver l'utilisateur : {error}",
+        "deactivate": "Impossible de désactiver l'utilisateur : {error}",
+        "activate": "Impossible d'activer l'utilisateur : {error}",
+        "delete": "Impossible de supprimer l'utilisateur : {error}",
+        "promote": "Impossible de promouvoir l'utilisateur admin : {error}",
+        "demote": "Impossible de retirer les droits admin de l'utilisateur : {error}"
+      }
+    }
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": {
+      "title": "Langue",
+      "description": "Sélectionnez votre langue préférée pour l'interface d'administration.",
+      "label": "Langue d'affichage"
+    },
+    "changePassword": {
+      "title": "Changer le mot de passe",
+      "description": "Mettez à jour votre mot de passe administrateur. Le mot de passe doit comporter au moins 12 caractères.",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le nouveau mot de passe",
+      "placeholder": {
+        "current": "Entrez le mot de passe actuel",
+        "new": "Entrez le nouveau mot de passe (min 12 caractères)",
+        "confirm": "Confirmez le nouveau mot de passe"
+      },
+      "button": "Changer le mot de passe",
+      "buttonChanging": "Modification...",
+      "cancel": "Annuler",
+      "errors": {
+        "currentRequired": "Le mot de passe actuel est requis",
+        "newRequired": "Le nouveau mot de passe est requis",
+        "minLength": "Le nouveau mot de passe doit comporter au moins 12 caractères",
+        "mismatch": "Les mots de passe ne correspondent pas",
+        "failed": "Échec du changement de mot de passe"
+      },
+      "success": "Mot de passe modifié avec succès"
+    }
+  },
+  "userPortal": {
+    "title": "Mon compte",
+    "tabs": {
+      "account": "Compte",
+      "settings": "Paramètres"
+    },
+    "login": {
+      "title": "Jottery",
+      "subtitle": "Connectez-vous pour gérer votre compte",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "signIn": "Se connecter",
+      "signingIn": "Connexion...",
+      "placeholder": {
+        "email": "vous@exemple.com",
+        "password": "••••••••"
+      },
+      "errors": {
+        "invalidCredentials": "E-mail ou mot de passe incorrect",
+        "accountInactive": "Votre compte est inactif. Veuillez contacter l'administrateur.",
+        "accountPending": "Votre compte est en attente d'approbation par un administrateur.",
+        "unexpected": "Une erreur inattendue s'est produite",
+        "statusCheckFailed": "Failed to check status. Please try again."
+      },
+      "checkStatus": "Check approval status",
+      "statusCheck": {
+        "title": "Check Approval Status",
+        "checkButton": "Check Status",
+        "notFound": "No account found with this email address.",
+        "approved": "Your account is approved and active. You can sign in above.",
+        "pending": "Your account is pending approval. Please wait for an administrator to approve your registration.",
+        "inactive": "Your account has been deactivated. Please contact an administrator."
+      }
+    },
+    "account": {
+      "title": "Informations du compte",
+      "loadError": "Échec du chargement des informations du compte",
+      "email": "E-mail",
+      "memberSince": "Membre depuis",
+      "noteCount": "Notes",
+      "attachmentCount": "Pièces jointes",
+      "storageUsed": "Stockage utilisé",
+      "lastSync": "Dernière synchronisation",
+      "never": "Jamais",
+      "inbox": {
+        "title": "API Boîte de réception",
+        "description": "Envoyez des notes à votre compte via l'API — aucun mot de passe de chiffrement requis. Les éléments apparaissent dans votre boîte de réception pour examen.",
+        "itemsLabel": "Éléments",
+        "sizeLabel": "Taille",
+        "noToken": "Aucun jeton de boîte de réception configuré. Générez-en un pour commencer à envoyer des notes via l'API.",
+        "generate": "Générer un jeton",
+        "generated": "Jeton généré — enregistrez-le maintenant, il ne sera plus affiché.",
+        "active": "Jeton de boîte de réception actif",
+        "copyToken": "Copier",
+        "quickStart": "Démarrage rapide",
+        "revoke": "Révoquer le jeton",
+        "revokeConfirmTitle": "Révoquer le jeton de boîte de réception",
+        "revokeConfirmMessage": "Révoquer votre jeton de boîte de réception ? Les intégrations qui l'utilisent cesseront de fonctionner.",
+        "cancel": "Annuler",
+        "generateSuccess": "Jeton de boîte de réception généré",
+        "generateFailed": "Impossible de générer le jeton : {error}",
+        "revokeSuccess": "Jeton de boîte de réception révoqué",
+        "revokeFailed": "Impossible de révoquer le jeton, il fonctionne donc toujours : {error}",
+        "copySuccess": "Jeton copié",
+        "copyUnavailable": "Copie impossible ici. Sélectionnez le jeton et copiez-le vous-même."
+      },
+      "storageUsedNote": "Comprend les notes, l'historique des notes et les pièces jointes."
+    },
+    "devices": {
+      "title": "Vos appareils",
+      "loadError": "Échec du chargement des appareils",
+      "noDevices": "Aucun appareil enregistré",
+      "never": "Jamais",
+      "revokeTitle": "Révoquer l'appareil",
+      "revokeConfirm": "Êtes-vous sûr de vouloir révoquer \"{name}\" ? Cet appareil ne pourra plus se synchroniser.",
+      "revokeNote": "La révocation d'un appareil l'empêchera de se synchroniser. Vous pourrez réenregistrer l'appareil ultérieurement si nécessaire.",
+      "revoked": "L'appareil \"{name}\" a été révoqué",
+      "revokeFailed": "Échec de la révocation de l'appareil : {error}",
+      "revokeFailedGeneric": "Échec de la révocation de l'appareil",
+      "deleteTitle": "Supprimer l'appareil",
+      "deleteConfirm": "Êtes-vous sûr de vouloir supprimer définitivement \"{name}\" ? Cette action est irréversible.",
+      "deleted": "L'appareil \"{name}\" a été supprimé",
+      "deleteFailed": "Échec de la suppression de l'appareil : {error}",
+      "deleteFailedGeneric": "Échec de la suppression de l'appareil"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "language": {
+        "title": "Langue",
+        "description": "Sélectionnez votre langue préférée pour l'interface.",
+        "label": "Langue d'affichage"
+      },
+      "changePassword": "Changer le mot de passe",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "updatePassword": "Mettre à jour le mot de passe",
+      "passwordChanged": "Mot de passe modifié avec succès",
+      "dangerZone": "Zone de danger",
+      "deactivateAccount": "Désactiver le compte",
+      "deactivateDescription": "Désactivez votre compte. Vous pouvez vous réinscrire avec l'approbation de l'administrateur.",
+      "deactivate": "Désactiver",
+      "deactivateConfirmTitle": "Désactiver le compte",
+      "deactivateConfirmMessage": "Êtes-vous sûr de vouloir désactiver votre compte ? Vos données seront conservées, mais vous aurez besoin de l'approbation de l'administrateur pour y accéder à nouveau.",
+      "accountDeactivated": "Votre compte a été désactivé",
+      "deleteAccount": "Supprimer le compte",
+      "deleteDescription": "Supprimez définitivement votre compte et toutes vos données. Cette action est irréversible.",
+      "delete": "Supprimer",
+      "deleteConfirmTitle": "Supprimer le compte définitivement",
+      "deleteConfirmMessage": "Cela supprimera définitivement votre compte et toutes vos données. Cette action est irréversible.",
+      "deleteConfirmLabel": "Tapez DELETE pour confirmer :",
+      "deleteForever": "Supprimer définitivement",
+      "accountDeleted": "Votre compte a été supprimé",
+      "errors": {
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "passwordTooShort": "Le mot de passe doit comporter au moins 12 caractères",
+        "wrongPassword": "Le mot de passe actuel est incorrect",
+        "unexpected": "Une erreur inattendue s'est produite",
+        "deactivateFailed": "Échec de la désactivation du compte",
+        "deleteFailed": "Échec de la suppression du compte",
+        "deleteNotesFailed": "Failed to delete notes"
+      },
+      "deleteNotes": "Delete Notes",
+      "deleteNotesDescription": "Delete all your notes from the server. Your account remains active and you can sync again.",
+      "deleteNotesButton": "Delete Notes",
+      "deleteNotesConfirmTitle": "Delete All Notes",
+      "deleteNotesConfirmMessage": "Are you sure you want to delete all your notes from the server? This is useful if you forgot your encryption password and need to start fresh. Your account will remain active.",
+      "notesDeleted": "All notes have been deleted from the server",
+      "passwordToConfirm": "Saisissez votre mot de passe pour confirmer :"
+    }
+  },
+  "audit": {
+    "title": "Journal d'audit",
+    "description": "Un enregistrement permanent de ce que les admins ont fait sur ce serveur.",
+    "loading": "Chargement du journal d'audit...",
+    "failedToLoad": "Impossible de charger le journal d'audit",
+    "empty": "Rien n'a encore été enregistré.",
+    "allActions": "Toutes les actions",
+    "filterLabel": "Afficher",
+    "commandLine": "Ligne de commande",
+    "range": "{from}–{to} sur {total}",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "table": {
+      "time": "Quand",
+      "action": "Action",
+      "admin": "Admin",
+      "target": "Concerné",
+      "address": "Adresse"
+    },
+    "actions": {
+      "userApprove": "Utilisateur approuvé",
+      "userDeactivate": "Utilisateur désactivé",
+      "userActivate": "Utilisateur activé",
+      "userDelete": "Utilisateur supprimé",
+      "userPasswordReset": "Mot de passe réinitialisé",
+      "userAdminGrant": "Promu admin",
+      "userAdminRevoke": "Admin retiré",
+      "userSettingsUpdate": "Paramètres utilisateur modifiés",
+      "deviceRevoke": "Appareil révoqué",
+      "deviceDelete": "Appareil supprimé",
+      "deviceRename": "Appareil renommé",
+      "adminPasswordChange": "Mot de passe personnel modifié"
+    }
+  }
+}

@@ -1,0 +1,1510 @@
+{
+  "app": {
+    "name": "Jottery",
+    "tagline": "网页和终端的个人笔记"
+  },
+  "a11y": {
+    "skipToContent": "跳到主要内容"
+  },
+  "common": {
+    "loading": "加载中...",
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "confirm": "确认",
+    "close": "关闭",
+    "lock": "锁定",
+    "unlock": "解锁",
+    "settings": "设置",
+    "search": "搜索",
+    "error": "错误",
+    "back": "返回",
+    "edit": "编辑",
+    "add": "添加",
+    "showPassword": "显示密码",
+    "hidePassword": "隐藏密码"
+  },
+  "docs": {
+    "title": "文档",
+    "copy": "复制",
+    "copyMarkdown": "复制文档为 Markdown",
+    "copied": "文档已复制到剪贴板",
+    "copyError": "复制文档失败"
+  },
+  "note": {
+    "new": "新建",
+    "create": "创建新笔记",
+    "delete": "删除笔记",
+    "pin": "置顶",
+    "pinned": "已置顶",
+    "unpin": "取消置顶",
+    "copy": "复制",
+    "copyContent": "复制笔记内容",
+    "noNoteSelected": "未选择笔记",
+    "selectNote": "从列表中选择笔记或创建新笔记",
+    "created": "创建时间",
+    "modified": "修改时间",
+    "version": "版本",
+    "synced": "已同步",
+    "unsynced": "未同步",
+    "neverSynced": "从未同步",
+    "attachments": "附件",
+    "filterByTag": "按 #{tag} 筛选",
+    "noNotesYet": "还没有笔记",
+    "createFirstNote": "创建您的第一条笔记开始使用",
+    "noResultsFound": "未找到结果",
+    "tryDifferentSearch": "请尝试不同的搜索关键词",
+    "noNotes": "没有笔记",
+    "somethingWentWrong": "出现问题",
+    "matchSingular": "个匹配",
+    "matchPlural": "个匹配",
+    "editTitleTooltip": "双击编辑标题"
+  },
+  "search": {
+    "placeholder": "搜索笔记...",
+    "clear": "清除搜索",
+    "resultCount": "搜索结果：匹配 / 总计",
+    "resultsFound": "{total} 条笔记中匹配 {matches} 条",
+    "tagSuggestions": "标签建议",
+    "savedSearches": "保存的搜索",
+    "newSavedSearch": "保存当前搜索",
+    "editSearch": "编辑",
+    "deleteSearch": "删除",
+    "searchName": "搜索名称",
+    "query": "查询",
+    "saveSearch": "保存",
+    "applySavedSearch": "应用",
+    "confirmDeleteSearch": "删除保存的搜索 \"{name}\"?",
+    "noSavedSearches": "没有保存的搜索",
+    "noCurrentQuery": "没有要保存的当前搜索",
+    "placeholderArchive": "搜索已归档的笔记..."
+  },
+  "editor": {
+    "noNoteSelected": "未选择笔记",
+    "noNoteSelectedHint": "从列表中选择笔记或创建新笔记",
+    "attachmentPreview": "附件预览",
+    "download": "下载",
+    "tags": "标签",
+    "addTags": "添加标签...",
+    "plainText": "纯文本",
+    "syntaxHighlight": "语法高亮",
+    "wordWrap": "自动换行",
+    "noWrap": "不换行",
+    "toggleWordWrap": "切换自动换行",
+    "backToNotes": "返回笔记列表",
+    "moreActions": "更多操作",
+    "closeNote": "关闭笔记 (Esc)",
+    "preview": "预览",
+    "edit": "编辑",
+    "undo": "撤销",
+    "redo": "重做",
+    "wordWrapOn": "自动换行: 开启",
+    "wordWrapOff": "自动换行: 关闭",
+    "copyContent": "复制内容",
+    "copyLink": "复制笔记链接",
+    "linkCopied": "链接已复制到剪贴板",
+    "exportToFile": "导出为文件",
+    "printPdf": "打印 / 导出PDF",
+    "printFailed": "无法打开打印窗口",
+    "duplicateNote": "复制笔记",
+    "noteDuplicated": "笔记已复制",
+    "duplicateFailed": "复制笔记失败",
+    "info": "信息",
+    "versionHistory": "版本历史",
+    "deleteNote": "删除笔记",
+    "noteInformation": "笔记信息",
+    "characters": "字符数:",
+    "charactersNoSpaces": "字符数 (不含空格):",
+    "words": "词数:",
+    "lines": "行数:",
+    "attachmentsCount": "附件数:",
+    "syntax": "语法:",
+    "noteId": "笔记 ID:",
+    "uploading": "上传中...",
+    "attachmentsHeader": "附件 ({count})",
+    "status": {
+      "uploading": "上传中...",
+      "processingNotes": "正在处理 {total} 个笔记中的第 {current} 个...",
+      "readingFile": "读取文件中...",
+      "loadingPreview": "加载预览中...",
+      "loading": "加载中..."
+    },
+    "tooltips": {
+      "saveNoteFirst": "请先保存笔记",
+      "pinNote": "置顶笔记",
+      "unpinNote": "取消置顶笔记"
+    },
+    "errors": {
+      "loadingAttachment": "加载附件时出错",
+      "videoNotSupported": "您的浏览器不支持视频播放。",
+      "previewNotAvailable": "此文件类型无法预览。",
+      "downloadToView": "下载以查看"
+    },
+    "attachments": "附件",
+    "noAttachments": "暂无附件",
+    "noteColor": "笔记类别",
+    "setColor": "设置类别",
+    "removeColor": "移除类别",
+    "selectColor": "选择类别",
+    "colorSet": "已设置类别",
+    "colorRemoved": "已移除类别",
+    "wysiwyg": {
+      "mode": "编辑器模式",
+      "rawMode": "文本",
+      "visualMode": "可视化",
+      "bold": "粗体",
+      "italic": "斜体",
+      "strikethrough": "删除线",
+      "inlineCode": "行内代码",
+      "heading1": "标题 1",
+      "heading2": "标题 2",
+      "heading3": "标题 3",
+      "bulletList": "无序列表",
+      "orderedList": "有序列表",
+      "taskList": "任务列表",
+      "blockquote": "引用",
+      "codeBlock": "代码块",
+      "horizontalRule": "水平线",
+      "link": "插入链接",
+      "table": "插入表格",
+      "enterUrl": "输入URL："
+    },
+    "lock": {
+      "lock": "锁定笔记",
+      "unlock": "解锁笔记",
+      "locked": "笔记已锁定",
+      "unlocked": "笔记已解锁",
+      "lockTooltip": "锁定笔记以防止编辑",
+      "unlockTooltip": "解锁笔记以允许编辑",
+      "lockedBanner": "此笔记已锁定。解锁后可编辑。",
+      "mustUnlockToDelete": "删除前请先解锁笔记"
+    },
+    "confirmDelete": {
+      "title": "删除笔记",
+      "message": "此笔记将被移至回收站。如有需要，您可以稍后恢复。"
+    },
+    "readOnly": {
+      "archivedBanner": "此笔记已归档。取消归档后可编辑。",
+      "lockedBanner": "此笔记已锁定。解锁后可编辑。"
+    },
+    "actionFailed": {
+      "archive": "归档笔记失败: {error}",
+      "unarchive": "取消归档笔记失败: {error}",
+      "lock": "锁定笔记失败: {error}",
+      "unlock": "解锁笔记失败: {error}",
+      "delete": "删除笔记失败: {error}"
+    },
+    "copyLinkFailed": "复制链接到剪贴板失败",
+    "noteEditor": "笔记编辑器",
+    "calc": {
+      "tooLong": "此笔记太长，无法计算（{lines} 行，最多 {max} 行）。请缩短或改用其他语法。",
+      "consecutiveErrors": "连续出现 {count} 个错误后已停止。这看起来不像计算内容，请尝试其他语法。",
+      "totalErrors": "出现 {count} 个错误后已停止。请为此笔记尝试其他语法。",
+      "tooSlow": "由于耗时过长已停止。下方各行没有结果。"
+    }
+  },
+  "noteList": {
+    "deleteNote": "删除笔记",
+    "filterByTag": "按 #{tag} 筛选",
+    "noteCount": "{filtered} / {total}",
+    "noteCountAll": "{total} 条笔记"
+  },
+  "tagInput": {
+    "removeTag": "移除标签",
+    "suggestions": "标签建议"
+  },
+  "backupReminder": {
+    "title": "是时候备份您的笔记了",
+    "lastBackup": "上次备份：{date}",
+    "never": "从未",
+    "backupNow": "立即备份",
+    "backingUp": "正在备份...",
+    "dismissLabel": "稍后提醒"
+  },
+  "backupSettings": {
+    "title": "自动备份",
+    "lastBackup": "上次备份",
+    "never": "从未",
+    "enableReminders": "启用备份提醒",
+    "enableAutoBackup": "启用自动备份",
+    "frequencyDaily": "每天",
+    "frequencyWeekly": "每周",
+    "frequencyMonthly": "每月",
+    "frequencyOnChanges": "在一定数量的更改后",
+    "changesThreshold": "在此数量的笔记更改后备份",
+    "description": "自动备份将下载到您的设备。启用提醒以便在需要备份时收到通知。",
+    "saveFailed": "该设置未保存。请重试。"
+  },
+  "backup": {
+    "title": "加密备份",
+    "description": "创建可在任何设备上恢复的安全备份。您的备份使用密码加密。",
+    "createButton": "创建加密备份",
+    "creating": "正在创建备份...",
+    "created": "备份创建成功",
+    "failed": "创建备份失败",
+    "loadingAttachments": "正在加载附件...",
+    "encrypting": "正在加密数据...",
+    "restore": {
+      "title": "从备份恢复",
+      "selectFile": "选择备份文件",
+      "selectFileHint": "选择一个 .jottery-backup 文件",
+      "noFileSelected": "未选择文件",
+      "password": "密码",
+      "passwordHint": "输入创建备份时使用的密码",
+      "restoreButton": "恢复",
+      "restoring": "正在恢复...",
+      "cancel": "取消",
+      "success": "备份恢复成功！",
+      "wrongPassword": "密码错误。请使用创建备份时使用的密码。",
+      "invalidFile": "无效的备份文件。请选择有效的 .jottery-backup 文件。",
+      "confirmOverwrite": "这将替换所有现有数据。您确定要继续吗？",
+      "confirmOverwriteTitle": "恢复备份？",
+      "confirmOverwriteMessage": "恢复此备份将替换此设备上的所有现有笔记和设置。此操作无法撤消。",
+      "confirmButton": "恢复备份",
+      "progress": {
+        "validating": "正在验证备份...",
+        "decrypting": "正在解密记录...",
+        "restoring": "正在恢复数据...",
+        "complete": "恢复完成！"
+      },
+      "stats": {
+        "title": "备份信息",
+        "created": "创建时间",
+        "records": "记录"
+      },
+      "storageFull": "浏览器存储空间不足，恢复未完成，也未保留任何内容。您的备份文件没有问题：请释放一些空间后重新恢复。"
+    },
+    "autoFailed": "自动备份失败。请手动创建备份。"
+  },
+  "settings": {
+    "title": "设置",
+    "closeLabel": "关闭设置",
+    "tabs": {
+      "general": "通用",
+      "editor": "编辑器",
+      "colors": "类别",
+      "keyboard": "快捷键",
+      "sync": "同步",
+      "advanced": "高级",
+      "about": "关于"
+    },
+    "colors": {
+      "paletteTitle": "类别颜色",
+      "paletteDescription": "自定义用于笔记和标签的颜色（红色、橙色、黄色、绿色、蓝色、紫色、粉色、灰色）",
+      "lightMode": "浅色模式",
+      "darkMode": "深色模式",
+      "resetPalette": "重置为默认值",
+      "tagColorsTitle": "标签类别",
+      "tagColorsDescription": "全局分配标签类别（红色、橙色、黄色、绿色、蓝色、紫色、粉色、灰色）",
+      "addTagColor": "添加标签类别",
+      "removeTagColor": "移除",
+      "noColor": "无",
+      "noTagColors": "尚未分配标签类别",
+      "tagNamePlaceholder": "标签名称...",
+      "selectColor": "选择类别",
+      "selectTag": "选择一个标签"
+    },
+    "theme": "主题",
+    "themeLight": "浅色",
+    "themeDark": "深色",
+    "themeAuto": "自动",
+    "timezone": "时区",
+    "timezoneDescription": "所有时间戳以 UTC 格式存储,并以您选择的时区显示",
+    "timezoneLocal": "本地 (浏览器时区)",
+    "layoutMode": "布局模式",
+    "layoutModeDescription": "覆盖此设备的自动布局检测",
+    "layoutModeAuto": "自动 (响应式)",
+    "layoutModeMobile": "强制移动端布局",
+    "layoutModeDesktop": "强制桌面端布局",
+    "fontSize": "编辑器字体大小",
+    "fontSizeDescription": "自动模式在移动端使用较大字体以防止浏览器缩放",
+    "fontSizeAuto": "自动 (移动端: 16px, 桌面端: 14px)",
+    "fontSizeSmall": "小 (12px)",
+    "fontSizeMedium": "中 (14px)",
+    "fontSizeLarge": "大 (16px)",
+    "autoLockTimeout": "自动锁定超时 (分钟)",
+    "sortOrder": "默认排序方式",
+    "sortRecent": "最近修改",
+    "sortOldest": "最早优先",
+    "sortAlpha": "按字母顺序",
+    "sortCreated": "创建日期",
+    "language": "语言",
+    "languageAuto": "自动（从浏览器检测）",
+    "languageDescription": "选择「自动」以使用浏览器的语言设置",
+    "rememberPassword": "记住密码 (不安全)",
+    "rememberPasswordWarning": "在此设备上存储您的密码,以跳过每次访问时输入。警告:这会将您的密码以明文形式存储在 localStorage 中,这非常不安全。",
+    "rememberPasswordNote": "启用此功能后,自动锁定将被禁用。禁用此功能将立即锁定应用程序。",
+    "openLinksInNewTab": "在新标签页中打开外部链接",
+    "openLinksInNewTabDescription": "启用后,markdown预览中的外部网站链接将在新浏览器标签页中打开,而不是离开Jottery",
+    "persistSession": "页面刷新后保持会话",
+    "persistSessionDescription": "刷新页面时保持会话活动。密码临时存储在浏览器的会话存储中。",
+    "persistSessionNote": "比'记住密码'更安全 - 自动过期并在关闭标签页时清除。",
+    "persistSessionUnavailable": "会话存储不可用(file:// URL或浏览器隐私设置)。",
+    "persistSessionDisabledByRemember": "当'记住密码'启用时禁用。",
+    "persistSessionTimeout": "会话超时(分钟)",
+    "persistSessionTimeoutDescription": "会话在此分钟数后过期。范围:5-480。",
+    "persistSessionModal": {
+      "confirmPassword": "输入密码以启用:",
+      "enableButton": "启用会话持久化"
+    },
+    "rememberPasswordModal": {
+      "title": "⚠️ 安全警告",
+      "insecureWarning": "启用此功能将以明文形式将您的密码存储在 localStorage 中,这非常不安全。",
+      "riskDevice": "任何能访问您设备的人都可以读取它",
+      "riskExtensions": "浏览器扩展可以访问它",
+      "riskCache": "它可能在清除浏览器缓存后仍然存在",
+      "riskAutolock": "自动锁定将被禁用",
+      "confirmWarning": "只有在您完全理解安全风险的情况下才启用此功能。",
+      "confirmPassword": "输入您的密码以确认:",
+      "passwordPlaceholder": "您的密码",
+      "cancelButton": "取消",
+      "enableButton": "我理解,仍然启用"
+    },
+    "autoSaved": "更改已自动保存",
+    "saveSettings": "保存设置",
+    "saving": "保存中...",
+    "settingsSaved": "设置已保存",
+    "settingsSaveFailed": "保存设置失败: {error}",
+    "deleteDatabaseFailed": "删除数据库失败: {error}",
+    "exportFailed": "导出笔记失败: {error}",
+    "importFailed": "导入笔记失败: {error}",
+    "exportNotes": "导出笔记",
+    "importNotes": "导入笔记",
+    "importDialog": {
+      "importing": "正在导入笔记",
+      "complete": "导入完成",
+      "notesImported": "已导入笔记:",
+      "notesSkipped": "已跳过笔记:",
+      "attachmentsImported": "已导入附件:",
+      "uniqueTags": "唯一标签:",
+      "errorsOccurred": "发生 {count} 个错误:",
+      "done": "完成",
+      "processingNotes": "正在处理 {total} 个笔记中的第 {current} 个...",
+      "readingFile": "读取文件中...",
+      "pleaseWait": "请稍候,正在导入您的笔记..."
+    },
+    "deleteDatabase": "删除数据库",
+    "keyboardShortcuts": "快捷键",
+    "syncSetup": {
+      "endpoint": {
+        "label": "同步服务器地址",
+        "help": "您的自托管 Jottery 同步服务器的 URL"
+      },
+      "deviceName": {
+        "label": "设备名称",
+        "placeholder": "我的笔记本",
+        "help": "用于识别此设备的名称"
+      },
+      "chooseMethod": "选择设置同步的方式:",
+      "registerServer": {
+        "title": "注册到同步服务器",
+        "subtitle": "<strong>仅用于您的第一台设备:</strong> 创建您的账户",
+        "benefit1": "✓ 创建电子邮件/密码账户",
+        "benefit2": "✓ 为此设备启用同步",
+        "benefit3": "✓ 需要管理员批准",
+        "button": "🚀 注册新账户"
+      },
+      "existingAccount": {
+        "title": "连接现有账户",
+        "subtitle": "<strong>已有账户?</strong> 连接此设备",
+        "benefit1": "✓ 使用您现有的电子邮件/密码",
+        "benefit2": "✓ 将此设备添加到您的账户",
+        "benefit3": "✓ 从服务器同步笔记到此设备",
+        "button": "🔗 连接到现有账户",
+        "formTitle": "连接到现有账户",
+        "infoText": "输入您的同步服务器凭据。连接后,您现有的笔记将同步到此设备。",
+        "emailLabel": "电子邮件地址",
+        "passwordLabel": "服务器密码",
+        "connectButton": "连接设备",
+        "connecting": "连接中..."
+      },
+      "privacyNote": "<strong>🔒 隐私:</strong> 您的所有笔记都经过端到端加密。服务器只存储加密数据,无法读取您的内容。",
+      "selfHostNote": "<strong>💡 自托管?</strong> 运行您自己的服务器 - <a href=\"https://github.com/seesee/jottery\" target=\"_blank\" class=\"underline\">查看 GitHub</a>",
+      "back": "← 返回",
+      "registration": {
+        "title": "注册新用户账户",
+        "emailLabel": "电子邮件地址",
+        "emailPlaceholder": "you@example.com",
+        "passwordLabel": "密码 (至少 12 个字符)",
+        "passwordPlaceholder": "••••••••••••",
+        "confirmPasswordLabel": "确认密码",
+        "confirmPasswordPlaceholder": "••••••••••••",
+        "passwordMismatch": "密码不匹配",
+        "passwordWarningTitle": "<strong>建议:</strong> 使用与您的笔记加密密码不同的密码。",
+        "passwordWarningText": "此密码将发送到服务器进行身份验证。您的笔记密码不应离开您的设备。",
+        "registerButton": "注册用户账户",
+        "registering": "注册中...",
+        "pendingTitle": "等待管理员批准",
+        "pendingText": "请联系您的管理员批准您的账户。获得批准后,点击下方完成设置。",
+        "approvedButton": "我已获得批准 - 完成设置",
+        "completingSetup": "完成设置中...",
+        "deviceRegistering": "⏳ 正在注册设备并同步...",
+        "successTitle": "同步已成功启用!",
+        "successText": "您的设备现已注册,<strong>所有现有笔记已同步到服务器</strong>。未来的更改将自动同步。",
+        "successNextSteps": "🔗 添加另一台设备：在新设备上使用\"连接现有帐户\"。",
+        "done": "完成",
+        "checkStatusLink": "在用户门户查看您的审批状态 →"
+      },
+      "linkAccount": {
+        "title": "关联账户 (可选)",
+        "infoText": "ℹ️ 此功能用于将来使用(管理员仪表板访问、订阅管理)。它<strong>不会</strong>在此设备上启用同步。",
+        "emailLabel": "电子邮件地址",
+        "passwordLabel": "密码",
+        "comingSoon": "即将推出",
+        "futureUpdate": "账户关联将在未来更新中启用"
+      },
+      "error": "错误",
+      "notesPassword": {
+        "label": "笔记密码",
+        "placeholder": "用于解锁笔记的密码",
+        "hintNew": "用于保护存放在服务器上的加密密钥，以便您的其他设备连接。该密码不会发送到服务器。请使用您解锁此设备时使用的密码。",
+        "hintExisting": "您在其他设备上解锁笔记所用的密码。该密码不会发送到服务器。",
+        "required": "请输入您的笔记密码。",
+        "incorrect": "这不是在此设备上解锁笔记的密码。请输入笔记密码，而不是服务器密码。",
+        "uploadFailed": "同步已设置，但加密密钥未能保存到服务器，因此其他设备暂时无法连接。下次解锁时将重试",
+        "mustDiffer": "笔记密码和账户密码必须不同。同步服务器能看到您的账户密码，如果两者相同，它就可以读取您的笔记。",
+        "matchesAccountWarning": "您的笔记密码与账户密码相同，因此同步服务器可以读取您的笔记。请更改笔记密码以解决此问题。"
+      },
+      "existingAccountDetected": "此邮箱已有账户，因此本设备将连接到该账户。请输入您在其他设备上使用的笔记密码。",
+      "errors": {
+        "credentialsRequired": "需要电子邮件和密码",
+        "passwordTooShort": "密码至少需要 12 个字符",
+        "registrationFailed": "用户注册失败",
+        "deviceRegistrationFailed": "设备注册失败",
+        "loginFailed": "登录失败",
+        "accountInfoFailed": "加载账户信息失败",
+        "deleteNotesFailed": "删除笔记失败",
+        "disconnectFailed": "断开连接失败",
+        "syncFailed": "同步失败",
+        "toggleFailed": "更改同步失败"
+      }
+    },
+    "editorTab": {
+      "vimMode": "编辑器模式",
+      "vimModeHelp": "为高级用户启用 vim 风格的键盘绑定。支持常用的 vim 命令，如 i、Esc、dd、yy、p 等。",
+      "enableVimMode": "启用 vim 键盘绑定",
+      "quickCommands": "快捷命令",
+      "quickCommandsHelp": "输入斜杠命令如 /now、/date、/time、/uuid 或 /hr 来快速插入内容。命令在后面输入空格或回车时展开。",
+      "enableQuickCommands": "启用快捷命令",
+      "syntaxHighlighting": "语法高亮",
+      "syntaxHelp": "选择要在 Markdown 代码块和预览中启用语法高亮的编程语言。核心语言始终启用。",
+      "languagesEnabled": "已启用 {count} 种语言",
+      "estimatedSize": "预计大小: 约 {size} KB",
+      "resetToCore": "重置为核心",
+      "enableAll": "启用全部",
+      "coreLanguages": "核心语言",
+      "alwaysEnabled": "(始终启用)",
+      "popularLanguages": "流行语言",
+      "webLanguages": "Web 语言",
+      "systemsLanguages": "系统语言",
+      "dataLanguages": "数据语言",
+      "otherLanguages": "其他语言",
+      "enabledCount": "已启用 {enabled}/{total}",
+      "defaultNoteType": "默认笔记类型",
+      "defaultNoteTypeHelp": "选择新笔记的默认语法语言。默认类型不能从已启用的语言中取消选择。",
+      "default": "默认",
+      "commandsConfigured": "已配置 {count} 个命令",
+      "resetToDefaults": "重置为默认",
+      "addCommand": "添加命令",
+      "noCommands": "未配置命令。点击「添加命令」创建一个。",
+      "addNewCommand": "添加新命令",
+      "editCommand": "编辑命令",
+      "trigger": "触发器",
+      "type": "类型",
+      "format": "格式",
+      "formatHelp": "使用 YYYY、MM、DD、HH、mm、ss 标记",
+      "value": "值",
+      "description": "描述",
+      "preview": "预览",
+      "textPlaceholder": "要插入的文本",
+      "descriptionPlaceholder": "自动补全中显示的说明"
+    },
+    "keyboardTab": {
+      "description": "自定义快捷键。点击快捷键进行修改,然后按下您想要的组合键。",
+      "resetToDefaults": "重置为默认",
+      "viewAllShortcuts": "查看所有快捷键",
+      "quickReference": "所有快捷键的快速参考",
+      "globalShortcuts": "全局",
+      "noteListShortcuts": "笔记列表",
+      "editorShortcuts": "编辑器",
+      "focusSearch": "聚焦搜索",
+      "createNewNote": "创建新笔记",
+      "lockApplication": "锁定应用程序",
+      "openSettings": "打开设置",
+      "showShortcutsHelp": "显示快捷键帮助",
+      "openRecycleBin": "打开回收站",
+      "navigateUp": "向上导航",
+      "navigateDown": "向下导航",
+      "openNote": "打开选中的笔记",
+      "deleteNote": "删除选中的笔记",
+      "pinNote": "固定/取消固定笔记",
+      "selectAll": "全选笔记",
+      "copyNoteContent": "复制笔记内容",
+      "undo": "撤销",
+      "redo": "重做",
+      "versionHistory": "版本历史",
+      "noteInfo": "笔记信息",
+      "toggleWordWrap": "切换自动换行",
+      "togglePreview": "切换预览",
+      "duplicateNote": "复制笔记",
+      "exportNote": "导出笔记",
+      "pressKey": "按下按键...",
+      "notSet": "未设置",
+      "needsModifier": "此快捷键在输入时也会生效，因此需要 Ctrl、Cmd 或 Alt。请按其他键，或按 Esc 取消。",
+      "reserved": "该键已被保留。请按其他键，或按 Esc 取消。",
+      "toggleCollapse": "折叠或展开"
+    },
+    "syncTab": {
+      "enableSync": "启用同步",
+      "syncDescription": "使用自托管服务器在设备之间同步笔记",
+      "syncDisabled": "同步已禁用 (隐私模式)",
+      "syncDisabledDescription": "同步是可选的,默认禁用以最大程度保护隐私。",
+      "syncDisabledDetails": "禁用时,Jottery 不会向同步服务器发出任何网络请求。您的所有笔记都完全保留在此设备上。",
+      "toEnableSync": "要启用同步:切换上方的开关并配置您的同步服务器。",
+      "existingAccount": {
+        "title": "连接现有账户",
+        "subtitle": "<strong>已有账户?</strong> 连接此设备",
+        "benefit1": "✓ 使用您现有的电子邮件/密码",
+        "benefit2": "✓ 将此设备添加到您的账户",
+        "benefit3": "✓ 从服务器同步笔记到此设备",
+        "button": "🔗 连接到现有账户",
+        "formTitle": "连接到现有账户",
+        "infoText": "输入您的同步服务器凭据。连接后,您现有的笔记将同步到此设备。",
+        "emailLabel": "电子邮件地址",
+        "passwordLabel": "服务器密码",
+        "connectButton": "连接设备",
+        "connecting": "连接中..."
+      },
+      "privacyNote": "隐私:即使启用,所有笔记也是端到端加密的。同步服务器无法读取您的内容。",
+      "syncEnabled": "同步已启用",
+      "syncing": "同步中...",
+      "lastSync": "上次同步:",
+      "syncNow": "立即同步",
+      "fullSync": {
+        "title": "完整同步",
+        "description": "将所有笔记推送到服务器，无论其同步状态如何。如果笔记不同步或导入数据后使用此功能。",
+        "button": "完整同步"
+      },
+      "notesPendingSingle": "{count} 条笔记等待同步",
+      "notesPendingPlural": "{count} 条笔记等待同步",
+      "userPortal": {
+        "title": "用户门户",
+        "description": "管理您的账户、更改密码或删除数据",
+        "openButton": "打开用户门户"
+      },
+      "changePassword": {
+        "title": "更改密码",
+        "description": "更改您的加密密码。得益于信封加密，此操作非常快速——您的笔记无需重新加密。",
+        "currentPasswordLabel": "当前密码",
+        "newPasswordLabel": "新密码",
+        "confirmPasswordLabel": "确认新密码",
+        "currentPasswordPlaceholder": "输入当前密码",
+        "newPasswordPlaceholder": "输入新密码",
+        "confirmPasswordPlaceholder": "确认新密码",
+        "mismatch": "密码不匹配",
+        "changing": "正在更改密码...",
+        "button": "更改密码",
+        "success": "密码更改成功",
+        "error": "更改密码失败: {error}",
+        "serverKeyFailed": "您的密码已在此设备上更改，但无法更新服务器。下次解锁时将重试。在此之前，新设备需要使用您的旧密码。",
+        "keyStaysTheSame": "您的加密密钥保持不变，因此旧备份仍可用旧密码打开。请妥善保管。"
+      },
+      "connectionDetails": {
+        "title": "连接详情",
+        "server": "服务器",
+        "deviceName": "设备名称",
+        "deviceId": "设备ID"
+      },
+      "dangerZone": {
+        "title": "危险区域",
+        "disconnectTitle": "断开同步服务器连接",
+        "disconnectDescription": "这将断开此设备与同步服务器的连接并清除所有同步凭据。您的笔记不会被删除，将保留在此设备上。",
+        "disconnectButton": "断开连接"
+      },
+      "accountManagement": {
+        "title": "管理您的账户",
+        "loginPrompt": "登录以查看账户信息并管理您的同步笔记。",
+        "emailLabel": "电子邮件地址",
+        "passwordLabel": "密码",
+        "loggingIn": "登录中...",
+        "loginButton": "登录查看账户",
+        "loggedInAs": "已登录:",
+        "adminAccount": "管理员账户",
+        "logOut": "退出登录",
+        "loadingInfo": "正在加载账户信息...",
+        "syncedNotes": "已同步的笔记",
+        "attachments": "附件",
+        "storageUsed": "已用存储空间",
+        "storageQuota": "存储配额",
+        "storageUsage": "存储使用情况",
+        "privacyTitle": "隐私与安全",
+        "privacyDescription": "您的所有笔记都是端到端加密的。服务器无法读取您的内容。",
+        "selfHostLink": "想要自托管？查看 GitHub →",
+        "dangerZone": "危险区域",
+        "deleteNotesDescription": "从同步服务器删除所有笔记。此操作无法撤消。您的本地笔记不会被删除。",
+        "deleteNotesButton": "从服务器删除所有笔记"
+      },
+      "disconnectNotRevoked": "此设备已断开连接，但无法通知服务器，因此它仍在列表中，其密钥仍然有效。请在用户门户中撤销它。"
+    },
+    "advancedTab": {
+      "importExport": "导入/导出",
+      "exportDescription": "导出会创建未加密的 JSON 副本，用于将笔记迁移到其他地方：任何拿到文件的人都能读取。如需加密副本，请使用备份。导入会将笔记与现有内容合并。",
+      "downloadClient": "下载终端/HTML客户端",
+      "downloadTerminalClient": "下载终端客户端",
+      "clientDescription": "下载终端客户端用于命令行访问，或下载HTML客户端从本地文件系统运行",
+      "terminalClientDescription": "使用终端客户端从命令行访问您的笔记",
+      "selectPlatform": "选择平台...",
+      "download": "下载",
+      "deleteAllData": "删除所有数据",
+      "deleteAllDataWarning": "这将永久删除所有笔记、设置和加密密钥。此操作无法撤消。"
+    },
+    "aboutTab": {
+      "version": "版本",
+      "documentation": "文档",
+      "viewDocumentation": "查看文档",
+      "documentationDescription": "了解如何有效使用 Jottery",
+      "statistics": "统计",
+      "activeNotes": "活动笔记",
+      "pinnedNotes": "已置顶笔记",
+      "inRecycleBin": "回收站中",
+      "totalNotes": "总笔记数",
+      "popularTags": "热门标签",
+      "terminalClient": "终端客户端",
+      "terminalClientDescription": "使用 Jottery 终端客户端从命令行访问您的笔记。TUI 提供快速、键盘驱动的界面来管理您的笔记。",
+      "terminalClientDownload": "从高级选项卡下载终端客户端。",
+      "aboutJottery": "关于 Jottery",
+      "aboutDescription": "Jottery 是一个注重隐私、自托管的便签应用程序,用于捕获、组织和搜索具有丰富内容、语法高亮和加密的笔记。",
+      "viewOnGithub": "在 GitHub 上查看",
+      "license": "使用 MIT 许可证授权。"
+    },
+    "exportIncomplete": "导出不完整：{notes} 条笔记和 {attachments} 个附件无法读取，已被略过。"
+  },
+  "landing": {
+    "languagePicker": {
+      "label": "选择语言"
+    },
+    "hero": {
+      "title": "Jottery",
+      "subtitle": "一款强大的、隐私优先的笔记应用，具有端到端加密、高级搜索和可选同步功能。从网页或终端访问您的笔记。",
+      "cta": "立即试用",
+      "note": "无需注册 • 离线工作 • 可自托管"
+    },
+    "screenshots": {
+      "mainInterface": "显示笔记列表和编辑器的主界面",
+      "carouselLabel": "屏幕截图轮播",
+      "fullSizeLabel": "查看完整尺寸图片"
+    },
+    "features": {
+      "title": "您所需的一切",
+      "encrypted": {
+        "title": "端到端加密",
+        "description": "所有笔记在存储或同步之前都使用 AES-256-GCM 在本地加密。"
+      },
+      "localFirst": {
+        "title": "本地优先存储",
+        "description": "完全离线工作。除非您选择同步，否则数据将保留在您的设备上。"
+      },
+      "optionalSync": {
+        "title": "可选同步",
+        "description": "自托管您自己的同步服务器，以跨设备访问笔记。"
+      },
+      "powerfulSearch": {
+        "title": "强大的搜索",
+        "description": "具有修饰符、日期过滤器、字数统计等功能的高级搜索。"
+      },
+      "tagging": {
+        "title": "智能标签",
+        "description": "使用标签和颜色类别整理笔记，以便快速进行视觉识别。"
+      },
+      "attachments": {
+        "title": "附件",
+        "description": "向笔记添加文件、图片和文档。全部加密。"
+      },
+      "keyboard": {
+        "title": "键盘快捷键",
+        "description": "完全可定制的键盘快捷键，实现高效的笔记管理。"
+      },
+      "categories": {
+        "title": "颜色类别",
+        "description": "为笔记和标签分配颜色以进行视觉组织。"
+      }
+    },
+    "webFeatures": {
+      "title": "网页应用",
+      "subtitle": "采用现代网页技术的丰富编辑体验",
+      "richEditor": {
+        "title": "富文本编辑器",
+        "description": "基于 CodeMirror 6 构建，支持 20 多种编程语言的语法高亮、Markdown 支持和实时预览。",
+        "points": [
+          "代码片段的语法高亮",
+          "Markdown 渲染和预览",
+          "查找和替换",
+          "自动换行切换",
+          "可配置的字体和主题"
+        ],
+        "screenshotDescription": "带有语法高亮和 Markdown 预览的编辑器"
+      },
+      "multiSelect": {
+        "title": "多选和批量操作",
+        "description": "一次选择多个笔记并执行批量操作以实现高效的笔记管理。",
+        "points": [
+          "Ctrl/Cmd+点击切换选择",
+          "Shift+点击进行范围选择",
+          "批量标签操作",
+          "批量导出和删除",
+          "选择所有已过滤的笔记"
+        ],
+        "screenshotDescription": "带有批量操作工具栏的多选模式"
+      },
+      "versions": {
+        "title": "版本历史",
+        "description": "自动版本控制跟踪更改。查看、比较和恢复笔记的先前版本。",
+        "points": [
+          "自动创建版本",
+          "并排差异视图",
+          "恢复先前版本",
+          "版本元数据跟踪",
+          "冲突解决支持"
+        ],
+        "screenshotDescription": "带有差异查看器的版本历史"
+      },
+      "calculator": {
+        "title": "REPL 计算器",
+        "description": "具有持久历史记录的内置计算器。非常适合快速计算和转换。",
+        "points": [
+          "基本和高级数学运算",
+          "变量存储",
+          "计算历史",
+          "单位转换",
+          "将结果复制到笔记"
+        ],
+        "screenshotDescription": "REPL 计算器界面"
+      },
+      "outliner": {
+        "title": "大纲模式",
+        "description": "用层级大纲组织您的想法。非常适合项目规划、会议笔记和头脑风暴。",
+        "points": [
+          "层级项目符号",
+          "可折叠的部分",
+          "轻松重组",
+          "键盘导航",
+          "导出为 Markdown"
+        ],
+        "screenshotDescription": "带有层级结构的大纲模式"
+      },
+      "multilingual": {
+        "title": "多语言界面",
+        "description": "用您喜欢的语言使用 Jottery。界面支持 15 种语言，并持续增加中。",
+        "points": [
+          "支持 15 种语言",
+          "自动检测",
+          "轻松切换语言",
+          "社区翻译",
+          "完整的 UI 本地化"
+        ],
+        "screenshotDescription": "希腊语界面"
+      }
+    },
+    "tuiFeatures": {
+      "title": "终端用户界面",
+      "subtitle": "为命令行爱好者和 SSH 会话提供功能齐全的 TUI",
+      "terminal": {
+        "title": "快速 TUI 界面",
+        "description": "使用 Ratatui 构建的超快终端界面。无需离开终端即可浏览笔记。",
+        "screenshotDescription": "显示笔记列表和预览的终端界面",
+        "code": ""
+      },
+      "cli": {
+        "title": "强大的 CLI 命令",
+        "description": "用于快速笔记操作和自动化的命令行工具。",
+        "screenshotDescription": "运行中的 CLI 命令",
+        "code": "jottery note\njottery list\njottery search \"query\"\njottery show <id>\njottery sync"
+      },
+      "piping": {
+        "title": "直接管道内容",
+        "description": "立即将命令输出捕获为笔记。非常适合日志记录和文档编写。",
+        "screenshotDescription": "将命令输出管道到笔记",
+        "code": "echo \"快速笔记\" | jottery note\nls -la | jottery note -t system,logs\ncat error.log | jottery note -t errors"
+      },
+      "crossPlatform": {
+        "title": "跨平台同步",
+        "description": "在网页和 TUI 客户端之间无缝同步笔记。相同的加密，相同的数据。",
+        "screenshotDescription": "网页和 TUI 之间的同步状态",
+        "code": ""
+      }
+    },
+    "mobileFeatures": {
+      "title": "移动端友好",
+      "subtitle": "通过响应式移动界面随时随地访问您的笔记",
+      "list": {
+        "alt": "移动端笔记列表视图",
+        "caption": "笔记列表"
+      },
+      "travel": {
+        "alt": "显示日本行程的移动端笔记视图",
+        "caption": "笔记视图"
+      },
+      "calculator": {
+        "alt": "移动端计算器笔记",
+        "caption": "计算器"
+      }
+    },
+    "security": {
+      "title": "安全和隐私优先",
+      "lead": "您的笔记属于您。Jottery 在设计时将隐私和安全放在核心位置。",
+      "encryption": {
+        "title": "强加密",
+        "description": "采用 PBKDF2 密钥派生的 AES-256-GCM 加密。您的密码就是密钥——没有密码，笔记在数学上无法读取。"
+      },
+      "selfHosted": {
+        "title": "自托管",
+        "description": "完全控制运行您自己的同步服务器。服务器只存储它无法解密的加密数据。"
+      },
+      "noTracking": {
+        "title": "零追踪",
+        "description": "无分析、无追踪、无第三方服务。您的数据永远不会离开您的控制。"
+      }
+    },
+    "finalCta": {
+      "title": "准备好开始了吗？",
+      "subtitle": "几秒钟内设置您的加密笔记本。无需注册。",
+      "viewOnGitHub": "在 GitHub 上查看"
+    }
+  },
+  "unlock": {
+    "welcome": "欢迎使用 Jottery",
+    "enterPassword": "输入密码以解锁",
+    "setupPassword": "设置您的主密码",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "createPassword": "创建密码",
+    "unlock": "解锁",
+    "processing": "处理中...",
+    "passwordMinLength": "密码至少需要 8 个字符",
+    "passwordMismatch": "密码不匹配",
+    "incorrectPassword": "密码错误",
+    "warning": "重要提示:您的密码无法恢复。如果丢失,您的数据将永久无法访问。",
+    "failedAttempts": "密码错误。3 次失败尝试后,您可能需要删除数据库并重新开始。",
+    "deleteAndStartOver": "删除数据库并重新开始",
+    "storedPasswordInvalid": "存储的密码无效。请重新输入您的密码。",
+    "landingPage": {
+      "privateEncrypted": {
+        "title": "🔒 私密且加密",
+        "description": "Jottery 是一个注重隐私的笔记应用。您的所有笔记都使用您的主密码<strong>在本地加密</strong>。没有您的密码,任何人都无法读取您的笔记——即使他们访问您的设备存储。"
+      },
+      "localFirst": {
+        "title": "💾 本地优先存储",
+        "description": "您的笔记直接存储在浏览器的本地数据库中。Jottery 完全<strong>离线工作</strong>,不需要互联网连接或账户。"
+      },
+      "optionalSync": {
+        "title": "☁️ 可选同步服务器",
+        "description": "想要跨设备同步?Jottery 可以选择与自托管服务器同步。您的笔记和标签在<strong>同步前加密</strong>——服务器只存储无法读取的加密数据。"
+      },
+      "selfHosting": {
+        "title": "🏠 自托管",
+        "description": "想要运行自己的同步服务器?Jottery 是开源的,易于自托管。",
+        "viewOnGitHub": "在 GitHub 上查看"
+      },
+      "syncWarning": {
+        "title": "⚠️ 建议同步",
+        "description": "<strong>不建议</strong>在没有同步功能的情况下运行 Jottery。清除浏览器缓存可能会删除底层数据库。请花时间设置同步功能—Jottery 系统完全开源且可自托管。"
+      }
+    },
+    "sessionExpiredOrInvalid": "会话已过期或无效。请输入密码。",
+    "alreadyUsingJottery": "已经在使用 Jottery？",
+    "alreadyUsingJotteryDescription": "从备份恢复或设置同步以访问现有笔记。",
+    "restoreFromBackupSubtitle": "从 .jottery-backup 文件恢复笔记",
+    "syncConfig": {
+      "title": "同步配置（可选）",
+      "description": "可选地现在配置同步。您也可以稍后在设置 > 同步中执行此操作。",
+      "endpoint": "同步服务器URL",
+      "deviceName": "设备名称",
+      "deviceNamePlaceholder": "我的笔记本电脑",
+      "note": "注意：设置后您仍需向服务器注册。"
+    },
+    "syncSetup": {
+      "existingAccount": {
+        "title": "连接现有账户",
+        "subtitle": "已有账户？连接此设备",
+        "formTitle": "连接到现有账户",
+        "infoText": "输入您的同步服务器凭据。创建主密码后，您的笔记将同步。",
+        "emailLabel": "电子邮件地址",
+        "passwordLabel": "服务器密码",
+        "createPasswordNote": "输入同步信息后，请在下方使用您的主密码以完成设置。"
+      },
+      "registerServer": {
+        "title": "注册新账户",
+        "subtitle": "仅限第一台设备 - 创建您的账户",
+        "formTitle": "注册新账户"
+      },
+      "completeInSettings": "创建密码后，在设置 > 同步中完成同步设置。"
+    },
+    "restoreFromBackup": "从备份恢复",
+    "orDivider": "或",
+    "connectExisting": {
+      "title": "连接现有账户",
+      "subtitle": "将此设备链接到您现有的Jottery账户并同步笔记。",
+      "endpoint": "同步服务器URL",
+      "endpointHint": "Jottery同步服务器的地址。",
+      "deviceName": "设备名称",
+      "deviceNamePlaceholder": "例如：工作笔记本电脑",
+      "deviceNameHint": "用于识别此设备的友好名称。",
+      "email": "电子邮件地址",
+      "emailPlaceholder": "you@example.com",
+      "serverPassword": "服务器密码",
+      "serverPasswordPlaceholder": "您的账户密码",
+      "serverPasswordHint": "您用于登录同步服务器的密码。",
+      "notesPassword": "笔记密码",
+      "notesPasswordPlaceholder": "选择本地密码（至少8个字符）",
+      "notesPasswordHint": "用于在此设备上解锁笔记。必须与您其他已同步设备上的笔记密码一致。",
+      "submitButton": "连接并同步",
+      "errors": {
+        "endpointRequired": "同步服务器URL为必填项。",
+        "deviceNameRequired": "设备名称为必填项。",
+        "emailRequired": "电子邮件地址为必填项。",
+        "serverPasswordRequired": "服务器密码为必填项。",
+        "notesPasswordMinLength": "笔记密码至少需要8个字符。",
+        "onboardingFailed": "从服务器下载加密密钥失败。请确保笔记密码与其他设备上的一致，且源设备已完成同步",
+        "accountKeyUnreadable": "此笔记密码无法打开您账户的密钥。请检查密码。如果密码正确，该密钥可能是由旧版 Jottery 保存的：在已连接的设备上解锁 Jottery 即可修复，然后再试一次。",
+        "localNotesOrphaned": "此设备上的笔记使用的密钥与您的账户不同，连接后将无法读取。没有进行任何更改。要保留这些笔记，请先导出，删除此设备的数据，连接后再导入。"
+      },
+      "steps": {
+        "initialising": "正在初始化本地加密…",
+        "registering": "正在向服务器注册设备…",
+        "onboarding": "正在下载加密密钥…",
+        "encrypting": "正在保护凭据…",
+        "syncing": "正在开始初始同步…"
+      }
+    },
+    "passwordChangedElsewhere": "您的笔记密码已在另一台设备上更改。此设备仍可使用旧密码解锁，您的笔记是安全的，但新设备需要使用新密码。"
+  },
+  "lock": {
+    "title": "锁定应用程序",
+    "message": "锁定应用程序?未保存的更改将丢失。",
+    "confirmButton": "锁定",
+    "locking": "正在锁定...",
+    "savingAndSyncing": "正在保存并同步您的笔记"
+  },
+  "recycleBin": {
+    "title": "回收站",
+    "empty": "回收站为空",
+    "emptyDescription": "删除的笔记将显示在此处",
+    "restore": "恢复",
+    "restoreTitle": "恢复笔记",
+    "deletePermanently": "永久删除",
+    "deletePermanentlyTitle": "永久删除",
+    "deleteForever": "永久删除",
+    "emptyBin": "清空回收站",
+    "loading": "加载中...",
+    "closeLabel": "关闭回收站",
+    "deleted": "删除时间:",
+    "unknown": "未知",
+    "untitled": "无标题",
+    "footer": {
+      "single": "回收站中有 {count} 条笔记。笔记将在 30 天后自动清除。",
+      "multiple": "回收站中有 {count} 条笔记。笔记将在 30 天后自动清除。"
+    },
+    "confirm": {
+      "deleteNote": {
+        "title": "永久删除笔记",
+        "message": "这将永久删除此笔记。此操作无法撤消!",
+        "confirmButton": "永久删除"
+      },
+      "emptyBin": {
+        "title": "清空回收站",
+        "message": "永久删除回收站中的所有 {count} 条{notes}?此操作无法撤消!",
+        "note": "笔记",
+        "notes": "笔记",
+        "confirmButton": "清空回收站"
+      }
+    },
+    "error": {
+      "restore": "恢复笔记失败",
+      "delete": "删除笔记失败",
+      "emptyBin": "清空回收站失败"
+    }
+  },
+  "attachments": {
+    "title": "附件",
+    "upload": "上传文件",
+    "dropHere": "将文件拖到此处或点击浏览",
+    "uploading": "上传中...",
+    "download": "下载",
+    "validationError": "文件验证错误",
+    "clickToView": "点击查看附件",
+    "clickToHide": "点击隐藏附件",
+    "noAttachments": "没有附件",
+    "loading": "加载中...",
+    "attachment": "附件",
+    "thumbnail": "缩略图",
+    "clickToPreview": "点击预览",
+    "clickToPreviewHint": "• 点击预览",
+    "copyMarkdown": "复制 Markdown 链接",
+    "delete": "删除",
+    "close": "关闭",
+    "closePreview": "关闭预览",
+    "downloadToView": "下载以查看",
+    "markdownCopied": "Markdown 链接已复制到剪贴板",
+    "error": {
+      "download": "下载附件失败",
+      "copyMarkdown": "复制 Markdown 链接失败",
+      "upload": "上传 {name} 失败: {error}",
+      "delete": "删除附件失败: {error}",
+      "paste": "粘贴图片失败: {error}"
+    },
+    "preview": {
+      "title": "附件预览",
+      "loading": "加载预览中...",
+      "notAvailable": "此文件类型无法预览。",
+      "audioNotSupported": "您的浏览器不支持音频播放。",
+      "videoNotSupported": "您的浏览器不支持视频播放。",
+      "videoLabel": "视频预览"
+    },
+    "confirmDelete": {
+      "title": "移除附件？",
+      "message": "该文件将从此笔记中移除。除非笔记的早期版本中仍有此文件，否则无法恢复。",
+      "confirmButton": "移除"
+    }
+  },
+  "keyboard": {
+    "title": "快捷键",
+    "closeLabel": "关闭快捷键帮助",
+    "global": "全局",
+    "noteList": "笔记列表",
+    "editor": "编辑器",
+    "focusSearch": "聚焦搜索",
+    "createNote": "创建新笔记",
+    "lockApp": "锁定应用程序",
+    "openSettings": "打开设置",
+    "showShortcuts": "显示快捷键",
+    "navigateNotes": "浏览笔记",
+    "navigateVim": "浏览笔记 (vim 风格)",
+    "openNote": "打开选中的笔记",
+    "deleteNote": "删除选中的笔记",
+    "pinNote": "置顶/取消置顶选中的笔记",
+    "closeNote": "关闭笔记",
+    "copyNote": "复制笔记内容",
+    "versionHistory": "版本历史",
+    "noteInfo": "笔记信息",
+    "findInNote": "在笔记中查找 (CodeMirror)",
+    "replaceInNote": "在笔记中替换 (CodeMirror)",
+    "macNote": "在 macOS 上,使用 Cmd 而不是 Ctrl。",
+    "note": "注意:",
+    "cmd": "Cmd",
+    "ctrl": "Ctrl"
+  },
+  "releases": {
+    "title": "发行版",
+    "description": "下载适合您平台的 Jottery TUI。",
+    "tuiClient": "TUI 客户端",
+    "standaloneWebApp": "独立网页应用",
+    "webAppNote": "从文件系统本地运行（同步已禁用）"
+  },
+  "fileUpload": {
+    "dropHere": "将文件拖到此处",
+    "clickOrDrag": "<span class=\"font-medium\">点击上传</span> 或拖放",
+    "maxFileSize": "最大文件大小: 10MB"
+  },
+  "pdfViewer": {
+    "loading": "加载 PDF 查看器中...",
+    "pageOfPages": "第 {current} 页,共 {total} 页",
+    "previousPage": "上一页",
+    "nextPage": "下一页",
+    "zoomOut": "缩小",
+    "zoomIn": "放大",
+    "loadFailed": "无法打开此 PDF。您仍可下载它。"
+  },
+  "versionHistory": {
+    "title": "版本历史",
+    "closeLabel": "关闭版本历史",
+    "loading": "加载版本中...",
+    "noVersions": "没有版本历史",
+    "versionsCreatedDuringSync": "版本将在同步期间创建",
+    "current": "(当前)",
+    "autoSync": "自动同步",
+    "manualSync": "手动同步",
+    "version": "版本:",
+    "characters": "字符数:",
+    "created": "创建时间:",
+    "synced": "同步时间:",
+    "tags": "标签:",
+    "contentPreview": "内容预览",
+    "selectToPreview": "选择一个版本以预览",
+    "restoreButton": "恢复此版本",
+    "restoreConfirm": {
+      "title": "恢复版本",
+      "message": "您确定要恢复此版本吗?在恢复之前,您当前的笔记将保存为新版本。",
+      "confirmButton": "恢复"
+    },
+    "restoreFailed": "恢复版本失败: {error}"
+  },
+  "header": {
+    "menu": "菜单",
+    "loadingNotes": "正在加载 {current}/{total} 条笔记...",
+    "creatingNote": "正在创建笔记...",
+    "addContentFirst": "请先在当前笔记中添加内容",
+    "lastSynced": "上次同步：{time}",
+    "neverSynced": "尚未同步",
+    "syncDisabled": "未启用同步",
+    "newNote": "新建笔记"
+  },
+  "confirm": {
+    "deleteDatabase": {
+      "title": "删除数据库",
+      "message": "⚠️ 警告:这将永久删除所有加密笔记和附件。此操作无法撤消!\n\n您确定要删除数据库吗?",
+      "confirmButton": "删除数据库"
+    },
+    "deleteAllData": {
+      "title": "删除所有数据",
+      "message": "这将永久删除所有笔记、设置和加密密钥。此操作无法撤消。\n\n输入 DELETE 以确认:",
+      "confirmButton": "删除所有内容",
+      "cancelButton": "取消"
+    },
+    "disconnectSync": {
+      "title": "断开与同步服务器的连接?",
+      "message": "这将断开此设备与同步服务器的连接并清除所有同步凭据。\n\n您的笔记不会被删除,将保留在此设备上。\n\n您以后可以重新连接到同步服务器。",
+      "confirmButton": "断开连接",
+      "cancelButton": "取消"
+    },
+    "deleteServerNotes": {
+      "title": "从服务器删除所有笔记?",
+      "message": "这将永久从同步服务器删除所有笔记。此操作无法撤消。\n\n您的本地笔记将保留在此设备上,不会被删除。\n\n输入 DELETE 以确认:",
+      "confirmButton": "从服务器删除",
+      "cancelButton": "取消"
+    },
+    "disableRememberPassword": {
+      "title": "禁用记住密码?",
+      "message": "这将清除您存储的密码并锁定应用程序。\n\n下次访问应用时,您需要输入密码。",
+      "confirmButton": "禁用并锁定",
+      "cancelButton": "取消"
+    },
+    "requireText": "输入 <strong>{text}</strong> 以确认:",
+    "deleteKeyword": "DELETE"
+  },
+  "updateBanner": {
+    "title": "有新版本可用",
+    "message": "重新加载以获取最新功能和改进",
+    "reloadButton": "立即重新加载",
+    "dismissLabel": "忽略",
+    "backupButton": "先备份",
+    "backingUp": "备份中..."
+  },
+  "bulk": {
+    "toggleSelect": "切换选择",
+    "selected": "已选择",
+    "addTags": "添加标签",
+    "removeTags": "移除标签",
+    "setColor": "设置类别",
+    "colorSet": "已为 {count} 条笔记设置类别",
+    "selectColorForBulk": "为所选笔记选择类别",
+    "delete": "删除",
+    "export": "导出",
+    "combine": "合并",
+    "cancel": "取消选择",
+    "confirmDelete": "删除 {count} 条笔记？",
+    "confirmDeleteMessage": "这将把 {count} 条笔记移至回收站。",
+    "confirmCombine": "合并 {count} 条笔记？",
+    "confirmCombineMessage": "这将把 {count} 条笔记合并为一条（按创建日期排序，最早的在前）。原始笔记将被移至回收站。",
+    "mergeTagsOption": "合并所有笔记的标签",
+    "mergeTagsDescription": "取消勾选时，仅保留第一条（最早的）笔记的标签。",
+    "combinedSuccess": "已合并 {count} 条笔记",
+    "enterTags": "输入标签（用逗号分隔）",
+    "progress": "{current} / {total}",
+    "selectAll": "全选",
+    "deselectAll": "取消全选",
+    "archive": "归档",
+    "moreActions": "更多操作"
+  },
+  "conflict": {
+    "title": "检测到同步冲突",
+    "description": "此笔记在本地和服务器上都被修改过。请选择如何解决冲突。",
+    "yourVersion": "您的版本",
+    "serverVersion": "服务器版本",
+    "commonAncestor": "共同祖先",
+    "ancestorDescription": "双方开始时的版本",
+    "chooseAction": "选择如何解决此冲突:",
+    "keepMine": "保留我的",
+    "keepServer": "保留服务器",
+    "keepBoth": "两者都保留",
+    "merge": "合并",
+    "resolved": "冲突已解决",
+    "resolvedBoth": "冲突已解决 - 已创建副本",
+    "noConflict": "未找到冲突数据",
+    "indicator": "同步冲突",
+    "bannerText": "此笔记存在需要解决的同步冲突",
+    "resolveButton": "解决冲突",
+    "syncNotification": "{count}个笔记有同步冲突",
+    "serverUnreadable": "服务器上此笔记的副本无法读取，可能已被篡改。只能保留您的版本。",
+    "localUnreadable": "无法读取此设备上的笔记副本。",
+    "loadFailed": "加载冲突数据失败",
+    "resolveFailed": "解决冲突失败"
+  },
+  "pullToRefresh": {
+    "pull": "下拉同步",
+    "release": "释放同步",
+    "syncing": "同步中...",
+    "region": "下拉刷新"
+  },
+  "sync": {
+    "syncing": "同步中...",
+    "syncProgress": "同步中: {percentage}% 已完成",
+    "notesRefused": "部分笔记超出了您账户的上传限制，未能同步。其余内容均已同步。",
+    "accountDisabled": "您的账户已停用或正在等待批准，因此同步已停止。此设备上的笔记是安全的。请联系您的管理员。",
+    "storageQuotaExceeded": "您的账户已达到存储上限，因此无法上传此设备上的更改。请永久删除一些笔记或附件以释放空间。",
+    "massDeletionHeld": "服务器要求一次删除 {count} 条笔记。它们已被移至回收站，以防这不是您的操作。请从那里恢复，如果确实是您的操作，请清空回收站。",
+    "clockAhead": "部分更改未能同步，因为其日期比服务器提前了一天以上。请检查此设备的日期和时间。",
+    "deviceRevoked": "此设备已不再连接到您的账户，因此同步已停止。此设备上的笔记是安全的。请在设置中重新连接。",
+    "databaseLost": "数据库连接已断开。请刷新页面以继续。"
+  },
+  "inbox": {
+    "title": "收件箱",
+    "count": "{count} 项",
+    "countSingle": "1 项",
+    "empty": "收件箱为空",
+    "emptyDescription": "通过收件箱API提交的笔记将在此处显示以供审核",
+    "accept": "接受",
+    "acceptAll": "全部接受",
+    "delete": "删除",
+    "deleteAll": "全部删除",
+    "accepting": "接受中...",
+    "deleting": "删除中...",
+    "accepted": "笔记已接受",
+    "acceptedAll": "已接受全部 {count} 条笔记",
+    "deleted": "收件箱项目已删除",
+    "deletedAll": "所有收件箱项目已删除",
+    "source": "来源：{source}",
+    "untitled": "无标题",
+    "closeLabel": "关闭收件箱",
+    "indicator": "收件箱 ({count})",
+    "confirm": {
+      "delete": {
+        "title": "删除收件箱项目",
+        "message": "删除此收件箱项目？此操作无法撤销。",
+        "confirmButton": "删除"
+      },
+      "deleteAll": {
+        "title": "删除所有收件箱项目",
+        "message": "删除全部 {count} 个收件箱项目？此操作无法撤销。",
+        "confirmButton": "全部删除"
+      }
+    },
+    "error": {
+      "accept": "接受收件箱项目失败",
+      "delete": "删除收件箱项目失败",
+      "acceptAll": "接受收件箱项目失败",
+      "deleteAll": "无法删除收件箱项目"
+    },
+    "token": {
+      "title": "Inbox API",
+      "description": "通过API向您的账户提交笔记 — 无需加密密码。项目将出现在您的收件箱中供审核。",
+      "generate": "生成令牌",
+      "revoke": "撤销令牌",
+      "active": "令牌已激活",
+      "none": "未配置令牌",
+      "generated": "令牌已生成 — 请立即保存，它不会再次显示。",
+      "revoked": "收件箱令牌已撤销",
+      "copyToken": "复制令牌",
+      "copied": "令牌已复制到剪贴板",
+      "quickStart": "快速入门",
+      "curlExample": "示例：通过 curl 提交笔记",
+      "confirm": {
+        "revoke": {
+          "title": "撤销收件箱令牌",
+          "message": "撤销您的收件箱令牌？所有使用它的集成将停止工作。",
+          "confirmButton": "撤销"
+        }
+      },
+      "error": {
+        "generate": "无法生成收件箱令牌",
+        "revoke": "无法撤销收件箱令牌"
+      }
+    },
+    "quota": {
+      "items": "项目: {used}/{max}",
+      "size": "大小: {used}/{max}"
+    }
+  },
+  "archive": {
+    "title": "归档",
+    "closeLabel": "关闭归档",
+    "loading": "正在加载已归档的笔记...",
+    "empty": "没有已归档的笔记",
+    "emptyDescription": "归档的笔记将显示在此处",
+    "archived": "已归档",
+    "archive": "归档",
+    "unknown": "未知",
+    "untitled": "无标题",
+    "unarchive": "取消归档",
+    "unarchiveTitle": "将笔记恢复到活动列表",
+    "unarchived": "笔记已取消归档",
+    "footer": {
+      "single": "{count} 条已归档笔记",
+      "multiple": "{count} 条已归档笔记"
+    },
+    "error": {
+      "unarchive": "取消归档笔记失败"
+    },
+    "mode": "归档",
+    "enterMode": "显示已归档笔记",
+    "exitMode": "显示活动笔记",
+    "inActive": "在活动",
+    "inArchive": "在归档",
+    "crossModeHintActive": "点击查看符合此搜索的已归档笔记",
+    "crossModeHintArchive": "点击查看符合此搜索的活动笔记"
+  },
+  "outliner": {
+    "name": "大纲",
+    "emptyHint": "开始输入以添加第一个项目",
+    "newItem": "新项目",
+    "indent": "缩进",
+    "outdent": "取消缩进",
+    "collapse": "折叠",
+    "expand": "展开",
+    "moveUp": "上移",
+    "moveDown": "下移",
+    "expandAll": "全部展开",
+    "collapseAll": "全部折叠",
+    "level": "级别 {n}"
+  },
+  "progress": {
+    "title": "请稍候",
+    "processing": "处理中...",
+    "backup": "正在创建备份...",
+    "export": "正在导出笔记..."
+  },
+  "tags": {
+    "virtual": {
+      "title": "标题"
+    }
+  },
+  "searchHelp": {
+    "title": "搜索语法",
+    "tags": "标签",
+    "text": "文本",
+    "wildcards": "通配符",
+    "modifiers": "修饰符",
+    "combined": "组合示例",
+    "clickToTry": "点击示例试试",
+    "tagsAnd": "两个标签都包含 (AND)",
+    "tagsOr": "包含任一标签 (OR)",
+    "exactPhrase": "精确短语",
+    "bothWords": "两个词都包含 (AND)",
+    "eitherWord": "包含任一词 (OR)",
+    "notContaining": "不包含",
+    "startsWith": "以此开头",
+    "endsWith": "以此结尾",
+    "containsAnywhere": "包含在任意位置",
+    "hasAttachment": "有附件的笔记",
+    "createdAfter": "在日期之后创建",
+    "createdBefore": "在日期之前创建",
+    "createdRange": "在日期范围内创建",
+    "modifiedAfter": "在日期之后修改",
+    "wordsMore": "超过 N 个词",
+    "wordsLess": "少于 N 个词",
+    "wordsRange": "在 N 到 M 个词之间"
+  },
+  "commandPalette": {
+    "title": "命令面板",
+    "placeholder": "输入命令...",
+    "noResults": "没有匹配的命令",
+    "navigation": "导航",
+    "editorActions": "编辑器",
+    "focusSearch": "聚焦搜索",
+    "newNote": "新建笔记",
+    "openSettings": "设置",
+    "openRecycleBin": "回收站",
+    "openArchive": "归档",
+    "lockApp": "锁定应用程序",
+    "showShortcuts": "键盘快捷键",
+    "togglePreview": "切换预览",
+    "toggleWordWrap": "切换自动换行",
+    "copyContent": "复制笔记内容",
+    "copyLink": "复制笔记链接",
+    "duplicateNote": "复制笔记",
+    "exportNote": "导出为文件",
+    "printNote": "打印 / 导出PDF",
+    "noteInfo": "笔记信息",
+    "versionHistory": "版本历史",
+    "deleteNote": "删除笔记",
+    "lockNote": "锁定/解锁笔记",
+    "setColor": "设置笔记类别",
+    "archiveNote": "归档笔记"
+  },
+  "contextMenu": {
+    "title": "笔记操作",
+    "open": "打开",
+    "pin": "置顶笔记",
+    "unpin": "取消置顶",
+    "duplicate": "复制",
+    "setColour": "设置类别颜色",
+    "archive": "归档",
+    "unarchive": "取消归档",
+    "delete": "删除"
+  },
+  "swipeHints": {
+    "swipeLeftToDelete": "向左滑动删除",
+    "swipeRightToSelect": "向右滑动选择",
+    "tapToDismiss": "点击任意位置关闭"
+  },
+  "welcomeNote": {
+    "content": "# 欢迎使用 Jottery\n\nJottery 是您的私人加密记事本，用于捕获和整理笔记。\n\n## 快速开始\n\n- **创建笔记**：点击 + 按钮或按 `Ctrl+N`\n- **搜索**：使用搜索栏或按 `Ctrl+K`\n- **标签**：添加标签整理笔记，然后用 `#标签名` 筛选\n- **置顶**：置顶重要笔记使其保持在顶部\n\n## 搜索语法\n\nJottery 支持强大的搜索查询：\n\n- `#标签名` — 按标签筛选\n- `\"精确短语\"` — 精确匹配\n- `has:attachment` — 有附件的笔记\n- `created:>2024-01-01` — 日期筛选\n- `words:>100` — 字数筛选\n- `-排除词` — 排除条件\n\n点击搜索栏旁边的 **?** 按钮查看完整参考。\n\n## 命令面板\n\n按 `Ctrl+Shift+P` 打开命令面板，快速访问所有操作。\n\n## 键盘快捷键\n\n按 `Ctrl+/` 查看所有键盘快捷键。\n\n## 隐私\n\n您的所有笔记都在本地加密。除非您启用同步，否则数据不会离开您的设备。\n\n---\n\n*您可以随时删除此笔记。祝您写作愉快！*",
+    "tags": "欢迎,入门指南"
+  },
+  "emptyState": {
+    "title": "开始使用",
+    "createNote": "创建笔记",
+    "createNoteDescription": "开始写您的第一条笔记",
+    "importNotes": "导入笔记",
+    "importNotesDescription": "从 JSON 导出文件导入",
+    "exploreSearch": "探索搜索语法",
+    "exploreSearchDescription": "了解强大的搜索运算符"
+  },
+  "searchSuggestions": {
+    "recentSearches": "最近搜索",
+    "clearRecent": "移除",
+    "tryThese": "试试这些",
+    "clearAll": "清除全部"
+  },
+  "vaultHealth": {
+    "title": "保险库状态",
+    "description": "检测无法解密的笔记以及本设备上缺失的附件。",
+    "healthy": "未发现问题。",
+    "loadToast": "{count} 条笔记无法解密 — 请前往 设置 → 高级 查看",
+    "undecryptableTitle": "无法解密的笔记",
+    "undecryptableHint": "这些笔记无法用当前密码读取，通常是用其他密码创建的。删除操作不可恢复，并会从同步服务器和所有设备中移除。",
+    "createdAt": "创建时间",
+    "modifiedAt": "修改时间",
+    "size": "大小",
+    "errorLabel": "错误",
+    "delete": "永久删除",
+    "deleteConfirmTitle": "删除无法解密的笔记？",
+    "deleteConfirmMessage": "此笔记无法解密，内容无法恢复。删除后将从本设备、同步服务器及所有其他设备中移除。此操作无法撤销。",
+    "deleteFailed": "删除笔记失败",
+    "missingTitle": "缺失的附件",
+    "missingHint": "这些附件被笔记引用，但未存储在本设备上。",
+    "noteLabel": "笔记",
+    "unknownNote": "（笔记无法解密）",
+    "repair": "从服务器恢复",
+    "repairSuccess": "附件已恢复",
+    "repairFailed": "恢复失败 — 请检查同步连接和服务器版本",
+    "rescan": "重新扫描",
+    "scanning": "扫描中…",
+    "loadToastAction": "在保险库状态中查看",
+    "openNote": "打开此笔记",
+    "repairNotOnServer": "服务器上也不存在 — 请打开笔记并移除该附件",
+    "serverMissingTitle": "服务器上缺失",
+    "serverMissingHint": "同步服务器和本设备都没有这些附件的副本。请打开笔记移除附件，或从仍保有该文件的设备进行同步。",
+    "rejectedTitle": "来自同步服务器的已拒绝数据",
+    "rejectedHint": "同步服务器发送的这些数据格式不可信，因此未保存。您现有的笔记不受影响。如果反复出现，请确认服务器由谁控制。",
+    "rejectedKind": {
+      "note": "笔记",
+      "version": "笔记版本",
+      "conflict": "同步冲突",
+      "savedSearch": "已保存的搜索",
+      "attachment": "附件",
+      "inboxItem": "收件箱项目",
+      "deletion": "删除"
+    },
+    "scanFailed": "扫描未完成。请重试。"
+  }
+}

@@ -1,0 +1,34 @@
+name: TUI Tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tui/**'
+      - '.github/workflows/tui-tests.yml'
+  workflow_call:  # Run before publishing, from build-multiarch.yml
+  workflow_dispatch:  # Manual trigger
+
+permissions:
+  contents: read
+
+jobs:
+  tui-tests:
+    name: TUI Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+        with:
+          workspaces: tui
+
+      # --no-fail-fast because cargo otherwise stops at the first failing
+      # target, and the locale tests run after the unit tests.
+      - name: Run tests
+        working-directory: tui
+        run: cargo test --locked --no-fail-fast

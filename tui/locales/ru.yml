@@ -1,0 +1,847 @@
+app:
+  name: Jottery
+  description: Ориентированный на конфиденциальность зашифрованный TUI для заметок
+common:
+  loading: Загрузка...
+  saving: Сохранение...
+  cancel: Отмена
+  confirm: Подтвердить
+  "yes": Да
+  "no": Нет
+  ok: ОК
+  close: Закрыть
+  quit: Выход
+  back: Назад
+  email: Эл. почта
+password:
+  prompt: "Пароль: "
+  enter: Введите пароль
+  confirm: Подтвердите пароль
+  empty_error: Пароль не может быть пустым
+  mismatch_error: Пароли не совпадают
+  unlock_failed: "Не удалось разблокировать: %{error}"
+  change_success: Пароль успешно изменён
+  change_title: "Смена пароля"
+  change_enter_current: "Введите текущий пароль:"
+  change_enter_new: "Введите новый пароль (мин. 8 символов):"
+  change_confirm_new: "Подтвердите новый пароль:"
+  change_current_required: "Введите текущий пароль"
+  change_wrong_current: "Текущий пароль неверен"
+  change_too_short: "Новый пароль должен содержать не менее 8 символов"
+  change_mismatch: "Пароли не совпадают"
+  change_failed: "Не удалось сменить пароль"
+  remember: Запомнить пароль
+  remember_toggle: Запомнить пароль (Ctrl+R для переключения)
+  remember_enabled: "Пароль сохранён для автоматической разблокировки. Примечание: Может быть доступен пользователям с правами суперпользователя."
+  remember_keychain_enabled: Пароль надёжно сохранён в системной связке ключей.
+  remember_disabled: Хранение пароля отключено. Вам будет предложено ввести его при следующем запуске.
+  remember_warning: "Пожалуйста, предполагайте, что ваш пароль может быть доступен любому с правами суперпользователя/root на этом устройстве."
+  remember_keychain_warning: Пароль будет надёжно сохранён в системной связке ключей.
+  remember_keychain_info: Пароль надёжно сохранён в системной связке ключей
+  correct: "Пароль подтверждён"
+  storage_keychain: Системная связка ключей
+  storage_file: Файл (обфусцированный)
+  incorrect: Неверный пароль. Попробуйте ещё раз.
+  verification_failed: "Проверка пароля не удалась: %{error}"
+  enter_to_enable: "Введите пароль для включения автоматической разблокировки:"
+  create_title: Создать пароль
+  unlock_title: Разблокировать
+  too_short: "Пароль должен содержать не менее %{min} символов"
+  same_as_account: "Используйте разные пароли. Сервер видит пароль учётной записи, поэтому он не должен открывать ваши заметки."
+  same_as_account_warning: "Пароль учётной записи совпадает с паролем заметок, поэтому сервер мог бы их прочитать. Смените пароль заметок в настройках."
+  no_file_encryption: "Эта сборка не шифрует файл базы данных. Заметки и теги остаются зашифрованными, но ваш адрес электронной почты, адрес сервера, имена вложений и даты — нет."
+  change_keeps_key: "Ключ шифрования не меняется: старые резервные копии по-прежнему открываются старым паролем."
+menu:
+  notes: Заметки
+  new_note: Новая заметка
+  settings: Настройки
+  help: Справка
+  quit: Выход
+  search: Поиск
+note:
+  new: Новая заметка
+  save: Сохранить
+  saved: Заметка сохранена
+  save_failed: "Не удалось сохранить заметку: %{error}"
+  delete: Удалить заметку
+  deleted: Заметка удалена
+  delete_failed: "Не удалось удалить заметку: %{error}"
+  reload_failed: "Не удалось перезагрузить заметки: %{error}"
+  pin: Закрепить заметку
+  unpin: Открепить заметку
+  pinned: Закреплено
+  pin_failed: "Не удалось обновить статус закрепления: %{error}"
+  no_notes: Заметки не найдены
+  total: "%{count} заметок"
+  lock: Заблокировать заметку
+  unlock: Разблокировать заметку
+  locked: Заблокировано
+  lock_failed: "Не удалось обновить статус блокировки: %{error}"
+  locked_cannot_edit: Заблокированную заметку нельзя редактировать
+  locked_cannot_delete: Заблокированную заметку нельзя удалить
+  locked_cannot_tag: Теги заблокированной заметки нельзя изменить
+  info: Информация о заметке
+  info_title: Информация о заметке
+  untitled: "Без заголовка"
+  save_retry_hint: "q: сохранить ещё раз | e: редактировать | Esc: отменить изменения"
+  empty_bin_title: "Очистить корзину"
+  empty_bin_confirm: "Удалить навсегда заметки в корзине (%{count})?"
+  empty_bin_warning: "Они также будут удалены с сервера и других устройств. Это нельзя отменить."
+  bin_emptied: "Удалено навсегда заметок: %{count}"
+  locked_cannot_archive: "Нельзя архивировать заблокированную заметку"
+  unreadable: "Не удаётся прочитать заметки в этом хранилище: %{count}"
+  duplicated: "Заметка продублирована"
+  copied: "Скопировано в буфер обмена"
+  copy_too_large: "Заметка слишком длинная, чтобы терминал надёжно её скопировал"
+  word_wrap_on: "Перенос строк включён"
+  word_wrap_off: "Перенос строк выключен"
+  no_links: "На экране нет ссылок"
+archive:
+  view: "Просмотр архива"
+  title: "Архив"
+  mode: "Режим архива"
+  enter_mode: "Войти в режим архива"
+  exit_mode: "Выйти из режима архива"
+  toggle_mode: "Переключить режим архива"
+  no_notes: "Нет архивированных заметок"
+  archive: "Архивировать заметку"
+  unarchive: "Разархивировать заметку"
+  archived: "Архивировано"
+  unarchived: "Разархивировано"
+  failed: "Не удалось архивировать заметку: %{error}"
+  unarchive_failed: "Не удалось разархивировать заметку: %{error}"
+  count: "%{count} архивированных заметок"
+
+editor:
+  title: Заголовок
+  content: Содержимое
+  tags: Теги
+  created: Создано
+  modified: Изменено
+  launch_external: Запустить внешний редактор
+  external_failed: "Не удалось запустить редактор: %{error}"
+  external_exit_error: Редактор завершился с кодом ошибки
+  temp_file_error: Не удалось создать временный файл
+  temp_write_error: Не удалось записать во временный файл
+  temp_read_error: Не удалось прочитать временный файл
+  default_editor: vi
+  temp_on_disk: "На этом компьютере нет временной папки в памяти, поэтому открытая заметка хранится на диске, пока вы её не закроете."
+attachment:
+  add: Добавить вложение
+  add_failed: "Не удалось добавить вложение: %{error}"
+  view: Просмотреть вложение
+  view_failed: "Не удалось просмотреть вложение: %{error}"
+  delete: Удалить вложение
+  no_attachments: Нет вложений
+  total: "%{count} вложений"
+  press_enter: "Нажмите Enter, чтобы продолжить..."
+  opened: "Файл открыт в приложении по умолчанию."
+  no_opener: "В этой системе нет программы для открытия файлов. Сохраните вложение клавишей S."
+  delete_failed: "Не удалось удалить вложение: %{error}"
+  deleted: "Удалено: %{name}"
+  exists: "%{path} уже существует. Выберите другое имя."
+  saved: "Сохранено в %{path}"
+  save_failed: "Не удалось сохранить вложение: %{error}"
+  added: "Вложение добавлено: %{name}"
+  too_large: "Файл слишком большой. Предел — %{max_mb} МБ."
+  unsafe_title: "Этот файл не будет открыт"
+  unsafe_body: "Открытие файла такого типа может запустить код отправителя. Сохранить его вместо этого?"
+version:
+  history: История версий
+  restore: Восстановить версию
+  restored: Версия %{number} восстановлена
+  restore_failed: "Не удалось восстановить версию: %{error}"
+  no_versions: Нет истории версий
+  current: Текущая версия
+search:
+  prompt: Поиск заметок...
+  no_results: Результаты не найдены
+  results: "%{count} результатов"
+settings:
+  title: Настройки
+  language: Язык
+  theme: Тема
+  color_scheme: Цветовая схема
+  auto_lock: Таймаут автоблокировки
+  minutes: минут
+  sync: Синхронизация
+  sync_enabled: Синхронизация включена
+  sync_endpoint: Конечная точка синхронизации
+  device_name: Имя устройства
+  instructions_disconnect: Нажмите 'd' для отключения от сервера синхронизации (локальные заметки сохраняются)
+  instructions_status: Нажмите 'R' (Shift+r) для проверки статуса одобрения регистрации
+  instructions_register: Нажмите 'r' для регистрации на сервере синхронизации
+  user_portal: Портал пользователя
+  auto_sync_interval: Интервал автосинхронизации
+  instructions: Инструкции
+  instructions_navigation: "↑/↓ или j/k: Навигация между полями"
+  instructions_edit: Нажмите Enter, i или Пробел для редактирования поля
+  instructions_text: "Текстовые поля: введите текст и нажмите Enter для сохранения, Esc для отмены"
+  instructions_toggle: "Для переключателей и циклов: нажмите Enter для немедленного изменения значения"
+  instructions_remember: "Запомнить пароль: Enter запрашивает пароль (при включении) или отключает (если включено)"
+  instructions_sync: Нажмите 'y' для запуска синхронизации
+  instructions_force_sync: Нажмите 'Y' (Shift+y) для принудительной полной синхронизации (загрузка с сервера)
+  press_enter_cycle: нажмите Enter для переключения
+  press_enter_toggle: нажмите Enter для переключения
+  disabled: отключено
+  sort_order: "Сортировка"
+  language_auto: "Как в системе"
+  default_note_type: "Тип заметки по умолчанию"
+sync:
+  push: Отправить на сервер
+  pull: Получить с сервера
+  pushing: Отправка изменений...
+  pulling: Получение изменений...
+  success: Синхронизация выполнена
+  failed: "Синхронизация не удалась: %{error}"
+  no_api_key: Ключ API не настроен
+  account_deactivated: Ваша учётная запись деактивирована или ожидает одобрения администратора. Свяжитесь с администратором.
+  invalid_key: Недействительный ключ API или ошибка аутентификации. Попробуйте перерегистрировать устройство.
+  conflict: Обнаружен конфликт синхронизации. Некоторые заметки имеют конфликтующие изменения на сервере.
+  request_failed: Не удалось отправить запрос синхронизации
+  response_parse_failed: Не удалось разобрать ответ синхронизации
+  disconnected: Отключено от сервера синхронизации. Локальные заметки сохранены.
+  disconnect_failed: Не удалось отключиться от сервера синхронизации
+  sse_connected: "Синхронизация в реальном времени подключена"
+  sse_notification: "Получено уведомление о синхронизации"
+  sse_failed: "Ошибка синхронизации в реальном времени"
+  status:
+    check_title: Проверить Статус Регистрации
+    result_title: Статус Регистрации
+    enter_email: "Введите адрес электронной почты для проверки статуса одобрения:"
+    check_failed: Не удалось проверить статус регистрации
+    not_found: Аккаунт с таким адресом электронной почты не найден.
+    approved: Ваш аккаунт одобрен и активен. Вы можете синхронизировать заметки.
+    pending: Ваш аккаунт ожидает одобрения. Подождите, пока администратор одобрит вашу регистрацию.
+    inactive: Ваш аккаунт был деактивирован. Свяжитесь с администратором.
+  not_enabled: Синхронизация не включена. Нажмите 's' для настройки в параметрах.
+  endpoint_not_configured: Конечная точка синхронизации не настроена. Настройте в таблице параметров базы данных.
+  complete: Синхронизация завершена! Синхронизировано %{count} %{unit}
+  force_syncing: Принудительная синхронизация всех заметок...
+  force_complete: Принудительная синхронизация завершена! Синхронизировано %{count} %{unit} с сервера
+  reload_failed: "Синхронизация успешна, но не удалось перезагрузить заметки: %{error}"
+  note: заметка
+  notes: заметок
+  skipped_notes: "Не удалось прочитать элементы с сервера (%{count}), они пропущены"
+  rejected_notes: "Заметок в конфликте с сервером: %{count}. Откройте Jottery, чтобы разрешить их."
+  rate_limited: "Сервер попросил Jottery подождать %{seconds} с перед следующей синхронизацией."
+  key_refused: "Сервер не принял API-ключ этого устройства. Зарегистрируйте устройство заново."
+  server_busy: "Сервер занят. Jottery повторит попытку через %{seconds} с."
+  quota_exceeded: "Учётная запись достигла лимита хранилища, поэтому изменения не удалось загрузить. На этом устройстве они в безопасности. Очистите корзину или удалите вложения, чтобы освободить место."
+  deletions_held_title: "Удалено много заметок"
+  deletions_held: "По данным сервера, %{count} заметок окончательно удалено в другом месте. Это сделали вы?"
+  deletions_held_warning: "y: переместить в корзину здесь. n: оставить и вернуть на сервер."
+  deletions_held_cli: "По данным сервера, %{count} заметок удалено в другом месте. Они ещё здесь: откройте Jottery, чтобы решить."
+  deletions_applied: "Перемещено в корзину заметок: %{count}"
+  force_title: "Принудительная полная синхронизация"
+  force_confirm: "Загрузить ВСЕ заметки и вложения с сервера?"
+  force_note: "Неотправленные локальные изменения сохранятся."
+  disconnect_title: "Отключить синхронизацию"
+  disconnect_confirm: "Отключить это устройство от сервера?"
+  disconnect_warning: "Заметки останутся здесь. Устройство будет отозвано на сервере."
+  disconnect_conflicts: "Заметок с неразрешёнными конфликтами: %{count}. Их серверные копии здесь будут забыты."
+  device_still_registered: "Отключено здесь, но сервер уведомить не удалось, поэтому ключ этого устройства всё ещё действует. Отзовите его на портале пользователя."
+
+# Входящие
+  stopped_unexpectedly: "Синхронизация неожиданно остановилась. Ничего не потеряно, попытка будет повторена."
+  clock_ahead: "Возможно, часы этого устройства идут неправильно: некоторые изменения датированы более чем на сутки позже времени сервера, поэтому они не отправлены. Они будут отправлены, когда часы будут исправлены."
+inbox:
+  title: "Входящие"
+  empty: "Входящие пусты. Заметки, отправленные через API входящих, появятся здесь."
+  accepted: "Заметка принята"
+  deleted: "Элемент входящих удалён"
+  accepted_all: "Все %{count} элементов входящих приняты"
+  deleted_all: "Все элементы входящих удалены"
+  confirm_delete_title: "Удалить элемент входящих"
+  confirm_delete_message: "Удалить этот элемент входящих? Это действие нельзя отменить."
+  confirm_delete_all_title: "Удалить все элементы входящих"
+  confirm_delete_all_message: "Удалить все %{count} элементов входящих? Это действие нельзя отменить."
+  indicator: "Входящие (%{count})"
+  token:
+    logging_in: "Выполняется вход..."
+    generated_success: "Токен входящих успешно сгенерирован!"
+    save_warning: "Сохраните этот токен сейчас — он больше не будет показан."
+    example_title: "Быстрый старт"
+    revoked: "Токен входящих отозван"
+    active: "Токен входящих активен"
+    none: "Токен входящих не настроен"
+
+register:
+  title: Регистрация на Сервере Синхронизации
+  enter_endpoint: "Введите URL сервера синхронизации (напр. https://sync.example.com):"
+  enter_email: "Введите ваш адрес электронной почты:"
+  enter_password: "Создайте пароль (мин. 12 символов):"
+  reenter_password: "Повторите пароль синхронизации:"
+  pending_title: Регистрация на Рассмотрении
+  pending_message: Ваша регистрация отправлена и ожидает одобрения администратора.
+  pending_instructions: Нажмите 'r' или Enter для проверки статуса одобрения. Нажмите Esc для закрытия.
+  pending_help: "r/Enter: Проверить статус | Esc: Закрыть"
+  device_title: Регистрация Устройства
+  enter_device_name: "Введите имя для этого устройства (или нажмите Enter для значения по умолчанию):"
+  endpoint_required: Требуется URL сервера синхронизации
+  email_invalid: Введите действительный адрес электронной почты
+  password_too_short: Пароль должен содержать минимум 12 символов
+  failed: Регистрация не удалась
+  approved: Ваша регистрация одобрена!
+  still_pending: Ваша регистрация всё ещё ожидает одобрения
+  success: Успешно зарегистрировано! Синхронизация теперь включена.
+  device_failed: Регистрация устройства не удалась
+  cleared: Регистрация очищена. Вы можете начать заново.
+  pending_status: Ожидание одобрения
+  password_differs: "Он должен отличаться от пароля заметок."
+  insecure_endpoint: "Этот адрес использует незашифрованный HTTP, поэтому пароль учётной записи и ключ устройства могут быть перехвачены. Используйте https:// или введите этот адрес ещё раз, чтобы принять риск."
+color_scheme:
+  default_dark: Тёмная по умолчанию
+  default_light: Светлая по умолчанию
+  monokai: Monokai
+  solarized_dark: Solarized тёмная
+  solarized_light: Solarized светлая
+  nord: Nord
+  dracula: Dracula
+  gruvbox_dark: Gruvbox тёмная
+  gruvbox_light: Gruvbox светлая
+  tokyo_night: Tokyo Night
+  catppuccin: Catppuccin
+syntax:
+  javascript: JavaScript
+  python: Python
+  markdown: Markdown
+  json: JSON
+  html: HTML
+  css: CSS
+  sql: SQL
+  bash: Bash
+  perl: Perl
+  rust: Rust
+  go: Go
+  java: Java
+  c: C
+  cpp: C++
+  none: Нет
+  change_language: Изменить язык синтаксиса
+  change_failed: "Не удалось обновить язык синтаксиса: %{error}"
+error:
+  generic: Произошла ошибка
+  unexpected: Произошла непредвиденная ошибка
+  database: "Ошибка базы данных: %{error}"
+  encryption: "Ошибка шифрования: %{error}"
+  network: "Сетевая ошибка: %{error}"
+  file_not_found: Файл не найден
+  permission_denied: Доступ запрещён
+  invalid_input: Недопустимый ввод
+  operation_failed: "Операция не выполнена: %{error}"
+help:
+  title: Горячие клавиши
+  subtitle: Нажмите ? или q для закрытия
+  general: Общие
+  notes: Заметки
+  editor: Редактор
+  navigation: Навигация
+  quit_app: Выйти из приложения
+  new_note: Создать новую заметку
+  save_note: Сохранить текущую заметку
+  delete_note: Удалить текущую заметку
+  search_notes: Найти заметки
+  toggle_pin: Переключить статус закрепления
+  next_note: Следующая заметка
+  prev_note: Предыдущая заметка
+  scroll_up: Прокрутить вверх
+  scroll_down: Прокрутить вниз
+  page_up: Предыдущая страница
+  page_down: Следующая страница
+  unlock_screen: ЭКРАН РАЗБЛОКИРОВКИ
+  note_list: СПИСОК ЗАМЕТОК
+  search_mode: РЕЖИМ ПОИСКА
+  note_preview_view: ПРОСМОТР ЗАМЕТКИ - РЕЖИМ ПРОСМОТРА
+  note_preview_tag: ПРОСМОТР ЗАМЕТКИ - РЕЖИМ ТЕГОВ
+  settings: НАСТРОЙКИ
+  attachments: ВЛОЖЕНИЯ
+  global: ГЛОБАЛЬНЫЕ
+  press_esc_or_enter: Нажмите Esc или Enter для закрытия
+  tab_switch: "Tab: переключить поля | Enter: создать"
+  enter_unlock: "Enter: разблокировать | Ctrl+Q: выйти"
+  type_password_key: Ввести
+  type_password_desc: Введите пароль
+  enter_to_unlock_key: Enter
+  enter_to_unlock_desc: Разблокировать базу данных
+  tab_to_switch_key: Tab
+  tab_to_switch_desc: Переключить пароль/подтверждение (новая БД)
+  backspace_key: Backspace
+  backspace_desc: Удалить символ
+  ctrl_q_esc_key: Ctrl+q / Esc
+  ctrl_q_esc_desc: Выйти из приложения
+  slash_search_key: /
+  slash_search_desc: Войти в режим поиска
+  y_sync_key: "y"
+  y_sync_desc: Синхронизировать заметки (если настроено)
+  s_settings_key: s
+  s_settings_desc: Показать настройки
+  n_new_key: "n"
+  n_new_desc: Создать новую заметку
+  i_enter_open_key: i / Enter
+  i_enter_open_desc: Открыть заметку в $EDITOR
+  d_delete_key: d
+  d_delete_desc: Удалить выбранную заметку
+  j_down_key: j / ↓
+  j_down_desc: Переместить вниз
+  k_up_key: k / ↑
+  k_up_desc: Переместить вверх
+  question_help_key: "?"
+  question_help_desc: Показать эту справку
+  ctrl_q_quit_key: Ctrl+q
+  ctrl_q_quit_desc: Выйти из приложения
+  q_quit_key: q / Ctrl+q
+  q_quit_desc: Выйти из приложения
+  type_search_key: Ввести
+  type_search_desc: Введите запрос поиска
+  search_tag_key: "#тег"
+  search_tag_desc: Поиск по тегу
+  search_exclude_key: "-слово"
+  search_exclude_desc: Исключить слово (отрицание)
+  search_and_key: слово1 слово2
+  search_and_desc: Найти все слова (И)
+  search_color_key: "color:red"
+  search_color_desc: "Поиск по цвету (заметка или тег)"
+  search_color_note_key: "color:red note"
+  search_color_note_desc: "Поиск заметок с цветом"
+  search_color_tag_key: "color:red tag"
+  search_color_tag_desc: "Поиск заметок с цветными тегами"
+  search_category_key: "category:important"
+  search_category_desc: "Поиск по названию категории цвета"
+  enter_open_editor_key: Enter
+  enter_open_editor_desc: Открыть заметку в $EDITOR
+  esc_exit_search_key: Esc
+  esc_exit_search_desc: Выйти из режима поиска
+  arrows_navigate_key: ↑ / ↓
+  arrows_navigate_desc: Навигация по результатам
+  enter_e_edit_key: Enter / e
+  enter_e_edit_desc: Редактировать во внешнем $EDITOR
+  t_tag_mode_key: t
+  t_tag_mode_desc: Войти в режим тегов
+  q_esc_save_key: q / Esc
+  q_esc_save_desc: Сохранить и вернуться к списку
+  type_tag_key: Ввести
+  type_tag_desc: Введите имя тега
+  enter_add_tag_key: Enter
+  enter_add_tag_desc: Добавить тег
+  backspace_remove_key: Backspace (пусто)
+  backspace_remove_desc: Удалить последний тег
+  backspace_delete_key: Backspace
+  backspace_delete_desc: Удалить символ из ввода
+  esc_normal_key: Esc
+  esc_normal_desc: Выйти в обычный режим
+  jk_navigate_key: j/k или ↑/↓
+  jk_navigate_desc: Навигация между полями
+  enter_edit_key: Enter / i / Пробел
+  enter_edit_desc: Редактировать выбранное поле
+  enter_save_key: Enter
+  enter_save_desc: Сохранить текстовые/числовые поля, переключить другие поля
+  esc_cancel_key: Esc
+  esc_cancel_desc: Отменить редактирование (текстовые/числовые поля)
+  s_q_close_key: s / q
+  s_q_close_desc: Закрыть панель настроек
+  tab_focus_attachment_key: Tab
+  tab_focus_attachment_desc: Переключиться на панель вложений (j/k для навигации, Enter для просмотра, d для удаления)
+  plus_add_attachment_key: "+"
+  plus_add_attachment_desc: Добавить вложение (введите путь к файлу)
+  a_view_attachment_key: a + номер
+  a_view_attachment_desc: Просмотреть вложение (a1, a2, ...)
+  shift_jk_attachment_key: Shift+j / Shift+k
+  shift_jk_attachment_desc: Навигация по вложениям
+  X_remove_attachment_key: X
+  X_remove_attachment_desc: Удалить выбранное вложение
+  note_images_key: "Примечание:"
+  note_images_desc: Изображения используют chafa, если доступно, иначе системное приложение по умолчанию
+  question_global_key: "?"
+  question_global_desc: Показать этот экран справки
+  bracket_cycle_key: "] / ["
+  bracket_cycle_desc: Переключить тип синтаксиса (вперёд/назад)
+  color_cycle_key: "C / c"
+  color_cycle_desc: Переключить цвет/категорию заметки (вперёд/назад)
+  shift_a_archive_key: Shift+A
+  shift_a_archive_desc: Переключить режим архива (просмотр архивированных заметок)
+  L_lock_key: L
+  L_lock_desc: Переключить блокировку выбранной заметки
+  I_info_key: I
+  I_info_desc: Показать информацию о заметке
+  pageup_pagedown_key: PgUp / PgDn
+  pageup_pagedown_desc: Прокрутка предпросмотра (полная страница)
+  ctrl_scroll_key: Ctrl+d/u/f/b
+  ctrl_scroll_desc: Прокрутка в стиле Vim (полстраницы/страница)
+  mouse_scroll_key: Прокрутка мышью
+  mouse_scroll_desc: Прокрутка предпросмотра
+  p_pin_key: p
+  p_pin_desc: Переключить закрепление выбранной заметки
+  r_recycle_key: r
+  r_recycle_desc: Переключить просмотр корзины
+  v_versions_key: v
+  v_versions_desc: Просмотр истории версий
+  b_inbox_key: b
+  b_inbox_desc: "Открыть входящие"
+  tab_search_key: Tab
+  tab_search_desc: Выйти из поиска, переключиться на вложения
+  multi_select: РЕЖИМ МНОЖЕСТВЕННОГО ВЫБОРА
+  space_select_key: Пробел
+  space_select_desc: Переключить выбор текущей заметки
+  shift_v_range_key: Shift+V
+  shift_v_range_desc: Выбор диапазона от последней выбранной
+  ctrl_a_all_key: Ctrl+A
+  ctrl_a_all_desc: Выбрать все отфильтрованные заметки
+  multi_t_tags_key: t
+  multi_t_tags_desc: Добавить теги к выбранным заметкам
+  multi_d_delete_key: d
+  multi_d_delete_desc: Удалить выбранные заметки
+  multi_c_combine_key: c
+  multi_c_combine_desc: Объединить выбранные заметки в одну
+  multi_e_export_key: e
+  multi_e_export_desc: Экспортировать выбранные заметки в JSON
+  esc_clear_key: Esc
+  esc_clear_desc: Снять выбор / выйти из режима множественного выбора
+  mouse: МЫШЬ
+  click_note_key: Клик по заметке
+  click_note_desc: Выбрать заметку в списке
+  click_tag_key: Клик по тегу
+  click_tag_desc: Искать по этому тегу
+  click_tags_key: "Клик по 'Теги:'"
+  click_tags_desc: Войти в режим редактирования тегов
+  scroll_key: Колесо прокрутки
+  scroll_desc: Прокрутка предпросмотра вверх/вниз
+  ctrl_l_lock_key: "Ctrl+L"
+  ctrl_l_lock_desc: "Заблокировать Jottery"
+  S_save_attachment_key: "S"
+  S_save_attachment_desc: "Сохранить выбранное вложение в файл"
+  z_archive_key: "z"
+  z_archive_desc: "Архивировать выбранную заметку (или вернуть в режиме архива)"
+  multi_z_archive_key: "z"
+  multi_z_archive_desc: "Архивировать выбранные заметки"
+  search_or_key: "a | b"
+  search_or_desc: "Любое из двух (ИЛИ)"
+  search_phrase_key: "\"a phrase\""
+  search_phrase_desc: "Эти слова в этом порядке"
+  search_wildcard_key: "word* / *word"
+  search_wildcard_desc: "Слово начинается или заканчивается этим"
+  search_exclude_tag_key: "-#tag"
+  search_exclude_tag_desc: "Исключить заметки с этим тегом"
+  search_attachment_key: "has:attachment"
+  search_attachment_desc: "Заметки с вложениями"
+  search_archived_key: "archived"
+  search_archived_desc: "Искать в архиве"
+  search_created_key: "created:>2024-01-01"
+  search_created_desc: "Создано после даты (также < и a..b)"
+  search_modified_key: "modified:>2024-01-01"
+  search_modified_desc: "Изменено после даты (также < и a..b)"
+  search_words_key: "words:>100"
+  search_words_desc: "Число слов (также < и a..b)"
+  multi_remove_tags_key: "T"
+  multi_remove_tags_desc: "Удалить теги из выбранных заметок"
+  multi_colour_key: "C"
+  multi_colour_desc: "Задать цвет выбранных заметок"
+  g_saved_key: "g"
+  g_saved_desc: "Сохранённые поиски"
+  ctrl_s_save_search_key: "Ctrl+S"
+  ctrl_s_save_search_desc: "Сохранить этот поиск"
+  enter_confirm_esc_cancel: "Enter: подтвердить | Esc: отмена"
+  D_duplicate_key: "Shift+D"
+  D_duplicate_desc: "Дублировать заметку"
+  o_copy_key: "o"
+  o_copy_desc: "Скопировать текст заметки в буфер обмена"
+  w_wrap_key: "w"
+  w_wrap_desc: "Включить или выключить перенос строк"
+  ctrl_p_history_key: "Ctrl+P/N"
+  ctrl_p_history_desc: "Предыдущие и следующие поиски"
+  l_link_key: "l, Enter"
+  l_link_desc: "Перейти по ссылкам и открыть одну"
+cli:
+  # Альтернативные (используются в некоторых местах)
+  list: Список заметок
+  show: Показать заметку
+  new: Создать новую заметку
+  edit: Редактировать заметку
+  delete: Удалить заметку
+  search: Найти заметки
+  export: Экспортировать заметки
+  import: Импортировать заметки
+  sync: Синхронизировать с сервером
+  register: Зарегистрировать устройство
+  # Основное приложение
+  about: "Ориентированный на конфиденциальность зашифрованный TUI для заметок"
+  # Глобальные опции
+  database_help: "Путь к файлу базы данных"
+  debug_help: "Включить отладочное журналирование"
+  debug_log_help: "Путь к файлу журнала отладки (для диагностики)"
+  reset_help: "Сброс: удалить базу данных и начать заново"
+  # Команды
+  note_about: "Быстрое создание заметки с помощью $EDITOR"
+  list_about: "Показать список всех заметок"
+  search_about: "Поиск по заметкам"
+  show_about: "Показать конкретную заметку по ID"
+  sync_about: "Синхронизировать заметки с удалённым сервером"
+  register_user_about: "Зарегистрировать новую учётную запись на сервере"
+  register_device_about: "Зарегистрировать это устройство на сервере (требуется одобренная учётная запись)"
+  export_about: "Экспортировать заметки в JSON-файл"
+  import_about: "Импортировать заметки из JSON-файла"
+  backup_about: "Создать зашифрованную резервную копию (совместима с веб-приложением)"
+  inbox_token_about: "Управление токеном API входящих"
+  restore_backup_about: "Восстановить из зашифрованной резервной копии"
+  store_password_about: "Сохранить пароль для автоматической разблокировки (для демонстрации/тестовой автоматизации)"
+  # Общие аргументы
+  password_help: "Пароль для шифрования (будет запрошен, если не указан)"
+  password_decrypt_help: "Пароль для расшифровки (будет запрошен, если не указан)"
+  tags_help: "Опциональные теги для заметки (через запятую)"
+  tag_filter_help: "Фильтр по тегу"
+  limit_help: "Максимальное количество отображаемых заметок"
+  limit_results_help: "Максимальное количество отображаемых результатов"
+  query_help: "Поисковый запрос"
+  id_help: "ID заметки (поддерживается частичное совпадение)"
+  server_help: "URL конечной точки сервера"
+  email_help: "Email пользователя"
+  device_name_help: "Имя устройства"
+  key_password_help: "Пароль шифрования для локальной базы данных"
+  output_help: "Путь к выходному файлу"
+  input_help: "Путь к входному файлу"
+  backup_password_help: "Пароль для расшифровки (пароль резервной копии)"
+  local_key_help: "Пароль шифрования локальной базы данных (по умолчанию: пароль резервной копии)"
+  password_store_help: "Пароль для сохранения"
+  # Подкоманды InboxToken
+  inbox_generate_about: "Сгенерировать новый токен входящих (требуется вход на сервер)"
+  inbox_revoke_about: "Отозвать текущий токен входящих"
+  inbox_status_about: "Проверить наличие токена входящих"
+  server_optional_help: "URL конечной точки сервера (использует настроенную конечную точку, если не указан)"
+  # Built-in help/version
+  help_flag: "Показать справку"
+  version_flag: "Показать версию"
+  help_subcommand: "Показать это сообщение или справку по подкомандам"
+  # Выходные сообщения
+  notes_count: "%{count} заметок"
+  results_count: "%{count} результатов: '%{query}'"
+  attach_about: "Прикрепить файл к заметке"
+  save_attachment_about: "Сохранить вложение заметки в файл"
+  archive_about: "Архивировать заметку"
+  unarchive_about: "Вернуть заметку из архива"
+  note_id_help: "ID заметки (допускается частичное совпадение)"
+  attach_file_help: "Файл для прикрепления"
+  attachment_number_help: "Какое вложение, по нумерации show"
+  archived_help: "Показать вместо этого архивные заметки"
+  import_summary: "Добавлено: %{created}, обновлено: %{updated}, уже актуальны: %{skipped}"
+  import_failed: "Не удалось импортировать элементов файла: %{count}"
+  password_change_required: "Сначала нужно сменить пароль этой учётной записи. Войдите в веб-приложение, смените его и повторите попытку."
+  insecure_endpoint: "%{endpoint} использует незашифрованный HTTP, поэтому пароль может быть перехвачен. Используйте https:// или укажите --allow-insecure-http, чтобы принять риск."
+  allow_insecure_http_help: "Разрешить отправку пароля по незашифрованному HTTP на публичный хост"
+  password_flag_deprecated: "Пароль в командной строке виден в ps и истории оболочки. Используйте --password-stdin или JOTTERY_PASSWORD."
+  password_stdin_help: "Читать пароли из stdin, по одному в строке, вместо запроса"
+  reset_yes_help: "Не спрашивать перед удалением через --reset"
+  reset_confirm: "Это навсегда удалит %{path} и запомненный пароль. Чтобы продолжить, введите %{word}:"
+  reset_cancelled: "Ничего не удалено"
+  reset_done: "Хранилище и запомненный пароль удалены"
+  reset_keychain_failed: "Не удалось удалить пароль из связки ключей"
+  export_force_help: "Заменить файл, если он уже существует"
+  account_about: "Просмотр и удаление данных вашей учётной записи на сервере"
+  colours_about: "Названия цветов и цвета для тегов"
+  doctor_about: "Проверить хранилище на нечитаемые заметки и отсутствующие вложения"
+  doctor_repair_help: "Загрузить отсутствующие вложения с сервера"
+status:
+  locked: Заблокировано
+  unlocked: Разблокировано
+  syncing: Синхронизация...
+  synced: Синхронизировано
+  offline: Офлайн
+  modified: Изменено
+  saved: Сохранено
+bulk:
+  tags_added: "Теги добавлены к %{count} заметкам: %{tags}"
+  deleted: "%{count} заметок удалено"
+  combined: "%{count} заметок объединено"
+  combine_requires_two: Выберите как минимум 2 заметки для объединения
+  exported: "%{count} заметок экспортировано в %{path}"
+  operation_failed: "Массовая операция не удалась: %{error}"
+  confirm_delete: Удалить %{count} заметок? (д/н)
+  confirm_combine: Объединить %{count} заметок? (д/н)
+  enter_tags: "Введите теги (через запятую):"
+  enter_export_path: "Путь экспорта:"
+  add_tags_to: Добавить теги к
+  export_notes_to: Экспорт
+  archived: "Заметок в архиве: %{count}"
+  tags_removed: "Теги удалены из заметок (%{count}): %{tags}"
+  remove_tags_from: "Удалить теги из заметок (%{count})"
+  enter_colour: "Введите название цвета (пусто, чтобы убрать):"
+  colour_of: "Задать цвет заметок (%{count})"
+  colour_set: "Цвет изменён у заметок: %{count}"
+  unknown_colour: "Цвета с названием %{colour} нет"
+  overwrite_title: "Заменить этот файл?"
+  overwrite_message: "%{path} уже существует. Замену нельзя отменить."
+time:
+  just_now: только что
+  minutes_ago: "%{count} минут назад"
+  hours_ago: "%{count} часов назад"
+  days_ago: "%{count} дней назад"
+  date_format: "%d.%m.%Y"
+  time_format: "%H:%M:%S"
+  datetime_format: "%d.%m.%Y %H:%M:%S"
+conflict:
+  title: Конфликт синхронизации
+  your_version: Ваша версия
+  server_version: Версия сервера
+  common_ancestor: Общий предок
+  ancestor_description: Версия, от которой обе начались до расхождения изменений
+  resolved_mine: Конфликт разрешён — сохранена ваша версия
+  resolved_server: Конфликт разрешён — сохранена версия сервера
+  resolved_both: Конфликт разрешён — сохранены обе версии
+  resolve_failed: Не удалось разрешить конфликт
+  indicator: Обнаружен конфликт синхронизации
+  no_conflict: У этой заметки нет конфликта синхронизации
+  count_singular: "конфликт"
+  count_plural: "конфликтов"
+
+# Backup functionality
+backup:
+  created: "Резервная копия создана"
+  restore: "Восстановление резервной копии"
+  valid: "Действительная резервная копия"
+  records: "записей"
+  validating: "Проверка файла резервной копии..."
+  verifying_password: "Проверка пароля..."
+  restoring: "Восстановление данных..."
+  restored: "Восстановлено"
+  key_not_in_backup: "Эта резервная копия создана старой версией Jottery и не содержит своего ключа. Её можно восстановить только в то хранилище, из которого она была создана."
+  incomplete: "Эта резервная копия неполная: элементы хранилища (%{count}) не удалось прочитать, они пропущены."
+  records_failed: "Не удалось восстановить записи из этой копии: %{count}. Всё остальное восстановлено."
+
+# Progress indicators
+progress:
+  backup: "Создание резервной копии..."
+  processing: "Обработка"
+  export: "Экспорт..."
+
+# Панели и заголовки UI
+ui:
+  notes: "Заметки"
+  preview: "Предпросмотр"
+  archive: "Архив"
+  recycle_bin: "Корзина"
+  version_history: "История версий"
+  attachment_viewer: "Просмотр вложений"
+  conflict_resolution: "Разрешение конфликтов"
+  attachments: "Вложения"
+  add_attachment: "Добавить вложение (Tab: дополнить, ↑↓: выбрать, Enter: подтвердить)"
+  search: "Поиск:"
+  search_archive: "Поиск архивированных заметок:"
+  type: "Тип:"
+  modified: "Изменено:"
+  version: "Версия:"
+  save_attachment: "Сохранить вложение (Tab: дополнить, ↑↓: выбрать, Enter: подтвердить)"
+  path: "Путь"
+  attachments_hint: "Вложения: (Tab — перейти)"
+  attachments_focused_hint: "Вложения: (Tab — переключить, j/k — навигация, Enter — просмотр, S — сохранить, d — удалить)"
+  attachments_keys_hint: "'a' — просмотр, '+' — добавить, 'X' — удалить выбранное"
+  attachment_viewer_hint: "↑/↓: навигация │ 1-9: быстрый выбор │ Enter: просмотр │ S: сохранить │ +: добавить │ d: удалить │ Esc: закрыть"
+
+# Текст справки в строке состояния
+status_bar:
+  help: "Справка"
+  search: "Поиск"
+  select: "выбрать"
+  pin: "закрепить"
+  tags: "Теги"
+  type: "Тип"
+  bin: "Корзина"
+  archive: "Архив"
+  ver: "Версия"
+  new: "Новая"
+  toggle: "переключить"
+  clear: "снять"
+  add_tags: "добавить теги"
+  delete: "удалить"
+  combine: "объединить"
+  export: "экспорт"
+  selected: "выбрано"
+  unarchive: "разархивировать"
+  toggle_mode: "переключить режим"
+  navigate: "навигация"
+  exit_archive: "выйти из архива"
+  accept: "принять"
+  accept_all: "принять все"
+  delete_all: "удалить все"
+  close: "закрыть"
+  keep_mine: "оставить мою"
+  keep_server: "оставить серверную"
+  keep_both: "оставить обе"
+  switch: "переключить"
+  scroll: "прокрутка"
+  cancel: "отмена"
+  press_b_open: "нажмите b для открытия"
+  # Режим поиска
+  type_search: "Ввод: поиск"
+  exit: "выход"
+  match: "совпадение"
+  matches: "совпадений"
+  in_active: "в активных"
+  in_archive: "в архиве"
+  # Корзина
+  restore: "восстановить"
+  empty_bin: "очистить корзину"
+  back_to_notes: "назад к заметкам"
+  quick_select: "быстрый выбор"
+  view: "просмотр"
+  restore_version: "восстановить версию"
+  save: "сохранить"
+  add: "добавить"
+
+# Virtual tags
+tags:
+  virtual:
+    title: "заголовок"
+
+calc:
+  line_too_long: "⚠ Строка слишком длинная для вычисления (предел %{max} байт)"
+  numbers_only: "⚠ Calc работает с числами: текст, кортежи и ; не вычисляются"
+  too_deep: "⚠ Слишком много вложенных скобок (предел %{max})"
+  gave_up: "Вычисление этой заметки заняло слишком много времени, поэтому она показана без результатов."
+
+envelope:
+  unwrap_failed: "Пароль заметок не открывает ключ этой учётной записи. Возможно, он сохранён старой версией. Разблокируйте Jottery на уже подключённом устройстве, это всё исправит, и повторите попытку."
+  rekey_failed: "Не удалось перевести локальные заметки на ключ этой учётной записи, поэтому ничего не изменилось: %{error}"
+  diverged: "Ключ этого устройства отличается от ключа учётной записи. Заметки с других устройств могут здесь не открыться."
+  password_changed_elsewhere: "Пароль заметок был изменён на другом устройстве, поэтому ничего не перезаписано. Это устройство по-прежнему разблокируется старым паролем. Измените его здесь, чтобы могли подключаться новые устройства."
+  server_update_pending: "Пароль на этом устройстве изменён, но копию ключа на сервере обновить не удалось. Jottery попробует снова. До тех пор новое устройство не сможет подключиться с новым паролем."
+  key_keeps_changing: "Ключ учётной записи постоянно меняется на сервере, поэтому это устройство его не трогало. Повторите попытку чуть позже."
+
+saved_search:
+  title: "Сохранённые поиски"
+  empty: "Сохранённых поисков пока нет. Найдите с помощью / и нажмите Ctrl+S, чтобы сохранить."
+  name_prompt: "Назовите этот поиск"
+  nothing_to_save: "Сначала введите поисковый запрос"
+  saved: "Поиск сохранён: %{name}"
+  deleted: "Сохранённый поиск удалён"
+  delete_confirm: "Удалить «%{name}» на всех устройствах? (y/n)"
+  not_found: "Нет сохранённого поиска с именем %{name}"
+  failed: "Ошибка сохранённого поиска: %{error}"
+
+export:
+  file_exists: "Такой файл уже существует. Выберите другое имя или используйте --force для замены."
+
+account:
+  email: "Учётная запись: %{email}"
+  usage: "Заметки: %{notes}, вложения: %{attachments}"
+  storage: "Хранилище: %{used} МБ из %{quota} МБ"
+  last_sync: "Последняя синхронизация: %{time}"
+  confirm_delete_notes: "Все заметки на сервере будут удалены для всех устройств, и это нельзя отменить. Чтобы продолжить, введите свой адрес электронной почты:"
+  confirm_delete: "Ваша учётная запись и всё на сервере будут удалены, и это нельзя отменить. На этом устройстве заметки останутся. Чтобы продолжить, введите свой адрес электронной почты:"
+  cancelled: "Ничего не удалено"
+  notes_deleted: "Все заметки на сервере удалены"
+  deleted: "Учётная запись удалена"
+
+colours:
+  unknown: "Нет цвета с именем %{colour}"
+  named: "Цвет обновлён: %{colour}"
+  tag_set: "Тег обновлён: %{tag}"
+
+doctor:
+  notes: "Заметки: %{count}, нечитаемые: %{unreadable}"
+  versions: "Версии: %{count}, нечитаемые: %{unreadable}"
+  attachments: "Вложения: %{count}, нечитаемые: %{unreadable}, отсутствуют: %{missing}"
+  saved_searches: "Сохранённые поиски: %{count}, нечитаемые: %{unreadable}"
+  conflicts: "Конфликты, ожидающие вас: %{count}"
+  problems: "Найдено проблем: %{count}"
+  repaired: "Загружено вложений: %{count}"
+  repair_needs_sync: "Хранилище не подключено к серверу, поэтому отсутствующие вложения загрузить нельзя"
+  healthy: "Проблем не найдено"

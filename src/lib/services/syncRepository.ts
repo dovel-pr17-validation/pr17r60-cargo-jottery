@@ -1,0 +1,158 @@
+/**
+ * Sync metadata repository for IndexedDB
+ */
+
+import type { SyncMetadata, NoteSyncMetadata } from '../types';
+import { getDB, STORES } from './db';
+
+const METADATA_KEY = 'metadata';
+
+/** Facts about one account on one server, so they can't outlive a change of either. */
+const ACCOUNT_SCOPED_FIELDS: (keyof SyncMetadata)[] = [
+  'lastSyncAt', 'pullCursor', 'cursorFullPullDone', 'serverKeyVerified', 'serverKeyStale', 'acceptedInboxIds',
+];
+
+function isDifferentAccount(current: SyncMetadata, next: Partial<SyncMetadata>): boolean {
+  const moved = (from?: string, to?: string) => !!from && !!to && from !== to;
+  return moved(current.syncEndpoint, next.syncEndpoint) || moved(current.userId, next.userId);
+}
+
+class IndexedDBSyncRepository {
+  /** Remember an inbox item accepted here, until the server confirms deleting it */
+  async addAcceptedInboxId(id: string): Promise<void> {
+    const accepted = (await this.getMetadata())?.acceptedInboxIds ?? [];
+    await this.updateMetadata({ acceptedInboxIds: [...new Set([...accepted, id])] });
+  }
+
+  async removeAcceptedInboxIds(ids: string[]): Promise<void> {
+    const done = new Set(ids);
+    const accepted = (await this.getMetadata())?.acceptedInboxIds ?? [];
+    await this.updateMetadata({ acceptedInboxIds: accepted.filter(id => !done.has(id)) });
+  }
+
+  /**
+   * Get global sync metadata
+   */
+  async getMetadata(): Promise<SyncMetadata | null> {
+    const db = getDB();
+
+    try {
+      const metadata = await db.get(STORES.SYNC_METADATA, METADATA_KEY);
+      return metadata || null;
+    } catch (error) {
+      console.error('[SyncRepo] Error getting metadata:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Update global sync metadata
+   */
+  async updateMetadata(metadata: Partial<SyncMetadata>): Promise<SyncMetadata> {
+    const db = getDB();
+    const current = await this.getMetadata() || {
+      syncEnabled: false,
+      syncEndpoint: '',
+    };
+    const kept = { ...current };
+    if (isDifferentAccount(current, metadata)) {
+      for (const field of ACCOUNT_SCOPED_FIELDS) {
+        delete kept[field];
+      }
+    }
+    const updated = { ...kept, ...metadata };
+
+    try {
+      await db.put(STORES.SYNC_METADATA, updated, METADATA_KEY);
+      return updated;
+    } catch (error) {
+      console.error('[SyncRepo] Error updating metadata:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get sync metadata for a specific note
+   */
+  async getNoteSyncMetadata(noteId: string): Promise<NoteSyncMetadata | null> {
+    const db = getDB();
+    const metadata = await db.get(STORES.SYNC_METADATA, `note:${noteId}`);
+    return metadata || null;
+  }
+
+  /**
+   * Update sync metadata for a specific note
+   */
+  async updateNoteSyncMetadata(noteId: string, metadata: Partial<NoteSyncMetadata>): Promise<void> {
+    const db = getDB();
+    const current = await this.getNoteSyncMetadata(noteId) || {
+      noteId,
+      syncedAt: new Date().toISOString(),
+      syncHash: '',
+      serverVersion: 1,
+      lastSyncStatus: 'pending' as const,
+    };
+    const updated = { ...current, ...metadata };
+    await db.put(STORES.SYNC_METADATA, updated, `note:${noteId}`);
+  }
+
+  /**
+   * Get all notes with pending sync
+   */
+  async getPendingNotes(): Promise<string[]> {
+    const db = getDB();
+    const tx = db.transaction(STORES.SYNC_METADATA, 'readonly');
+    const allKeys = await tx.store.getAllKeys();
+    const noteKeys = allKeys.filter(key => typeof key === 'string' && key.startsWith('note:'));
+
+    const pendingIds: string[] = [];
+    for (const key of noteKeys) {
+      const metadata = await db.get(STORES.SYNC_METADATA, key);
+      if (metadata && metadata.lastSyncStatus === 'pending') {
+        pendingIds.push(metadata.noteId);
+      }
+    }
+
+    return pendingIds;
+  }
+
+  /**
+   * Get count of notes with conflicts
+   */
+  async getConflictCount(): Promise<number> {
+    const db = getDB();
+    const tx = db.transaction(STORES.SYNC_METADATA, 'readonly');
+    const allKeys = await tx.store.getAllKeys();
+    const noteKeys = allKeys.filter(key => typeof key === 'string' && key.startsWith('note:'));
+
+    let count = 0;
+    for (const key of noteKeys) {
+      const metadata = await db.get(STORES.SYNC_METADATA, key);
+      if (metadata && metadata.lastSyncStatus === 'conflict') {
+        count++;
+      }
+    }
+
+    return count;
+  }
+
+  /**
+   * Clear all sync metadata (for reset/re-registration)
+   */
+  async clearAll(): Promise<void> {
+    const db = getDB();
+    const tx = db.transaction(STORES.SYNC_METADATA, 'readwrite');
+    await tx.store.clear();
+    await tx.done;
+  }
+
+  /**
+   * Delete sync metadata for a specific note
+   */
+  async deleteNoteSyncMetadata(noteId: string): Promise<void> {
+    const db = getDB();
+    await db.delete(STORES.SYNC_METADATA, `note:${noteId}`);
+  }
+}
+
+export const syncRepository = new IndexedDBSyncRepository();

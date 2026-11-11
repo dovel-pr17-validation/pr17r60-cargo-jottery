@@ -1,0 +1,59 @@
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']
+
+  - package-ecosystem: npm
+    directories:
+      - /
+      - /admin
+      - /webview-bundles
+      - /scripts/evernote2jottery
+    schedule:
+      interval: weekly
+    groups:
+      npm-minor-and-patch:
+        update-types: [minor, patch]
+    ignore:
+      # Breaks restoring backups. Move to it only with the cross-client tests passing.
+      - dependency-name: pako
+        update-types: [version-update:semver-major]
+      - dependency-name: '@types/pako'
+        update-types: [version-update:semver-major]
+      # A full styling migration, to be done on purpose rather than by a bot.
+      - dependency-name: tailwindcss
+        update-types: [version-update:semver-major]
+
+  - package-ecosystem: cargo
+    directories:
+      - /server
+      - /tui
+    schedule:
+      interval: weekly
+    groups:
+      cargo-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: gradle
+    directory: /android-native
+    schedule:
+      interval: weekly
+    groups:
+      gradle-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+    ignore:
+      # Newer images have no linux/arm/v7, which CI's docker-check doesn't build, so a
+      # bump looks fine until a release fails. See R2-020.
+      - dependency-name: node
+        update-types: [version-update:semver-major]

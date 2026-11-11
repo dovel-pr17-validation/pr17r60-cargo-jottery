@@ -1,0 +1,361 @@
+/* Syntax highlighting themes - light mode */
+@import 'highlight.js/styles/github.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Syntax highlighting - ensure light mode colors in light mode */
+:not(.dark) .hljs,
+:not(.dark) pre code.hljs {
+  background: #f6f8fa !important;
+  color: #24292e !important;
+}
+
+/* Syntax highlighting - dark mode overrides */
+.dark .hljs,
+.dark pre code.hljs {
+  background: #0d1117 !important;
+  color: #c9d1d9 !important;
+}
+
+.dark .hljs-doctag,
+.dark .hljs-keyword,
+.dark .hljs-meta .hljs-keyword,
+.dark .hljs-template-tag,
+.dark .hljs-template-variable,
+.dark .hljs-type,
+.dark .hljs-variable.language_ {
+  color: #ff7b72 !important;
+}
+
+.dark .hljs-title,
+.dark .hljs-title.class_,
+.dark .hljs-title.class_.inherited__,
+.dark .hljs-title.function_ {
+  color: #d2a8ff !important;
+}
+
+.dark .hljs-attr,
+.dark .hljs-attribute,
+.dark .hljs-literal,
+.dark .hljs-meta,
+.dark .hljs-number,
+.dark .hljs-operator,
+.dark .hljs-variable,
+.dark .hljs-selector-attr,
+.dark .hljs-selector-class,
+.dark .hljs-selector-id {
+  color: #79c0ff !important;
+}
+
+.dark .hljs-regexp,
+.dark .hljs-string,
+.dark .hljs-meta .hljs-string {
+  color: #a5d6ff !important;
+}
+
+.dark .hljs-built_in,
+.dark .hljs-symbol {
+  color: #ffa657 !important;
+}
+
+.dark .hljs-comment,
+.dark .hljs-code,
+.dark .hljs-formula {
+  color: #8b949e !important;
+}
+
+.dark .hljs-name,
+.dark .hljs-quote,
+.dark .hljs-selector-tag,
+.dark .hljs-selector-pseudo {
+  color: #7ee787 !important;
+}
+
+.dark .hljs-subst {
+  color: #c9d1d9 !important;
+}
+
+.dark .hljs-section {
+  color: #1f6feb !important;
+  font-weight: bold;
+}
+
+.dark .hljs-bullet {
+  color: #f2cc60 !important;
+}
+
+.dark .hljs-emphasis {
+  color: #c9d1d9 !important;
+  font-style: italic;
+}
+
+.dark .hljs-strong {
+  color: #c9d1d9 !important;
+  font-weight: bold;
+}
+
+.dark .hljs-addition {
+  color: #aff5b4 !important;
+  background-color: #033a16 !important;
+}
+
+.dark .hljs-deletion {
+  color: #ffdcd7 !important;
+  background-color: #67060c !important;
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+  /* overflow: hidden only applied conditionally via inline styles in App.svelte */
+}
+
+/* Prevent iOS auto-zoom on input focus by ensuring 16px minimum font size */
+input,
+textarea,
+select {
+  font-size: 16px;
+}
+
+/* Allow Tailwind utilities to override if needed */
+.text-xs input,
+.text-xs textarea,
+.text-xs select,
+.text-sm input,
+.text-sm textarea,
+.text-sm select {
+  font-size: 16px !important;
+}
+
+/* Markdown prose typography overrides */
+.prose {
+  /* Ensure consistent max-width */
+  max-width: 65ch;
+}
+
+/* Heading sizes - more reasonable scale */
+.prose h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.prose h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.prose h5,
+.prose h6 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Paragraph spacing */
+.prose p {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+/* First paragraph after heading - less top margin */
+.prose h1 + p,
+.prose h2 + p,
+.prose h3 + p,
+.prose h4 + p {
+  margin-top: 0.5rem;
+}
+
+/* List styling */
+.prose ul,
+.prose ol {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.prose li {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Code blocks */
+.prose pre {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+}
+
+.prose code {
+  font-size: 0.875em;
+}
+
+/* Inline code */
+.prose :not(pre) > code {
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .prose :not(pre) > code {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Blockquotes */
+.prose blockquote {
+  border-left: 4px solid #d1d5db;
+  padding-left: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+  color: #6b7280;
+}
+
+.dark .prose blockquote {
+  border-left-color: #4b5563;
+  color: #9ca3af;
+}
+
+/* Links */
+.prose a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-decoration-color: rgba(37, 99, 235, 0.4);
+}
+
+.prose a:hover {
+  text-decoration-color: rgba(37, 99, 235, 0.8);
+}
+
+.dark .prose a {
+  color: #60a5fa;
+  text-decoration-color: rgba(96, 165, 250, 0.4);
+}
+
+.dark .prose a:hover {
+  text-decoration-color: rgba(96, 165, 250, 0.8);
+}
+
+/* External link indicator */
+.prose a[target="_blank"]::after {
+  content: " ↗";
+  font-size: 0.75em;
+  opacity: 0.6;
+}
+
+/* Horizontal rule */
+.prose hr {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-color: #e5e7eb;
+}
+
+.dark .prose hr {
+  border-color: #374151;
+}
+
+/* Tables */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.prose th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+}
+
+.dark .prose th,
+.dark .prose td {
+  border-color: #4b5563;
+}
+
+.dark .prose th {
+  background-color: #374151;
+}
+
+/* Images */
+.prose img {
+  border-radius: 0.375rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.attachment-image {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Note link icons. These are drawn here because the preview sanitiser removes
+   all svg, which is one of the routes for markup that re-parses differently. */
+.note-link-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-right: 0.25rem;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='black' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='black' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.note-link-icon-broken {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='black' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='black' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1'/%3E%3C/svg%3E");
+}

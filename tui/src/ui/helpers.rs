@@ -1,0 +1,919 @@
+//! Helper functions for markdown processing and text utilities
+//!
+//! This module provides utilities for stripping and rendering markdown
+//! content in the terminal using pulldown-cmark and ratatui, as well as
+//! Unicode-aware text width calculations for proper TUI rendering.
+
+use std::fs::File;
+use std::io::Write;
+use std::sync::{Arc, Mutex};
+use chrono::{DateTime, Local, TimeZone};
+use ratatui::text::Line;
+use unicode_width::UnicodeWidthStr;
+
+/// The longest `[[reference]]` looked at, so an unclosed run of brackets can't make each
+/// one scan the whole note. The web app has the same limit.
+const MAX_WIKI_LINK_CHARS: usize = 500;
+
+/// Turn `[[Title]]`, `[[id]]` and `[[reference|Text]]` into note links, as the web app
+/// does. `find` takes a reference and returns the note's id and title. One that finds
+/// nothing stays as it was typed, and code, fenced or inline, is left alone.
+pub fn resolve_wiki_links<'a>(
+    content: &'a str,
+    find: &dyn Fn(&str) -> Option<(String, String)>,
+) -> std::borrow::Cow<'a, str> {
+    if !content.contains("[[") {
+        return std::borrow::Cow::Borrowed(content);
+    }
+
+    let mut resolved = String::with_capacity(content.len());
+    let mut in_fence = false;
+
+    for line in content.split_inclusive('\n') {
+        if line.trim_start().starts_with("```") {
+            in_fence = !in_fence;
+        }
+
+        if in_fence {
+            resolved.push_str(line);
+        } else {
+            resolve_wiki_links_in_line(line, find, &mut resolved);
+        }
+    }
+
+    std::borrow::Cow::Owned(resolved)
+}
+
+fn resolve_wiki_links_in_line(line: &str, find: &dyn Fn(&str) -> Option<(String, String)>, resolved: &mut String) {
+    let mut rest = line;
+    let mut in_code = false;
+
+    while let Some(position) = rest.find(['`', '[']) {
+        let (before, from_here) = rest.split_at(position);
+        resolved.push_str(before);
+
+        if from_here.starts_with('`') {
+            in_code = !in_code;
+            resolved.push('`');
+            rest = &from_here[1..];
+            continue;
+        }
+
+        let link = (!in_code)
+            .then(|| from_here.strip_prefix("[["))
+            .flatten()
+            .and_then(|inner| inner.find("]]").map(|end| &inner[..end]))
+            .filter(|inner| !inner.is_empty() && inner.chars().count() <= MAX_WIKI_LINK_CHARS && !inner.contains(']'));
+
+        let replacement = link.and_then(|inner| {
+            let (reference, text) = match inner.split_once('|') {
+                Some((reference, text)) => (reference.trim(), Some(text.trim())),
+                None => (inner.trim(), None),
+            };
+            let (id, title) = find(reference)?;
+            Some((format!("[{}](link:{id})", text.unwrap_or(&title)), inner.len() + 4))
+        });
+
+        match replacement {
+            Some((text, consumed)) => {
+                resolved.push_str(&text);
+                rest = &from_here[consumed..];
+            }
+            None => {
+                resolved.push('[');
+                rest = &from_here[1..];
+            }
+        }
+    }
+
+    resolved.push_str(rest);
+}
+
+/// Columns between tab stops in a preview.
+const TAB_WIDTH: usize = 4;
+
+/// Replace tabs with the spaces that reach the next tab stop, because a terminal widget
+/// drops them, and tab-indented text would lose its columns.
+pub fn expand_tabs(text: &str) -> std::borrow::Cow<'_, str> {
+    if !text.contains('\t') {
+        return std::borrow::Cow::Borrowed(text);
+    }
+
+    let mut expanded = String::with_capacity(text.len() + TAB_WIDTH);
+    let mut column = 0;
+    for character in text.chars() {
+        match character {
+            '\t' => {
+                let spaces = TAB_WIDTH - column % TAB_WIDTH;
+                expanded.extend(std::iter::repeat_n(' ', spaces));
+                column += spaces;
+            }
+            '\n' => {
+                expanded.push(character);
+                column = 0;
+            }
+            _ => {
+                expanded.push(character);
+                column += 1;
+            }
+        }
+    }
+
+    std::borrow::Cow::Owned(expanded)
+}
+
+/// Get the current locale as a string reference for matching.
+fn get_locale() -> String {
+    rust_i18n::locale().to_string()
+}
+
+/// Format a date according to the current locale.
+///
+/// Returns a short date format (for note list display):
+/// - en-US: MM/DD/YY
+/// - en-GB, most European: DD/MM/YY
+/// - ja, ko, zh: YY/MM/DD
+pub fn format_date_short<Tz: TimeZone>(dt: &DateTime<Tz>) -> String
+where
+    Tz::Offset: std::fmt::Display,
+{
+    let locale = get_locale();
+    match locale.as_str() {
+        "en-US" => dt.format("%m/%d/%y").to_string(),
+        "ja" | "ko" | "zh" => dt.format("%y/%m/%d").to_string(),
+        // Default to British/European format (dd/mm/yy)
+        _ => dt.format("%d/%m/%y").to_string(),
+    }
+}
+
+/// Format a date and time according to the current locale.
+///
+/// Returns a full date+time format (for note footer/preview):
+/// - en-US: MM/DD/YYYY, HH:MM:SS
+/// - en-GB, most European: DD/MM/YYYY, HH:MM:SS
+/// - ja: YYYY年MM月DD日 HH:MM:SS
+/// - ko: YYYY년 MM월 DD일 HH:MM:SS
+/// - zh: YYYY年MM月DD日 HH:MM:SS
+pub fn format_datetime_full<Tz: TimeZone>(dt: &DateTime<Tz>) -> String
+where
+    Tz::Offset: std::fmt::Display,
+{
+    // Convert to local time for display
+    let local_dt: DateTime<Local> = dt.with_timezone(&Local);
+    let locale = get_locale();
+    match locale.as_str() {
+        "en-US" => local_dt.format("%m/%d/%Y, %H:%M:%S").to_string(),
+        "ja" | "zh" => local_dt.format("%Y年%m月%d日 %H:%M:%S").to_string(),
+        "ko" => local_dt.format("%Y년 %m월 %d일 %H:%M:%S").to_string(),
+        // Default to British/European format (dd/mm/yyyy)
+        _ => local_dt.format("%d/%m/%Y, %H:%M:%S").to_string(),
+    }
+}
+
+/// Format a date and time for metadata display (note info modal).
+///
+/// Returns full date+time in ISO-like format with locale-aware date ordering:
+/// - en-US: MM/DD/YYYY HH:MM:SS
+/// - en-GB, most European: DD/MM/YYYY HH:MM:SS
+/// - ja, ko, zh: YYYY/MM/DD HH:MM:SS
+pub fn format_datetime_metadata<Tz: TimeZone>(dt: &DateTime<Tz>) -> String
+where
+    Tz::Offset: std::fmt::Display,
+{
+    // Convert to local time for display
+    let local_dt: DateTime<Local> = dt.with_timezone(&Local);
+    let locale = get_locale();
+    match locale.as_str() {
+        "en-US" => local_dt.format("%m/%d/%Y %H:%M:%S").to_string(),
+        "ja" | "ko" | "zh" => local_dt.format("%Y/%m/%d %H:%M:%S").to_string(),
+        // Default to British/European format
+        _ => local_dt.format("%d/%m/%Y %H:%M:%S").to_string(),
+    }
+}
+
+/// Calculate the display width of a string, accounting for wide characters (emojis, CJK, etc.)
+///
+/// This uses the Unicode Standard Annex #11 (East Asian Width) to determine
+/// how many terminal columns a string will occupy.
+pub fn display_width(s: &str) -> usize {
+    UnicodeWidthStr::width(s)
+}
+
+/// Truncate a string to fit within a maximum display width, adding "..." if truncated.
+///
+/// This properly handles wide characters (emojis, CJK) that take 2 columns.
+/// Returns the truncated string that fits within `max_width` columns.
+pub fn truncate_to_width(s: &str, max_width: usize) -> String {
+    let current_width = display_width(s);
+
+    if current_width <= max_width {
+        return s.to_string();
+    }
+
+    // Need to truncate - reserve 3 columns for "..."
+    let target_width = max_width.saturating_sub(3);
+
+    let mut result = String::new();
+    let mut width = 0;
+
+    for c in s.chars() {
+        let char_width = unicode_width::UnicodeWidthChar::width(c).unwrap_or(0);
+        if width + char_width > target_width {
+            break;
+        }
+        result.push(c);
+        width += char_width;
+    }
+
+    format!("{}...", result)
+}
+
+
+/// Result of rendering markdown, includes lines and link positions
+#[derive(Debug, Default)]
+pub struct MarkdownRenderResult {
+    /// Rendered lines
+    pub lines: Vec<Line<'static>>,
+    /// Note link positions: (note_id, line_index, char_start, char_end)
+    /// line_index is relative to the rendered lines (0-based)
+    pub note_links: Vec<(String, usize, usize, usize)>,
+}
+
+/// Strip markdown formatting from text (for display in note list and filenames)
+pub fn strip_markdown(text: &str) -> String {
+    let mut result = text.to_string();
+
+    // Remove markdown headers (# ## ### etc.) at the start of the line
+    if result.starts_with('#') {
+        let mut chars = result.chars();
+        // Skip all # characters
+        while matches!(chars.as_str().chars().next(), Some('#')) {
+            chars.next();
+        }
+        result = chars.as_str().trim_start().to_string();
+    }
+
+    // Remove horizontal rules (---, ***, ___)
+    result = result.replace("---", "").replace("***", "").replace("___", "");
+
+    // Remove blockquote markers (> text)
+    if result.starts_with('>') {
+        result = result.trim_start_matches('>').trim_start().to_string();
+    }
+
+    // Remove list markers (-, *, +, 1., 2., etc.)
+    let list_marker_patterns = [
+        "- ", "* ", "+ ",
+        "1. ", "2. ", "3. ", "4. ", "5. ", "6. ", "7. ", "8. ", "9. ",
+    ];
+    for marker in &list_marker_patterns {
+        if result.starts_with(marker) {
+            result = result.trim_start_matches(marker).to_string();
+            break;
+        }
+    }
+
+    // Remove task list markers (- [ ] or - [x])
+    if result.starts_with("- [ ] ") || result.starts_with("- [x] ") {
+        result = result.replacen("- [ ] ", "", 1).replacen("- [x] ", "", 1);
+    }
+
+    // Remove bold (**text** or __text__)
+    result = result.replace("**", "").replace("__", "");
+
+    // Remove strikethrough (~~text~~)
+    result = result.replace("~~", "");
+
+    // Remove inline code backticks and links
+    let mut cleaned = String::new();
+    let mut chars = result.chars().peekable();
+    let mut in_code = false;
+
+    while let Some(ch) = chars.next() {
+        match ch {
+            '`' => {
+                // Skip backticks (inline code markers)
+                in_code = !in_code;
+            }
+            '*' | '_' if !in_code => {
+                // Skip single * or _ used for emphasis
+                continue;
+            }
+            '!' if !in_code && chars.peek() == Some(&'[') => {
+                // Handle images ![alt](url) - skip entirely
+                chars.next(); // skip [
+                for c in chars.by_ref() {
+                    if c == ']' {
+                        break;
+                    }
+                }
+                // Skip (url) part
+                if chars.peek() == Some(&'(') {
+                    chars.next(); // skip (
+                    for c in chars.by_ref() {
+                        if c == ')' {
+                            break;
+                        }
+                    }
+                }
+            }
+            '[' if !in_code => {
+                // Handle links [text](url) - extract text only
+                let mut link_text = String::new();
+                let mut found_closing = false;
+
+                for c in chars.by_ref() {
+                    if c == ']' {
+                        found_closing = true;
+                        break;
+                    }
+                    link_text.push(c);
+                }
+
+                if found_closing {
+                    // Skip the (url) or [ref] part
+                    if chars.peek() == Some(&'(') {
+                        chars.next(); // skip (
+                        for c in chars.by_ref() {
+                            if c == ')' {
+                                break;
+                            }
+                        }
+                    } else if chars.peek() == Some(&'[') {
+                        chars.next(); // skip [
+                        for c in chars.by_ref() {
+                            if c == ']' {
+                                break;
+                            }
+                        }
+                    }
+                    cleaned.push_str(&link_text);
+                } else {
+                    cleaned.push('[');
+                    cleaned.push_str(&link_text);
+                }
+            }
+            '<' if !in_code => {
+                // Remove HTML tags
+                for c in chars.by_ref() {
+                    if c == '>' {
+                        break;
+                    }
+                }
+            }
+            _ => {
+                if !in_code || ch != '`' {
+                    cleaned.push(ch);
+                }
+            }
+        }
+    }
+
+    // Normalize whitespace
+    cleaned.split_whitespace().collect::<Vec<_>>().join(" ")
+}
+
+/// Render markdown for terminal display using pulldown-cmark parser
+/// Returns both rendered lines and positions of note links for click detection
+///
+/// The `note_title_lookup` parameter is an optional function that takes a note ID
+/// and returns its title (first line of content). Used for auto-populating empty
+/// link text in `[](link:UUID)` format links.
+pub fn render_markdown_for_terminal<F>(
+    content: &str,
+    syntax_highlighter: &crate::ui::syntax::SyntaxHighlighter,
+    debug_log: &Option<Arc<Mutex<File>>>,
+    note_title_lookup: Option<F>,
+) -> MarkdownRenderResult
+where
+    F: Fn(&str) -> Option<String>,
+{
+    use pulldown_cmark::{Parser, Event, Tag, TagEnd, CodeBlockKind, Options};
+    use ratatui::style::{Style, Modifier, Color};
+    use ratatui::text::{Line, Span};
+    use crate::models::{char_prefix, SyntaxLanguage};
+
+    // Helper to write debug messages
+    let log_debug = |msg: &str| {
+        if let Some(log) = debug_log {
+            if let Ok(mut file) = log.lock() {
+                let _ = writeln!(file, "[{}] {}", chrono::Local::now().format("%Y-%m-%d %H:%M:%S%.3f"), msg);
+            }
+        }
+    };
+
+    let mut result = MarkdownRenderResult::default();
+    let mut current_line_spans: Vec<Span<'static>> = Vec::new();
+    let mut current_style = Style::default();
+    let mut in_code_block = false;
+    let mut code_block_content = String::new();
+    let mut code_block_lang = String::new();
+    let mut in_table = false;
+    let mut in_table_head = false;
+    let mut in_list_item = false;
+    let mut list_item_started = false;
+    let mut table_cells: Vec<String> = Vec::new();
+    let mut current_cell_text = String::new();
+    let mut table_header_rows: Vec<Vec<String>> = Vec::new();
+    let mut table_body_rows: Vec<Vec<String>> = Vec::new();
+
+    // Track current note link being processed
+    let mut current_link_url: Option<String> = None;
+    let mut current_link_start_char: usize = 0;
+    let mut current_link_has_text: bool = false;
+
+    // Style stack for nested formatting
+    let mut style_stack: Vec<Style> = vec![Style::default()];
+
+    // Helper to calculate current character position in line
+    let calc_current_char_pos = |spans: &[Span]| -> usize {
+        spans.iter().map(|s| s.content.chars().count()).sum()
+    };
+
+    // Enable extensions: tables, strikethrough, tasklists, footnotes
+    let mut options = Options::empty();
+    options.insert(Options::ENABLE_TABLES);
+    options.insert(Options::ENABLE_STRIKETHROUGH);
+    options.insert(Options::ENABLE_TASKLISTS);
+
+    let parser = Parser::new_ext(content, options);
+
+    for event in parser {
+        match event {
+            Event::Start(tag) => {
+                match tag {
+                    Tag::Heading { .. } => {
+                        // Flush any current line before heading
+                        if !current_line_spans.is_empty() {
+                            result.lines.push(Line::from(current_line_spans.clone()));
+                            current_line_spans.clear();
+                        }
+                        // Add blank line before heading (for spacing)
+                        if !result.lines.is_empty() {
+                            result.lines.push(Line::raw(""));
+                        }
+
+                        // Headers in cyan + bold
+                        let header_style = Style::default()
+                            .fg(Color::Cyan)
+                            .add_modifier(Modifier::BOLD);
+                        style_stack.push(header_style);
+                        current_style = header_style;
+                    }
+                    Tag::Emphasis => {
+                        // Italic -> cyan color (better terminal support than ITALIC modifier)
+                        let italic_style = current_style.fg(Color::Cyan);
+                        style_stack.push(italic_style);
+                        current_style = italic_style;
+                    }
+                    Tag::Strong => {
+                        // Bold -> white + BOLD
+                        let bold_style = current_style
+                            .fg(Color::White)
+                            .add_modifier(Modifier::BOLD);
+                        style_stack.push(bold_style);
+                        current_style = bold_style;
+                    }
+                    Tag::Link { dest_url, .. } => {
+                        // Check if this is a note link (link:UUID format)
+                        let url = dest_url.to_string();
+                        if url.starts_with("link:") {
+                            // Note link -> yellow + underlined (distinct from regular links)
+                            let link_style = current_style
+                                .fg(Color::Yellow)
+                                .add_modifier(Modifier::UNDERLINED);
+                            style_stack.push(link_style);
+                            current_style = link_style;
+                            // Track this link for position recording
+                            current_link_url = Some(url);
+                            current_link_start_char = calc_current_char_pos(&current_line_spans);
+                            current_link_has_text = false;
+                        } else {
+                            // Regular links -> blue + underlined
+                            let link_style = current_style
+                                .fg(Color::Blue)
+                                .add_modifier(Modifier::UNDERLINED);
+                            style_stack.push(link_style);
+                            current_style = link_style;
+                        }
+                    }
+                    Tag::CodeBlock(kind) => {
+                        // Flush current line before code block
+                        if !current_line_spans.is_empty() {
+                            result.lines.push(Line::from(current_line_spans.clone()));
+                            current_line_spans.clear();
+                        }
+
+                        in_code_block = true;
+                        code_block_content.clear();
+                        code_block_lang = match kind {
+                            CodeBlockKind::Fenced(lang) => lang.to_string(),
+                            CodeBlockKind::Indented => String::new(),
+                        };
+                    }
+                    Tag::Table(_) => {
+                        // Flush current line before table
+                        if !current_line_spans.is_empty() {
+                            result.lines.push(Line::from(current_line_spans.clone()));
+                            current_line_spans.clear();
+                        }
+                        in_table = true;
+                        table_header_rows.clear();
+                        table_body_rows.clear();
+                        log_debug(">>> Tag::Table start");
+                    }
+                    Tag::TableHead => {
+                        in_table_head = true;
+                        log_debug(">>> Tag::TableHead start (setting in_table_head=true)");
+                    }
+                    Tag::TableRow => {
+                        table_cells.clear();
+                        log_debug(&format!(">>> Tag::TableRow start (in_table_head={})", in_table_head));
+                    }
+                    Tag::TableCell => {
+                        current_cell_text.clear();
+                    }
+                    Tag::Paragraph => {
+                        // Paragraphs just group text, no special styling needed
+                    }
+                    Tag::List(_) => {
+                        // List started - no special action needed
+                    }
+                    Tag::Item => {
+                        // Flush current line before list item
+                        if !current_line_spans.is_empty() {
+                            result.lines.push(Line::from(current_line_spans.clone()));
+                            current_line_spans.clear();
+                        }
+                        in_list_item = true;
+                        list_item_started = false;
+                    }
+                    _ => {}
+                }
+            }
+            Event::End(tag_end) => {
+                match tag_end {
+                    TagEnd::Heading(_) => {
+                        // Pop style from stack
+                        if style_stack.len() > 1 {
+                            style_stack.pop();
+                            current_style = *style_stack.last().unwrap();
+                        }
+                        // Headings end with a line break
+                        if !current_line_spans.is_empty() {
+                            result.lines.push(Line::from(current_line_spans.clone()));
+                            current_line_spans.clear();
+                        }
+                    }
+                    TagEnd::Emphasis | TagEnd::Strong => {
+                        // Pop style from stack
+                        if style_stack.len() > 1 {
+                            style_stack.pop();
+                            current_style = *style_stack.last().unwrap();
+                        }
+                    }
+                    TagEnd::Link => {
+                        // Record note link position if this was a note link
+                        if let Some(url) = current_link_url.take() {
+                            if url.starts_with("link:") {
+                                let note_id = url.strip_prefix("link:").unwrap_or("").to_string();
+                                if !note_id.is_empty() {
+                                    // If no text was provided for the link, try to look up the note title
+                                    if !current_link_has_text {
+                                        let link_text = if let Some(ref lookup) = note_title_lookup {
+                                            lookup(&note_id).unwrap_or_else(|| format!("[{}...]", char_prefix(&note_id, 8)))
+                                        } else {
+                                            format!("[{}...]", char_prefix(&note_id, 8))
+                                        };
+                                        // Add the link text with current (link) style
+                                        current_line_spans.push(Span::styled(link_text, current_style));
+                                    }
+                                    let end_char = calc_current_char_pos(&current_line_spans);
+                                    let line_index = result.lines.len();
+                                    result.note_links.push((note_id, line_index, current_link_start_char, end_char));
+                                }
+                            }
+                        }
+                        // Pop style from stack
+                        if style_stack.len() > 1 {
+                            style_stack.pop();
+                            current_style = *style_stack.last().unwrap();
+                        }
+                    }
+                    TagEnd::CodeBlock => {
+                        in_code_block = false;
+
+                        // Determine syntax language
+                        let lang = match code_block_lang.to_lowercase().as_str() {
+                            "javascript" | "js" => SyntaxLanguage::Javascript,
+                            "typescript" | "ts" => SyntaxLanguage::Typescript,
+                            "python" | "py" => SyntaxLanguage::Python,
+                            "markdown" | "md" => SyntaxLanguage::Markdown,
+                            "json" => SyntaxLanguage::Json,
+                            "html" => SyntaxLanguage::Html,
+                            "xml" => SyntaxLanguage::Xml,
+                            "css" => SyntaxLanguage::Css,
+                            "sql" => SyntaxLanguage::Sql,
+                            "bash" | "sh" => SyntaxLanguage::Bash,
+                            "perl" | "pl" => SyntaxLanguage::Perl,
+                            _ => SyntaxLanguage::Plain,
+                        };
+
+                        // Apply syntax highlighting
+                        let highlighted = syntax_highlighter.highlight(&code_block_content, lang);
+
+                        // Convert borrowed lines to owned
+                        for line in highlighted.lines {
+                            let owned_line: Line<'static> = Line::from(
+                                line.spans.into_iter()
+                                    .map(|span| Span::styled(span.content.to_string(), span.style))
+                                    .collect::<Vec<_>>()
+                            );
+                            result.lines.push(owned_line);
+                        }
+
+                        code_block_content.clear();
+                        code_block_lang.clear();
+                        // Add blank line after code block
+                        result.lines.push(Line::raw(""));
+                    }
+                    TagEnd::TableCell => {
+                        // Save the current cell text
+                        table_cells.push(current_cell_text.clone());
+                        current_cell_text.clear();
+                    }
+                    TagEnd::TableRow => {
+                        // Save the current row to appropriate vector
+                        if !table_cells.is_empty() {
+                            log_debug(&format!("TableRow end - in_table_head={}, cells={:?}", in_table_head, table_cells));
+                            if in_table_head {
+                                table_header_rows.push(table_cells.clone());
+                            } else {
+                                table_body_rows.push(table_cells.clone());
+                            }
+                            table_cells.clear();
+                        }
+                    }
+                    TagEnd::TableHead => {
+                        // Save header cells (they come directly in TableHead, not in a TableRow)
+                        if !table_cells.is_empty() {
+                            log_debug(&format!(">>> TagEnd::TableHead - saving header cells: {:?}", table_cells));
+                            table_header_rows.push(table_cells.clone());
+                            table_cells.clear();
+                        }
+                        in_table_head = false;
+                        log_debug(">>> TagEnd::TableHead (setting in_table_head=false)");
+                    }
+                    TagEnd::Table => {
+                        in_table = false;
+                        log_debug(&format!("Table end - header_rows={}, body_rows={}", table_header_rows.len(), table_body_rows.len()));
+
+                        // Calculate column widths from both header and body
+                        let mut col_widths: Vec<usize> = Vec::new();
+
+                        // Check header rows
+                        for row in &table_header_rows {
+                            for (i, cell) in row.iter().enumerate() {
+                                let width = cell.len();
+                                if i >= col_widths.len() {
+                                    col_widths.push(width);
+                                } else if width > col_widths[i] {
+                                    col_widths[i] = width;
+                                }
+                            }
+                        }
+
+                        // Check body rows
+                        for row in &table_body_rows {
+                            for (i, cell) in row.iter().enumerate() {
+                                let width = cell.len();
+                                if i >= col_widths.len() {
+                                    col_widths.push(width);
+                                } else if width > col_widths[i] {
+                                    col_widths[i] = width;
+                                }
+                            }
+                        }
+
+                        // Render header rows (bold)
+                        for row in &table_header_rows {
+                            let mut row_text = String::from("| ");
+                            for (i, cell) in row.iter().enumerate() {
+                                let width = if i < col_widths.len() { col_widths[i] } else { 0 };
+                                row_text.push_str(&format!("{:<width$} | ", cell, width = width));
+                            }
+                            result.lines.push(Line::styled(
+                                row_text,
+                                Style::default().add_modifier(Modifier::BOLD)
+                            ));
+                        }
+
+                        // Add separator line after header
+                        if !table_header_rows.is_empty() {
+                            let mut separator = String::from("|-");
+                            for &width in &col_widths {
+                                separator.push_str(&"-".repeat(width));
+                                separator.push_str("-|-");
+                            }
+                            // Remove trailing dash
+                            separator.pop();
+                            result.lines.push(Line::styled(separator, Style::default().fg(Color::DarkGray)));
+                        }
+
+                        // Render body rows (normal)
+                        for row in &table_body_rows {
+                            let mut row_text = String::from("| ");
+                            for (i, cell) in row.iter().enumerate() {
+                                let width = if i < col_widths.len() { col_widths[i] } else { 0 };
+                                row_text.push_str(&format!("{:<width$} | ", cell, width = width));
+                            }
+                            result.lines.push(Line::raw(row_text));
+                        }
+
+                        table_header_rows.clear();
+                        table_body_rows.clear();
+                        // Add blank line after table
+                        result.lines.push(Line::raw(""));
+                    }
+                    TagEnd::Paragraph => {
+                        // End paragraph with a line break
+                        if !current_line_spans.is_empty() {
+                            result.lines.push(Line::from(current_line_spans.clone()));
+                            current_line_spans.clear();
+                        }
+                        // Don't add extra blank lines - let block spacing handle it
+                    }
+                    TagEnd::Item => {
+                        // End list item with line break
+                        in_list_item = false;
+                        if !current_line_spans.is_empty() {
+                            result.lines.push(Line::from(current_line_spans.clone()));
+                            current_line_spans.clear();
+                        }
+                    }
+                    TagEnd::List(_) => {
+                        // Add blank line after list
+                        result.lines.push(Line::raw(""));
+                    }
+                    _ => {}
+                }
+            }
+            Event::Text(text) => {
+                if in_code_block {
+                    code_block_content.push_str(&text);
+                } else if in_table {
+                    // Collect text for current table cell
+                    current_cell_text.push_str(&text);
+                } else if in_list_item && !list_item_started {
+                    // Add bullet point at start of list item
+                    list_item_started = true;
+                    current_line_spans.push(Span::raw("• "));
+                    current_line_spans.push(Span::styled(text.to_string(), current_style));
+                    // Track that we added text for current link
+                    if current_link_url.is_some() {
+                        current_link_has_text = true;
+                    }
+                } else {
+                    current_line_spans.push(Span::styled(text.to_string(), current_style));
+                    // Track that we added text for current link
+                    if current_link_url.is_some() {
+                        current_link_has_text = true;
+                    }
+                }
+            }
+            Event::Code(code) => {
+                if in_table {
+                    // In tables, just add code text without styling
+                    current_cell_text.push_str(&code);
+                } else {
+                    // Add bullet point at start of list item if not started
+                    if in_list_item && !list_item_started {
+                        list_item_started = true;
+                        current_line_spans.push(Span::raw("• "));
+                    }
+                    // Inline code -> yellow
+                    current_line_spans.push(Span::styled(
+                        code.to_string(),
+                        Style::default().fg(Color::Yellow)
+                    ));
+                }
+            }
+            Event::SoftBreak => {
+                // Soft break in markdown (single newline) - keep on same line in most contexts
+                if in_table {
+                    // In tables, add space to cell text
+                    current_cell_text.push(' ');
+                } else {
+                    // Add a space for soft breaks in regular text
+                    current_line_spans.push(Span::raw(" "));
+                }
+            }
+            Event::HardBreak => {
+                // Hard break (two spaces + newline or <br>) - always break line
+                if !current_line_spans.is_empty() {
+                    result.lines.push(Line::from(current_line_spans.clone()));
+                    current_line_spans.clear();
+                }
+            }
+            Event::Rule => {
+                // Flush current line before rule
+                if !current_line_spans.is_empty() {
+                    result.lines.push(Line::from(current_line_spans.clone()));
+                    current_line_spans.clear();
+                }
+                // Horizontal rule
+                result.lines.push(Line::styled(
+                    "─".repeat(80),
+                    Style::default().fg(Color::DarkGray)
+                ));
+                result.lines.push(Line::raw(""));
+            }
+            Event::TaskListMarker(checked) => {
+                // Render task list checkbox
+                let checkbox = if checked { "[x] " } else { "[ ] " };
+                current_line_spans.push(Span::raw(checkbox));
+            }
+            _ => {}
+        }
+    }
+
+    // Flush any remaining spans
+    if !current_line_spans.is_empty() {
+        result.lines.push(Line::from(current_line_spans));
+    }
+
+    // Return empty line if no content
+    if result.lines.is_empty() {
+        result.lines.push(Line::raw(""));
+    }
+
+    result
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::ui::syntax::SyntaxHighlighter;
+
+    fn render_links(text: &str) -> MarkdownRenderResult {
+        render_markdown_for_terminal(text, &SyntaxHighlighter::new(), &None, None::<fn(&str) -> Option<String>>)
+    }
+
+    #[test]
+    fn a_link_to_a_note_with_a_multi_byte_id_does_not_panic() {
+        let rendered = render_links("[](link:日本語のノートです)");
+        assert_eq!(rendered.note_links.len(), 1);
+    }
+
+    #[test]
+    fn a_link_to_a_short_id_does_not_panic() {
+        assert_eq!(render_links("[](link:ab)").note_links.len(), 1);
+    }
+
+    #[test]
+    fn tabs_reach_the_next_stop_from_wherever_they_are() {
+        assert_eq!(expand_tabs("\tindented"), "    indented");
+        assert_eq!(expand_tabs("ab\tc"), "ab  c");
+        assert_eq!(expand_tabs("abcd\te"), "abcd    e");
+        assert_eq!(expand_tabs("a\n\tb"), "a\n    b");
+    }
+
+    #[test]
+    fn text_without_tabs_is_left_as_it_is() {
+        assert!(matches!(expand_tabs("plain"), std::borrow::Cow::Borrowed("plain")));
+    }
+
+    fn find_project_plan(reference: &str) -> Option<(String, String)> {
+        ["Project Plan", "note-id"].iter().any(|known| known.eq_ignore_ascii_case(reference))
+            .then(|| ("note-id".to_string(), "Project Plan".to_string()))
+    }
+
+    #[test]
+    fn a_wiki_link_finds_its_note_by_title_or_id() {
+        assert_eq!(resolve_wiki_links("See [[project plan]].", &find_project_plan), "See [Project Plan](link:note-id).");
+        assert_eq!(resolve_wiki_links("See [[note-id]]", &find_project_plan), "See [Project Plan](link:note-id)");
+    }
+
+    #[test]
+    fn a_wiki_link_can_say_what_it_shows() {
+        assert_eq!(resolve_wiki_links("[[note-id|the plan]]", &find_project_plan), "[the plan](link:note-id)");
+    }
+
+    #[test]
+    fn a_wiki_link_to_nothing_stays_as_typed() {
+        assert_eq!(resolve_wiki_links("[[No Such Note]]", &find_project_plan), "[[No Such Note]]");
+    }
+
+    #[test]
+    fn code_is_left_alone() {
+        let fenced = "```\n[[Project Plan]]\n```\n";
+        assert_eq!(resolve_wiki_links(fenced, &find_project_plan), fenced);
+        assert_eq!(resolve_wiki_links("`[[Project Plan]]`", &find_project_plan), "`[[Project Plan]]`");
+    }
+
+    #[test]
+    fn an_unclosed_run_of_brackets_is_just_text() {
+        let text = "[[".repeat(2000);
+        assert_eq!(resolve_wiki_links(&text, &find_project_plan), text);
+    }
+}

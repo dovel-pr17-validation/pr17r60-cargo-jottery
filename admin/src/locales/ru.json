@@ -1,0 +1,444 @@
+{
+  "app": {
+    "name": "Jottery Admin"
+  },
+  "common": {
+    "refresh": "Обновить",
+    "refreshing": "Обновление...",
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "close": "Закрыть",
+    "save": "Сохранить",
+    "edit": "Редактировать",
+    "loading": "Загрузка...",
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "actions": "Действия",
+    "status": "Статус",
+    "created": "Создано",
+    "saving": "Сохранение...",
+    "deleting": "Удаление...",
+    "passwordRules": "Не менее 12 символов. Сервер также может требовать сочетание прописных и строчных букв, цифр и символов."
+  },
+  "nav": {
+    "dashboard": "Панель управления",
+    "users": "Пользователи",
+    "settings": "Настройки",
+    "logout": "Выйти",
+    "audit": "Журнал аудита"
+  },
+  "login": {
+    "title": "Jottery Admin",
+    "subtitle": "Войдите для управления сервером",
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "signIn": "Войти",
+    "signingIn": "Вход...",
+    "placeholder": {
+      "email": "admin@localhost",
+      "password": "••••••••"
+    },
+    "errors": {
+      "invalidCredentials": "Неверный адрес электронной почты или пароль",
+      "adminRequired": "Требуется доступ администратора",
+      "unexpected": "Произошла непредвиденная ошибка"
+    }
+  },
+  "logout": {
+    "confirmTitle": "Подтвердить выход",
+    "confirmMessage": "Вы уверены, что хотите выйти?"
+  },
+  "errors": {
+    "unknown": "Что-то пошло не так. Повторите попытку.",
+    "network": "Не удалось связаться с сервером. Проверьте подключение и повторите попытку.",
+    "forbidden": "У вас нет прав на это действие.",
+    "wrongPassword": "Текущий пароль неверен",
+    "rateLimited": "Слишком много попыток. Повторите через {seconds} с.",
+    "tooManyAttempts": "Слишком много попыток. Подождите и повторите попытку.",
+    "passwordTooShort": "Новый пароль должен содержать не менее 12 символов",
+    "passwordSameAsCurrent": "Новый пароль должен отличаться от текущего",
+    "ownAdminRole": "Вы не можете снять с себя права администратора.",
+    "lastAdminDemote": "Последнего администратора нельзя понизить.",
+    "ownAccountDelete": "Здесь нельзя удалить собственную учётную запись.",
+    "lastAdminDelete": "Последнего администратора нельзя удалить.",
+    "userNotFound": "Пользователь не найден.",
+    "deviceNotFound": "Устройство не найдено.",
+    "quotaRange": "Квота хранилища должна быть от 1 до 100000 МБ.",
+    "maxUploadRange": "Максимальный размер загрузки должен быть от 1 до 1000 МБ.",
+    "inboxItemsRange": "Максимальное число элементов входящих должно быть от 1 до 10000.",
+    "inboxSizeRange": "Максимальный размер входящих должен быть от 1 до 1000 МБ.",
+    "passwordComplexity": "Пароль должен содержать не менее {required} из 4 типов символов. Не хватает: {missing}.",
+    "passwordClass": {
+      "uppercase": "прописная буква",
+      "lowercase": "строчная буква",
+      "number": "цифра",
+      "special": "символ"
+    },
+    "passwordTooLong": "Пароль слишком длинный."
+  },
+  "session": {
+    "expired": "Срок действия сеанса истёк. Войдите снова."
+  },
+  "forcedPasswordChange": {
+    "title": "Смените пароль",
+    "description": "Чтобы продолжить, необходимо задать новый пароль. Его длина должна быть не менее 12 символов."
+  },
+  "dashboard": {
+    "title": "Панель управления",
+    "loadingStats": "Загрузка статистики...",
+    "failedToLoad": "Не удалось загрузить статистику",
+    "stats": {
+      "totalUsers": "Всего пользователей",
+      "approved": "одобрено",
+      "pending": "ожидает",
+      "activeDevices": "Активные устройства",
+      "totalDevices": "Всего устройств: {count}",
+      "totalNotes": "Всего заметок",
+      "acrossAllUsers": "Для всех пользователей",
+      "storage": "Хранилище",
+      "mbQuota": "Квота {quota} МБ"
+    },
+    "serverInfo": {
+      "title": "Информация о сервере",
+      "version": "Версия сервера:",
+      "activeUsers": "Активные пользователи:",
+      "pendingApprovals": "Ожидают одобрения:"
+    }
+  },
+  "devices": {
+    "title": "Устройства",
+    "name": "Название устройства",
+    "type": "Тип",
+    "createdAt": "Зарегистрировано",
+    "lastSeen": "Последняя активность",
+    "status": "Статус",
+    "active": "Активно",
+    "inactive": "Неактивно",
+    "revoke": "Отозвать",
+    "delete": "Удалить",
+    "rename": "Переименовать",
+    "revokeConfirmTitle": "Отозвать устройство",
+    "revokeConfirm": "Вы уверены, что хотите отозвать устройство \"{name}\"? Это устройство больше не сможет синхронизироваться.",
+    "revokeWarning": "Это устройство больше не сможет синхронизироваться.",
+    "deleteConfirmTitle": "Удалить устройство",
+    "deleteConfirm": "Вы уверены, что хотите удалить устройство \"{name}\" навсегда? Это действие нельзя отменить.",
+    "noDevices": "Нет зарегистрированных устройств",
+    "total": "всего",
+    "nameRequired": "Название устройства обязательно",
+    "toast": {
+      "revoked": "Устройство \"{name}\" отозвано",
+      "revokeFailed": "Не удалось отозвать устройство: {error}",
+      "revokeFailedGeneric": "Не удалось отозвать устройство",
+      "deleted": "Устройство \"{name}\" удалено",
+      "deleteFailed": "Не удалось удалить устройство: {error}",
+      "deleteFailedGeneric": "Не удалось удалить устройство",
+      "renamed": "Устройство успешно переименовано",
+      "renameFailed": "Не удалось переименовать устройство: {error}",
+      "renameFailedGeneric": "Не удалось переименовать устройство"
+    }
+  },
+  "users": {
+    "title": "Пользователи",
+    "loadingUsers": "Загрузка пользователей...",
+    "noUsersFound": "Пользователи не найдены",
+    "failedToLoad": "Не удалось загрузить пользователей",
+    "detail": {
+      "title": "Детали пользователя",
+      "userInfo": "Информация о пользователе",
+      "approvedAt": "Одобрен",
+      "lastLogin": "Последний вход",
+      "lastSync": "Последняя синхронизация",
+      "statistics": "Статистика",
+      "attachments": "Вложения",
+      "storage": "Использовано хранилища",
+      "quota": "Квота хранилища",
+      "viewDevices": "Нажмите, чтобы просмотреть устройства",
+      "settings": "Настройки пользователя",
+      "maxUploadSize": "Макс. размер загрузки",
+      "maxUploadSizeHelp": "Максимальный размер на запрос синхронизации (включая вложения)",
+      "settingsSaved": "Настройки пользователя сохранены",
+      "settingsSaveFailed": "Не удалось сохранить настройки: {error}",
+      "settingsSaveFailedGeneric": "Не удалось сохранить настройки",
+      "viewDetails": "Нажмите для просмотра деталей",
+      "passwordReset": "Сброс пароля",
+      "resetPassword": "Сбросить пароль",
+      "newPassword": "Новый пароль",
+      "newPasswordPlaceholder": "Введите новый пароль",
+      "confirmPassword": "Подтвердите пароль",
+      "confirmPasswordPlaceholder": "Подтвердите новый пароль",
+      "passwordTooShort": "Пароль должен содержать не менее 12 символов",
+      "passwordMismatch": "Пароли не совпадают",
+      "passwordResetSuccess": "Пароль для {email} успешно сброшен",
+      "passwordResetFailed": "Не удалось сбросить пароль: {error}",
+      "passwordResetFailedGeneric": "Не удалось сбросить пароль",
+      "passwordResetHelp": "Сбросьте пароль пользователя, если он его забыл.",
+      "passwordResetWarning": "Это изменит только пароль для входа в аккаунт. Это не повлияет на шифрование заметок. Если пользователь забыл пароль шифрования, его заметки невозможно восстановить.",
+      "inboxMaxItems": "Макс. элементов входящих",
+      "inboxMaxSize": "Макс. размер входящих",
+      "items": "элементов",
+      "passwordResetDevices": "Устройства этого пользователя продолжат синхронизацию после сброса, потому что их ключи не привязаны к паролю.",
+      "revokeDevicesOption": "Также отозвать все ключи устройств этого пользователя, если учётная запись могла быть скомпрометирована"
+    },
+    "filters": {
+      "all": "Все",
+      "pending": "Ожидающие",
+      "approved": "Одобренные",
+      "inactive": "Неактивные"
+    },
+    "table": {
+      "email": "Электронная почта",
+      "status": "Статус",
+      "devices": "Устройства",
+      "notes": "Заметки",
+      "created": "Создано",
+      "actions": "Действия"
+    },
+    "status": {
+      "pending": "Ожидает",
+      "active": "Активен",
+      "inactive": "Неактивен",
+      "admin": "Администратор"
+    },
+    "actions": {
+      "approve": "Одобрить",
+      "makeAdmin": "Сделать администратором",
+      "removeAdmin": "Убрать администратора",
+      "deactivate": "Деактивировать",
+      "activate": "Активировать",
+      "delete": "Удалить",
+      "demoteFromAdmin": "Понизить из администраторов",
+      "promoteToAdmin": "Повысить до администратора",
+      "deleteUser": "Удалить пользователя"
+    },
+    "confirm": {
+      "approve": "Одобрить",
+      "deactivate": "Деактивировать",
+      "activate": "Активировать",
+      "delete": "Удалить",
+      "promoteToAdmin": "Повысить до администратора",
+      "demoteFromAdmin": "Понизить из администраторов",
+      "messages": {
+        "approve": "Одобрить {email}? Пользователь сможет входить в систему и регистрировать устройства.",
+        "deactivate": "Деактивировать {email}? Пользователь не сможет входить и синхронизировать данные, пока его снова не активируют.",
+        "activate": "Активировать {email}? Пользователь снова сможет входить и синхронизировать данные.",
+        "delete": "Это навсегда удалит {email} и всё, что сервер хранит для этого пользователя: заметки, вложения, устройства и ключ учётной записи. Это действие нельзя отменить.",
+        "promoteToAdmin": "Вы уверены, что хотите повысить {email} до администратора? У него будет полный доступ ко всем функциям администрирования.",
+        "demoteFromAdmin": "Вы уверены, что хотите отозвать права администратора у {email}?"
+      },
+      "deleteCounts": "Заметки: {notes} · Устройства: {devices}",
+      "typeEmail": "Введите адрес электронной почты пользователя для подтверждения:"
+    },
+    "toast": {
+      "approved": "Пользователь {email} успешно одобрен",
+      "deactivated": "Пользователь {email} деактивирован",
+      "activated": "Пользователь {email} активирован",
+      "deleted": "Пользователь {email} удалён",
+      "promotedToAdmin": "Пользователь {email} повышен до администратора",
+      "demotedFromAdmin": "Пользователь {email} понижен из администраторов",
+      "failed": {
+        "approve": "Не удалось одобрить пользователя: {error}",
+        "deactivate": "Не удалось деактивировать пользователя: {error}",
+        "activate": "Не удалось активировать пользователя: {error}",
+        "delete": "Не удалось удалить пользователя: {error}",
+        "promote": "Не удалось повысить пользователя до администратора: {error}",
+        "demote": "Не удалось снять с пользователя права администратора: {error}"
+      }
+    }
+  },
+  "settings": {
+    "title": "Настройки",
+    "language": {
+      "title": "Язык",
+      "description": "Выберите предпочитаемый язык для интерфейса администратора.",
+      "label": "Язык отображения"
+    },
+    "changePassword": {
+      "title": "Изменить пароль",
+      "description": "Обновите пароль администратора. Пароль должен содержать не менее 12 символов.",
+      "currentPassword": "Текущий пароль",
+      "newPassword": "Новый пароль",
+      "confirmPassword": "Подтвердите новый пароль",
+      "placeholder": {
+        "current": "Введите текущий пароль",
+        "new": "Введите новый пароль (мин. 12 символов)",
+        "confirm": "Подтвердите новый пароль"
+      },
+      "button": "Изменить пароль",
+      "buttonChanging": "Изменение...",
+      "cancel": "Отмена",
+      "errors": {
+        "currentRequired": "Требуется текущий пароль",
+        "newRequired": "Требуется новый пароль",
+        "minLength": "Новый пароль должен содержать не менее 12 символов",
+        "mismatch": "Пароли не совпадают",
+        "failed": "Не удалось изменить пароль"
+      },
+      "success": "Пароль успешно изменён"
+    }
+  },
+  "userPortal": {
+    "title": "Мой аккаунт",
+    "tabs": {
+      "account": "Аккаунт",
+      "settings": "Настройки"
+    },
+    "login": {
+      "title": "Jottery",
+      "subtitle": "Войдите для управления аккаунтом",
+      "email": "Электронная почта",
+      "password": "Пароль",
+      "signIn": "Войти",
+      "signingIn": "Вход...",
+      "placeholder": {
+        "email": "you@example.com",
+        "password": "••••••••"
+      },
+      "errors": {
+        "invalidCredentials": "Неверный адрес электронной почты или пароль",
+        "accountInactive": "Ваш аккаунт неактивен. Обратитесь к администратору.",
+        "accountPending": "Ваш аккаунт ожидает одобрения администратора.",
+        "unexpected": "Произошла непредвиденная ошибка",
+        "statusCheckFailed": "Failed to check status. Please try again."
+      },
+      "checkStatus": "Check approval status",
+      "statusCheck": {
+        "title": "Check Approval Status",
+        "checkButton": "Check Status",
+        "notFound": "No account found with this email address.",
+        "approved": "Your account is approved and active. You can sign in above.",
+        "pending": "Your account is pending approval. Please wait for an administrator to approve your registration.",
+        "inactive": "Your account has been deactivated. Please contact an administrator."
+      }
+    },
+    "account": {
+      "title": "Информация об аккаунте",
+      "loadError": "Не удалось загрузить информацию об аккаунте",
+      "email": "Электронная почта",
+      "memberSince": "Участник с",
+      "noteCount": "Заметки",
+      "attachmentCount": "Вложения",
+      "storageUsed": "Использовано хранилища",
+      "lastSync": "Последняя синхронизация",
+      "never": "Никогда",
+      "inbox": {
+        "title": "API входящих",
+        "description": "Отправляйте заметки в свой аккаунт через API — пароль шифрования не требуется. Элементы появятся во входящих для просмотра.",
+        "itemsLabel": "Элементы",
+        "sizeLabel": "Размер",
+        "noToken": "Токен входящих не настроен. Сгенерируйте его, чтобы начать отправлять заметки через API.",
+        "generate": "Сгенерировать токен",
+        "generated": "Токен сгенерирован — сохраните его сейчас, он больше не будет показан.",
+        "active": "Токен входящих активен",
+        "copyToken": "Копировать",
+        "quickStart": "Быстрый старт",
+        "revoke": "Отозвать токен",
+        "revokeConfirmTitle": "Отозвать токен входящих",
+        "revokeConfirmMessage": "Отозвать токен входящих? Все интеграции, использующие его, перестанут работать.",
+        "cancel": "Отмена",
+        "generateSuccess": "Токен входящих создан",
+        "generateFailed": "Не удалось создать токен: {error}",
+        "revokeSuccess": "Токен входящих отозван",
+        "revokeFailed": "Не удалось отозвать токен, поэтому он всё ещё действует: {error}",
+        "copySuccess": "Токен скопирован",
+        "copyUnavailable": "Здесь нельзя скопировать. Выделите токен и скопируйте его вручную."
+      },
+      "storageUsedNote": "Включает заметки, историю заметок и вложения."
+    },
+    "devices": {
+      "title": "Ваши устройства",
+      "loadError": "Не удалось загрузить устройства",
+      "noDevices": "Нет зарегистрированных устройств",
+      "never": "Никогда",
+      "revokeTitle": "Отозвать устройство",
+      "revokeConfirm": "Вы уверены, что хотите отозвать \"{name}\"? Это устройство больше не сможет синхронизироваться.",
+      "revokeNote": "Отзыв устройства предотвратит его синхронизацию. При необходимости вы сможете повторно зарегистрировать устройство позже.",
+      "revoked": "Устройство \"{name}\" отозвано",
+      "revokeFailed": "Не удалось отозвать устройство: {error}",
+      "revokeFailedGeneric": "Не удалось отозвать устройство",
+      "deleteTitle": "Удалить устройство",
+      "deleteConfirm": "Вы уверены, что хотите удалить \"{name}\" навсегда? Это действие нельзя отменить.",
+      "deleted": "Устройство \"{name}\" удалено",
+      "deleteFailed": "Не удалось удалить устройство: {error}",
+      "deleteFailedGeneric": "Не удалось удалить устройство"
+    },
+    "settings": {
+      "title": "Настройки",
+      "language": {
+        "title": "Язык",
+        "description": "Выберите предпочитаемый язык интерфейса.",
+        "label": "Язык отображения"
+      },
+      "changePassword": "Изменить пароль",
+      "currentPassword": "Текущий пароль",
+      "newPassword": "Новый пароль",
+      "confirmPassword": "Подтвердите пароль",
+      "updatePassword": "Обновить пароль",
+      "passwordChanged": "Пароль успешно изменён",
+      "dangerZone": "Опасная зона",
+      "deactivateAccount": "Деактивировать аккаунт",
+      "deactivateDescription": "Деактивируйте свой аккаунт. Вы можете перерегистрироваться с одобрения администратора.",
+      "deactivate": "Деактивировать",
+      "deactivateConfirmTitle": "Деактивировать аккаунт",
+      "deactivateConfirmMessage": "Вы уверены, что хотите деактивировать свой аккаунт? Ваши данные будут сохранены, но для повторного доступа потребуется одобрение администратора.",
+      "accountDeactivated": "Ваш аккаунт был деактивирован",
+      "deleteAccount": "Удалить аккаунт",
+      "deleteDescription": "Удалите свой аккаунт и все данные навсегда. Это действие нельзя отменить.",
+      "delete": "Удалить",
+      "deleteConfirmTitle": "Удалить аккаунт навсегда",
+      "deleteConfirmMessage": "Это навсегда удалит ваш аккаунт и все ваши данные. Это действие нельзя отменить.",
+      "deleteConfirmLabel": "Введите DELETE для подтверждения:",
+      "deleteForever": "Удалить навсегда",
+      "accountDeleted": "Ваш аккаунт был удалён",
+      "errors": {
+        "passwordMismatch": "Пароли не совпадают",
+        "passwordTooShort": "Пароль должен содержать не менее 12 символов",
+        "wrongPassword": "Текущий пароль неверен",
+        "unexpected": "Произошла непредвиденная ошибка",
+        "deactivateFailed": "Не удалось деактивировать аккаунт",
+        "deleteFailed": "Не удалось удалить аккаунт",
+        "deleteNotesFailed": "Failed to delete notes"
+      },
+      "deleteNotes": "Delete Notes",
+      "deleteNotesDescription": "Delete all your notes from the server. Your account remains active and you can sync again.",
+      "deleteNotesButton": "Delete Notes",
+      "deleteNotesConfirmTitle": "Delete All Notes",
+      "deleteNotesConfirmMessage": "Are you sure you want to delete all your notes from the server? This is useful if you forgot your encryption password and need to start fresh. Your account will remain active.",
+      "notesDeleted": "All notes have been deleted from the server",
+      "passwordToConfirm": "Введите пароль для подтверждения:"
+    }
+  },
+  "audit": {
+    "title": "Журнал аудита",
+    "description": "Постоянная запись действий администраторов на этом сервере.",
+    "loading": "Загрузка журнала аудита...",
+    "failedToLoad": "Не удалось загрузить журнал аудита",
+    "empty": "Пока ничего не записано.",
+    "allActions": "Все действия",
+    "filterLabel": "Показать",
+    "commandLine": "Командная строка",
+    "range": "{from}–{to} из {total}",
+    "previous": "Назад",
+    "next": "Вперёд",
+    "table": {
+      "time": "Когда",
+      "action": "Действие",
+      "admin": "Администратор",
+      "target": "Объект",
+      "address": "Адрес"
+    },
+    "actions": {
+      "userApprove": "Пользователь одобрен",
+      "userDeactivate": "Пользователь деактивирован",
+      "userActivate": "Пользователь активирован",
+      "userDelete": "Пользователь удалён",
+      "userPasswordReset": "Пароль сброшен",
+      "userAdminGrant": "Повышен до администратора",
+      "userAdminRevoke": "Права администратора сняты",
+      "userSettingsUpdate": "Настройки пользователя изменены",
+      "deviceRevoke": "Устройство отозвано",
+      "deviceDelete": "Устройство удалено",
+      "deviceRename": "Устройство переименовано",
+      "adminPasswordChange": "Свой пароль изменён"
+    }
+  }
+}

@@ -1,0 +1,2 @@
+# Mark vendored/generated files to exclude from diff and language stats
+public/pdf.worker.min.mjs linguist-vendored

@@ -1,0 +1,504 @@
+#![allow(dead_code)]
+use anyhow::{Context, Result};
+use rusqlite::{Connection, OpenFlags};
+use std::path::Path;
+use tracing::{debug, info};
+
+/// Make the database file readable by this user alone, creating it if needed.
+///
+/// Without SQLCipher it holds the email, server address and metadata in the clear,
+/// and even with it there's no reason for other users to read it.
+#[cfg(unix)]
+fn restrict_to_owner(path: &Path) -> Result<()> {
+    use std::fs::{self, OpenOptions, Permissions};
+    use std::os::unix::fs::{OpenOptionsExt, PermissionsExt};
+
+    match fs::metadata(path) {
+        Ok(metadata) if metadata.permissions().mode() & 0o077 != 0 => {
+            fs::set_permissions(path, Permissions::from_mode(0o600))
+                .context("Failed to restrict database permissions")?;
+        }
+        Ok(_) => {}
+        Err(_) => {
+            OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .mode(0o600)
+                .open(path)
+                .context("Failed to create database")?;
+        }
+    }
+    Ok(())
+}
+
+#[cfg(not(unix))]
+fn restrict_to_owner(_path: &Path) -> Result<()> {
+    Ok(())
+}
+
+/// Database manager for Jottery TUI
+pub struct Database {
+    conn: Connection,
+}
+
+impl Database {
+    /// Open or create a new encrypted database
+    ///
+    /// # Arguments
+    /// * `path` - Path to the database file
+    /// * `password` - Password for SQLCipher encryption (derived from user password)
+    pub fn open<P: AsRef<Path>>(path: P, password: &str) -> Result<Self> {
+        let path = path.as_ref();
+
+        info!("Opening database at: {}", path.display());
+
+        restrict_to_owner(path)?;
+
+        let mut db = Self::connect(path, password)?;
+
+        // Always run migrations (will skip already-applied migrations)
+        db.run_migrations()?;
+
+        Ok(db)
+    }
+
+    /// A second connection to a database this process already has open, for a thread of
+    /// its own. It leaves migrations alone: reading the schema version while the first
+    /// connection is busy could read as version 0, and start them all over again.
+    pub fn open_another(path: &Path, password: &str) -> Result<Self> {
+        Self::connect(path, password)
+    }
+
+    /// Open the file and give it its key.
+    fn connect(path: &Path, password: &str) -> Result<Self> {
+        let conn = Connection::open_with_flags(
+            path,
+            OpenFlags::SQLITE_OPEN_READ_WRITE | OpenFlags::SQLITE_OPEN_CREATE,
+        )
+        .context("Failed to open database")?;
+
+        // Enable SQLCipher encryption
+        conn.pragma_update(None, "key", password)
+            .context("Failed to set database encryption key")?;
+
+        // Configure SQLCipher settings (matching web app security level)
+        // Use SQLCipher 4.x defaults for compatibility
+        conn.pragma_update(None, "cipher_page_size", 4096)?;
+        conn.pragma_update(None, "kdf_iter", 256000)?; // PBKDF2 iterations
+
+        // Verify the database is accessible (this will fail if wrong password)
+        conn.pragma_query(None, "user_version", |_| Ok(()))
+            .context("Failed to access database (wrong password or corrupted database)")?;
+
+        debug!("SQLCipher encryption enabled");
+
+        Ok(Self { conn })
+    }
+
+    /// Whether this build encrypts the database file.
+    ///
+    /// `PRAGMA key` does nothing on plain SQLite, so being asked for a password says
+    /// nothing about it. Only SQLCipher answers `cipher_version`.
+    pub fn encrypts_files() -> bool {
+        Connection::open_in_memory().is_ok_and(|conn| {
+            conn.query_row("PRAGMA cipher_version", [], |row| row.get::<_, String>(0)).is_ok()
+        })
+    }
+
+    /// Create an in-memory database (for testing)
+    pub fn in_memory(password: &str) -> Result<Self> {
+        info!("Creating in-memory database");
+
+        let conn = Connection::open_in_memory()
+            .context("Failed to create in-memory database")?;
+
+        conn.pragma_update(None, "key", password)?;
+
+        let mut db = Self { conn };
+        db.run_migrations()?;
+
+        Ok(db)
+    }
+
+    /// Run database migrations
+    fn run_migrations(&mut self) -> Result<()> {
+        self.migrate_to(i32::MAX)
+    }
+
+    /// Run migrations up to `target`. Each is one transaction, so a crash can't leave
+    /// one half done, which on the next start would fail for good on its first ALTER.
+    fn migrate_to(&mut self, target: i32) -> Result<()> {
+        info!("Running database migrations...");
+
+        // Get current schema version (0 if table doesn't exist)
+        let current_version: i32 = self.conn
+            .query_row("SELECT MAX(version) FROM schema_version", [], |row| row.get(0))
+            .unwrap_or(0);
+
+        info!("Current schema version: {}", current_version);
+
+        // List of all migrations
+        let migrations = vec![
+            (1, include_str!("../migrations/001_initial.sql")),
+            (2, include_str!("../migrations/002_add_auto_sync_interval.sql")),
+            (3, include_str!("../migrations/003_add_remember_password.sql")),
+            (4, include_str!("../migrations/004_update_syntax_default.sql")),
+            (5, include_str!("../migrations/005_add_note_versions.sql")),
+            (6, include_str!("../migrations/006_add_user_email.sql")),
+            (7, include_str!("../migrations/007_add_conflict_data.sql")),
+            (8, include_str!("../migrations/008_add_pending_registration.sql")),
+            (9, include_str!("../migrations/009_add_note_colors.sql")),
+            (10, include_str!("../migrations/010_add_archive_support.sql")),
+            (11, include_str!("../migrations/011_add_lock_support.sql")),
+            (12, include_str!("../migrations/012_add_deletions_tracking.sql")),
+            (13, include_str!("../migrations/013_add_pending_device_name.sql")),
+            (14, include_str!("../migrations/014_add_version_show_preview.sql")),
+            (15, include_str!("../migrations/015_add_hash_chain.sql")),
+            (16, include_str!("../migrations/016_add_envelope_encryption.sql")),
+            (17, include_str!("../migrations/017_add_user_id.sql")),
+            (18, include_str!("../migrations/018_add_server_key_state.sql")),
+            (19, include_str!("../migrations/019_add_sync_state.sql")),
+            (20, include_str!("../migrations/020_add_held_deletions.sql")),
+            (21, include_str!("../migrations/021_language_follows_system.sql")),
+            (22, include_str!("../migrations/022_add_saved_searches.sql")),
+            (23, include_str!("../migrations/023_clear_stored_password.sql")),
+            (24, include_str!("../migrations/024_restart_the_bins_clock.sql")),
+            (25, include_str!("../migrations/025_add_default_note_type.sql")),
+            (26, include_str!("../migrations/026_remember_asked_deletions.sql")),
+        ];
+
+        // Run pending migrations
+        for (version, sql) in migrations {
+            if version > current_version && version <= target {
+                info!("Applying migration {}", version);
+
+                // Special handling for migration 11: check if columns already exist
+                // (from a previous incomplete migration that didn't record schema version)
+                if version == 11 {
+                    let has_locked_column: bool = self.conn
+                        .query_row(
+                            "SELECT COUNT(*) > 0 FROM pragma_table_info('notes') WHERE name = 'locked'",
+                            [],
+                            |row| row.get(0),
+                        )
+                        .unwrap_or(false);
+
+                    if has_locked_column {
+                        info!("Migration 11: locked column already exists, recording schema version only");
+                        self.conn
+                            .execute(
+                                "INSERT INTO schema_version (version, applied_at) VALUES (11, datetime('now'))",
+                                [],
+                            )
+                            .context("Failed to record migration 11 version")?;
+                        continue;
+                    }
+                }
+
+                // Special handling for migration 15: check if hash chain columns already exist
+                if version == 15 {
+                    let has_content_hash_column: bool = self.conn
+                        .query_row(
+                            "SELECT COUNT(*) > 0 FROM pragma_table_info('notes') WHERE name = 'content_hash'",
+                            [],
+                            |row| row.get(0),
+                        )
+                        .unwrap_or(false);
+
+                    if has_content_hash_column {
+                        info!("Migration 15: content_hash column already exists, recording schema version only");
+                        self.conn
+                            .execute(
+                                "INSERT INTO schema_version (version, applied_at) VALUES (15, datetime('now'))",
+                                [],
+                            )
+                            .context("Failed to record migration 15 version")?;
+                        continue;
+                    }
+                }
+
+                let transaction = self.conn.unchecked_transaction()?;
+                transaction
+                    .execute_batch(sql)
+                    .context(format!("Failed to apply migration {}", version))?;
+                transaction.commit()?;
+                info!("Migration {} applied successfully", version);
+            }
+        }
+
+        info!("Migrations completed successfully");
+        Ok(())
+    }
+
+    /// Get the current schema version
+    pub fn schema_version(&self) -> Result<i32> {
+        let version: i32 = self
+            .conn
+            .query_row(
+                "SELECT MAX(version) FROM schema_version",
+                [],
+                |row| row.get(0),
+            )
+            .context("Failed to get schema version")?;
+
+        Ok(version)
+    }
+
+    /// Check if encryption metadata exists (i.e., if setup has been completed)
+    pub fn is_initialized(&self) -> Result<bool> {
+        let count: i64 = self
+            .conn
+            .query_row(
+                "SELECT COUNT(*) FROM encryption_metadata WHERE id = 1",
+                [],
+                |row| row.get(0),
+            )
+            .context("Failed to check initialization status")?;
+
+        Ok(count > 0)
+    }
+
+    /// Get the inner connection (for repository use)
+    pub fn connection(&self) -> &Connection {
+        &self.conn
+    }
+
+    /// Get a mutable reference to the inner connection
+    pub fn connection_mut(&mut self) -> &mut Connection {
+        &mut self.conn
+    }
+
+    /// Change the SQLCipher database password
+    pub fn change_password(&self, new_password: &str) -> anyhow::Result<()> {
+        // SQLCipher rekey changes the encryption key for the database
+        let quoted = new_password.replace('\'', "''");
+        self.conn.execute_batch(&format!("PRAGMA rekey = '{}';", quoted))?;
+        Ok(())
+    }
+
+    /// Close the database connection
+    pub fn close(self) -> Result<()> {
+        debug!("Closing database connection");
+        self.conn.close().map_err(|(_, err)| err)?;
+        Ok(())
+    }
+
+    /// Count total notes (excluding deleted)
+    pub fn count_notes(&self, include_deleted: bool) -> Result<i64> {
+        let query = if include_deleted {
+            "SELECT COUNT(*) FROM notes"
+        } else {
+            "SELECT COUNT(*) FROM notes WHERE deleted = 0"
+        };
+
+        let count: i64 = self
+            .conn
+            .query_row(query, [], |row| row.get(0))
+            .context("Failed to count notes")?;
+
+        Ok(count)
+    }
+
+    /// Count attachments
+    pub fn count_attachments(&self) -> Result<i64> {
+        let count: i64 = self
+            .conn
+            .query_row("SELECT COUNT(*) FROM attachments", [], |row| row.get(0))
+            .context("Failed to count attachments")?;
+
+        Ok(count)
+    }
+
+    /// Vacuum the database to reclaim space
+    pub fn vacuum(&mut self) -> Result<()> {
+        info!("Vacuuming database...");
+        self.conn
+            .execute("VACUUM", [])
+            .context("Failed to vacuum database")?;
+        info!("Database vacuumed successfully");
+        Ok(())
+    }
+
+    /// Get database file size in bytes
+    pub fn file_size<P: AsRef<Path>>(path: P) -> Result<u64> {
+        let metadata = std::fs::metadata(path.as_ref())
+            .context("Failed to get database file metadata")?;
+        Ok(metadata.len())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Get test password from environment variable or use default.
+    /// Set JOTTERY_TEST_PASSWORD env var to override.
+    fn test_password() -> String {
+        static PASSWORD: std::sync::OnceLock<String> = std::sync::OnceLock::new();
+        PASSWORD
+            .get_or_init(|| {
+                std::env::var("JOTTERY_TEST_PASSWORD")
+                    .unwrap_or_else(|_| uuid::Uuid::new_v4().to_string())
+            })
+            .clone()
+    }
+
+    /// A database as the last release left it, with rows in it.
+    fn database_before_sync_state() -> Database {
+        let conn = Connection::open_in_memory().unwrap();
+        let mut db = Database { conn };
+        db.migrate_to(18).unwrap();
+        db.conn.execute_batch(
+            "INSERT INTO sync_metadata (id, last_sync_at, sync_enabled, sync_endpoint)
+                 VALUES (1, '2026-06-01T00:00:00+00:00', 1, 'https://example.com');
+             INSERT INTO notes (id, created_at, modified_at, content, tags, attachments, version)
+                 VALUES ('old', '2026-01-01T00:00:00+00:00', '2026-01-01T00:00:00+00:00', 'c', 't', '[]', 1),
+                        ('new', '2026-01-01T00:00:00+00:00', '2026-07-01T00:00:00+00:00', 'c', 't', '[]', 1);",
+        ).unwrap();
+        db
+    }
+
+    /// Older releases left this here, encrypted with a constant from the public source.
+    #[test]
+    fn upgrading_clears_a_password_left_in_the_settings() {
+        let conn = Connection::open_in_memory().unwrap();
+        let mut db = Database { conn };
+        db.migrate_to(22).unwrap();
+        db.conn.execute(
+            "INSERT OR REPLACE INTO settings (id, stored_password) VALUES (1, ?1)",
+            [uuid::Uuid::new_v4().to_string()],
+        ).unwrap();
+
+        db.run_migrations().unwrap();
+
+        let stored: Option<String> = db.conn
+            .query_row("SELECT stored_password FROM settings WHERE id = 1", [], |row| row.get(0))
+            .unwrap();
+        assert_eq!(stored, None);
+    }
+
+    /// A synced note's deletion date is the server's word, so it can't start the clock.
+    #[test]
+    fn upgrading_restarts_the_bins_clock_for_what_a_server_could_have_dated() {
+        let conn = Connection::open_in_memory().unwrap();
+        let mut db = Database { conn };
+        db.migrate_to(23).unwrap();
+        db.conn.execute_batch(
+            "INSERT INTO notes (id, created_at, modified_at, content, tags, attachments, version, deleted, deleted_at, synced_at)
+                 VALUES ('synced', '2020-01-01T00:00:00+00:00', '2020-01-01T00:00:00+00:00', 'c', 't', '[]', 1, 1, '2020-01-02T00:00:00+00:00', '2020-01-02T00:00:00+00:00'),
+                        ('local', '2020-01-01T00:00:00+00:00', '2020-01-01T00:00:00+00:00', 'c', 't', '[]', 1, 1, '2020-01-02T00:00:00+00:00', NULL);",
+        ).unwrap();
+
+        db.run_migrations().unwrap();
+
+        let clock = |id: &str| -> Option<String> {
+            db.conn.query_row("SELECT remote_deleted_at FROM notes WHERE id = ?1", [id], |row| row.get(0)).unwrap()
+        };
+        assert!(clock("synced").is_some());
+        assert_eq!(clock("local"), None);
+    }
+
+    #[test]
+    fn upgrading_keeps_every_note_and_finds_what_was_waiting_to_be_pushed() {
+        let mut db = database_before_sync_state();
+
+        db.run_migrations().unwrap();
+
+        let pending: Vec<(String, i32)> = db.conn
+            .prepare("SELECT id, needs_sync FROM notes ORDER BY id").unwrap()
+            .query_map([], |row| Ok((row.get(0)?, row.get(1)?))).unwrap()
+            .collect::<rusqlite::Result<_>>().unwrap();
+        assert_eq!(pending, vec![("new".to_string(), 1), ("old".to_string(), 0)]);
+    }
+
+    /// Older builds could empty an attachment list by mistake, so nothing from before
+    /// the upgrade can claim to be complete.
+    #[test]
+    fn upgrading_vouches_for_no_attachment_list() {
+        let mut db = database_before_sync_state();
+
+        db.run_migrations().unwrap();
+
+        let vouched: i64 = db.conn
+            .query_row("SELECT COUNT(*) FROM notes WHERE attachments_complete = 1", [], |row| row.get(0))
+            .unwrap();
+        assert_eq!(vouched, 0);
+    }
+
+    #[test]
+    fn test_in_memory_database() {
+        let db = Database::in_memory(&test_password()).unwrap();
+        assert!(db.is_initialized().unwrap() == false);
+        assert_eq!(db.schema_version().unwrap(), 26);
+        assert_eq!(db.count_notes(false).unwrap(), 0);
+    }
+
+    #[test]
+    #[cfg(feature = "sqlcipher")]
+    fn test_wrong_password() {
+        let temp_dir = tempfile::tempdir().unwrap();
+        let db_path = temp_dir.path().join("test.db");
+        let password = test_password();
+
+        // Create database with password
+        {
+            let _db = Database::open(&db_path, &password).unwrap();
+        }
+
+        // Try to open with wrong password - intentionally incorrect for test
+        let result = Database::open(&db_path, "intentionally_wrong_password");
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn the_build_knows_whether_it_encrypts_files() {
+        assert_eq!(Database::encrypts_files(), cfg!(feature = "sqlcipher"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn a_new_database_is_private_to_its_owner() {
+        use std::os::unix::fs::PermissionsExt;
+        let temp_dir = tempfile::tempdir().unwrap();
+        let db_path = temp_dir.path().join("test.db");
+
+        Database::open(&db_path, &test_password()).unwrap();
+
+        let mode = std::fs::metadata(&db_path).unwrap().permissions().mode();
+        assert_eq!(mode & 0o777, 0o600);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn an_existing_database_with_loose_permissions_is_tightened() {
+        use std::os::unix::fs::PermissionsExt;
+        let temp_dir = tempfile::tempdir().unwrap();
+        let db_path = temp_dir.path().join("test.db");
+        Database::open(&db_path, &test_password()).unwrap();
+        std::fs::set_permissions(&db_path, std::fs::Permissions::from_mode(0o644)).unwrap();
+
+        Database::open(&db_path, &test_password()).unwrap();
+
+        let mode = std::fs::metadata(&db_path).unwrap().permissions().mode();
+        assert_eq!(mode & 0o777, 0o600);
+    }
+
+    #[test]
+    fn test_database_persistence() {
+        let temp_dir = tempfile::tempdir().unwrap();
+        let db_path = temp_dir.path().join("test.db");
+        let password = test_password();
+
+        // Create and close database
+        {
+            let db = Database::open(&db_path, &password).unwrap();
+            assert_eq!(db.schema_version().unwrap(), 26);
+        }
+
+        // Reopen and verify
+        {
+            let db = Database::open(&db_path, &password).unwrap();
+            assert_eq!(db.schema_version().unwrap(), 26);
+        }
+    }
+}

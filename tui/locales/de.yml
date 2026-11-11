@@ -1,0 +1,847 @@
+app:
+  name: Jottery
+  description: Ein datenschutzorientiertes, verschlüsseltes Notiz-TUI
+common:
+  loading: Laden...
+  saving: Speichern...
+  cancel: Abbrechen
+  confirm: Bestätigen
+  "yes": Ja
+  "no": Nein
+  ok: OK
+  close: Schließen
+  quit: Beenden
+  back: Zurück
+  email: E-Mail
+password:
+  prompt: "Passwort: "
+  enter: Passwort eingeben
+  confirm: Passwort bestätigen
+  empty_error: Passwort darf nicht leer sein
+  mismatch_error: Passwörter stimmen nicht überein
+  unlock_failed: "Entsperren fehlgeschlagen: %{error}"
+  change_success: Passwort erfolgreich geändert
+  change_title: "Passwort ändern"
+  change_enter_current: "Geben Sie Ihr aktuelles Passwort ein:"
+  change_enter_new: "Neues Passwort eingeben (mind. 8 Zeichen):"
+  change_confirm_new: "Neues Passwort bestätigen:"
+  change_current_required: "Bitte geben Sie Ihr aktuelles Passwort ein"
+  change_wrong_current: "Aktuelles Passwort ist falsch"
+  change_too_short: "Neues Passwort muss mindestens 8 Zeichen haben"
+  change_mismatch: "Passwörter stimmen nicht überein"
+  change_failed: "Passwort konnte nicht geändert werden"
+  remember: Passwort merken
+  remember_toggle: Passwort merken (Strg+R zum Umschalten)
+  remember_enabled: "Passwort für Auto-Unlock gespeichert. Hinweis: Möglicherweise für Benutzer mit Superuser-Zugriff zugänglich."
+  remember_keychain_enabled: Passwort sicher im System-Schlüsselbund gespeichert.
+  remember_disabled: Passwortspeicherung deaktiviert. Beim nächsten Start wird nachgefragt.
+  remember_warning: "Bitte gehen Sie davon aus, dass Ihr Passwort für jeden mit Superuser-/Root-Zugriff auf dieses Gerät zugänglich sein könnte."
+  remember_keychain_warning: Das Passwort wird sicher im System-Schlüsselbund gespeichert.
+  remember_keychain_info: Passwort sicher im System-Schlüsselbund gespeichert
+  correct: "Passwort verifiziert"
+  storage_keychain: System-Schlüsselbund
+  storage_file: Datei (verschleiert)
+  incorrect: Falsches Passwort. Erneut versuchen.
+  verification_failed: "Passwortüberprüfung fehlgeschlagen: %{error}"
+  enter_to_enable: "Geben Sie Ihr Passwort ein, um Auto-Unlock zu aktivieren:"
+  create_title: Passwort erstellen
+  unlock_title: Entsperren
+  too_short: "Das Passwort muss mindestens %{min} Zeichen lang sein"
+  same_as_account: "Verwende unterschiedliche Passwörter. Der Server sieht dein Kontopasswort, daher darf es nicht auch deine Notizen öffnen."
+  same_as_account_warning: "Dein Kontopasswort ist dasselbe wie dein Notizenpasswort, daher könnte der Server deine Notizen lesen. Ändere dein Notizenpasswort in den Einstellungen."
+  no_file_encryption: "Dieser Build verschlüsselt die Datenbankdatei nicht. Notizen und Tags bleiben verschlüsselt, deine E-Mail-Adresse, Serveradresse, Anhangnamen und Datumsangaben jedoch nicht."
+  change_keeps_key: "Ihr Verschlüsselungsschlüssel bleibt gleich: Alte Backups lassen sich weiterhin mit dem alten Passwort öffnen."
+menu:
+  notes: Notizen
+  new_note: Neue Notiz
+  settings: Einstellungen
+  help: Hilfe
+  quit: Beenden
+  search: Suchen
+note:
+  new: Neue Notiz
+  save: Speichern
+  saved: Notiz gespeichert
+  save_failed: "Fehler beim Speichern der Notiz: %{error}"
+  delete: Notiz löschen
+  deleted: Notiz gelöscht
+  delete_failed: "Fehler beim Löschen der Notiz: %{error}"
+  reload_failed: "Fehler beim Neuladen der Notizen: %{error}"
+  pin: Notiz anheften
+  unpin: Notiz loslösen
+  pinned: Angeheftet
+  pin_failed: "Fehler beim Aktualisieren des Anheftungsstatus: %{error}"
+  no_notes: Keine Notizen gefunden
+  total: "%{count} Notizen"
+  lock: Notiz sperren
+  unlock: Notiz entsperren
+  locked: Gesperrt
+  lock_failed: "Sperrung fehlgeschlagen: %{error}"
+  locked_cannot_edit: Gesperrte Notiz kann nicht bearbeitet werden
+  locked_cannot_delete: Gesperrte Notiz kann nicht gelöscht werden
+  locked_cannot_tag: Tags bei gesperrter Notiz können nicht geändert werden
+  info: Notiz-Info
+  info_title: Notizinformationen
+  untitled: "Ohne Titel"
+  save_retry_hint: "q: erneut speichern | e: bearbeiten | Esc: Änderungen verwerfen"
+  empty_bin_title: "Papierkorb leeren"
+  empty_bin_confirm: "%{count} Notizen im Papierkorb endgültig löschen?"
+  empty_bin_warning: "Sie werden auch vom Server und deinen anderen Geräten gelöscht. Das lässt sich nicht rückgängig machen."
+  bin_emptied: "%{count} Notizen endgültig gelöscht"
+  locked_cannot_archive: "Gesperrte Notiz kann nicht archiviert werden"
+  unreadable: "%{count} Notizen in diesem Tresor können nicht gelesen werden"
+  duplicated: "Notiz dupliziert"
+  copied: "In die Zwischenablage kopiert"
+  copy_too_large: "Diese Notiz ist zu lang, um vom Terminal zuverlässig kopiert zu werden"
+  word_wrap_on: "Zeilenumbruch ein"
+  word_wrap_off: "Zeilenumbruch aus"
+  no_links: "Keine Links auf dem Bildschirm"
+archive:
+  view: "Archiv anzeigen"
+  title: "Archiv"
+  mode: "Archivmodus"
+  enter_mode: "Archivmodus aktivieren"
+  exit_mode: "Archivmodus verlassen"
+  toggle_mode: "Archivmodus umschalten"
+  no_notes: "Keine archivierten Notizen"
+  archive: "Notiz archivieren"
+  unarchive: "Notiz aus Archiv holen"
+  archived: "Archiviert"
+  unarchived: "Aus Archiv geholt"
+  failed: "Fehler beim Archivieren der Notiz: %{error}"
+  unarchive_failed: "Fehler beim Wiederherstellen der Notiz: %{error}"
+  count: "%{count} archivierte Notizen"
+
+editor:
+  title: Titel
+  content: Inhalt
+  tags: Schlagwörter
+  created: Erstellt
+  modified: Geändert
+  launch_external: Externen Editor starten
+  external_failed: "Fehler beim Starten des Editors: %{error}"
+  external_exit_error: Editor wurde mit Fehlercode beendet
+  temp_file_error: Fehler beim Erstellen der temporären Datei
+  temp_write_error: Fehler beim Schreiben in temporäre Datei
+  temp_read_error: Fehler beim Lesen der temporären Datei
+  default_editor: vi
+  temp_on_disk: "Dieser Rechner hat keinen speicherbasierten Temp-Ordner, daher liegt eine geöffnete Notiz auf der Festplatte, bis Sie sie schließen."
+attachment:
+  add: Anhang hinzufügen
+  add_failed: "Fehler beim Hinzufügen des Anhangs: %{error}"
+  view: Anhang anzeigen
+  view_failed: "Fehler beim Anzeigen des Anhangs: %{error}"
+  delete: Anhang löschen
+  no_attachments: Keine Anhänge
+  total: "%{count} Anhänge"
+  press_enter: "Zum Fortfahren die Eingabetaste drücken..."
+  opened: "Datei in der Standardanwendung geöffnet."
+  no_opener: "Auf diesem System gibt es kein Programm zum Öffnen von Dateien. Speichere den Anhang stattdessen mit S."
+  delete_failed: "Anhang konnte nicht gelöscht werden: %{error}"
+  deleted: "Gelöscht: %{name}"
+  exists: "%{path} existiert bereits. Wähle einen anderen Namen."
+  saved: "Gespeichert unter %{path}"
+  save_failed: "Anhang konnte nicht gespeichert werden: %{error}"
+  added: "%{name} angehängt"
+  too_large: "Die Datei ist zu groß. Die Grenze liegt bei %{max_mb} MB."
+  unsafe_title: "Diese Datei wird nicht geöffnet"
+  unsafe_body: "Beim Öffnen dieses Dateityps könnte Code des Absenders ausgeführt werden. Stattdessen speichern?"
+version:
+  history: Versionshistorie
+  restore: Version wiederherstellen
+  restored: Version %{number} wiederhergestellt
+  restore_failed: "Fehler beim Wiederherstellen der Version: %{error}"
+  no_versions: Keine Versionshistorie
+  current: Aktuelle Version
+search:
+  prompt: Notizen durchsuchen...
+  no_results: Keine Ergebnisse gefunden
+  results: "%{count} Ergebnisse"
+settings:
+  title: Einstellungen
+  language: Sprache
+  theme: Design
+  color_scheme: Farbschema
+  auto_lock: Automatische Sperrzeit
+  minutes: Minuten
+  sync: Synchronisation
+  sync_enabled: Synchronisation aktiviert
+  sync_endpoint: Synchronisations-Endpunkt
+  device_name: Gerätename
+  instructions_disconnect: Drücken Sie 'd' um die Verbindung zum Sync-Server zu trennen (lokale Notizen bleiben erhalten)
+  instructions_status: Drücken Sie 'R' (Shift+r) um den Registrierungsgenehmigungsstatus zu prüfen
+  instructions_register: Drücken Sie 'r' um sich bei einem Sync-Server zu registrieren
+  user_portal: Benutzerportal
+  auto_sync_interval: Auto-Sync-Intervall
+  instructions: Anleitung
+  instructions_navigation: "↑/↓ oder j/k: Zwischen Feldern navigieren"
+  instructions_edit: Drücken Sie Enter, i oder Leertaste zum Bearbeiten
+  instructions_text: "Textfelder: tippen und Enter zum Speichern, Esc zum Abbrechen"
+  instructions_toggle: "Für Umschalter und Auswahlen: Enter zum sofortigen Ändern"
+  instructions_remember: "Passwort merken: Enter fragt nach Passwort (bei Aktivierung) oder deaktiviert"
+  instructions_sync: Drücken Sie 'y' zum Synchronisieren
+  instructions_force_sync: Drücken Sie 'Y' (Shift+y) für vollständige Synchronisation (vom Server abrufen)
+  press_enter_cycle: Enter zum Durchschalten
+  press_enter_toggle: Enter zum Umschalten
+  disabled: disabled
+  sort_order: "Sortierung"
+  language_auto: "Wie im System"
+  default_note_type: "Standard-Notiztyp"
+sync:
+  push: An Server senden
+  pull: Vom Server abrufen
+  pushing: Änderungen werden gesendet...
+  pulling: Änderungen werden abgerufen...
+  success: Synchronisation erfolgreich
+  failed: "Synchronisation fehlgeschlagen: %{error}"
+  no_api_key: Kein API-Schlüssel konfiguriert
+  account_deactivated: Ihr Konto wurde deaktiviert oder wartet auf Administratorgenehmigung. Bitte kontaktieren Sie den Administrator.
+  invalid_key: Ungültiger API-Schlüssel oder Authentifizierung fehlgeschlagen. Versuchen Sie, Ihr Gerät erneut zu registrieren.
+  conflict: Synchronisationskonflikt erkannt. Einige Notizen haben widersprüchliche Änderungen auf dem Server.
+  request_failed: Fehler beim Senden der Synchronisationsanfrage
+  response_parse_failed: Fehler beim Parsen der Synchronisationsantwort
+  disconnected: Vom Sync-Server getrennt. Lokale Notizen bleiben erhalten.
+  disconnect_failed: Trennung vom Sync-Server fehlgeschlagen
+  sse_connected: "Echtzeit-Synchronisation verbunden"
+  sse_notification: "Sync-Benachrichtigung erhalten"
+  sse_failed: "Echtzeit-Synchronisation fehlgeschlagen"
+  status:
+    check_title: Registrierungsstatus prüfen
+    result_title: Registrierungsstatus
+    enter_email: "Geben Sie Ihre E-Mail-Adresse ein, um den Genehmigungsstatus zu prüfen:"
+    check_failed: Prüfung des Registrierungsstatus fehlgeschlagen
+    not_found: Kein Konto mit dieser E-Mail-Adresse gefunden.
+    approved: Ihr Konto ist genehmigt und aktiv. Sie können Ihre Notizen synchronisieren.
+    pending: Ihr Konto wartet auf Genehmigung. Bitte warten Sie, bis ein Administrator Ihre Registrierung genehmigt.
+    inactive: Ihr Konto wurde deaktiviert. Bitte kontaktieren Sie einen Administrator.
+  not_enabled: Synchronisation nicht aktiviert. Drücken Sie 's' um in Einstellungen zu konfigurieren.
+  endpoint_not_configured: Sync-Endpunkt nicht konfiguriert. In Datenbankeinstellungen konfigurieren.
+  complete: Synchronisation abgeschlossen! %{count} %{unit} synchronisiert
+  force_syncing: Erzwinge vollständige Synchronisation...
+  force_complete: Vollständige Synchronisation abgeschlossen! %{count} %{unit} vom Server abgerufen
+  reload_failed: "Synchronisation erfolgreich, aber Notizen konnten nicht neu geladen werden: %{error}"
+  note: Notiz
+  notes: Notizen
+  skipped_notes: "%{count} Elemente vom Server konnten nicht gelesen werden und wurden übersprungen"
+  rejected_notes: "%{count} Notizen stehen im Konflikt mit dem Server. Öffne Jottery, um sie aufzulösen."
+  rate_limited: "Der Server hat Jottery gebeten, %{seconds} Sekunden zu warten, bevor erneut synchronisiert wird."
+  key_refused: "Der Server hat den API-Schlüssel dieses Geräts nicht akzeptiert. Registrieren Sie das Gerät erneut."
+  server_busy: "Der Server ist ausgelastet. Jottery versucht es in %{seconds} Sekunden erneut."
+  quota_exceeded: "Ihr Konto hat sein Speicherlimit erreicht, daher konnten Änderungen nicht hochgeladen werden. Sie sind auf diesem Gerät sicher. Leeren Sie den Papierkorb oder entfernen Sie Anhänge, um Platz zu schaffen."
+  deletions_held_title: "Viele Notizen gelöscht"
+  deletions_held: "Laut Server wurden %{count} Notizen anderswo endgültig gelöscht. Waren Sie das?"
+  deletions_held_warning: "y: hier in den Papierkorb verschieben. n: behalten und wieder auf den Server stellen."
+  deletions_held_cli: "Laut Server wurden %{count} Notizen anderswo gelöscht. Sie sind noch hier: Öffnen Sie Jottery, um zu entscheiden."
+  deletions_applied: "%{count} Notizen in den Papierkorb verschoben"
+  force_title: "Vollständige Neusynchronisierung erzwingen"
+  force_confirm: "ALLE Notizen und Anhänge vom Server abrufen?"
+  force_note: "Noch nicht übertragene lokale Änderungen bleiben erhalten."
+  disconnect_title: "Synchronisierung trennen"
+  disconnect_confirm: "Dieses Gerät vom Server trennen?"
+  disconnect_warning: "Ihre Notizen bleiben hier. Das Gerät wird auf dem Server widerrufen."
+  disconnect_conflicts: "%{count} Notizen haben ungelöste Konflikte. Die Serverkopien davon werden hier vergessen."
+  device_still_registered: "Hier getrennt, aber der Server konnte nicht benachrichtigt werden, daher funktioniert der Schlüssel dieses Geräts weiterhin. Widerrufen Sie ihn im Benutzerportal."
+
+# Posteingang
+  stopped_unexpectedly: "Die Synchronisierung wurde unerwartet beendet. Es ging nichts verloren, und sie wird erneut versucht."
+  clock_ahead: "Die Uhr dieses Geräts geht möglicherweise falsch: Einige Änderungen sind mehr als einen Tag später datiert als die Serverzeit und wurden nicht gesendet. Sie werden gesendet, sobald die Uhr stimmt."
+inbox:
+  title: "Posteingang"
+  empty: "Posteingang ist leer. Notizen, die über die Posteingang-API eingereicht werden, erscheinen hier."
+  accepted: "Notiz angenommen"
+  deleted: "Posteingangselement gelöscht"
+  accepted_all: "Alle %{count} Posteingangselemente angenommen"
+  deleted_all: "Alle Posteingangselemente gelöscht"
+  confirm_delete_title: "Posteingangselement löschen"
+  confirm_delete_message: "Dieses Posteingangselement löschen? Dies kann nicht rückgängig gemacht werden."
+  confirm_delete_all_title: "Alle Posteingangselemente löschen"
+  confirm_delete_all_message: "Alle %{count} Posteingangselemente löschen? Dies kann nicht rückgängig gemacht werden."
+  indicator: "Posteingang (%{count})"
+  token:
+    logging_in: "Anmeldung läuft..."
+    generated_success: "Posteingang-Token erfolgreich generiert!"
+    save_warning: "Speichern Sie dieses Token jetzt — es wird nicht erneut angezeigt."
+    example_title: "Schnellstart"
+    revoked: "Posteingang-Token widerrufen"
+    active: "Posteingang-Token ist aktiv"
+    none: "Kein Posteingang-Token konfiguriert"
+
+register:
+  title: Bei Sync-Server registrieren
+  enter_endpoint: "Sync-Server-URL eingeben (z.B. https://sync.example.com):"
+  enter_email: "Geben Sie Ihre E-Mail-Adresse ein:"
+  enter_password: "Erstellen Sie ein Passwort (mind. 12 Zeichen):"
+  reenter_password: "Geben Sie Ihr Sync-Passwort erneut ein:"
+  pending_title: Registrierung ausstehend
+  pending_message: Ihre Registrierung wurde eingereicht und wartet auf die Genehmigung des Administrators.
+  pending_instructions: Drücken Sie 'r' oder Enter, um den Genehmigungsstatus zu prüfen. Drücken Sie Esc zum Schließen.
+  pending_help: "r/Enter: Status prüfen | Esc: Schließen"
+  device_title: Geräteregistrierung
+  enter_device_name: "Geben Sie einen Namen für dieses Gerät ein (oder drücken Sie Enter für Standard):"
+  endpoint_required: Sync-Server-URL ist erforderlich
+  email_invalid: Bitte geben Sie eine gültige E-Mail-Adresse ein
+  password_too_short: Das Passwort muss mindestens 12 Zeichen haben
+  failed: Registrierung fehlgeschlagen
+  approved: Ihre Registrierung wurde genehmigt!
+  still_pending: Ihre Registrierung wartet noch auf Genehmigung
+  success: Erfolgreich registriert! Synchronisation ist jetzt aktiviert.
+  device_failed: Geräteregistrierung fehlgeschlagen
+  cleared: Registrierung gelöscht. Sie können neu beginnen.
+  pending_status: Ausstehende Genehmigung
+  password_differs: "Es muss sich von deinem Notizenpasswort unterscheiden."
+  insecure_endpoint: "Diese Adresse nutzt unverschlüsseltes HTTP, daher könnten Kontopasswort und Geräteschlüssel unterwegs mitgelesen werden. Verwenden Sie https:// oder geben Sie diese Adresse erneut ein, um das zu akzeptieren."
+color_scheme:
+  default_dark: Standard Dunkel
+  default_light: Standard Hell
+  monokai: Monokai
+  solarized_dark: Solarized Dunkel
+  solarized_light: Solarized Hell
+  nord: Nord
+  dracula: Dracula
+  gruvbox_dark: Gruvbox Dunkel
+  gruvbox_light: Gruvbox Hell
+  tokyo_night: Tokyo Night
+  catppuccin: Catppuccin
+syntax:
+  javascript: JavaScript
+  python: Python
+  markdown: Markdown
+  json: JSON
+  html: HTML
+  css: CSS
+  sql: SQL
+  bash: Bash
+  perl: Perl
+  rust: Rust
+  go: Go
+  java: Java
+  c: C
+  cpp: C++
+  none: Keine
+  change_language: Syntaxsprache ändern
+  change_failed: "Fehler beim Aktualisieren der Syntaxsprache: %{error}"
+error:
+  generic: Ein Fehler ist aufgetreten
+  unexpected: Ein unerwarteter Fehler ist aufgetreten
+  database: "Datenbankfehler: %{error}"
+  encryption: "Verschlüsselungsfehler: %{error}"
+  network: "Netzwerkfehler: %{error}"
+  file_not_found: Datei nicht gefunden
+  permission_denied: Zugriff verweigert
+  invalid_input: Ungültige Eingabe
+  operation_failed: "Operation fehlgeschlagen: %{error}"
+help:
+  title: Tastaturkürzel
+  subtitle: Drücken Sie ? oder q zum Schließen
+  general: Allgemein
+  notes: Notizen
+  editor: Bearbeitung
+  navigation: Navigation
+  quit_app: Anwendung beenden
+  new_note: Neue Notiz erstellen
+  save_note: Aktuelle Notiz speichern
+  delete_note: Aktuelle Notiz löschen
+  search_notes: Notizen durchsuchen
+  toggle_pin: Anheftungsstatus umschalten
+  next_note: Nächste Notiz
+  prev_note: Vorherige Notiz
+  scroll_up: Nach oben scrollen
+  scroll_down: Nach unten scrollen
+  page_up: Seite nach oben
+  page_down: Seite nach unten
+  unlock_screen: ENTSPERR-BILDSCHIRM
+  note_list: NOTIZLISTE
+  search_mode: SUCHMODUS
+  note_preview_view: NOTIZVORSCHAU - ANSICHTSMODUS
+  note_preview_tag: NOTIZVORSCHAU - TAG-MODUS
+  settings: EINSTELLUNGEN
+  attachments: ANHÄNGE
+  global: ALLGEMEIN
+  press_esc_or_enter: Drücken Sie Esc oder Enter zum Schließen
+  tab_switch: "Tab: Felder wechseln | Enter: erstellen"
+  enter_unlock: "Enter: entsperren | Ctrl+Q: beenden"
+  type_password_key: Tippen
+  type_password_desc: Passwort eingeben
+  enter_to_unlock_key: Enter
+  enter_to_unlock_desc: Datenbank entsperren
+  tab_to_switch_key: Tab
+  tab_to_switch_desc: Passwort/Bestätigung wechseln (neue DB)
+  backspace_key: Backspace
+  backspace_desc: Zeichen löschen
+  ctrl_q_esc_key: Ctrl+q / Esc
+  ctrl_q_esc_desc: Anwendung beenden
+  slash_search_key: /
+  slash_search_desc: Suchmodus aktivieren
+  y_sync_key: "y"
+  y_sync_desc: Notizen synchronisieren (falls konfiguriert)
+  s_settings_key: s
+  s_settings_desc: Einstellungen anzeigen
+  n_new_key: "n"
+  n_new_desc: Neue Notiz erstellen
+  i_enter_open_key: i / Enter
+  i_enter_open_desc: Notiz in $EDITOR öffnen
+  d_delete_key: d
+  d_delete_desc: Ausgewählte Notiz löschen
+  j_down_key: j / ↓
+  j_down_desc: Nach unten bewegen
+  k_up_key: k / ↑
+  k_up_desc: Nach oben bewegen
+  question_help_key: "?"
+  question_help_desc: Diese Hilfe anzeigen
+  ctrl_q_quit_key: Ctrl+q
+  ctrl_q_quit_desc: Anwendung beenden
+  q_quit_key: q / Ctrl+q
+  q_quit_desc: Anwendung beenden
+  type_search_key: Tippen
+  type_search_desc: Suchanfrage eingeben
+  search_tag_key: "#tag"
+  search_tag_desc: Nach Tag suchen
+  search_exclude_key: "-wort"
+  search_exclude_desc: Wort ausschließen (Negation)
+  search_and_key: wort1 wort2
+  search_and_desc: Alle Wörter finden (UND)
+  search_color_key: "color:red"
+  search_color_desc: "Nach Farbe suchen (Notiz oder Tag)"
+  search_color_note_key: "color:red note"
+  search_color_note_desc: "Notizen mit Farbe suchen"
+  search_color_tag_key: "color:red tag"
+  search_color_tag_desc: "Notizen mit farbigen Tags suchen"
+  search_category_key: "category:important"
+  search_category_desc: "Nach Farbkategoriename suchen"
+  enter_open_editor_key: Enter
+  enter_open_editor_desc: Notiz in $EDITOR öffnen
+  esc_exit_search_key: Esc
+  esc_exit_search_desc: Suchmodus verlassen
+  arrows_navigate_key: ↑ / ↓
+  arrows_navigate_desc: Ergebnisse durchsuchen
+  enter_e_edit_key: Enter / e
+  enter_e_edit_desc: Mit externem $EDITOR bearbeiten
+  t_tag_mode_key: t
+  t_tag_mode_desc: Tag-Modus aktivieren
+  q_esc_save_key: q / Esc
+  q_esc_save_desc: Speichern und zur Liste zurückkehren
+  type_tag_key: Tippen
+  type_tag_desc: Tag-Namen eingeben
+  enter_add_tag_key: Enter
+  enter_add_tag_desc: Tag hinzufügen
+  backspace_remove_key: Backspace (leer)
+  backspace_remove_desc: Letzten Tag entfernen
+  backspace_delete_key: Backspace
+  backspace_delete_desc: Zeichen aus Eingabe löschen
+  esc_normal_key: Esc
+  esc_normal_desc: Zum Normalmodus wechseln
+  jk_navigate_key: j/k oder ↑/↓
+  jk_navigate_desc: Zwischen Feldern navigieren
+  enter_edit_key: Enter / i / Leertaste
+  enter_edit_desc: Ausgewähltes Feld bearbeiten
+  enter_save_key: Enter
+  enter_save_desc: Text-/Zahlenfelder speichern, andere Felder durchschalten/umschalten
+  esc_cancel_key: Esc
+  esc_cancel_desc: Bearbeitung abbrechen (Text-/Zahlenfelder)
+  s_q_close_key: s / q
+  s_q_close_desc: Einstellungsfenster schließen
+  tab_focus_attachment_key: Tab
+  tab_focus_attachment_desc: Anhang-Panel fokussieren (j/k zum Navigieren, Enter zum Anzeigen, d zum Löschen)
+  plus_add_attachment_key: "+"
+  plus_add_attachment_desc: Anhang hinzufügen (Dateipfad eingeben)
+  a_view_attachment_key: a + Nummer
+  a_view_attachment_desc: Anhang anzeigen (a1, a2, ...)
+  shift_jk_attachment_key: Shift+j / Shift+k
+  shift_jk_attachment_desc: Anhänge durchsuchen
+  X_remove_attachment_key: X
+  X_remove_attachment_desc: Ausgewählten Anhang entfernen
+  note_images_key: "Hinweis:"
+  note_images_desc: Bilder verwenden chafa falls verfügbar, sonst Standard-System-App
+  question_global_key: "?"
+  question_global_desc: Diese Hilfe anzeigen
+  bracket_cycle_key: "] / ["
+  bracket_cycle_desc: Syntaxtyp wechseln (vorwärts/rückwärts)
+  color_cycle_key: "C / c"
+  color_cycle_desc: Notiz-Farbe/Kategorie wechseln (vorwärts/rückwärts)
+  shift_a_archive_key: Shift+A
+  shift_a_archive_desc: Archivmodus umschalten (archivierte Notizen anzeigen)
+  L_lock_key: L
+  L_lock_desc: Sperre der ausgewählten Notiz umschalten
+  I_info_key: I
+  I_info_desc: Notizinformationen anzeigen
+  pageup_pagedown_key: BildAuf / BildAb
+  pageup_pagedown_desc: Vorschau scrollen (ganze Seite)
+  ctrl_scroll_key: Strg+d/u/f/b
+  ctrl_scroll_desc: Vim-Stil scrollen (halbe/ganze Seite)
+  mouse_scroll_key: Mausrad
+  mouse_scroll_desc: Vorschau scrollen
+  p_pin_key: p
+  p_pin_desc: Anheften der ausgewählten Notiz umschalten
+  r_recycle_key: r
+  r_recycle_desc: Papierkorb-Ansicht umschalten
+  v_versions_key: v
+  v_versions_desc: Versionshistorie anzeigen
+  b_inbox_key: b
+  b_inbox_desc: "Posteingang öffnen"
+  tab_search_key: Tab
+  tab_search_desc: Suche beenden, Anhänge fokussieren
+  multi_select: MEHRFACHAUSWAHL-MODUS
+  space_select_key: Leertaste
+  space_select_desc: Auswahl der aktuellen Notiz umschalten
+  shift_v_range_key: Shift+V
+  shift_v_range_desc: Bereichsauswahl ab letzter Auswahl
+  ctrl_a_all_key: Ctrl+A
+  ctrl_a_all_desc: Alle gefilterten Notizen auswählen
+  multi_t_tags_key: t
+  multi_t_tags_desc: Tags zu ausgewählten Notizen hinzufügen
+  multi_d_delete_key: d
+  multi_d_delete_desc: Ausgewählte Notizen löschen
+  multi_c_combine_key: c
+  multi_c_combine_desc: Ausgewählte Notizen zusammenführen
+  multi_e_export_key: e
+  multi_e_export_desc: Ausgewählte Notizen als JSON exportieren
+  esc_clear_key: Esc
+  esc_clear_desc: Auswahl aufheben / Mehrfachauswahl beenden
+  mouse: MAUS
+  click_note_key: Klick auf Notiz
+  click_note_desc: Notiz in Liste auswählen
+  click_tag_key: Klick auf Tag
+  click_tag_desc: Nach diesem Tag suchen
+  click_tags_key: "Klick auf 'Tags:'"
+  click_tags_desc: Tag-Bearbeitungsmodus aktivieren
+  scroll_key: Mausrad
+  scroll_desc: Vorschau hoch/runter scrollen
+  ctrl_l_lock_key: "Strg+L"
+  ctrl_l_lock_desc: "Jottery sperren"
+  S_save_attachment_key: "S"
+  S_save_attachment_desc: "Ausgewählten Anhang in einer Datei speichern"
+  z_archive_key: "z"
+  z_archive_desc: "Ausgewählte Notiz archivieren (im Archiv: zurückholen)"
+  multi_z_archive_key: "z"
+  multi_z_archive_desc: "Ausgewählte Notizen archivieren"
+  search_or_key: "a | b"
+  search_or_desc: "Eines von beiden (ODER)"
+  search_phrase_key: "\"a phrase\""
+  search_phrase_desc: "Diese Wörter in dieser Reihenfolge"
+  search_wildcard_key: "word* / *word"
+  search_wildcard_desc: "Ein Wort beginnt oder endet damit"
+  search_exclude_tag_key: "-#tag"
+  search_exclude_tag_desc: "Notizen mit diesem Tag ausschließen"
+  search_attachment_key: "has:attachment"
+  search_attachment_desc: "Notizen mit Anhängen"
+  search_archived_key: "archived"
+  search_archived_desc: "Im Archiv suchen"
+  search_created_key: "created:>2024-01-01"
+  search_created_desc: "Nach einem Datum erstellt (auch < und a..b)"
+  search_modified_key: "modified:>2024-01-01"
+  search_modified_desc: "Nach einem Datum geändert (auch < und a..b)"
+  search_words_key: "words:>100"
+  search_words_desc: "Wortanzahl (auch < und a..b)"
+  multi_remove_tags_key: "T"
+  multi_remove_tags_desc: "Tags von ausgewählten Notizen entfernen"
+  multi_colour_key: "C"
+  multi_colour_desc: "Farbe der ausgewählten Notizen festlegen"
+  g_saved_key: "g"
+  g_saved_desc: "Gespeicherte Suchen"
+  ctrl_s_save_search_key: "Strg+S"
+  ctrl_s_save_search_desc: "Diese Suche speichern"
+  enter_confirm_esc_cancel: "Enter: bestätigen | Esc: abbrechen"
+  D_duplicate_key: "Umschalt+D"
+  D_duplicate_desc: "Notiz duplizieren"
+  o_copy_key: "o"
+  o_copy_desc: "Notiztext in die Zwischenablage kopieren"
+  w_wrap_key: "w"
+  w_wrap_desc: "Zeilenumbruch ein- oder ausschalten"
+  ctrl_p_history_key: "Strg+P/N"
+  ctrl_p_history_desc: "Frühere und spätere Suchen"
+  l_link_key: "l, Enter"
+  l_link_desc: "Durch Links gehen und einem folgen"
+cli:
+  # Alt (an einigen Stellen verwendet)
+  list: Notizen auflisten
+  show: Notiz anzeigen
+  new: Neue Notiz erstellen
+  edit: Notiz bearbeiten
+  delete: Notiz löschen
+  search: Notizen durchsuchen
+  export: Notizen exportieren
+  import: Notizen importieren
+  sync: Mit Server synchronisieren
+  register: Gerät registrieren
+  # Haupt-App
+  about: "Ein datenschutzorientiertes, verschlüsseltes Notiz-TUI"
+  # Globale Optionen
+  database_help: "Datenbankdateipfad"
+  debug_help: "Debug-Protokollierung aktivieren"
+  debug_log_help: "Debug-Protokolldateipfad (zur Fehlerbehebung)"
+  reset_help: "Zurücksetzen: Datenbank löschen und neu beginnen"
+  # Befehle
+  note_about: "Schnellnotiz mit $EDITOR erstellen"
+  list_about: "Alle Notizen auflisten"
+  search_about: "Notizen durchsuchen"
+  show_about: "Bestimmte Notiz nach ID anzeigen"
+  sync_about: "Notizen mit Remote-Server synchronisieren"
+  register_user_about: "Neues Benutzerkonto auf dem Server registrieren"
+  register_device_about: "Dieses Gerät beim Server registrieren (erfordert genehmigtes Benutzerkonto)"
+  export_about: "Notizen in JSON-Datei exportieren"
+  import_about: "Notizen aus JSON-Datei importieren"
+  backup_about: "Verschlüsselte Sicherung erstellen (kompatibel mit Web-App)"
+  inbox_token_about: "Posteingang-API-Token verwalten"
+  restore_backup_about: "Aus verschlüsselter Sicherung wiederherstellen"
+  store_password_about: "Passwort für Auto-Unlock speichern (für Demo/Test-Automatisierung)"
+  # Allgemeine Argumente
+  password_help: "Passwort für Verschlüsselung (wird abgefragt, wenn nicht angegeben)"
+  password_decrypt_help: "Passwort für Entschlüsselung (wird abgefragt, wenn nicht angegeben)"
+  tags_help: "Optionale Tags für die Notiz (kommagetrennt)"
+  tag_filter_help: "Nach Tag filtern"
+  limit_help: "Maximale Anzahl anzuzeigender Notizen"
+  limit_results_help: "Maximale Anzahl anzuzeigender Ergebnisse"
+  query_help: "Suchanfrage"
+  id_help: "Notiz-ID (Teilübereinstimmung unterstützt)"
+  server_help: "Server-Endpunkt-URL"
+  email_help: "Benutzer-E-Mail"
+  device_name_help: "Gerätename"
+  key_password_help: "Verschlüsselungspasswort für lokale Datenbank"
+  output_help: "Ausgabedateipfad"
+  input_help: "Eingabedateipfad"
+  backup_password_help: "Passwort für Entschlüsselung (Sicherungspasswort)"
+  local_key_help: "Lokales Datenbank-Verschlüsselungspasswort (Standard: Sicherungspasswort)"
+  password_store_help: "Zu speicherndes Passwort"
+  # InboxToken-Unterbefehle
+  inbox_generate_about: "Neuen Posteingang-Token generieren (erfordert Server-Anmeldung)"
+  inbox_revoke_about: "Aktuellen Posteingang-Token widerrufen"
+  inbox_status_about: "Prüfen, ob ein Posteingang-Token existiert"
+  server_optional_help: "Server-Endpunkt-URL (verwendet konfigurierten Endpunkt, wenn weggelassen)"
+  # Built-in help/version
+  help_flag: "Hilfe anzeigen"
+  version_flag: "Version anzeigen"
+  help_subcommand: "Diese Nachricht oder Hilfe zu Unterbefehlen anzeigen"
+  # Ausgabemeldungen
+  notes_count: "%{count} Notizen"
+  results_count: "%{count} Ergebnisse: '%{query}'"
+  attach_about: "Eine Datei an eine Notiz anhängen"
+  save_attachment_about: "Einen Notizanhang in einer Datei speichern"
+  archive_about: "Eine Notiz archivieren"
+  unarchive_about: "Eine Notiz aus dem Archiv zurückholen"
+  note_id_help: "Notiz-ID (Teilübereinstimmung möglich)"
+  attach_file_help: "Anzuhängende Datei"
+  attachment_number_help: "Welcher Anhang, nummeriert wie bei show"
+  archived_help: "Stattdessen archivierte Notizen auflisten"
+  import_summary: "%{created} hinzugefügt, %{updated} aktualisiert, %{skipped} bereits aktuell"
+  import_failed: "%{count} Einträge in der Datei konnten nicht importiert werden"
+  password_change_required: "Dieses Konto muss zuerst sein Passwort ändern. Melden Sie sich dazu in der Web-App an und versuchen Sie es dann erneut."
+  insecure_endpoint: "%{endpoint} nutzt unverschlüsseltes HTTP, daher könnte das Passwort unterwegs mitgelesen werden. Verwenden Sie https:// oder akzeptieren Sie das mit --allow-insecure-http."
+  allow_insecure_http_help: "Passwort per unverschlüsseltem HTTP an einen öffentlichen Host erlauben"
+  password_flag_deprecated: "Ein Passwort in der Befehlszeile ist in ps und im Shell-Verlauf sichtbar. Verwenden Sie stattdessen --password-stdin oder JOTTERY_PASSWORD."
+  password_stdin_help: "Passwörter zeilenweise von stdin lesen, statt nachzufragen"
+  reset_yes_help: "Nicht nachfragen, bevor --reset etwas löscht"
+  reset_confirm: "Dies löscht %{path} und jedes gespeicherte Passwort endgültig. Geben Sie %{word} ein, um fortzufahren:"
+  reset_cancelled: "Es wurde nichts gelöscht"
+  reset_done: "Tresor und gespeichertes Passwort gelöscht"
+  reset_keychain_failed: "Das Passwort konnte nicht aus dem Schlüsselbund entfernt werden"
+  export_force_help: "Die Datei ersetzen, falls sie bereits existiert"
+  account_about: "Ansehen oder löschen, was der Server für Ihr Konto speichert"
+  colours_about: "Farben benennen und Tags eine Farbe geben"
+  doctor_about: "Den Tresor auf nicht lesbare Notizen und fehlende Anhänge prüfen"
+  doctor_repair_help: "Fehlende Anhänge vom Server abrufen"
+status:
+  locked: Gesperrt
+  unlocked: Entsperrt
+  syncing: Synchronisierung...
+  synced: Synchronisiert
+  offline: Nicht verbunden
+  modified: Geändert
+  saved: Gespeichert
+bulk:
+  tags_added: "Tags zu %{count} Notizen hinzugefügt: %{tags}"
+  deleted: "%{count} Notizen gelöscht"
+  combined: "%{count} Notizen zusammengeführt"
+  combine_requires_two: Wählen Sie mindestens 2 Notizen zum Zusammenführen aus
+  exported: "%{count} Notizen nach %{path} exportiert"
+  operation_failed: "Massenoperation fehlgeschlagen: %{error}"
+  confirm_delete: "%{count} Notizen löschen? (j/n)"
+  confirm_combine: "%{count} Notizen zusammenführen? (j/n)"
+  enter_tags: "Tags eingeben (kommagetrennt):"
+  enter_export_path: "Exportpfad:"
+  add_tags_to: Tags hinzufügen zu
+  export_notes_to: Exportieren
+  archived: "%{count} Notizen archiviert"
+  tags_removed: "Tags von %{count} Notizen entfernt: %{tags}"
+  remove_tags_from: "Tags von %{count} Notizen entfernen"
+  enter_colour: "Farbnamen eingeben (leer zum Entfernen):"
+  colour_of: "Farbe von %{count} Notizen festlegen"
+  colour_set: "Farbe bei %{count} Notizen geändert"
+  unknown_colour: "Es gibt keine Farbe namens %{colour}"
+  overwrite_title: "Diese Datei ersetzen?"
+  overwrite_message: "%{path} existiert bereits. Das Ersetzen kann nicht rückgängig gemacht werden."
+time:
+  just_now: gerade eben
+  minutes_ago: vor %{count} Minuten
+  hours_ago: vor %{count} Stunden
+  days_ago: vor %{count} Tagen
+  date_format: "%d.%m.%Y"
+  time_format: "%H:%M:%S"
+  datetime_format: "%d.%m.%Y %H:%M:%S"
+conflict:
+  title: Synchronisationskonflikt
+  your_version: Ihre Version
+  server_version: Server-Version
+  common_ancestor: Gemeinsamer Vorläufer
+  ancestor_description: Die Version, von der beide ausgingen, bevor sich die Änderungen trennten
+  resolved_mine: Konflikt gelöst - Ihre Version behalten
+  resolved_server: Konflikt gelöst - Server-Version behalten
+  resolved_both: Konflikt gelöst - beide Versionen behalten
+  resolve_failed: Fehler beim Auflösen des Konflikts
+  indicator: Synchronisationskonflikt erkannt
+  no_conflict: Diese Notiz hat keinen Synchronisationskonflikt
+  count_singular: "Konflikt"
+  count_plural: "Konflikte"
+
+# Backup functionality
+backup:
+  created: "Sicherung erstellt"
+  restore: "Sicherung wird wiederhergestellt"
+  valid: "Gültige Sicherung"
+  records: "Einträge"
+  validating: "Sicherungsdatei wird validiert..."
+  verifying_password: "Passwort wird überprüft..."
+  restoring: "Daten werden wiederhergestellt..."
+  restored: "Wiederhergestellt"
+  key_not_in_backup: "Diese Sicherung wurde mit einer älteren Version von Jottery erstellt und enthält ihren Schlüssel nicht. Sie kann nur in den Tresor wiederhergestellt werden, aus dem sie stammt."
+  incomplete: "Diese Sicherung ist unvollständig: %{count} Elemente im Tresor konnten nicht gelesen werden und fehlen."
+  records_failed: "%{count} Datensätze dieser Sicherung konnten nicht wiederhergestellt werden. Alles andere wurde wiederhergestellt."
+
+# Progress indicators
+progress:
+  backup: "Sicherung wird erstellt..."
+  processing: "Verarbeitung"
+  export: "Exportieren..."
+
+# UI-Panels und Titel
+ui:
+  notes: "Notizen"
+  preview: "Vorschau"
+  archive: "Archiv"
+  recycle_bin: "Papierkorb"
+  version_history: "Versionshistorie"
+  attachment_viewer: "Anhang-Anzeige"
+  conflict_resolution: "Konfliktlösung"
+  attachments: "Anhänge"
+  add_attachment: "Anhang hinzufügen (Tab: vervollständigen, ↑↓: auswählen, Enter: bestätigen)"
+  search: "Suche:"
+  search_archive: "Archivierte Notizen durchsuchen:"
+  type: "Typ:"
+  modified: "Geändert:"
+  version: "Version:"
+  save_attachment: "Anhang speichern (Tab: vervollständigen, ↑↓: auswählen, Enter: bestätigen)"
+  path: "Pfad"
+  attachments_hint: "Anhänge: (Tab zum Fokussieren)"
+  attachments_focused_hint: "Anhänge: (Tab zum Wechseln, j/k zum Navigieren, Enter zum Anzeigen, S zum Speichern, d zum Löschen)"
+  attachments_keys_hint: "'a' zum Anzeigen, '+' zum Hinzufügen, 'X' zum Entfernen des ausgewählten Anhangs"
+  attachment_viewer_hint: "↑/↓: navigieren │ 1-9: Schnellauswahl │ Enter: anzeigen │ S: speichern │ +: hinzufügen │ d: löschen │ Esc: schließen"
+
+# Statusleisten-Hilfetext
+status_bar:
+  help: "Hilfe"
+  search: "Suchen"
+  select: "auswählen"
+  pin: "anheften"
+  tags: "Tags"
+  type: "Typ"
+  bin: "Papierkorb"
+  archive: "Archiv"
+  ver: "Version"
+  new: "Neu"
+  toggle: "umschalten"
+  clear: "aufheben"
+  add_tags: "Tags hinzufügen"
+  delete: "löschen"
+  combine: "zusammenführen"
+  export: "exportieren"
+  selected: "ausgewählt"
+  unarchive: "wiederherstellen"
+  toggle_mode: "Modus wechseln"
+  navigate: "navigieren"
+  exit_archive: "Archiv verlassen"
+  accept: "annehmen"
+  accept_all: "alle annehmen"
+  delete_all: "alle löschen"
+  close: "schließen"
+  keep_mine: "Meine behalten"
+  keep_server: "Server behalten"
+  keep_both: "Beide behalten"
+  switch: "wechseln"
+  scroll: "scrollen"
+  cancel: "abbrechen"
+  press_b_open: "Taste b zum Öffnen"
+  # Suchmodus
+  type_search: "Tippen: suchen"
+  exit: "verlassen"
+  match: "Treffer"
+  matches: "Treffer"
+  in_active: "in aktiv"
+  in_archive: "im Archiv"
+  # Papierkorb
+  restore: "wiederherstellen"
+  empty_bin: "Papierkorb leeren"
+  back_to_notes: "zurück zu Notizen"
+  quick_select: "Schnellauswahl"
+  view: "anzeigen"
+  restore_version: "Version wiederherstellen"
+  save: "speichern"
+  add: "hinzufügen"
+
+# Virtual tags
+tags:
+  virtual:
+    title: "Titel"
+
+calc:
+  line_too_long: "⚠ Zeile zu lang zum Berechnen (Grenze %{max} Byte)"
+  numbers_only: "⚠ Calc rechnet nur mit Zahlen: Text, Tupel und ; werden nicht berechnet"
+  too_deep: "⚠ Zu viele verschachtelte Klammern (Grenze %{max})"
+  gave_up: "Die Berechnung dieser Notiz dauerte zu lange, daher wird sie ohne Ergebnisse angezeigt."
+
+envelope:
+  unwrap_failed: "Dein Notizenpasswort kann den Schlüssel dieses Kontos nicht öffnen. Er wurde möglicherweise von einer älteren Version gespeichert. Entsperre Jottery auf einem bereits verbundenen Gerät, das behebt das Problem, und versuche es dann erneut."
+  rekey_failed: "Deine lokalen Notizen konnten nicht auf den Schlüssel dieses Kontos umgestellt werden, daher wurde nichts geändert: %{error}"
+  diverged: "Der Schlüssel dieses Geräts weicht vom Kontoschlüssel ab. Notizen von deinen anderen Geräten lassen sich hier möglicherweise nicht öffnen."
+  password_changed_elsewhere: "Ihr Notizen-Passwort wurde auf einem anderen Gerät geändert, daher wurde nichts überschrieben. Dieses Gerät lässt sich weiterhin mit dem alten Passwort entsperren. Ändern Sie es hier entsprechend, damit neue Geräte beitreten können."
+  server_update_pending: "Ihr Passwort wurde auf diesem Gerät geändert, aber die Kopie Ihres Schlüssels auf dem Server konnte nicht aktualisiert werden. Jottery versucht es erneut. Bis dahin kann kein neues Gerät mit dem neuen Passwort beitreten."
+  key_keeps_changing: "Der Kontoschlüssel ändert sich auf dem Server ständig, daher hat dieses Gerät ihn nicht angerührt. Versuchen Sie es gleich noch einmal."
+
+saved_search:
+  title: "Gespeicherte Suchen"
+  empty: "Noch keine gespeicherten Suchen. Suchen Sie mit / und drücken Sie dann Strg+S zum Speichern."
+  name_prompt: "Diese Suche benennen"
+  nothing_to_save: "Geben Sie zuerst eine Suche ein"
+  saved: "Suche gespeichert: %{name}"
+  deleted: "Gespeicherte Suche gelöscht"
+  delete_confirm: "'%{name}' auf allen Geräten löschen? (y/n)"
+  not_found: "Keine gespeicherte Suche namens %{name}"
+  failed: "Fehler bei der gespeicherten Suche: %{error}"
+
+export:
+  file_exists: "Diese Datei existiert bereits. Wählen Sie einen anderen Namen oder ersetzen Sie sie mit --force."
+
+account:
+  email: "Konto: %{email}"
+  usage: "Notizen: %{notes}, Anhänge: %{attachments}"
+  storage: "Speicher: %{used} MB von %{quota} MB"
+  last_sync: "Letzte Synchronisierung: %{time}"
+  confirm_delete_notes: "Dies löscht alle Notizen auf dem Server für alle Geräte und kann nicht rückgängig gemacht werden. Geben Sie Ihre E-Mail-Adresse ein, um fortzufahren:"
+  confirm_delete: "Dies löscht Ihr Konto und alles auf dem Server und kann nicht rückgängig gemacht werden. Dieses Gerät behält seine Notizen. Geben Sie Ihre E-Mail-Adresse ein, um fortzufahren:"
+  cancelled: "Es wurde nichts gelöscht"
+  notes_deleted: "Alle Notizen auf dem Server wurden gelöscht"
+  deleted: "Das Konto wurde gelöscht"
+
+colours:
+  unknown: "Keine Farbe namens %{colour}"
+  named: "Farbe aktualisiert: %{colour}"
+  tag_set: "Tag aktualisiert: %{tag}"
+
+doctor:
+  notes: "Notizen: %{count}, nicht lesbar: %{unreadable}"
+  versions: "Versionen: %{count}, nicht lesbar: %{unreadable}"
+  attachments: "Anhänge: %{count}, nicht lesbar: %{unreadable}, fehlend: %{missing}"
+  saved_searches: "Gespeicherte Suchen: %{count}, nicht lesbar: %{unreadable}"
+  conflicts: "Konflikte, die auf Sie warten: %{count}"
+  problems: "Gefundene Probleme: %{count}"
+  repaired: "Abgerufene Anhänge: %{count}"
+  repair_needs_sync: "Dieser Tresor ist mit keinem Server verbunden, daher können fehlende Anhänge nicht abgerufen werden"
+  healthy: "Keine Probleme gefunden"
